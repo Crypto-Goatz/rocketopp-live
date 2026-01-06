@@ -12,18 +12,20 @@ import {
   CheckCircle2,
   Sparkles,
   Bot,
-  ChevronRight
+  ChevronRight,
+  Workflow
 } from "lucide-react"
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import { OrganizationSchema, WebsiteSchema, FAQSchema } from "@/components/seo/json-ld"
+import { HeroAnimation } from "@/components/hero-animation"
 
 export const metadata: Metadata = {
   title: "RocketOpp - AI-Powered Digital Agency | Web, Apps, Marketing & SEO",
   description:
-    "We build websites, AI applications, custom apps, and growth strategies that actually work. From idea to launch, we handle everything so you can focus on your business.",
+    "We build websites, AI applications, custom apps, SOP automation, and growth strategies that actually work. From idea to launch, we handle everything so you can focus on your business.",
   keywords:
-    "digital agency, AI applications, web development, app development, online marketing, SEO, search optimization, RocketOpp, website design, custom software",
+    "digital agency, AI applications, web development, app development, online marketing, SEO, search optimization, SOP automation, RocketOpp, website design, custom software",
   authors: [{ name: "RocketOpp" }],
   creator: "RocketOpp",
   publisher: "RocketOpp",
@@ -94,6 +96,15 @@ const services = [
     icon: Code2,
     color: "from-purple-500 to-pink-500",
     features: ["Custom Apps", "API Development", "Integrations", "Mobile Apps"]
+  },
+  {
+    name: "SOP Automation",
+    tagline: "Systems That Scale",
+    description: "Transform chaotic processes into streamlined systems. Document, automate, and train your team on SOPs that actually work.",
+    href: "/services/sop-automation",
+    icon: Workflow,
+    color: "from-indigo-500 to-violet-500",
+    features: ["Process Mapping", "Workflow Automation", "Team Training", "AI Documentation"]
   },
   {
     name: "Online Marketing",
@@ -169,49 +180,44 @@ export default function HomePage() {
       <WebsiteSchema />
       <FAQSchema items={faqs} />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-orange-500/10 rounded-full blur-[100px]" />
-
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      {/* Epic Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Background */}
+        <HeroAnimation />
 
         <div className="relative z-10 container mx-auto px-4 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">AI-Powered Digital Agency</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 mb-8 animate-fade-in">
+            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+            <span className="text-sm font-medium text-white/90">AI-Powered Digital Agency</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
-            <span className="text-foreground">We Build.</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 animate-slide-up">
+            <span className="text-foreground drop-shadow-lg">We Build.</span>
             <br />
-            <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg">
               You Win.
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto mb-4">
-            Websites. AI Apps. Marketing. SEO.
+          <p className="text-xl sm:text-2xl text-white/80 max-w-3xl mx-auto mb-4 animate-slide-up animation-delay-200">
+            Websites. AI Apps. SOPs. Marketing. SEO.
           </p>
-          <p className="text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-10">
+          <p className="text-lg text-white/50 max-w-2xl mx-auto mb-10 animate-slide-up animation-delay-400">
             From first click to lifelong customer, we handle the digital so you can handle the business.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow" asChild>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-slide-up animation-delay-600">
+            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all hover:scale-105" asChild>
               <Link href="/contact">
                 Start Your Project
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="px-8 h-14 text-lg" asChild>
+            <Button size="lg" variant="outline" className="px-8 h-14 text-lg bg-white/5 border-white/20 backdrop-blur-sm hover:bg-white/10" asChild>
               <Link href="#services">
                 Explore Services
               </Link>
@@ -219,13 +225,20 @@ export default function HomePage() {
           </div>
 
           {/* Stats Bar */}
-          <div className="flex flex-wrap justify-center gap-8 sm:gap-16">
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-16 animate-fade-in animation-delay-800">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-3xl sm:text-4xl font-black text-primary">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-3xl sm:text-4xl font-black text-primary drop-shadow-lg">{stat.value}</div>
+                <div className="text-sm text-white/60">{stat.label}</div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
+            <div className="w-1 h-2 rounded-full bg-white/40 animate-pulse" />
           </div>
         </div>
       </section>
@@ -241,57 +254,20 @@ export default function HomePage() {
               Everything Digital. One Team.
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Five core services. Infinite possibilities. Each one backed by AI and obsessive attention to detail.
+              Six core services. Infinite possibilities. Each one backed by AI and obsessive attention to detail.
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-8">
-            {/* First row - 3 services */}
-            {services.slice(0, 3).map((service) => (
+          {/* Services Grid - 3x2 */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {services.map((service) => (
               <Link
                 key={service.name}
                 href={service.href}
                 className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
               >
                 {/* Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <service.icon className="w-7 h-7 text-white" />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
-                <p className="text-primary font-medium mb-3">{service.tagline}</p>
-                <p className="text-muted-foreground leading-relaxed mb-6">{service.description}</p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {service.features.map((feature) => (
-                    <span key={feature} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Arrow */}
-                <div className="flex items-center text-primary font-medium">
-                  <span>Learn More</span>
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Second row - 2 services centered */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {services.slice(3, 5).map((service) => (
-              <Link
-                key={service.name}
-                href={service.href}
-                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
-              >
-                {/* Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   <service.icon className="w-7 h-7 text-white" />
                 </div>
 

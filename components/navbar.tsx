@@ -4,9 +4,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
   Rocket, Menu, X, ShoppingBag, User, ChevronDown,
-  Globe, Cpu, Code2, Megaphone, Search,
-  Palette, Zap, BarChart3, Target, TrendingUp,
-  Bot, Smartphone, PenTool, Share2, LineChart
+  Globe, Cpu, Code2, Megaphone, Search, Workflow,
+  Palette, Zap, BarChart3, Target,
+  Bot, Smartphone, PenTool, Share2, LineChart,
+  Lightbulb, HelpCircle, FileText, Sparkles, Package, CreditCard
 } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 
@@ -54,6 +55,18 @@ const services = [
     ]
   },
   {
+    name: "SOP Automation",
+    tagline: "Systems That Scale",
+    href: "/services/sop-automation",
+    icon: Workflow,
+    color: "from-indigo-500 to-violet-500",
+    features: [
+      { name: "Process Mapping", href: "/services/sop-automation#mapping", icon: FileText },
+      { name: "Workflow Automation", href: "/services/sop-automation#workflows", icon: Zap },
+      { name: "Team Training", href: "/services/sop-automation#training", icon: Bot },
+    ]
+  },
+  {
     name: "Online Marketing",
     tagline: "Growth That Compounds",
     href: "/services/online-marketing",
@@ -79,14 +92,22 @@ const services = [
   },
 ]
 
+const marketplaceProducts = [
+  { name: "Rocket+", description: "50+ AI automation tools", href: "/marketplace/rocket-plus", icon: Rocket, color: "from-orange-500 to-red-500" },
+  { name: "MCPFED", description: "MCP server management", href: "/marketplace/mcpfed", icon: Cpu, color: "from-blue-500 to-cyan-500" },
+  { name: "BotCoaches", description: "AI coaching profiles", href: "/marketplace/botcoaches", icon: Bot, color: "from-purple-500 to-pink-500" },
+]
+
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [servicesMenuOpen, setServicesMenuOpen] = useState(false)
+  const [marketplaceMenuOpen, setMarketplaceMenuOpen] = useState(false)
   const [user, setUser] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
   const [mobileServiceExpanded, setMobileServiceExpanded] = useState<string | null>(null)
-  const megaMenuRef = useRef<HTMLDivElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [mobileMarketplaceExpanded, setMobileMarketplaceExpanded] = useState(false)
+  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const marketplaceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     async function checkAuth() {
@@ -103,25 +124,30 @@ export function Navbar() {
     checkAuth()
   }, [])
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = null
-    }
-    setMegaMenuOpen(true)
+  const handleServicesEnter = () => {
+    if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current)
+    setMarketplaceMenuOpen(false)
+    setServicesMenuOpen(true)
   }
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setMegaMenuOpen(false)
-    }, 150)
+  const handleServicesLeave = () => {
+    servicesTimeoutRef.current = setTimeout(() => setServicesMenuOpen(false), 150)
+  }
+
+  const handleMarketplaceEnter = () => {
+    if (marketplaceTimeoutRef.current) clearTimeout(marketplaceTimeoutRef.current)
+    setServicesMenuOpen(false)
+    setMarketplaceMenuOpen(true)
+  }
+
+  const handleMarketplaceLeave = () => {
+    marketplaceTimeoutRef.current = setTimeout(() => setMarketplaceMenuOpen(false), 150)
   }
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
+      if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current)
+      if (marketplaceTimeoutRef.current) clearTimeout(marketplaceTimeoutRef.current)
     }
   }, [])
 
@@ -138,73 +164,181 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-1">
             {/* Services Mega Menu */}
             <div
               className="relative"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              ref={megaMenuRef}
+              onMouseEnter={handleServicesEnter}
+              onMouseLeave={handleServicesLeave}
             >
-              <button className="flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors py-2">
+              <button className="flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5">
                 Services
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${servicesMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Mega Menu Dropdown */}
-              {megaMenuOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-[900px] bg-background/98 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl z-[100] animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="p-6">
-                    <div className="grid grid-cols-5 gap-4">
+              {/* Services Mega Menu Dropdown */}
+              {servicesMenuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-[720px] bg-black/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 z-[100] animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
+                  {/* Glassy overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+
+                  <div className="relative p-6">
+                    <div className="grid grid-cols-3 gap-3">
                       {services.map((service) => {
                         const Icon = service.icon
                         return (
-                          <div key={service.name} className="group">
-                            <Link
-                              href={service.href}
-                              className="block p-3 rounded-lg hover:bg-muted/50 transition-colors"
-                              onClick={() => setMegaMenuOpen(false)}
-                            >
-                              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                          <Link
+                            key={service.name}
+                            href={service.href}
+                            className="group p-4 rounded-xl hover:bg-white/10 transition-all duration-200"
+                            onClick={() => setServicesMenuOpen(false)}
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg`}>
                                 <Icon className="w-5 h-5 text-white" />
                               </div>
-                              <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">
-                                {service.name}
-                              </h3>
-                              <p className="text-xs text-muted-foreground">
-                                {service.tagline}
-                              </p>
-                            </Link>
-                            <div className="mt-2 space-y-1">
-                              {service.features.map((feature) => {
-                                const FeatureIcon = feature.icon
-                                return (
-                                  <Link
-                                    key={feature.name}
-                                    href={feature.href}
-                                    className="flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded transition-colors"
-                                    onClick={() => setMegaMenuOpen(false)}
-                                  >
-                                    <FeatureIcon className="w-3 h-3" />
-                                    {feature.name}
-                                  </Link>
-                                )
-                              })}
+                              <div>
+                                <h3 className="font-semibold text-sm text-white group-hover:text-primary transition-colors">
+                                  {service.name}
+                                </h3>
+                                <p className="text-xs text-white/50 mt-0.5">
+                                  {service.tagline}
+                                </p>
+                              </div>
                             </div>
-                          </div>
+                          </Link>
                         )
                       })}
                     </div>
-                    <div className="mt-6 pt-4 border-t border-border/50 flex items-center justify-between">
-                      <p className="text-xs text-muted-foreground">
-                        Need help choosing? <Link href="/contact" className="text-primary hover:underline">Talk to an expert</Link>
+
+                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                      <p className="text-xs text-white/40">
+                        Need help? <Link href="/contact" className="text-primary hover:underline">Talk to an expert</Link>
                       </p>
                       <Link
                         href="/services"
                         className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
-                        onClick={() => setMegaMenuOpen(false)}
+                        onClick={() => setServicesMenuOpen(false)}
                       >
-                        View All Services
+                        All Services
+                        <ChevronDown className="w-3 h-3 -rotate-90" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Marketplace Mega Menu */}
+            <div
+              className="relative"
+              onMouseEnter={handleMarketplaceEnter}
+              onMouseLeave={handleMarketplaceLeave}
+            >
+              <button className="flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5">
+                <ShoppingBag className="w-4 h-4" />
+                Marketplace
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${marketplaceMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Marketplace Mega Menu Dropdown */}
+              {marketplaceMenuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-[580px] bg-black/90 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 z-[100] animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
+                  {/* Glassy overlay effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+
+                  <div className="relative p-6">
+                    {/* Products */}
+                    <div className="mb-6">
+                      <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Products</h4>
+                      <div className="grid grid-cols-3 gap-3">
+                        {marketplaceProducts.map((product) => {
+                          const Icon = product.icon
+                          return (
+                            <Link
+                              key={product.name}
+                              href={product.href}
+                              className="group p-3 rounded-xl hover:bg-white/10 transition-all text-center"
+                              onClick={() => setMarketplaceMenuOpen(false)}
+                            >
+                              <div className={`w-12 h-12 mx-auto rounded-xl bg-gradient-to-br ${product.color} flex items-center justify-center mb-2 group-hover:scale-110 transition-transform shadow-lg`}>
+                                <Icon className="w-6 h-6 text-white" />
+                              </div>
+                              <h3 className="font-semibold text-sm text-white">{product.name}</h3>
+                              <p className="text-xs text-white/50 mt-0.5">{product.description}</p>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Actions Grid */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                      <Link
+                        href="/pitch-idea"
+                        className="group p-4 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 hover:border-primary/40 transition-all"
+                        onClick={() => setMarketplaceMenuOpen(false)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Lightbulb className="w-5 h-5 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-sm text-white">Pitch Us an Idea</h3>
+                            <p className="text-xs text-white/50">Got a concept? Let's build it</p>
+                          </div>
+                        </div>
+                      </Link>
+
+                      <Link
+                        href="/request-app"
+                        className="group p-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/20 hover:border-purple-500/40 transition-all"
+                        onClick={() => setMarketplaceMenuOpen(false)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Package className="w-5 h-5 text-purple-400" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-sm text-white">Request an App</h3>
+                            <p className="text-xs text-white/50">Custom build for your needs</p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+
+                    {/* Lease Info */}
+                    <Link
+                      href="/how-leasing-works"
+                      className="group block p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 hover:border-emerald-500/40 transition-all"
+                      onClick={() => setMarketplaceMenuOpen(false)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                          <CreditCard className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-sm text-white flex items-center gap-2">
+                            How Does Leasing Work?
+                            <span className="px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-400 rounded-full">Industry First</span>
+                          </h3>
+                          <p className="text-xs text-white/50 mt-0.5">Pay monthly, own it eventually. The smart way to get premium software.</p>
+                        </div>
+                        <ChevronDown className="w-4 h-4 text-white/40 -rotate-90 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </Link>
+
+                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                      <p className="text-xs text-white/40">
+                        <Sparkles className="w-3 h-3 inline mr-1" />
+                        Buy, Subscribe, or Lease-to-Own
+                      </p>
+                      <Link
+                        href="/marketplace"
+                        className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1"
+                        onClick={() => setMarketplaceMenuOpen(false)}
+                      >
+                        Browse All
                         <ChevronDown className="w-3 h-3 -rotate-90" />
                       </Link>
                     </div>
@@ -214,21 +348,14 @@ export function Navbar() {
             </div>
 
             <Link
-              href="/marketplace"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              Marketplace
-            </Link>
-            <Link
               href="/about"
-              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
             >
               About
             </Link>
             <Link
               href="/contact"
-              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
             >
               Contact
             </Link>
@@ -279,13 +406,13 @@ export function Navbar() {
               <div className="border-b border-border/50 pb-2 mb-2">
                 <button
                   className="flex items-center justify-between w-full px-2 py-2 text-sm font-medium"
-                  onClick={() => setMobileServiceExpanded(mobileServiceExpanded ? null : 'services')}
+                  onClick={() => setMobileServiceExpanded(mobileServiceExpanded === 'services' ? null : 'services')}
                 >
                   <span>Services</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileServiceExpanded ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileServiceExpanded === 'services' ? 'rotate-180' : ''}`} />
                 </button>
 
-                {mobileServiceExpanded && (
+                {mobileServiceExpanded === 'services' && (
                   <div className="mt-2 space-y-1 pl-2">
                     {services.map((service) => {
                       const Icon = service.icon
@@ -310,14 +437,55 @@ export function Navbar() {
                 )}
               </div>
 
-              <Link
-                href="/marketplace"
-                className="flex items-center gap-2 text-foreground hover:text-primary text-sm font-medium transition-colors px-2 py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <ShoppingBag className="w-4 h-4" />
-                Marketplace
-              </Link>
+              {/* Marketplace Accordion */}
+              <div className="border-b border-border/50 pb-2 mb-2">
+                <button
+                  className="flex items-center justify-between w-full px-2 py-2 text-sm font-medium"
+                  onClick={() => setMobileMarketplaceExpanded(!mobileMarketplaceExpanded)}
+                >
+                  <span className="flex items-center gap-2">
+                    <ShoppingBag className="w-4 h-4" />
+                    Marketplace
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileMarketplaceExpanded ? 'rotate-180' : ''}`} />
+                </button>
+
+                {mobileMarketplaceExpanded && (
+                  <div className="mt-2 space-y-2 pl-2">
+                    {marketplaceProducts.map((product) => {
+                      const Icon = product.icon
+                      return (
+                        <Link
+                          key={product.name}
+                          href={product.href}
+                          className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${product.color} flex items-center justify-center`}>
+                            <Icon className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">{product.name}</div>
+                            <div className="text-xs text-muted-foreground">{product.description}</div>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                    <div className="pt-2 space-y-2">
+                      <Link href="/pitch-idea" className="flex items-center gap-2 px-2 py-2 text-sm text-primary" onClick={() => setMobileMenuOpen(false)}>
+                        <Lightbulb className="w-4 h-4" /> Pitch Us an Idea
+                      </Link>
+                      <Link href="/request-app" className="flex items-center gap-2 px-2 py-2 text-sm text-purple-400" onClick={() => setMobileMenuOpen(false)}>
+                        <Package className="w-4 h-4" /> Request an App
+                      </Link>
+                      <Link href="/how-leasing-works" className="flex items-center gap-2 px-2 py-2 text-sm text-emerald-400" onClick={() => setMobileMenuOpen(false)}>
+                        <CreditCard className="w-4 h-4" /> How Leasing Works
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <Link
                 href="/about"
                 className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-2 py-2"

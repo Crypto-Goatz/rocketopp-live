@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Rocket, Globe, Cpu, Code2, Megaphone, Search } from "lucide-react"
+import { Rocket, Globe, Cpu, Code2, Megaphone, Search, Workflow } from "lucide-react"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -8,6 +8,7 @@ export function Footer() {
     { name: "Website Development", href: "/services/website-development", icon: Globe },
     { name: "AI Applications", href: "/services/ai-applications", icon: Cpu },
     { name: "App Development", href: "/services/app-development", icon: Code2 },
+    { name: "SOP Automation", href: "/services/sop-automation", icon: Workflow },
     { name: "Online Marketing", href: "/services/online-marketing", icon: Megaphone },
     { name: "Search Optimization", href: "/services/search-optimization", icon: Search },
   ]
