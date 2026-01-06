@@ -1,11 +1,19 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { Suspense } from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/navbar"
+import { AnalyticsProvider } from "@/components/analytics/analytics-provider"
 
 const inter = Inter({ subsets: ["latin"] })
+
+// Analytics IDs from environment variables
+const GA4_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID
+const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 export const metadata: Metadata = {
   title: {
@@ -101,8 +109,17 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
-          <Navbar />
-          <main className="pt-16">{children}</main>
+          <Suspense fallback={null}>
+            <AnalyticsProvider
+              ga4Id={GA4_ID}
+              gtmId={GTM_ID}
+              fbPixelId={FB_PIXEL_ID}
+              clarityId={CLARITY_ID}
+            >
+              <Navbar />
+              <main className="pt-16">{children}</main>
+            </AnalyticsProvider>
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>
