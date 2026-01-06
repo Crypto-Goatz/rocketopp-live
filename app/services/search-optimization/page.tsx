@@ -143,6 +143,12 @@ export default function SearchOptimizationPage() {
           subtitle="Get Found First"
           description="Expert SEO services that increase your visibility in search results. We combine technical excellence with strategic content to drive qualified organic traffic that converts."
           gradient="from-yellow-500 to-orange-500"
+          visualVariant="pulse"
+          floatingCards={[
+            { value: "#1", label: "Rankings", color: "text-yellow-500", position: "top-left" },
+            { value: "+187%", label: "Traffic", color: "text-green-500", position: "bottom-right" },
+            { value: "95+", label: "Domain Auth", color: "text-orange-500", position: "mid-left" },
+          ]}
           stats={[
             { value: "187%", label: "Traffic Lift" },
             { value: "Top 10", label: "Rankings" },

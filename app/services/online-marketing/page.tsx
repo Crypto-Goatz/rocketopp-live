@@ -145,6 +145,12 @@ export default function OnlineMarketingPage() {
           subtitle="Growth That Compounds"
           description="Data-driven online marketing that generates leads, builds brand awareness, and drives sustainable growth. No vanity metrics—just results that impact your bottom line."
           gradient="from-green-500 to-emerald-500"
+          visualVariant="wave"
+          floatingCards={[
+            { value: "340%", label: "ROI", color: "text-green-500", position: "top-right" },
+            { value: "2.5M+", label: "Leads", color: "text-emerald-500", position: "bottom-left" },
+            { value: "-45%", label: "CPA", color: "text-cyan-500", position: "mid-right" },
+          ]}
           stats={[
             { value: "340%", label: "Avg ROI" },
             { value: "2.5M+", label: "Leads" },

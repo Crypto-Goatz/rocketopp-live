@@ -152,6 +152,12 @@ export default function SOPAutomationPage() {
           subtitle="Systems That Scale"
           description="Transform scattered processes into streamlined systems. We document, automate, and train your team on SOPs that eliminate chaos, reduce errors, and let you scale without losing your mind."
           gradient="from-indigo-500 to-violet-500"
+          visualVariant="nodes"
+          floatingCards={[
+            { value: "20h+", label: "Saved/Week", color: "text-green-500", position: "top-left" },
+            { value: "100%", label: "Documented", color: "text-indigo-500", position: "mid-right" },
+            { value: "3 Days", label: "Onboarding", color: "text-violet-500", position: "bottom-left" },
+          ]}
           stats={[
             { value: "85%", label: "Time Saved" },
             { value: "90%", label: "Error Reduction" },

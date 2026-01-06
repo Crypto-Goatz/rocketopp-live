@@ -148,6 +148,12 @@ export default function AppDevelopmentPage() {
           subtitle="Ideas to Reality"
           description="From concept to launch, we build mobile apps, web applications, and SaaS products that users love. Modern technology, proven process, measurable results."
           gradient="from-purple-500 to-pink-500"
+          visualVariant="cube"
+          floatingCards={[
+            { value: "4.9★", label: "App Rating", color: "text-yellow-500", position: "top-right" },
+            { value: "50M+", label: "Downloads", color: "text-purple-500", position: "mid-left" },
+            { value: "99.9%", label: "Uptime", color: "text-green-500", position: "bottom-right" },
+          ]}
           stats={[
             { value: "200+", label: "Apps Built" },
             { value: "4.8★", label: "Rating" },

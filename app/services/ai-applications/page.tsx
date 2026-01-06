@@ -143,6 +143,12 @@ export default function AIApplicationsPage() {
           subtitle="Intelligence On Demand"
           description="Custom AI applications that automate tasks, enhance customer experiences, and unlock insights hidden in your data. Built by experts who understand both AI and business."
           gradient="from-orange-500 to-red-500"
+          visualVariant="nodes"
+          floatingCards={[
+            { value: "50K+", label: "Tasks/Day", color: "text-orange-500", position: "top-left" },
+            { value: "99.7%", label: "Accuracy", color: "text-green-500", position: "bottom-right" },
+            { value: "0.3s", label: "Response", color: "text-red-400", position: "mid-left" },
+          ]}
           stats={[
             { value: "85%", label: "Cost Savings" },
             { value: "24/7", label: "Availability" },

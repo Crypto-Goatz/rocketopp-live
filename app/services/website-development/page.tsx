@@ -151,6 +151,12 @@ export default function WebsiteDevelopmentPage() {
           subtitle="Sites That Convert"
           description="Custom websites built for performance, SEO, and conversion. We don't just build websites—we build digital experiences that drive real business results."
           gradient="from-blue-500 to-cyan-500"
+          visualVariant="hexagon"
+          floatingCards={[
+            { value: "+156%", label: "Conversions", color: "text-green-500", position: "top-right" },
+            { value: "<1.2s", label: "Load Time", color: "text-cyan-500", position: "bottom-left" },
+            { value: "100", label: "PageSpeed", color: "text-blue-500", position: "mid-right" },
+          ]}
           stats={[
             { value: "500+", label: "Sites Delivered" },
             { value: "98%", label: "Satisfaction" },
