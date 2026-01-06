@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+
+    /* Orange primary color from logo (bright orange) */
+    --primary: 16 100% 50%; /* hsl(16, 100%, 50%) - Bright Orange */
+    --primary-foreground: 0 0% 100%; /* White text on orange */
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Orange accent color matching logo */
+    --accent: 16 100% 50%; /* Same orange for accent */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 16 100% 50%; /* Orange focus ring */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Deep dark background */
+    --background: 220 20% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 20% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 20% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Orange primary for dark mode */
+    --primary: 16 100% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    /* Orange accent for dark mode */
+    --accent: 16 100% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 16 100% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Grid background with orange accent */
+.grid-background {
+  background-image: linear-gradient(to right, hsl(var(--primary) / 0.15) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom, hsl(var(--primary) / 0.15) 0.5px, transparent 0.5px) !important;
+  background-size: 80px 80px !important;
+}
+
+.grid-gradient {
+  background: radial-gradient(70% 70% at 50% 50%, transparent 0%, hsl(var(--primary) / 0.05) 100%) !important;
+}
+
+.dark .grid-background {
+  background-image: linear-gradient(to right, hsl(var(--primary) / 0.2) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom, hsl(var(--primary) / 0.2) 0.5px, transparent 0.5px) !important;
+  background-size: 80px 80px !important;
+}
+
+.dark .grid-gradient {
+  background: radial-gradient(70% 70% at 50% 50%, transparent 0%, hsl(var(--primary) / 0.08) 100%) !important;
+}
+
+/* Card styling improvements for dark mode */
+.dark .card {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+}
+
+.dark .card-description {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Frosted glass effect with orange accents */
+.frost-glass {
+  @apply backdrop-blur-md border shadow-sm;
+  @apply bg-white/80 border-primary/10 text-gray-800 shadow-[0_4px_20px_hsl(var(--primary)/0.2)];
+  @apply dark:bg-black/20 dark:border-white/10 dark:text-white dark:shadow-[0_4px_20px_hsl(var(--primary)/0.3)];
+}
+
+.frost-glass-input:focus {
+  @apply border-primary/30 ring-2 ring-primary/20 ring-offset-0;
+}
+
+/* Removed problematic theme() references for header styles */
+/* Header specific styles - using direct CSS values instead of theme() */
+.site-header {
+  @apply sticky top-0 z-50 w-full border-b supports-[backdrop-filter]:bg-opacity-60;
+  background-color: #0a0a0a;
+  border-color: hsl(var(--border));
+  backdrop-filter: blur(8px);
+}
+
+/* Ken Burns animation for hero gallery */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.1) translate(-2%, -2%);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 20s ease-in-out infinite alternate;
+}
+
+/* Added smooth transitions for interactive elements */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Added scrolling animation for awards section */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+/* Added mega menu slide animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scaleY(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scaleY(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scaleY(0.95);
+  }
+}
