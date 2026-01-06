@@ -1,8 +1,16 @@
 import Link from "next/link"
-import { Rocket } from "lucide-react"
+import { Rocket, Globe, Cpu, Code2, Megaphone, Search } from "lucide-react"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+
+  const services = [
+    { name: "Website Development", href: "/services/website-development", icon: Globe },
+    { name: "AI Applications", href: "/services/ai-applications", icon: Cpu },
+    { name: "App Development", href: "/services/app-development", icon: Code2 },
+    { name: "Online Marketing", href: "/services/online-marketing", icon: Megaphone },
+    { name: "Search Optimization", href: "/services/search-optimization", icon: Search },
+  ]
 
   return (
     <footer className="border-t border-border py-12 md:py-16 bg-card">
@@ -17,18 +25,41 @@ export function Footer() {
               <span className="text-lg font-bold">RocketOpp</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              The AI app marketplace. Buy, subscribe, or lease-to-own the tools that run your business.
+              We Build. You Win. AI-powered digital services that drive real business results.
             </p>
+          </div>
+
+          {/* Services */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold">Services</h3>
+            <nav aria-label="Services Navigation">
+              <ul className="space-y-2 text-sm">
+                {services.map((service) => {
+                  const Icon = service.icon
+                  return (
+                    <li key={service.name}>
+                      <Link
+                        href={service.href}
+                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+                      >
+                        <Icon className="w-3 h-3" />
+                        {service.name}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
           </div>
 
           {/* Marketplace */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold">Marketplace</h3>
+            <h3 className="text-sm font-bold">Products</h3>
             <nav aria-label="Marketplace Navigation">
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link href="/marketplace" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Browse All
+                    Browse Marketplace
                   </Link>
                 </li>
                 <li>
@@ -65,20 +96,6 @@ export function Footer() {
                     Contact
                   </Link>
                 </li>
-                <li>
-                  <Link href="/sellers" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Become a Seller
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          {/* Legal */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-bold">Legal</h3>
-            <nav aria-label="Legal Navigation">
-              <ul className="space-y-2 text-sm">
                 <li>
                   <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
                     Privacy Policy
