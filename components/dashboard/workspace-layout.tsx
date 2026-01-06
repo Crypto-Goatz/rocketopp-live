@@ -6,7 +6,7 @@ import {
   Rocket, Home, Building2, User, Tag, Zap, Package,
   Settings, LogOut, HelpCircle, Sparkles, ChevronRight,
   Fuel, Gift, Trophy, Star, Wrench, MessageSquare,
-  BarChart3, FileText, Layers
+  BarChart3, FileText, Layers, Users, Activity
 } from "lucide-react"
 import { useState } from "react"
 
@@ -35,7 +35,8 @@ const mainNavItems = [
 const toolsNavItems = [
   { name: "AI Tools", href: "/dashboard/tools", icon: Sparkles, badge: "Free" },
   { name: "My Apps", href: "/dashboard/apps", icon: Package },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3, badge: "Live" },
+  { name: "Leads", href: "/dashboard/leads", icon: Users },
   { name: "Documents", href: "/dashboard/documents", icon: FileText },
 ]
 

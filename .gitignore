@@ -47,3 +47,4 @@ next-env.d.ts
 # Logs
 logs
 *.log
+google-service-account.json
