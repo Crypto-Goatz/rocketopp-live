@@ -1,16 +1,29 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Rocket, Zap, Clock, Bot, Sparkles, Layers, Code2, Flame, ShoppingBag, CreditCard, Key } from "lucide-react"
+import {
+  ArrowRight,
+  Rocket,
+  Globe,
+  Code2,
+  Megaphone,
+  Search,
+  Cpu,
+  Zap,
+  CheckCircle2,
+  Sparkles,
+  Bot,
+  ChevronRight
+} from "lucide-react"
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import { OrganizationSchema, WebsiteSchema, FAQSchema } from "@/components/seo/json-ld"
 
 export const metadata: Metadata = {
-  title: "RocketOpp - AI App Marketplace | Buy, Lease, or Own AI Tools",
+  title: "RocketOpp - AI-Powered Digital Agency | Web, Apps, Marketing & SEO",
   description:
-    "The first marketplace where you can buy, subscribe, or lease-to-own complete AI applications. Build your business with automation tools that actually work.",
+    "We build websites, AI applications, custom apps, and growth strategies that actually work. From idea to launch, we handle everything so you can focus on your business.",
   keywords:
-    "AI marketplace, AI apps, automation tools, lease to own software, AI agents, business automation, RocketOpp, Rocket+, MCPFED",
+    "digital agency, AI applications, web development, app development, online marketing, SEO, search optimization, RocketOpp, website design, custom software",
   authors: [{ name: "RocketOpp" }],
   creator: "RocketOpp",
   publisher: "RocketOpp",
@@ -22,22 +35,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://rocketopp.com",
-    title: "RocketOpp - AI App Marketplace | Buy, Lease, or Own AI Tools",
-    description: "The first marketplace where you can buy, subscribe, or lease-to-own complete AI applications.",
+    title: "RocketOpp - AI-Powered Digital Agency",
+    description: "We build websites, AI apps, and growth strategies that actually work.",
     siteName: "RocketOpp",
     images: [
       {
         url: "https://rocketopp.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "RocketOpp - AI App Marketplace",
+        alt: "RocketOpp - AI-Powered Digital Agency",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RocketOpp - AI App Marketplace",
-    description: "Buy, subscribe, or lease-to-own complete AI applications.",
+    title: "RocketOpp - AI-Powered Digital Agency",
+    description: "We build websites, AI apps, and growth strategies that actually work.",
     images: ["https://rocketopp.com/twitter-image.jpg"],
     creator: "@rocketopp",
   },
@@ -54,11 +67,59 @@ export const metadata: Metadata = {
   },
 }
 
+const services = [
+  {
+    name: "Website Development",
+    tagline: "Sites That Convert",
+    description: "Beautiful, fast websites built to turn visitors into customers. Design, development, and optimization under one roof.",
+    href: "/services/website-development",
+    icon: Globe,
+    color: "from-blue-500 to-cyan-500",
+    features: ["Custom Design", "Mobile-First", "CRO Built-In", "Lightning Fast"]
+  },
+  {
+    name: "AI Applications",
+    tagline: "Intelligence On Demand",
+    description: "Custom AI tools and automations that work while you sleep. From chatbots to full workflow automation.",
+    href: "/services/ai-applications",
+    icon: Cpu,
+    color: "from-orange-500 to-red-500",
+    features: ["Custom AI Tools", "Workflow Automation", "Rocket+", "MCPFED"]
+  },
+  {
+    name: "App Development",
+    tagline: "Ideas to Reality",
+    description: "Custom web and mobile applications built for your exact needs. APIs, integrations, and scalable architecture.",
+    href: "/services/app-development",
+    icon: Code2,
+    color: "from-purple-500 to-pink-500",
+    features: ["Custom Apps", "API Development", "Integrations", "Mobile Apps"]
+  },
+  {
+    name: "Online Marketing",
+    tagline: "Growth That Compounds",
+    description: "Multi-channel marketing that gets results. PPC, social media, content, and email campaigns that drive revenue.",
+    href: "/services/online-marketing",
+    icon: Megaphone,
+    color: "from-green-500 to-emerald-500",
+    features: ["PPC & Ads", "Social Media", "Content Strategy", "Email Campaigns"]
+  },
+  {
+    name: "Search Optimization",
+    tagline: "Get Found First",
+    description: "Dominate search results with technical SEO, content optimization, and local search strategies that bring organic traffic.",
+    href: "/services/search-optimization",
+    icon: Search,
+    color: "from-yellow-500 to-orange-500",
+    features: ["Technical SEO", "Local SEO", "Content SEO", "SEO Audits"]
+  },
+]
+
 const products = [
   {
     name: "Rocket+",
-    tagline: "Supercharge Your CRM",
-    description: "Modular enhancements that make your CRM actually useful. AI course generation, workflow automation, and 50+ tools that work while you don't.",
+    tagline: "50+ CRM Tools",
+    description: "Supercharge your CRM with AI course generation, workflow automation, and modular enhancements.",
     href: "/marketplace/rocket-plus",
     icon: Rocket,
     color: "from-orange-500 to-red-500",
@@ -66,49 +127,38 @@ const products = [
   },
   {
     name: "MCPFED",
-    tagline: "Federation of AI Agents",
-    description: "Connect, manage, and orchestrate MCP servers. The command center for your AI tools.",
+    tagline: "AI Agent Hub",
+    description: "Connect and orchestrate MCP servers. The command center for all your AI tools.",
     href: "/marketplace/mcpfed",
     icon: Bot,
     color: "from-cyan-500 to-blue-500",
     status: "Live"
   },
-  {
-    name: "BotCoaches",
-    tagline: "AI That Knows You",
-    description: "Personalized AI instruction sets. Generate custom Skills, prompts, and coaching profiles for any AI platform.",
-    href: "/marketplace/botcoaches",
-    icon: Sparkles,
-    color: "from-purple-500 to-pink-500",
-    status: "Coming Soon"
-  },
-  {
-    name: "CRO9",
-    tagline: "Conversion Intelligence",
-    description: "Track, analyze, optimize. Know exactly what's working and what's not. Make decisions with data, not guesses.",
-    href: "/marketplace/cro9",
-    icon: Zap,
-    color: "from-green-500 to-emerald-500",
-    status: "Coming Soon"
-  },
+]
+
+const stats = [
+  { value: "500+", label: "Projects Delivered" },
+  { value: "98%", label: "Client Satisfaction" },
+  { value: "24/7", label: "AI Working For You" },
+  { value: "10x", label: "Faster Than DIY" },
 ]
 
 const faqs = [
   {
-    question: "What is lease-to-own software?",
-    answer: "Unlike traditional subscriptions where you pay forever, lease-to-own lets you make fixed monthly payments until you own the software outright. After completing payments, the software is yours forever with no ongoing fees."
+    question: "What makes RocketOpp different from other agencies?",
+    answer: "We combine traditional digital services with cutting-edge AI applications. Everything we build is designed to work smarter, not harder. Plus, we offer our AI tools on a lease-to-own basis."
   },
   {
-    question: "Can I swap between different AI providers?",
-    answer: "Yes! Our products are built with interchangeable AI backends. Switch between Claude, GPT, or local models based on your needs and preferences."
+    question: "How long does a typical project take?",
+    answer: "Websites typically launch in 2-4 weeks. Custom applications take 4-12 weeks depending on complexity. Marketing campaigns can start within days."
   },
   {
-    question: "What happens if I cancel my subscription?",
-    answer: "For subscriptions, you lose access when canceled. For lease-to-own, you keep what you've paid for - if you've made 6 of 12 payments, you've earned 50% ownership."
+    question: "Do you offer ongoing support?",
+    answer: "Absolutely. We offer maintenance packages for all our services. For AI applications, updates and improvements are included with your subscription or lease."
   },
   {
-    question: "Can I sell my own apps on the marketplace?",
-    answer: "Yes! We're opening the marketplace to verified sellers. Build apps that integrate with the RocketOpp ecosystem and reach thousands of businesses."
+    question: "Can I use my own tools with your AI applications?",
+    answer: "Yes! Our AI applications are built with interchangeable backends. Switch between Claude, GPT, or other models. Everything integrates with your existing stack."
   }
 ]
 
@@ -122,212 +172,270 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-orange-500/10 rounded-full blur-[100px]" />
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
 
         <div className="relative z-10 container mx-auto px-4 text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-            <Flame className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">The AI App Marketplace</span>
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">AI-Powered Digital Agency</span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
-            <span className="text-foreground">Buy. Lease.</span>
+            <span className="text-foreground">We Build.</span>
             <br />
             <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent">
-              Own.
+              You Win.
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto mb-4">
-            Complete AI applications ready to deploy.
+            Websites. AI Apps. Marketing. SEO.
           </p>
           <p className="text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-10">
-            The first marketplace where you can buy outright, subscribe monthly,
-            <br className="hidden sm:block" />
-            or lease-to-own the software you use.
+            From first click to lifelong customer, we handle the digital so you can handle the business.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/20" asChild>
-              <Link href="/marketplace">
-                <ShoppingBag className="w-5 h-5 mr-2" />
-                Browse Marketplace
+            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow" asChild>
+              <Link href="/contact">
+                Start Your Project
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="px-8 h-14 text-lg" asChild>
-              <Link href="/register">
-                Create Account
+              <Link href="#services">
+                Explore Services
               </Link>
             </Button>
           </div>
 
-          {/* Value Props */}
-          <div className="flex flex-wrap justify-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-primary" />
-              <span>Lease-to-Own</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Layers className="w-4 h-4 text-primary" />
-              <span>Plugin Ecosystem</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-primary" />
-              <span>Interchangeable AI</span>
-            </div>
+          {/* Stats Bar */}
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-16">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-3xl sm:text-4xl font-black text-primary">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Lease-to-Own Explainer */}
-      <section className="py-24 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <span className="text-xs font-semibold text-primary uppercase tracking-wider">
-              Industry First
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-6">
-              Stop Renting. Start Owning.
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Traditional SaaS means paying forever. We believe if you use software long enough,
-              you should own it outright.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-8 rounded-2xl bg-card border border-border">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <CreditCard className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">Buy Outright</h3>
-              <p className="text-muted-foreground">
-                One payment. Lifetime access. Perfect for businesses ready to commit.
-              </p>
-            </div>
-
-            <div className="text-center p-8 rounded-2xl bg-card border border-primary/50 relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="text-xs font-semibold text-primary-foreground bg-primary px-3 py-1 rounded-full">
-                  Most Popular
-                </span>
-              </div>
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <Key className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">Lease-to-Own</h3>
-              <p className="text-muted-foreground">
-                Make monthly payments. After 12-24 months, the software is yours forever.
-              </p>
-            </div>
-
-            <div className="text-center p-8 rounded-2xl bg-card border border-border">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <Clock className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">Subscribe</h3>
-              <p className="text-muted-foreground">
-                Traditional monthly subscription. Flexible, cancel anytime.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section id="products" className="py-24">
+      {/* Services Section */}
+      <section id="services" className="py-24 bg-gradient-to-b from-background via-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Featured Products</h2>
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+              What We Do
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold mt-4 mb-6">
+              Everything Digital. One Team.
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              AI applications built by RocketOpp. Each one solves a real problem.
+              Five core services. Infinite possibilities. Each one backed by AI and obsessive attention to detail.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {products.map((product) => (
+          {/* Services Grid */}
+          <div className="grid lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-8">
+            {/* First row - 3 services */}
+            {services.slice(0, 3).map((service) => (
               <Link
-                key={product.name}
-                href={product.href}
-                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300"
+                key={service.name}
+                href={service.href}
+                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
               >
-                {/* Status Badge */}
-                <div className="absolute top-6 right-6">
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                    product.status === "Live"
-                      ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                      : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-                  }`}>
-                    {product.status}
-                  </span>
-                </div>
-
                 {/* Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${product.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <product.icon className="w-7 h-7 text-white" />
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <service.icon className="w-7 h-7 text-white" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold mb-1">{product.name}</h3>
-                <p className="text-primary font-medium mb-3">{product.tagline}</p>
-                <p className="text-muted-foreground leading-relaxed">{product.description}</p>
+                <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
+                <p className="text-primary font-medium mb-3">{service.tagline}</p>
+                <p className="text-muted-foreground leading-relaxed mb-6">{service.description}</p>
+
+                {/* Features */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {service.features.map((feature) => (
+                    <span key={feature} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                      {feature}
+                    </span>
+                  ))}
+                </div>
 
                 {/* Arrow */}
-                <div className="mt-6 flex items-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span>View Details</span>
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-center text-primary font-medium">
+                  <span>Learn More</span>
+                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/marketplace">
-                View All Products
-                <ArrowRight className="w-4 h-4 ml-2" />
+          {/* Second row - 2 services centered */}
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {services.slice(3, 5).map((service) => (
+              <Link
+                key={service.name}
+                href={service.href}
+                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
+              >
+                {/* Icon */}
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <service.icon className="w-7 h-7 text-white" />
+                </div>
+
+                {/* Content */}
+                <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
+                <p className="text-primary font-medium mb-3">{service.tagline}</p>
+                <p className="text-muted-foreground leading-relaxed mb-6">{service.description}</p>
+
+                {/* Features */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {service.features.map((feature) => (
+                    <span key={feature} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Arrow */}
+                <div className="flex items-center text-primary font-medium">
+                  <span>Learn More</span>
+                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                </div>
               </Link>
-            </Button>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Ecosystem Section */}
+      {/* Why RocketOpp Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left - Content */}
+              <div>
+                <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                  Why Choose Us
+                </span>
+                <h2 className="text-4xl sm:text-5xl font-bold mt-4 mb-6">
+                  AI-First. Results-Obsessed.
+                </h2>
+                <p className="text-xl text-muted-foreground mb-8">
+                  We're not just another agency. We build AI into everything we do,
+                  so your digital presence works smarter, faster, and never sleeps.
+                </p>
+
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Speed That Matters</h3>
+                      <p className="text-muted-foreground">Websites in weeks, not months. AI apps deployed in days. We move fast because your business can't wait.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Cpu className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">AI That Works For You</h3>
+                      <p className="text-muted-foreground">Every project includes AI optimization. Chatbots, automation, content generation - built in from day one.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Results, Not Excuses</h3>
+                      <p className="text-muted-foreground">We track everything. If it's not working, we fix it. No fluff, no vanity metrics - just growth.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right - Products Showcase */}
+              <div className="space-y-6">
+                <div className="text-sm font-medium text-muted-foreground mb-4">
+                  Our AI Products
+                </div>
+                {products.map((product) => (
+                  <Link
+                    key={product.name}
+                    href={product.href}
+                    className="group flex items-start gap-4 p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all"
+                  >
+                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${product.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                      <product.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-bold">{product.name}</h3>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                          {product.status}
+                        </span>
+                      </div>
+                      <p className="text-sm text-primary font-medium mb-1">{product.tagline}</p>
+                      <p className="text-sm text-muted-foreground">{product.description}</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </Link>
+                ))}
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/marketplace">
+                    View All Products
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
       <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">
-              One Ecosystem. Infinite Possibilities.
-            </h2>
+            <div className="text-center mb-16">
+              <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                How We Work
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-bold mt-4 mb-6">
+                Simple Process. Serious Results.
+              </h2>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-12">
-              <div className="text-center">
-                <div className="text-6xl font-black text-primary/20 mb-4">01</div>
-                <h3 className="text-xl font-bold mb-3">Interchangeable AI</h3>
-                <p className="text-muted-foreground">
-                  Swap between Claude, GPT, or local models. Your apps, your AI choice.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="text-6xl font-black text-primary/20 mb-4">02</div>
-                <h3 className="text-xl font-bold mb-3">Plugin Architecture</h3>
-                <p className="text-muted-foreground">
-                  Extend any product with plugins. Build your own or use community plugins.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="text-6xl font-black text-primary/20 mb-4">03</div>
-                <h3 className="text-xl font-bold mb-3">Data Portability</h3>
-                <p className="text-muted-foreground">
-                  Your data belongs to you. Export everything, integrate everywhere.
-                </p>
-              </div>
+            <div className="grid md:grid-cols-4 gap-8">
+              {[
+                { step: "01", title: "Discovery", desc: "We learn your business, goals, and challenges" },
+                { step: "02", title: "Strategy", desc: "Custom plan built around your specific needs" },
+                { step: "03", title: "Build", desc: "Rapid development with weekly updates" },
+                { step: "04", title: "Launch & Grow", desc: "Deploy, optimize, and scale together" },
+              ].map((item) => (
+                <div key={item.step} className="text-center">
+                  <div className="text-5xl font-black text-primary/20 mb-4">{item.step}</div>
+                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -337,9 +445,11 @@ export default function HomePage() {
       <section className="py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
+            </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {faqs.map((faq, i) => (
                 <div key={i} className="p-6 rounded-xl bg-card border border-border">
                   <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
@@ -352,24 +462,26 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-primary/10 via-background to-background">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-24 bg-gradient-to-br from-primary/10 via-background to-background relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-            Ready to Own Your Tools?
+            Ready to Build Something Great?
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Join thousands of businesses using AI apps that work while they don't.
+            Let's talk about your project. No pressure, no obligations - just a conversation about how we can help.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/20" asChild>
-              <Link href="/marketplace">
-                <ShoppingBag className="w-5 h-5 mr-2" />
-                Explore Marketplace
+            <Button size="lg" className="px-8 h-14 text-lg font-semibold shadow-lg shadow-primary/25" asChild>
+              <Link href="/contact">
+                Get Started Today
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="px-8 h-14 text-lg" asChild>
-              <Link href="/contact">
-                Talk to Us
+              <Link href="/marketplace">
+                Browse AI Tools
               </Link>
             </Button>
           </div>
