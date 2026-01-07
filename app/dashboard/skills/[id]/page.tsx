@@ -6,7 +6,8 @@ import Link from "next/link"
 import {
   ArrowLeft, Settings, Play, Pause, Trash2, RefreshCw,
   Shield, Clock, CheckCircle, XCircle, AlertCircle,
-  RotateCcw, History, Save, Loader2, ChevronDown, ChevronUp
+  RotateCcw, History, Save, Loader2, ChevronDown, ChevronUp,
+  Download, Package
 } from "lucide-react"
 
 interface SkillLog {
@@ -179,6 +180,32 @@ export default function SkillDetailPage({ params }: { params: Promise<{ id: stri
     }
   }
 
+  const handleExport = async () => {
+    if (!installation) return
+
+    try {
+      const res = await fetch(`/api/skills/export/${installation.skill_id}?download=true&readme=true`)
+
+      if (!res.ok) {
+        alert("Failed to export skill")
+        return
+      }
+
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `${installation.skill.slug}-v${installation.skill.version}.skill.json`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    } catch (error) {
+      console.error("Failed to export:", error)
+      alert("Failed to export skill")
+    }
+  }
+
   const handleRevertLog = async (logId: string) => {
     if (!confirm("Are you sure you want to revert this action?")) return
 
@@ -288,6 +315,14 @@ export default function SkillDetailPage({ params }: { params: Promise<{ id: stri
                 Pause
               </>
             )}
+          </button>
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 transition-all"
+            title="Export as package"
+          >
+            <Download className="w-4 h-4" />
+            Export
           </button>
           <button
             onClick={handleUninstall}

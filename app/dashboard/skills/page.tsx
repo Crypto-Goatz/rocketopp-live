@@ -6,7 +6,7 @@ import {
   Puzzle, Plus, Search, Grid, List,
   Play, Pause, Settings, Trash2, AlertCircle,
   CheckCircle, Clock, XCircle, ChevronRight,
-  Download, LayoutGrid, Store
+  Download, LayoutGrid, Store, Wand2, Upload
 } from "lucide-react"
 
 interface Skill {
@@ -151,6 +151,13 @@ export default function SkillsPage() {
           >
             <Store className="w-4 h-4" />
             <span>Marketplace</span>
+          </Link>
+          <Link
+            href="/dashboard/skills/create"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-all border border-white/10"
+          >
+            <Wand2 className="w-4 h-4" />
+            <span>Create</span>
           </Link>
           <Link
             href="/dashboard/skills/install"
