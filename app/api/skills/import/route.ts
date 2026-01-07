@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
         fileContent,
         autoInstall: autoInstall !== false,
       },
-      session.userId
+      session.id
     )
 
     if (!result.success) {

@@ -40,7 +40,7 @@ export async function PUT(
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -56,7 +56,7 @@ export async function PUT(
       .from('skill_installations')
       .select('id')
       .eq('id', id)
-      .eq('user_id', session.userId)
+      .eq('user_id', session.id)
       .single()
 
     if (!installation) {
@@ -93,7 +93,7 @@ export async function DELETE(
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -107,7 +107,7 @@ export async function DELETE(
       .from('skill_installations')
       .select('id')
       .eq('id', id)
-      .eq('user_id', session.userId)
+      .eq('user_id', session.id)
       .single()
 
     if (!installation) {

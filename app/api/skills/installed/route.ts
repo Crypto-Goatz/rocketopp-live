@@ -6,14 +6,14 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const skills = await getUserSkills(session.userId)
+    const skills = await getUserSkills(session.id)
 
     return NextResponse.json({
       success: true,

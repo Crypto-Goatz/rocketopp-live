@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -20,9 +20,9 @@ export async function POST(request: NextRequest) {
     let result
 
     if (sourceUrl) {
-      result = await installSkillFromUrl(session.userId, sourceUrl, { config })
+      result = await installSkillFromUrl(session.id, sourceUrl, { config })
     } else if (skillId) {
-      result = await installSkill(session.userId, skillId, { config })
+      result = await installSkill(session.id, skillId, { config })
     } else {
       return NextResponse.json(
         { success: false, error: 'Either skillId or sourceUrl is required' },

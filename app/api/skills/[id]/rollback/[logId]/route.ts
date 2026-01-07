@@ -11,7 +11,7 @@ export async function POST(
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -25,7 +25,7 @@ export async function POST(
       .from('skill_installations')
       .select('id')
       .eq('id', id)
-      .eq('user_id', session.userId)
+      .eq('user_id', session.id)
       .single()
 
     if (!installation) {
@@ -80,7 +80,7 @@ export async function GET(
   try {
     const session = await getSession()
 
-    if (!session?.userId) {
+    if (!session?.id) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -94,7 +94,7 @@ export async function GET(
       .from('skill_installations')
       .select('id')
       .eq('id', id)
-      .eq('user_id', session.userId)
+      .eq('user_id', session.id)
       .single()
 
     if (!installation) {
