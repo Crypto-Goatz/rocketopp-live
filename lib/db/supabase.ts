@@ -40,6 +40,10 @@ export interface RocketOppUser {
   profile_complete: boolean
   last_login_at: string | null
   settings: Record<string, unknown>
+  // OAuth fields
+  google_id: string | null
+  auth_provider: 'email' | 'google' | null
+  avatar_url: string | null
 }
 
 export interface MarketplaceProduct {
