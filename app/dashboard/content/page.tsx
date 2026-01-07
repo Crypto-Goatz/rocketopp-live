@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth/session'
-import { WorkspaceLayout } from '@/components/dashboard/workspace-layout'
 import { ContentPipelineManager } from './content-manager'
 
 export const metadata = {
@@ -20,9 +19,5 @@ export default async function ContentPipelinePage() {
     redirect('/dashboard')
   }
 
-  return (
-    <WorkspaceLayout user={user}>
-      <ContentPipelineManager />
-    </WorkspaceLayout>
-  )
+  return <ContentPipelineManager />
 }

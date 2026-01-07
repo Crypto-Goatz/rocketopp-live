@@ -4,7 +4,7 @@ import { Inter } from "next/font/google"
 import { Suspense } from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import Navbar from "@/components/navbar"
+import { LayoutWrapper } from "@/components/layout-wrapper"
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -116,8 +116,7 @@ export default function RootLayout({
               fbPixelId={FB_PIXEL_ID}
               clarityId={CLARITY_ID}
             >
-              <Navbar />
-              <main className="pt-16">{children}</main>
+              <LayoutWrapper>{children}</LayoutWrapper>
             </AnalyticsProvider>
           </Suspense>
         </ThemeProvider>
