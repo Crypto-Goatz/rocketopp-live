@@ -6,7 +6,7 @@ import {
   Rocket, Home, Building2, User, Tag, Zap, Package,
   Settings, LogOut, HelpCircle, Sparkles, ChevronRight,
   Fuel, Gift, Trophy, Star, Wrench, MessageSquare,
-  BarChart3, FileText, Layers, Users, Activity
+  BarChart3, FileText, Layers, Users, Activity, Shield
 } from "lucide-react"
 import { useState } from "react"
 
@@ -18,6 +18,8 @@ interface WorkspaceLayoutProps {
     name: string | null
     fuel_credits?: number
     subscription_status?: string
+    is_admin?: boolean
+    role?: string
   }
   companyProfile?: {
     name?: string
@@ -44,6 +46,8 @@ const bottomNavItems = [
   { name: "Get Help", href: "/dashboard/help", icon: HelpCircle },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ]
+
+const adminNavItem = { name: "Admin", href: "/dashboard/admin", icon: Shield }
 
 export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLayoutProps) {
   const pathname = usePathname()
@@ -248,6 +252,26 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </div>
           )}
         </nav>
+
+        {/* Admin Link (only for admins) */}
+        {(user.is_admin || user.role === 'admin' || user.role === 'superadmin') && (
+          <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>
+            <Link
+              href={adminNavItem.href}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                pathname.startsWith('/dashboard/admin')
+                  ? 'bg-gradient-to-r from-primary/20 to-red-500/20 text-white border border-primary/30'
+                  : 'text-primary/80 hover:text-primary hover:bg-primary/10'
+              } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
+              title={sidebarCollapsed ? adminNavItem.name : undefined}
+            >
+              <adminNavItem.icon className="w-4 h-4 flex-shrink-0" />
+              {!sidebarCollapsed && (
+                <span className="text-sm font-medium">{adminNavItem.name}</span>
+              )}
+            </Link>
+          </div>
+        )}
 
         {/* Bottom Navigation */}
         <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>

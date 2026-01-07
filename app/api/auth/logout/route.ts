@@ -4,12 +4,11 @@ import { destroySession } from '@/lib/auth/session'
 export async function POST() {
   try {
     await destroySession()
-    return NextResponse.json({ success: true })
+    // Redirect to login page after logout
+    return NextResponse.redirect(new URL('/login', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   } catch (error) {
     console.error('Logout error:', error)
-    return NextResponse.json(
-      { error: 'Something went wrong' },
-      { status: 500 }
-    )
+    // Still redirect even on error
+    return NextResponse.redirect(new URL('/login', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 }

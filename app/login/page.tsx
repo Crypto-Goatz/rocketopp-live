@@ -1,140 +1,255 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Rocket, Loader2, ArrowLeft } from "lucide-react"
+import { Rocket, Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Zap, Shield, Sparkles } from "lucide-react"
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get("redirect") || "/dashboard"
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
     setLoading(true)
+    setError("")
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
       })
 
-      const data = await res.json()
+      const data = await response.json()
 
-      if (!res.ok) {
-        setError(data.error || "Login failed")
-        setLoading(false)
-        return
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed")
       }
 
-      router.push("/dashboard")
+      router.push(redirect)
       router.refresh()
-    } catch {
-      setError("Something went wrong")
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      {/* Background Effects */}
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
-      <div className="fixed top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-black flex">
+      {/* Left Panel - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.03)_1px,transparent_1px)] bg-[size:50px_50px] opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-red-500/10" />
 
-      <div className="relative z-10 w-full max-w-md px-4">
-        {/* Back Link */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
+        {/* Animated Orbs */}
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-orange-500/20 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-red-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "1s" }} />
 
-        {/* Card */}
-        <div className="bg-card border border-border rounded-2xl p-8 shadow-xl">
+        <div className="relative z-10 flex flex-col justify-center p-12 xl:p-16">
           {/* Logo */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-red-500 flex items-center justify-center">
-              <Rocket className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/25">
+              <Rocket className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold">RocketOpp</span>
+            <span className="text-2xl font-bold text-white">RocketOpp</span>
           </div>
 
-          <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
-          <p className="text-muted-foreground mb-8">
-            Sign in to access your marketplace and products
+          <h1 className="text-4xl xl:text-5xl font-bold text-white mt-8 mb-4">
+            Welcome back to
+            <span className="block bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+              your launchpad
+            </span>
+          </h1>
+
+          <p className="text-lg text-zinc-400 mb-12 max-w-md">
+            Your AI-powered tools are ready. Sign in to continue building your business.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                autoComplete="email"
-              />
+          {/* Feature Pills */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center">
+                <Zap className="w-5 h-5 text-orange-400" />
+              </div>
+              <div>
+                <p className="text-white font-medium">AI-Powered Tools</p>
+                <p className="text-sm text-zinc-500">Automate your workflow in seconds</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <p className="text-white font-medium">Premium Marketplace</p>
+                <p className="text-sm text-zinc-500">Buy, subscribe, or lease-to-own apps</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center">
+                <Shield className="w-5 h-5 text-green-400" />
+              </div>
+              <div>
+                <p className="text-white font-medium">Secure & Private</p>
+                <p className="text-sm text-zinc-500">Your data stays yours, always</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Panel - Login Form */}
+      <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-8">
+            <div className="inline-flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                <Rocket className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold text-white">RocketOpp</span>
+            </div>
+          </div>
+
+          {/* Login Card */}
+          <div className="bg-zinc-900/50 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white mb-2">Sign in to RocketOpp</h2>
+              <p className="text-zinc-400">Enter your credentials to continue</p>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Forgot password?
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
+                  Email address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-zinc-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/50 transition-all"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Forgot Password */}
+              <div className="flex justify-end">
+                <Link href="/forgot-password" className="text-sm text-orange-400 hover:text-orange-300 transition-colors">
+                  Forgot your password?
                 </Link>
               </div>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-              />
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-semibold shadow-lg shadow-orange-500/25 transition-all duration-300"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    Sign in
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
+              </Button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/10" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-zinc-900/80 text-zinc-500">New to RocketOpp?</span>
+              </div>
             </div>
 
-            {error && (
-              <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-                {error}
-              </div>
-            )}
-
-            <Button type="submit" className="w-full h-12" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                "Sign In"
-              )}
+            {/* Sign Up Link */}
+            <Button
+              variant="outline"
+              className="w-full h-12 bg-transparent border-white/10 hover:bg-white/5 hover:border-orange-500/30 text-white transition-all"
+              asChild
+            >
+              <Link href="/register">
+                Create an account
+              </Link>
             </Button>
-          </form>
+          </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-primary hover:underline font-medium">
-              Create one
+          {/* Back to Home */}
+          <p className="text-center mt-6 text-zinc-500 text-sm">
+            <Link href="/" className="hover:text-zinc-300 transition-colors">
+              &larr; Back to homepage
             </Link>
           </p>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   )
 }

@@ -25,6 +25,21 @@ export interface RocketOppUser {
   stripe_customer_id: string | null
   subscription_status: 'free' | 'pro' | 'agency' | null
   subscription_tier: string | null
+  // Admin fields
+  is_admin: boolean
+  role: 'user' | 'admin' | 'superadmin'
+  fuel_credits: number
+  phone: string | null
+  job_title: string | null
+  company_name: string | null
+  company_website: string | null
+  company_size: string | null
+  company_industry: string | null
+  company_logo: string | null
+  tags: string[]
+  profile_complete: boolean
+  last_login_at: string | null
+  settings: Record<string, unknown>
 }
 
 export interface MarketplaceProduct {
