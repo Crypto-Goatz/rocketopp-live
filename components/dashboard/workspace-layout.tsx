@@ -6,7 +6,7 @@ import {
   Rocket, Home, Building2, User,
   Settings, LogOut, HelpCircle, ChevronRight, ChevronLeft,
   Star, BarChart3, FileText, Users, Shield,
-  Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb, Sparkles
+  Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb, Sparkles, Puzzle
 } from "lucide-react"
 import { useState } from "react"
 import { AIChat } from "./ai-chat"
@@ -36,6 +36,7 @@ const mainNavItems = [
 
 const clientNavItems = [
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Skills", href: "/dashboard/skills", icon: Puzzle },
   { name: "Leads", href: "/dashboard/leads", icon: Users },
   { name: "Projects", href: "/dashboard/projects", icon: FolderOpen },
   { name: "Documents", href: "/dashboard/documents", icon: FileText },
