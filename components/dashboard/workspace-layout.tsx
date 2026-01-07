@@ -3,10 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  Rocket, Home, Building2, User, Tag, Zap, Package,
-  Settings, LogOut, HelpCircle, Sparkles, ChevronRight,
-  Fuel, Gift, Trophy, Star, Wrench, MessageSquare,
-  BarChart3, FileText, Layers, Users, Activity, Shield
+  Rocket, Home, Building2, User,
+  Settings, LogOut, HelpCircle, ChevronRight, ChevronLeft,
+  Star, BarChart3, FileText, Users, Shield,
+  Briefcase, Calendar, MessageSquare, FolderOpen
 } from "lucide-react"
 import { useState } from "react"
 
@@ -28,22 +28,22 @@ interface WorkspaceLayoutProps {
 }
 
 const mainNavItems = [
-  { name: "Home", href: "/dashboard", icon: Home },
-  { name: "Company", href: "/dashboard/company", icon: Building2 },
+  { name: "Overview", href: "/dashboard", icon: Home },
+  { name: "My Business", href: "/dashboard/company", icon: Building2 },
   { name: "Profile", href: "/dashboard/profile", icon: User },
-  { name: "Specializations", href: "/dashboard/tags", icon: Tag },
 ]
 
-const toolsNavItems = [
-  { name: "AI Tools", href: "/dashboard/tools", icon: Sparkles, badge: "Free" },
-  { name: "My Apps", href: "/dashboard/apps", icon: Package },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3, badge: "Live" },
+const clientNavItems = [
+  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "Leads", href: "/dashboard/leads", icon: Users },
+  { name: "Projects", href: "/dashboard/projects", icon: FolderOpen },
   { name: "Documents", href: "/dashboard/documents", icon: FileText },
+  { name: "Calendar", href: "/dashboard/calendar", icon: Calendar },
+  { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
 ]
 
 const bottomNavItems = [
-  { name: "Get Help", href: "/dashboard/help", icon: HelpCircle },
+  { name: "Support", href: "/dashboard/support", icon: HelpCircle },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ]
 
@@ -53,49 +53,27 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
-  const fuelCredits = user.fuel_credits || 100 // Default starting fuel
+  const isAdmin = user.is_admin || user.role === 'admin' || user.role === 'superadmin'
 
   return (
     <div className="min-h-screen bg-black flex">
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-h-screen">
-        {/* Top Bar */}
-        <header className="h-14 border-b border-white/5 bg-black/50 backdrop-blur-xl flex items-center justify-between px-6 sticky top-0 z-40">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-red-500 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Rocket className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-lg font-bold text-white/90 group-hover:text-white transition-colors">RocketOpp</span>
-            </Link>
-            <div className="w-px h-6 bg-white/10" />
-            <span className="text-sm text-white/40">Workspace</span>
-          </div>
-
-          {/* Fuel Display - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30">
-              <Fuel className="w-4 h-4 text-orange-400" />
-              <span className="text-sm font-semibold text-orange-400">{fuelCredits.toLocaleString()}</span>
-              <span className="text-xs text-orange-400/60">Fuel</span>
+      {/* Left Sidebar */}
+      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-64'} border-r border-white/5 bg-zinc-950/80 backdrop-blur-xl flex flex-col transition-all duration-300`}>
+        {/* Logo */}
+        <div className={`p-4 border-b border-white/5 ${sidebarCollapsed ? 'px-2' : ''}`}>
+          <Link href="/dashboard" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
+              <Rocket className="w-5 h-5 text-white" />
             </div>
-            <Link
-              href="/dashboard/fuel"
-              className="text-xs text-primary hover:text-primary/80 transition-colors"
-            >
-              Get More
-            </Link>
-          </div>
-        </header>
-
-        {/* Content */}
-        <div className="flex-1 overflow-auto">
-          {children}
+            {!sidebarCollapsed && (
+              <div>
+                <span className="text-lg font-bold text-white">RocketOpp</span>
+                <p className="text-[10px] text-white/40 uppercase tracking-wider">Client Portal</p>
+              </div>
+            )}
+          </Link>
         </div>
-      </main>
 
-      {/* Right Sidebar */}
-      <aside className={`${sidebarCollapsed ? 'w-16' : 'w-64'} border-l border-white/5 bg-zinc-950/80 backdrop-blur-xl flex flex-col transition-all duration-300`}>
         {/* User Card */}
         <div className={`p-4 border-b border-white/5 ${sidebarCollapsed ? 'px-2' : ''}`}>
           {sidebarCollapsed ? (
@@ -120,42 +98,16 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </div>
           )}
 
-          {/* Subscription Badge */}
+          {/* Status Badge */}
           {!sidebarCollapsed && (
             <div className="mt-3 flex items-center gap-2">
-              <span className={`text-xs px-2 py-1 rounded-full ${
-                user.subscription_status === 'pro'
-                  ? 'bg-gradient-to-r from-primary/20 to-red-500/20 text-primary border border-primary/30'
-                  : 'bg-white/5 text-white/50 border border-white/10'
-              }`}>
-                {user.subscription_status === 'pro' ? (
-                  <>
-                    <Star className="w-3 h-3 inline mr-1" />
-                    Pro
-                  </>
-                ) : 'Free Tier'}
+              <span className="text-xs px-2 py-1 rounded-full bg-gradient-to-r from-primary/20 to-red-500/20 text-primary border border-primary/30">
+                <Star className="w-3 h-3 inline mr-1" />
+                Active Client
               </span>
             </div>
           )}
         </div>
-
-        {/* Mobile Fuel Display */}
-        {!sidebarCollapsed && (
-          <div className="p-4 border-b border-white/5 md:hidden">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Fuel className="w-4 h-4 text-orange-400" />
-                <span className="text-sm font-semibold text-orange-400">{fuelCredits.toLocaleString()}</span>
-              </div>
-              <Link
-                href="/dashboard/fuel"
-                className="text-xs text-primary hover:underline"
-              >
-                Get More
-              </Link>
-            </div>
-          </div>
-        )}
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4 space-y-6">
@@ -163,7 +115,7 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
           <div className={sidebarCollapsed ? 'px-2' : 'px-3'}>
             {!sidebarCollapsed && (
               <p className="text-[10px] font-semibold text-white/30 uppercase tracking-wider mb-2 px-2">
-                Workspace
+                Account
               </p>
             )}
             <ul className="space-y-1">
@@ -191,15 +143,15 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </ul>
           </div>
 
-          {/* Tools */}
+          {/* Client Services */}
           <div className={sidebarCollapsed ? 'px-2' : 'px-3'}>
             {!sidebarCollapsed && (
               <p className="text-[10px] font-semibold text-white/30 uppercase tracking-wider mb-2 px-2">
-                Tools
+                Services
               </p>
             )}
             <ul className="space-y-1">
-              {toolsNavItems.map((item) => {
+              {clientNavItems.map((item) => {
                 const isActive = pathname.startsWith(item.href)
                 return (
                   <li key={item.name}>
@@ -214,14 +166,7 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
                     >
                       <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-primary' : 'group-hover:text-primary/70'}`} />
                       {!sidebarCollapsed && (
-                        <>
-                          <span className="text-sm font-medium flex-1">{item.name}</span>
-                          {item.badge && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 font-medium">
-                              {item.badge}
-                            </span>
-                          )}
-                        </>
+                        <span className="text-sm font-medium">{item.name}</span>
                       )}
                     </Link>
                   </li>
@@ -230,22 +175,22 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </ul>
           </div>
 
-          {/* Perks Card */}
+          {/* Contact Card */}
           {!sidebarCollapsed && (
             <div className="px-3">
               <div className="p-4 rounded-xl bg-gradient-to-br from-primary/10 to-red-500/10 border border-primary/20">
                 <div className="flex items-center gap-2 mb-2">
-                  <Gift className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-white">Earn More Fuel</span>
+                  <Briefcase className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-white">Your Account Manager</span>
                 </div>
                 <p className="text-xs text-white/50 mb-3">
-                  Complete your profile and earn 500 bonus fuel credits!
+                  Need help? Your dedicated support is just a click away.
                 </p>
                 <Link
-                  href="/dashboard/profile"
+                  href="/dashboard/support"
                   className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 font-medium"
                 >
-                  Complete Profile
+                  Contact Support
                   <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -254,7 +199,7 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
         </nav>
 
         {/* Admin Link (only for admins) */}
-        {(user.is_admin || user.role === 'admin' || user.role === 'superadmin') && (
+        {isAdmin && (
           <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>
             <Link
               href={adminNavItem.href}
@@ -320,13 +265,22 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-white/30 hover:text-white/50 hover:bg-white/5 transition-all"
           >
-            <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${sidebarCollapsed ? 'rotate-180' : ''}`} />
-            {!sidebarCollapsed && (
-              <span className="text-xs">Collapse</span>
+            {sidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <>
+                <ChevronLeft className="w-4 h-4" />
+                <span className="text-xs">Collapse</span>
+              </>
             )}
           </button>
         </div>
       </aside>
+
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col min-h-screen overflow-auto">
+        {children}
+      </main>
     </div>
   )
 }
