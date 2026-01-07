@@ -9,6 +9,7 @@ import {
   Briefcase, Calendar, MessageSquare, FolderOpen
 } from "lucide-react"
 import { useState } from "react"
+import { AIChat } from "./ai-chat"
 
 interface WorkspaceLayoutProps {
   children: React.ReactNode
@@ -281,6 +282,9 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
       <main className="flex-1 flex flex-col min-h-screen overflow-auto">
         {children}
       </main>
+
+      {/* AI Chat Widget */}
+      <AIChat userId={user.id} initialFuel={user.fuel_credits || 100} />
     </div>
   )
 }
