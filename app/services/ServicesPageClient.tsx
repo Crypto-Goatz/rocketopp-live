@@ -73,7 +73,7 @@ const ServicesPageClient = () => {
           {services.map((service, index) => (
             <motion.div key={service.title} variants={fadeIn("up", "tween", 0.3 + index * 0.1, 1)}>
               <Link href={service.href}>
-                <div className="flex flex-col p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 h-full">
+                <div className="flex flex-col p-6 card-lifted-xl h-full">
                   <div
                     className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4`}
                   >

@@ -186,3 +186,155 @@
     transform: translateX(-50%) translateY(-10px) scaleY(0.95);
   }
 }
+
+/* ================================================
+   LIFTED CARD COMPONENT
+   Realistic shadow that makes cards look elevated
+   with push-in hover animation
+   ================================================ */
+
+.card-lifted {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0) scale(1);
+
+  /* Realistic multi-layer shadow for lifted effect */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.04),
+    0 16px 32px rgba(0, 0, 0, 0.04),
+    0 32px 64px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark mode lifted shadow with primary color glow */
+.dark .card-lifted {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 32px 64px rgba(0, 0, 0, 0.2),
+    0 0 0 1px hsl(var(--primary) / 0.05);
+}
+
+/* Push-in hover effect - card shrinks and shadow decreases */
+.card-lifted:hover {
+  transform: translateY(2px) scale(0.98);
+  border-color: hsl(var(--primary) / 0.3);
+
+  /* Reduced shadow for pressed effect */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-lifted:hover {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 0 20px hsl(var(--primary) / 0.15);
+  border-color: hsl(var(--primary) / 0.4);
+}
+
+/* Active/pressed state for tactile feedback */
+.card-lifted:active {
+  transform: translateY(4px) scale(0.97);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Extra-lifted variant for more dramatic effect */
+.card-lifted-xl {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0) scale(1);
+
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.04),
+    0 16px 32px rgba(0, 0, 0, 0.05),
+    0 32px 48px rgba(0, 0, 0, 0.06),
+    0 48px 80px rgba(0, 0, 0, 0.08);
+}
+
+.dark .card-lifted-xl {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.14),
+    0 32px 48px rgba(0, 0, 0, 0.16),
+    0 48px 80px rgba(0, 0, 0, 0.2),
+    0 0 0 1px hsl(var(--primary) / 0.08);
+}
+
+.card-lifted-xl:hover {
+  transform: translateY(4px) scale(0.97);
+  border-color: hsl(var(--primary) / 0.4);
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-lifted-xl:hover {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 0 30px hsl(var(--primary) / 0.2);
+}
+
+/* Small lifted card variant */
+.card-lifted-sm {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0) scale(1);
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-lifted-sm {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-lifted-sm:hover {
+  transform: translateY(1px) scale(0.99);
+  border-color: hsl(var(--primary) / 0.3);
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.dark .card-lifted-sm:hover {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 0 15px hsl(var(--primary) / 0.12);
+}

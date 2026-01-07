@@ -138,7 +138,7 @@ export default async function MarketplacePage({
                 <Link
                   key={product.id}
                   href={`/marketplace/${product.slug}`}
-                  className="group relative rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden"
+                  className="group relative card-lifted-xl overflow-hidden"
                 >
                   {/* Status Badge */}
                   <div className="absolute top-4 right-4 z-10">

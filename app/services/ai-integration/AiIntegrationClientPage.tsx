@@ -250,7 +250,7 @@ export default function AiIntegrationClientPage() {
               {aiBenefits.map((benefit, index) => (
                 <div
                   key={benefit.id}
-                  className="group p-8 bg-card rounded-xl border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  className="group p-8 card-lifted-xl"
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
@@ -293,7 +293,7 @@ export default function AiIntegrationClientPage() {
                   {index < processSteps.length - 1 && (
                     <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-border" />
                   )}
-                  <div className="relative bg-card p-6 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 z-10">
+                  <div className="relative p-6 card-lifted-sm z-10">
                     <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mb-4 mx-auto">
                       {item.step}
                     </div>

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
   ArrowRight,
@@ -173,6 +174,17 @@ const faqs = [
   }
 ]
 
+const integrations = [
+  { name: "OpenAI", logo: "/logos/openai.svg" },
+  { name: "Microsoft", logo: "/logos/microsoft.svg" },
+  { name: "Google Cloud", logo: "/logos/google-cloud.svg" },
+  { name: "AWS", logo: "/logos/aws.svg" },
+  { name: "Salesforce", logo: "/logos/salesforce.svg" },
+  { name: "HubSpot", logo: "/logos/hubspot.svg" },
+  { name: "Slack", logo: "/logos/slack.svg" },
+  { name: "Zapier", logo: "/logos/zapier.svg" },
+]
+
 export default function HomePage() {
   return (
     <div className="w-full overflow-x-hidden bg-background">
@@ -259,38 +271,75 @@ export default function HomePage() {
           </div>
 
           {/* Services Grid - 3x2 */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {services.map((service) => (
               <Link
                 key={service.name}
                 href={service.href}
-                className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
+                className="group relative p-8 card-lifted-xl overflow-hidden"
               >
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                 {/* Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                <div className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 shadow-lg shadow-black/20`}>
                   <service.icon className="w-7 h-7 text-white" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
-                <p className="text-primary font-medium mb-3">{service.tagline}</p>
-                <p className="text-muted-foreground leading-relaxed mb-6">{service.description}</p>
+                <h3 className="relative text-2xl font-bold mb-2">{service.name}</h3>
+                <p className="relative text-primary font-medium mb-3">{service.tagline}</p>
+                <p className="relative text-muted-foreground leading-relaxed mb-6">{service.description}</p>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="relative flex flex-wrap gap-2 mb-6">
                   {service.features.map((feature) => (
-                    <span key={feature} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                    <span key={feature} className="text-xs px-3 py-1.5 rounded-full bg-muted/80 text-muted-foreground border border-border/50">
                       {feature}
                     </span>
                   ))}
                 </div>
 
                 {/* Arrow */}
-                <div className="flex items-center text-primary font-medium">
+                <div className="relative flex items-center text-primary font-medium">
                   <span>Learn More</span>
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform duration-300" />
                 </div>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Integrations Section */}
+      <section className="py-16 border-y border-border/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Integrations & Technology
+            </span>
+            <h3 className="text-xl font-semibold mt-2">
+              Powered by Industry Leaders
+            </h3>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto">
+            {integrations.map((integration) => (
+              <div
+                key={integration.name}
+                className="group flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-all duration-300"
+              >
+                <div className="w-12 h-12 sm:w-14 sm:h-14 relative grayscale group-hover:grayscale-0 transition-all duration-300">
+                  <Image
+                    src={integration.logo}
+                    alt={integration.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                  {integration.name}
+                </span>
+              </div>
             ))}
           </div>
         </div>
@@ -356,9 +405,9 @@ export default function HomePage() {
                   <Link
                     key={product.name}
                     href={product.href}
-                    className="group flex items-start gap-4 p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all"
+                    className="group flex items-start gap-4 p-6 card-lifted overflow-hidden"
                   >
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${product.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${product.color} flex items-center justify-center flex-shrink-0 shadow-lg`}>
                       <product.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -406,7 +455,7 @@ export default function HomePage() {
                 { step: "03", title: "Build", desc: "Rapid development with weekly updates" },
                 { step: "04", title: "Launch & Grow", desc: "Deploy, optimize, and scale together" },
               ].map((item) => (
-                <div key={item.step} className="text-center">
+                <div key={item.step} className="text-center p-6 card-lifted-sm">
                   <div className="text-5xl font-black text-primary/20 mb-4">{item.step}</div>
                   <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                   <p className="text-muted-foreground">{item.desc}</p>
@@ -427,7 +476,7 @@ export default function HomePage() {
 
             <div className="space-y-4">
               {faqs.map((faq, i) => (
-                <div key={i} className="p-6 rounded-xl bg-card border border-border">
+                <div key={i} className="p-6 card-lifted-sm">
                   <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
                   <p className="text-muted-foreground">{faq.answer}</p>
                 </div>

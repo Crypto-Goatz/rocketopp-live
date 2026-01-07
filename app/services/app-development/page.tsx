@@ -194,7 +194,7 @@ export default function AppDevelopmentPage() {
                   <div
                     key={i}
                     id={service.id}
-                    className="p-8 bg-card rounded-xl border hover:border-primary/50 hover:shadow-lg transition-all group"
+                    className="p-8 card-lifted-xl group"
                   >
                     <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                       <Icon className="w-6 h-6 text-white" />
@@ -228,7 +228,7 @@ export default function AppDevelopmentPage() {
 
             <div className="grid md:grid-cols-5 gap-4">
               {process.map((step, i) => (
-                <div key={i} className="relative p-6 bg-card rounded-xl border hover:border-primary/50 transition-all group text-center">
+                <div key={i} className="relative p-6 card-lifted-sm group text-center">
                   <div className="text-4xl font-bold text-primary/10 mb-3 group-hover:text-primary/20 transition-colors">
                     {step.step}
                   </div>
@@ -274,7 +274,7 @@ export default function AppDevelopmentPage() {
 
             <div className="max-w-3xl mx-auto space-y-4">
               {faqs.map((faq, i) => (
-                <div key={i} className="p-6 bg-card rounded-xl border hover:border-primary/50 transition-all">
+                <div key={i} className="p-6 card-lifted-sm">
                   <h3 className="font-bold mb-3 flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                     {faq.question}
