@@ -112,7 +112,7 @@ export function AIChat({ userId, initialFuel }: AIChatProps) {
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">AI Assistant</h3>
+            <h3 className="text-sm font-semibold text-white">Rocket Mike</h3>
             {!isMinimized && (
               <div className="flex items-center gap-1 text-xs text-orange-400">
                 <Fuel className="w-3 h-3" />
@@ -146,9 +146,9 @@ export function AIChat({ userId, initialFuel }: AIChatProps) {
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center mx-auto mb-4">
                   <Bot className="w-6 h-6 text-orange-400" />
                 </div>
-                <h4 className="text-white font-medium mb-2">How can I help?</h4>
+                <h4 className="text-white font-medium mb-2">Hey! What's up?</h4>
                 <p className="text-sm text-white/50">
-                  Ask me anything about your account, analytics, or business.
+                  I'm here to help you grow. Ask me about analytics, SEO, marketing strategy, or anything else.
                 </p>
               </div>
             )}
