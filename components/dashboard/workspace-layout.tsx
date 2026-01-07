@@ -6,7 +6,7 @@ import {
   Rocket, Home, Building2, User,
   Settings, LogOut, HelpCircle, ChevronRight, ChevronLeft,
   Star, BarChart3, FileText, Users, Shield,
-  Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb
+  Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb, Sparkles
 } from "lucide-react"
 import { useState } from "react"
 import { AIChat } from "./ai-chat"
@@ -50,6 +50,7 @@ const bottomNavItems = [
 ]
 
 const adminNavItem = { name: "Admin", href: "/dashboard/admin", icon: Shield }
+const contentNavItem = { name: "Content", href: "/dashboard/content", icon: Sparkles }
 
 export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLayoutProps) {
   const pathname = usePathname()
@@ -200,23 +201,48 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
           )}
         </nav>
 
-        {/* Admin Link (only for admins) */}
+        {/* Admin Section (only for admins) */}
         {isAdmin && (
           <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>
-            <Link
-              href={adminNavItem.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                pathname.startsWith('/dashboard/admin')
-                  ? 'bg-gradient-to-r from-primary/20 to-red-500/20 text-white border border-primary/30'
-                  : 'text-primary/80 hover:text-primary hover:bg-primary/10'
-              } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
-              title={sidebarCollapsed ? adminNavItem.name : undefined}
-            >
-              <adminNavItem.icon className="w-4 h-4 flex-shrink-0" />
-              {!sidebarCollapsed && (
-                <span className="text-sm font-medium">{adminNavItem.name}</span>
-              )}
-            </Link>
+            {!sidebarCollapsed && (
+              <p className="text-[10px] font-semibold text-white/30 uppercase tracking-wider mb-2 px-2">
+                Admin
+              </p>
+            )}
+            <ul className="space-y-1">
+              <li>
+                <Link
+                  href={contentNavItem.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                    pathname.startsWith('/dashboard/content')
+                      ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30'
+                      : 'text-purple-400/80 hover:text-purple-400 hover:bg-purple-500/10'
+                  } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
+                  title={sidebarCollapsed ? contentNavItem.name : undefined}
+                >
+                  <contentNavItem.icon className="w-4 h-4 flex-shrink-0" />
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium">{contentNavItem.name}</span>
+                  )}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={adminNavItem.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+                    pathname.startsWith('/dashboard/admin')
+                      ? 'bg-gradient-to-r from-primary/20 to-red-500/20 text-white border border-primary/30'
+                      : 'text-primary/80 hover:text-primary hover:bg-primary/10'
+                  } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
+                  title={sidebarCollapsed ? adminNavItem.name : undefined}
+                >
+                  <adminNavItem.icon className="w-4 h-4 flex-shrink-0" />
+                  {!sidebarCollapsed && (
+                    <span className="text-sm font-medium">{adminNavItem.name}</span>
+                  )}
+                </Link>
+              </li>
+            </ul>
           </div>
         )}
 
