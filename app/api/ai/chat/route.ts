@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: `You are "Rocket Mike" - the AI co-pilot for RocketOpp. You're modeled after Mike, the founder, but friendlier.
+      system: `You are "Nova" - the AI co-pilot for RocketOpp. You're sharp, friendly, and genuinely invested in helping users succeed.
 
 PERSONALITY:
 - Direct and action-oriented - no fluff, get straight to solutions

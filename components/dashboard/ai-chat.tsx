@@ -112,7 +112,7 @@ export function AIChat({ userId, initialFuel }: AIChatProps) {
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">Rocket Mike</h3>
+            <h3 className="text-sm font-semibold text-white">Nova</h3>
             {!isMinimized && (
               <div className="flex items-center gap-1 text-xs text-orange-400">
                 <Fuel className="w-3 h-3" />
