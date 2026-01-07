@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import {
   BarChart3, Users, Eye, MousePointer, TrendingUp, TrendingDown,
   Globe, Monitor, Smartphone, Tablet, Clock, Target, ArrowUpRight,
-  RefreshCw, Calendar, Zap, UserPlus, DollarSign, Activity
+  RefreshCw, Calendar, Zap, UserPlus, DollarSign, Activity,
+  Search, FileText, Download, ExternalLink
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -42,21 +43,81 @@ interface RealtimeData {
   realtimeChart: { time: string; pageviews: number }[]
 }
 
+interface GA4Data {
+  overview: {
+    sessions: number
+    users: number
+    pageviews: number
+    bounceRate: number
+    avgSessionDuration: number
+    newUsers: number
+  }
+  trafficSources: { source: string; sessions: number; percentage: number }[]
+  topPages: { path: string; title: string; pageviews: number; avgTime: number; bounceRate: number }[]
+  devices: { device: string; sessions: number; percentage: number }[]
+  countries: { country: string; sessions: number; percentage: number }[]
+}
+
+interface SearchConsoleData {
+  overview: {
+    totalClicks: number
+    totalImpressions: number
+    averageCtr: number
+    averagePosition: number
+  }
+  queries: { query: string; clicks: number; impressions: number; ctr: number; position: number }[]
+  pages: { page: string; clicks: number; impressions: number; ctr: number; position: number }[]
+}
+
+interface SerpResult {
+  keyword: string
+  position: number | null
+  url: string | null
+  topCompetitors: { position: number; title: string; domain: string }[]
+}
+
 export default function AnalyticsDashboard() {
   const [period, setPeriod] = useState<'24h' | '7d' | '30d' | '90d'>('7d')
   const [data, setData] = useState<AnalyticsData | null>(null)
   const [realtime, setRealtime] = useState<RealtimeData | null>(null)
+  const [ga4Data, setGa4Data] = useState<GA4Data | null>(null)
+  const [searchConsole, setSearchConsole] = useState<SearchConsoleData | null>(null)
   const [loading, setLoading] = useState(true)
   const [realtimeLoading, setRealtimeLoading] = useState(true)
+  const [reportLoading, setReportLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'overview' | 'search' | 'serp'>('overview')
+
+  // Map period to API range format
+  const getRangeParam = () => {
+    if (period === '24h') return '7d' // Minimum 7d for GA4
+    return period
+  }
 
   // Fetch analytics data
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
       try {
-        const res = await fetch(`/api/analytics/stats?period=${period}`)
-        const json = await res.json()
-        setData(json)
+        // Fetch legacy stats
+        const statsRes = await fetch(`/api/analytics/stats?period=${period}`)
+        if (statsRes.ok) {
+          const statsJson = await statsRes.json()
+          setData(statsJson)
+        }
+
+        // Fetch GA4 data
+        const ga4Res = await fetch(`/api/analytics/ga4?range=${getRangeParam()}`)
+        if (ga4Res.ok) {
+          const ga4Json = await ga4Res.json()
+          if (ga4Json.success) setGa4Data(ga4Json.data)
+        }
+
+        // Fetch Search Console data
+        const scRes = await fetch(`/api/analytics/search-console?range=${getRangeParam()}`)
+        if (scRes.ok) {
+          const scJson = await scRes.json()
+          if (scJson.success) setSearchConsole(scJson.data)
+        }
       } catch (error) {
         console.error('Failed to fetch analytics:', error)
       }
@@ -70,8 +131,10 @@ export default function AnalyticsDashboard() {
     async function fetchRealtime() {
       try {
         const res = await fetch('/api/analytics/realtime')
-        const json = await res.json()
-        setRealtime(json)
+        if (res.ok) {
+          const json = await res.json()
+          setRealtime(json)
+        }
       } catch (error) {
         console.error('Failed to fetch realtime:', error)
       }
@@ -82,6 +145,32 @@ export default function AnalyticsDashboard() {
     const interval = setInterval(fetchRealtime, 30000) // Refresh every 30s
     return () => clearInterval(interval)
   }, [])
+
+  // Generate and download report
+  const handleGenerateReport = async () => {
+    setReportLoading(true)
+    try {
+      const res = await fetch('/api/analytics/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ range: getRangeParam(), format: 'markdown' }),
+      })
+      const json = await res.json()
+      if (json.success && json.markdown) {
+        // Download as markdown file
+        const blob = new Blob([json.markdown], { type: 'text/markdown' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `analytics-report-${new Date().toISOString().split('T')[0]}.md`
+        a.click()
+        URL.revokeObjectURL(url)
+      }
+    } catch (error) {
+      console.error('Failed to generate report:', error)
+    }
+    setReportLoading(false)
+  }
 
   const periods = [
     { value: '24h', label: '24 Hours' },
@@ -119,12 +208,65 @@ export default function AnalyticsDashboard() {
               </button>
             ))}
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleGenerateReport}
+            disabled={reportLoading}
+          >
+            {reportLoading ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            <span className="ml-2 hidden sm:inline">Report</span>
+          </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
             <RefreshCw className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="flex bg-zinc-900/50 rounded-lg p-1 mb-6 w-fit">
+        <button
+          onClick={() => setActiveTab('overview')}
+          className={`px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${
+            activeTab === 'overview'
+              ? 'bg-primary text-white'
+              : 'text-white/50 hover:text-white'
+          }`}
+        >
+          <BarChart3 className="w-4 h-4" />
+          Overview
+        </button>
+        <button
+          onClick={() => setActiveTab('search')}
+          className={`px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${
+            activeTab === 'search'
+              ? 'bg-primary text-white'
+              : 'text-white/50 hover:text-white'
+          }`}
+        >
+          <Search className="w-4 h-4" />
+          Search Console
+        </button>
+        <button
+          onClick={() => setActiveTab('serp')}
+          className={`px-4 py-2 text-sm font-medium rounded-md transition-all flex items-center gap-2 ${
+            activeTab === 'serp'
+              ? 'bg-primary text-white'
+              : 'text-white/50 hover:text-white'
+          }`}
+        >
+          <Target className="w-4 h-4" />
+          Rankings
+        </button>
+      </div>
+
+      {/* Overview Tab */}
+      {activeTab === 'overview' && (
+      <>
       {/* Real-time Banner */}
       <div className="p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 mb-6">
         <div className="flex items-center justify-between">
@@ -408,6 +550,209 @@ export default function AnalyticsDashboard() {
           )}
         </div>
       </div>
+      </>
+      )}
+
+      {/* Search Console Tab */}
+      {activeTab === 'search' && (
+        <>
+          {/* Search Overview Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <StatCard
+              icon={MousePointer}
+              label="Total Clicks"
+              value={searchConsole?.overview.totalClicks || 0}
+              loading={loading}
+              color="blue"
+            />
+            <StatCard
+              icon={Eye}
+              label="Impressions"
+              value={searchConsole?.overview.totalImpressions || 0}
+              loading={loading}
+              color="purple"
+            />
+            <StatCard
+              icon={Target}
+              label="Avg CTR"
+              value={`${(searchConsole?.overview.averageCtr || 0).toFixed(1)}%`}
+              loading={loading}
+              color="green"
+            />
+            <StatCard
+              icon={TrendingUp}
+              label="Avg Position"
+              value={(searchConsole?.overview.averagePosition || 0).toFixed(1)}
+              loading={loading}
+              color="orange"
+            />
+          </div>
+
+          {/* Top Queries */}
+          <div className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5 mb-8">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <Search className="w-5 h-5 text-blue-400" />
+              Top Search Queries
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-xs text-white/40 uppercase">
+                    <th className="pb-3 font-medium">Query</th>
+                    <th className="pb-3 font-medium text-right">Clicks</th>
+                    <th className="pb-3 font-medium text-right">Impressions</th>
+                    <th className="pb-3 font-medium text-right">CTR</th>
+                    <th className="pb-3 font-medium text-right">Position</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {loading ? (
+                    Array(5).fill(0).map((_, i) => (
+                      <tr key={i}>
+                        <td colSpan={5} className="py-3">
+                          <div className="h-6 bg-white/5 rounded animate-pulse" />
+                        </td>
+                      </tr>
+                    ))
+                  ) : searchConsole?.queries.length ? (
+                    searchConsole.queries.map((q, i) => (
+                      <tr key={i}>
+                        <td className="py-3 text-sm text-white">{q.query}</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{q.clicks.toLocaleString()}</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{q.impressions.toLocaleString()}</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{q.ctr.toFixed(1)}%</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{q.position.toFixed(1)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="py-8 text-sm text-white/40 text-center">No data yet</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Top Pages by Search */}
+          <div className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-purple-400" />
+              Top Pages in Search
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left text-xs text-white/40 uppercase">
+                    <th className="pb-3 font-medium">Page</th>
+                    <th className="pb-3 font-medium text-right">Clicks</th>
+                    <th className="pb-3 font-medium text-right">Impressions</th>
+                    <th className="pb-3 font-medium text-right">CTR</th>
+                    <th className="pb-3 font-medium text-right">Position</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {loading ? (
+                    Array(5).fill(0).map((_, i) => (
+                      <tr key={i}>
+                        <td colSpan={5} className="py-3">
+                          <div className="h-6 bg-white/5 rounded animate-pulse" />
+                        </td>
+                      </tr>
+                    ))
+                  ) : searchConsole?.pages.length ? (
+                    searchConsole.pages.map((p, i) => (
+                      <tr key={i}>
+                        <td className="py-3 text-sm text-white truncate max-w-xs">
+                          <a href={p.page} target="_blank" rel="noopener noreferrer" className="hover:text-primary flex items-center gap-1">
+                            {p.page.replace('https://rocketopp.com', '')}
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </td>
+                        <td className="py-3 text-sm text-white/60 text-right">{p.clicks.toLocaleString()}</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{p.impressions.toLocaleString()}</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{p.ctr.toFixed(1)}%</td>
+                        <td className="py-3 text-sm text-white/60 text-right">{p.position.toFixed(1)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="py-8 text-sm text-white/40 text-center">No data yet</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* SERP Rankings Tab */}
+      {activeTab === 'serp' && (
+        <div className="space-y-6">
+          {/* Info Banner */}
+          <div className="p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20">
+            <div className="flex items-start gap-3">
+              <Target className="w-5 h-5 text-blue-400 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-white mb-1">SERP Ranking Checker</p>
+                <p className="text-xs text-white/60">
+                  Track your Google search rankings for target keywords. Rankings are checked via SerpApi and show your position in the top 100 results.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Keywords Table */}
+          <div className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <Target className="w-5 h-5 text-orange-400" />
+              Tracked Keywords
+            </h2>
+            <div className="space-y-4">
+              {/* Default tracked keywords info */}
+              <div className="text-sm text-white/60 mb-4">
+                <p>Currently tracking rankings for:</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {['ai agency', 'digital agency ai', 'ai web development', 'custom ai applications', 'rocketopp'].map((kw) => (
+                    <span key={kw} className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10">
+                      {kw}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Rankings will be fetched via the report API */}
+              <p className="text-sm text-white/40 text-center py-8">
+                Click the "Report" button above to generate a full ranking report with SERP data.
+              </p>
+            </div>
+          </div>
+
+          {/* Tips Section */}
+          <div className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
+            <h2 className="text-lg font-semibold text-white mb-4">SEO Tips</h2>
+            <ul className="space-y-3 text-sm text-white/60">
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Focus on keywords ranking positions 5-20 for quick wins
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Improve content for queries with high impressions but low CTR
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Target related questions for featured snippet opportunities
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                Monitor competitors ranking above you for content gaps
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
