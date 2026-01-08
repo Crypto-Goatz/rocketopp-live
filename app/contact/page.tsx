@@ -59,7 +59,7 @@ export default function ContactPage() {
                 <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                 <div>
                   <h4 className="font-semibold">Phone</h4>
-                  <span className="text-muted-foreground">+1 (555) 123-4567</span>
+                  <span className="text-muted-foreground">Schedule a call using the form</span>
                 </div>
               </div>
               <div className="flex items-start space-x-3">

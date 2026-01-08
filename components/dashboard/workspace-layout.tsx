@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   Rocket, Home, Building2, User,
@@ -66,12 +67,26 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
         {/* Logo */}
         <div className={`p-4 border-b border-white/5 ${sidebarCollapsed ? 'px-2' : ''}`}>
           <Link href="/dashboard" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
-              <Rocket className="w-5 h-5 text-white" />
-            </div>
+            {companyProfile?.logo ? (
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-800 flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+                <Image
+                  src={companyProfile.logo}
+                  alt={companyProfile.name || 'Company Logo'}
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform flex-shrink-0">
+                <Rocket className="w-5 h-5 text-white" />
+              </div>
+            )}
             {!sidebarCollapsed && (
               <div>
-                <span className="text-lg font-bold text-white">RocketOpp</span>
+                <span className="text-lg font-bold text-white">
+                  {companyProfile?.name || 'RocketOpp'}
+                </span>
                 <p className="text-[10px] text-white/40 uppercase tracking-wider">Client Portal</p>
               </div>
             )}

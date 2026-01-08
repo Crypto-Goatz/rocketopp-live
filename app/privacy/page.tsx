@@ -6,8 +6,8 @@ import PrivacyPolicyTemplate from "@/components/privacy-policy-template"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Rocket Opp",
-  description: "Our commitment to protecting your privacy and securing your data at Rocket Opp.",
+  title: "Privacy Policy | RocketOpp",
+  description: "Our commitment to protecting your privacy and securing your data at RocketOpp.",
 }
 
 export default function PrivacyPolicy() {
@@ -33,10 +33,10 @@ export default function PrivacyPolicy() {
             </div>
 
             <PrivacyPolicyTemplate
-              companyName="Rocket Opp"
-              websiteUrl="https://rocket-opp.com"
-              contactEmail="privacy@rocket-opp.com"
-              contactAddress={`Rocket Opp\n123 Innovation Drive\nTech Hub, USA 12345`}
+              companyName="RocketOpp"
+              websiteUrl="https://rocketopp.com"
+              contactEmail="privacy@rocketopp.com"
+              contactAddress={`RocketOpp\nRemote-First Company\nServing Clients Globally`}
               lastUpdated={currentDate}
               includeGDPR={true}
               includeCCPA={true}
@@ -45,8 +45,10 @@ export default function PrivacyPolicy() {
               includeThirdPartyServices={[
                 "Google Analytics",
                 "Vercel Analytics",
-                "CRM Integration Name",
-                "AI Model Provider",
+                "Supabase",
+                "Stripe",
+                "Anthropic Claude AI",
+                "OpenAI",
               ]}
             />
           </div>

@@ -2,12 +2,13 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { RocketOppLogo } from "@/components/logo"
 import {
-  Rocket, Menu, X, ShoppingBag, User, ChevronDown,
+  Menu, X, ShoppingBag, User, ChevronDown,
   Globe, Cpu, Code2, Megaphone, Search, Workflow,
   Palette, Zap, BarChart3, Target,
   Bot, Smartphone, PenTool, Share2, LineChart,
-  Lightbulb, HelpCircle, FileText, Sparkles, Package, CreditCard
+  Lightbulb, HelpCircle, FileText, Sparkles, Package, CreditCard, Rocket
 } from "lucide-react"
 import { useState, useEffect, useRef, useCallback } from "react"
 
@@ -183,10 +184,7 @@ export function Navbar() {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-red-500 flex items-center justify-center">
-                <Rocket className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-lg font-bold">RocketOpp</span>
+              <RocketOppLogo size={32} showText={true} />
             </Link>
 
             {/* Desktop Nav */}
