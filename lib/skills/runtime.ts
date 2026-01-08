@@ -230,89 +230,30 @@ export async function buildContext(
 }
 
 /**
- * Execute a skill
+ * Execute a skill using the Ignition engine
  */
 export async function executeSkill(
   installationId: string,
   input?: any
 ): Promise<SkillExecutionResult> {
-  const startTime = Date.now()
-  const logs: any[] = []
+  // Use the Ignition engine for real execution
+  const { createIgnitionEngine } = await import('./ignition')
+  const engine = createIgnitionEngine()
 
-  try {
-    // Build context
-    const context = await buildContext(installationId)
+  return engine.execute(installationId, { input })
+}
 
-    if (!context) {
-      return {
-        success: false,
-        error: 'Failed to build execution context',
-        logs: [],
-        duration: Date.now() - startTime,
-      }
-    }
+/**
+ * Execute a skill with streaming progress updates
+ */
+export async function* executeSkillWithStream(
+  installationId: string,
+  input?: any
+): AsyncGenerator<import('./ignition').ProgressEvent, SkillExecutionResult> {
+  const { createIgnitionEngine } = await import('./ignition')
+  const engine = createIgnitionEngine()
 
-    // Check if skill is installed
-    if (context.installation.status !== 'installed') {
-      return {
-        success: false,
-        error: `Skill is not in installed state (current: ${context.installation.status})`,
-        logs: [],
-        duration: Date.now() - startTime,
-      }
-    }
-
-    // Create logger for this execution
-    const logger = createSkillLogger(installationId)
-
-    // Update last_run timestamp
-    await supabaseAdmin
-      .from('skill_installations')
-      .update({ last_run: new Date().toISOString() })
-      .eq('id', installationId)
-
-    // For now, we'll simulate execution
-    // In a full implementation, this would execute the skill's entry point
-    const result = {
-      message: 'Skill executed successfully',
-      input,
-      timestamp: new Date().toISOString(),
-    }
-
-    // Log the execution
-    await logExecute(
-      installationId,
-      context.skill.slug,
-      input,
-      result,
-      Date.now() - startTime
-    )
-
-    return {
-      success: true,
-      data: result,
-      logs,
-      duration: Date.now() - startTime,
-    }
-  } catch (err) {
-    console.error('Error executing skill:', err)
-
-    // Update status to error
-    await supabaseAdmin
-      .from('skill_installations')
-      .update({
-        status: 'error',
-        error_message: err instanceof Error ? err.message : 'Unknown error',
-      })
-      .eq('id', installationId)
-
-    return {
-      success: false,
-      error: err instanceof Error ? err.message : 'Unknown error',
-      logs,
-      duration: Date.now() - startTime,
-    }
-  }
+  return yield* engine.executeWithStream(installationId, { input })
 }
 
 /**
