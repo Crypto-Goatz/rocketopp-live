@@ -369,7 +369,7 @@ const FinalSummary: React.FC<{
       <div className="bg-zinc-800/30 rounded-lg p-4 mb-6">
         <p className="text-zinc-400 text-sm">
           <span className="text-orange-400 font-semibold">Can't wait?</span>{' '}
-          Call us directly at <a href="tel:+14125551234" className="text-white hover:text-orange-400 font-medium">(412) 555-1234</a>
+          Call Jessica AI at <a href="tel:+18788881230" className="text-white hover:text-orange-400 font-medium">(878) 888-1230</a>
         </p>
       </div>
 
