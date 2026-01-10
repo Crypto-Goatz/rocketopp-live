@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Rocket, Globe, Cpu, Code2, Megaphone, Search, Workflow } from "lucide-react"
+import Image from "next/image"
+import { Globe, Cpu, Code2, Megaphone, Search, Workflow } from "lucide-react"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -19,11 +20,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-red-500 flex items-center justify-center">
-                <Rocket className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-lg font-bold">RocketOpp</span>
+            <Link href="/" className="inline-block">
+              <Image
+                src="/images/rocketopp-logo-full.png"
+                alt="RocketOpp - AI-Powered Business Solutions"
+                width={160}
+                height={40}
+                className="h-9 w-auto object-contain"
+                priority
+              />
             </Link>
             <p className="text-sm text-muted-foreground">
               We Build. You Win. AI-powered digital services that drive real business results.

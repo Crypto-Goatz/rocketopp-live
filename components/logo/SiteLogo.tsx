@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import { Rocket } from 'lucide-react'
+import Link from 'next/link'
 import { useCompanyLogo } from './LogoProvider'
 
 interface SiteLogoProps {
@@ -22,7 +22,7 @@ interface SiteLogoProps {
 }
 
 export function SiteLogo({
-  maxWidth = 120,
+  maxWidth = 160,
   maxHeight = 40,
   className = '',
   showText = false,
@@ -37,7 +37,7 @@ export function SiteLogo({
   const shouldShowRocketOppLogo = variant === 'rocketopp' || (!logoUrl && !isLoading)
 
   const content = (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center ${className}`}>
       {shouldShowCustomLogo ? (
         <div
           className="relative flex items-center justify-center"
@@ -59,31 +59,26 @@ export function SiteLogo({
           />
         </div>
       ) : shouldShowRocketOppLogo ? (
-        <>
-          <div
-            className="flex items-center justify-center rounded-lg bg-gradient-to-br from-primary to-red-500"
+        <div className="relative" style={{ height: maxHeight }}>
+          <Image
+            src="/images/rocketopp-logo-full.png"
+            alt="RocketOpp - AI-Powered Business Solutions"
+            width={maxWidth}
+            height={maxHeight}
+            className="object-contain"
             style={{
-              width: Math.min(maxHeight, 32),
-              height: Math.min(maxHeight, 32),
+              height: '100%',
+              width: 'auto',
+              maxWidth: maxWidth,
             }}
-          >
-            <Rocket
-              className="text-white"
-              style={{
-                width: Math.min(maxHeight, 32) * 0.5,
-                height: Math.min(maxHeight, 32) * 0.5,
-              }}
-            />
-          </div>
-          {showText && (
-            <span className="font-bold text-white">{text}</span>
-          )}
-        </>
+            priority
+          />
+        </div>
       ) : (
         // Loading state - show placeholder
         <div
           className="bg-zinc-800 rounded-lg animate-pulse"
-          style={{ width: maxHeight, height: maxHeight }}
+          style={{ width: maxWidth * 0.6, height: maxHeight }}
         />
       )}
     </div>
@@ -91,9 +86,9 @@ export function SiteLogo({
 
   if (href) {
     return (
-      <a href={href} className="hover:opacity-90 transition-opacity">
+      <Link href={href} className="hover:opacity-90 transition-opacity flex items-center">
         {content}
-      </a>
+      </Link>
     )
   }
 
@@ -102,25 +97,29 @@ export function SiteLogo({
 
 // Static version for server components that always shows RocketOpp branding
 export function RocketOppLogo({
-  size = 32,
-  showText = true,
+  height = 36,
+  width = 180,
   className = '',
 }: {
-  size?: number
-  showText?: boolean
+  height?: number
+  width?: number
   className?: string
 }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <div
-        className="flex items-center justify-center rounded-lg bg-gradient-to-br from-primary to-red-500"
-        style={{ width: size, height: size }}
-      >
-        <Rocket className="text-white" style={{ width: size * 0.5, height: size * 0.5 }} />
-      </div>
-      {showText && (
-        <span className="font-bold text-white">RocketOpp</span>
-      )}
+    <div className={`flex items-center ${className}`}>
+      <Image
+        src="/images/rocketopp-logo-full.png"
+        alt="RocketOpp - AI-Powered Business Solutions"
+        width={width}
+        height={height}
+        className="object-contain"
+        style={{
+          height: height,
+          width: 'auto',
+          maxWidth: width,
+        }}
+        priority
+      />
     </div>
   )
 }
