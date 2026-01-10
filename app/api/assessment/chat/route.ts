@@ -1,7 +1,7 @@
 // ============================================================
 // Assessment Chat API - Handles AI conversation
 // ============================================================
-// Uses Claude AI to conduct the APEX business assessment
+// Uses Claude AI to conduct the Rocket AI Assessment
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'

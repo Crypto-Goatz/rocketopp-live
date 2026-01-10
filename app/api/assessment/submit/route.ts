@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       // Source tracking
       source: 'AI Assessment',
       lead_source: 'rocketopp-ai-assessment',
-      form_name: 'APEX AI Assessment',
+      form_name: 'Rocket AI Assessment',
       page_url: 'https://rocketopp.com/assessment',
 
       // Tags for GHL automation

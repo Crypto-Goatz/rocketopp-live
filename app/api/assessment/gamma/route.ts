@@ -136,7 +136,7 @@ function buildDeckContent(
 
   // Title slide content
   sections.push(`# Strategic Blueprint for ${companyName}`)
-  sections.push(`Prepared for ${userName} by APEX AI`)
+  sections.push(`Prepared for ${userName} by Spark - RocketOpp AI`)
   sections.push('')
 
   // Executive Summary
@@ -212,7 +212,7 @@ function buildDeckContent(
   sections.push('A RocketOpp expert will contact you to discuss this blueprint and create your custom implementation plan.')
   sections.push('')
   sections.push('---')
-  sections.push('*Powered by RocketOpp APEX AI*')
+  sections.push('*Powered by Spark - RocketOpp AI*')
 
   return sections.join('\n')
 }

@@ -15,7 +15,7 @@ import {
   type CompetitiveAnalysisInsight,
 } from '@/lib/assessment/types'
 import { INDUSTRY_INSIGHTS, TOTAL_ASSESSMENT_STEPS, HIGHLIGHT_ANIMATION } from '@/lib/assessment/constants'
-import ApexLogo from './components/ApexLogo'
+import SparkLogo from './components/SparkLogo'
 import TypingIndicator from './components/TypingIndicator'
 import ProgressBar from './components/ProgressBar'
 
@@ -59,10 +59,10 @@ const OptionButton: React.FC<{
 const ConsentModal: React.FC<{ onConsent: () => void }> = ({ onConsent }) => (
   <div className="min-h-screen flex items-center justify-center p-4">
     <div className="max-w-lg w-full bg-zinc-900/80 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800 shadow-2xl animate-fade-in">
-      <ApexLogo className="mx-auto mb-6" />
-      <h1 className="text-3xl font-bold text-center mb-4">APEX AI Assessment</h1>
+      <SparkLogo className="mx-auto mb-6" />
+      <h1 className="text-3xl font-bold text-center mb-4">Rocket AI Assessment</h1>
       <p className="text-zinc-400 text-center mb-6">
-        Welcome to your personalized business intelligence session. APEX will analyze your business
+        Welcome to your personalized business intelligence session. Spark will analyze your business
         and provide a comprehensive strategic blueprint.
       </p>
       <div className="bg-zinc-800/50 rounded-lg p-4 mb-6">
@@ -121,7 +121,7 @@ const LeadCapture: React.FC<{
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className={`max-w-lg w-full transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <ApexLogo className="mx-auto mb-6" />
+        <SparkLogo className="mx-auto mb-6" />
         <h1 className="text-3xl font-bold text-center mb-8">Finalizing Strategic Blueprint...</h1>
 
         {step === 'email' ? (
@@ -207,7 +207,7 @@ const CompetitorSelection: React.FC<{
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-2xl w-full bg-zinc-900/80 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800">
-        <ApexLogo className="mx-auto mb-6" />
+        <SparkLogo className="mx-auto mb-6" />
         <h1 className="text-2xl font-bold text-center mb-2">Your Competitive Landscape</h1>
         <p className="text-zinc-400 text-center mb-6">
           Select the businesses you consider direct competitors
@@ -285,7 +285,7 @@ const GeneratingBlueprint: React.FC<{ companyName: string }> = ({ companyName })
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="text-center">
-        <ApexLogo className="mx-auto mb-8 w-24 h-24 animate-pulse" />
+        <SparkLogo className="mx-auto mb-8 w-24 h-24 animate-pulse" />
         <h1 className="text-3xl font-bold mb-4">Creating Your Strategic Blueprint</h1>
         <p className="text-xl text-orange-400 mb-8">{companyName}</p>
         <p className="text-zinc-400 animate-pulse">{message}</p>
@@ -305,7 +305,7 @@ const FinalSummary: React.FC<{
 }> = ({ userName, companyName, blueprintUrl }) => (
   <div className="min-h-screen flex items-center justify-center p-4">
     <div className="max-w-2xl w-full bg-zinc-900/80 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800 text-center animate-fade-in">
-      <ApexLogo className="mx-auto mb-6" />
+      <SparkLogo className="mx-auto mb-6" />
       <h1 className="text-4xl font-bold mb-4">
         Thank You, {userName}!
       </h1>
@@ -337,7 +337,7 @@ const FinalSummary: React.FC<{
         </a>
       )}
 
-      <p className="text-sm text-zinc-500">Powered by RocketOpp APEX AI</p>
+      <p className="text-sm text-zinc-500">Powered by Spark - RocketOpp AI</p>
     </div>
   </div>
 )
@@ -411,7 +411,7 @@ const IntelligencePanel: React.FC<{
   return (
     <div className="bg-zinc-900/70 backdrop-blur-md rounded-lg p-6 h-full flex flex-col border border-zinc-800">
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-800">
-        <ApexLogo className="!w-8 !h-8" />
+        <SparkLogo className="!w-8 !h-8" />
         <h2 className="text-xl font-bold">Live Intelligence Panel</h2>
       </div>
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-4">
@@ -476,7 +476,7 @@ export default function AssessmentPage() {
   // Handle consent
   const handleConsent = () => {
     setAppState('collectingInfo')
-    setCurrentTurn({ question: "Welcome to APEX. To start, what's your **name**?" })
+    setCurrentTurn({ question: "Welcome! I'm Spark. To start, what's your **name**?" })
   }
 
   // Send message to AI
@@ -730,9 +730,9 @@ export default function AssessmentPage() {
   if (appState === 'intro') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <ApexLogo className="w-48 h-48 animate-pulse" />
+        <SparkLogo className="w-48 h-48 animate-pulse" />
         <p className="mt-6 text-xl text-zinc-400 font-mono tracking-widest animate-pulse">
-          APEX AI :: INITIALIZING...
+          SPARK :: INITIALIZING...
         </p>
       </div>
     )
