@@ -1,536 +1,501 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import {
   Rocket, Building2, Globe, Code, Zap, BarChart3, Users, Mail,
-  Phone, ExternalLink, FolderKanban, CheckCircle, Clock, AlertTriangle,
-  Terminal, Database, Server, Plug, Play, Settings, Plus, Search,
-  FileText, Image, Bot, Megaphone, TrendingUp, DollarSign, Calendar,
-  MessageSquare, Send, RefreshCw, Eye, Edit, Trash2, Copy, Download
+  Phone, ExternalLink, FolderKanban, ChevronDown, ChevronUp,
+  Terminal, Database, Server, Bot, TrendingUp, DollarSign,
+  Send, FileText, Image, Megaphone, GraduationCap, Settings,
+  Home, Layers, X, Check, Loader2, PlayCircle
 } from "lucide-react"
 
 // ============================================================
-// HARDCODED CLIENT DATA - NO DATABASE BULLSHIT
+// HARDCODED DATA - WORKS IMMEDIATELY
 // ============================================================
 
-const CLIENTS = {
-  rocketopp: {
+const CLIENTS = [
+  {
     id: "rocketopp",
     name: "RocketOpp",
     logo: "🚀",
-    industry: "Technology / Agency",
     status: "active",
-    health: 100,
     mrr: 0,
+    health: 100,
     website: "https://rocketopp.com",
     github: "https://github.com/Crypto-Goatz/rocketopp-live",
-    ghl: {
-      locationId: "6MSqx0trfxgLxeHBJE1k",
-      connected: true
-    },
-    vercel: "rocketopp-live",
-    projects: [
-      { name: "RocketOpp.com", status: "active", progress: 85, url: "https://rocketopp.com" },
-      { name: "Rocket+ App", status: "active", progress: 90, url: "https://rocketadd.com" },
-      { name: "Spark Assessment", status: "active", progress: 95, url: "https://rocketopp.com/assessment" }
-    ],
-    contacts: [
-      { name: "Internal Team", email: "team@rocketopp.com", phone: "(878) 888-1230" }
-    ]
+    ghlLocation: "6MSqx0trfxgLxeHBJE1k",
+    email: "team@rocketopp.com",
+    phone: "(878) 888-1230"
   },
-  abk: {
+  {
     id: "abk",
     name: "ABK Unlimited",
     logo: "🏠",
-    industry: "Home Services / Construction",
     status: "active",
-    health: 92,
     mrr: 2500,
+    health: 92,
     website: "https://abkunlimited.com",
     github: "https://github.com/Crypto-Goatz/ABK-Unlimited",
-    ghl: {
-      locationId: "abk-location",
-      pipelineId: "G9L7BKFIGlD7140Ebh9x",
-      connected: true
-    },
-    vercel: "abk-unlimited",
-    projects: [
-      { name: "ABK Website", status: "complete", progress: 100, url: "https://abkunlimited.com" },
-      { name: "GHL Pipeline", status: "complete", progress: 100, url: null },
-      { name: "SEO Campaign", status: "active", progress: 60, url: null }
-    ],
-    contacts: [
-      { name: "ABK Team", email: "contact@abkunlimited.com", phone: null }
-    ]
+    ghlLocation: "abk-location",
+    email: "contact@abkunlimited.com",
+    phone: null
   },
-  ecospray: {
+  {
     id: "ecospray",
     name: "EcoSpray Solutions",
     logo: "🌿",
-    industry: "Home Services / Insulation",
     status: "onboarding",
-    health: 50,
     mrr: 0,
+    health: 50,
     website: "https://ecospraysolutions.com",
     github: null,
-    ghl: {
-      locationId: null,
-      connected: false
-    },
-    vercel: null,
-    platform: "wordpress",
-    projects: [
-      { name: "Website Rebuild", status: "planning", progress: 5, url: "https://ecospraysolutions.com" },
-      { name: "SEO Domination", status: "planning", progress: 0, url: null },
-      { name: "GHL Setup", status: "pending", progress: 0, url: null }
-    ],
-    contacts: [
-      { name: "EcoSpray Team", email: "info@ecospraysolutions.com", phone: null }
-    ]
+    ghlLocation: null,
+    email: "info@ecospraysolutions.com",
+    phone: null,
+    platform: "wordpress"
   }
-}
-
-// Quick action tools
-const TOOLS = [
-  { name: "Spark Assessment", icon: Bot, href: "/assessment", color: "orange", desc: "AI business assessment" },
-  { name: "Content Writer", icon: FileText, href: "/dashboard/tools/content-writer", color: "blue", desc: "Generate content" },
-  { name: "Image Generator", icon: Image, href: "/dashboard/tools/image-generator", color: "purple", desc: "AI images" },
-  { name: "SEO Analyzer", icon: TrendingUp, href: "/dashboard/tools/seo-analyzer", color: "green", desc: "Check SEO health" },
-  { name: "Lead Dashboard", icon: Users, href: "/dashboard/leads", color: "yellow", desc: "View all leads" },
-  { name: "Analytics", icon: BarChart3, href: "/dashboard/analytics", color: "cyan", desc: "Site analytics" },
-]
-
-// External quick links
-const QUICK_LINKS = [
-  { name: "GHL Dashboard", url: "https://app.gohighlevel.com", icon: Zap },
-  { name: "Vercel", url: "https://vercel.com/dashboard", icon: Globe },
-  { name: "Supabase", url: "https://supabase.com/dashboard", icon: Database },
-  { name: "GitHub", url: "https://github.com/Crypto-Goatz", icon: Code },
-  { name: "Anthropic Console", url: "https://console.anthropic.com", icon: Bot },
-  { name: "Google Analytics", url: "https://analytics.google.com", icon: BarChart3 },
 ]
 
 export default function CommandCenter() {
-  const [selectedClient, setSelectedClient] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState("")
+  const [activeClient, setActiveClient] = useState(CLIENTS[0])
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [activeTool, setActiveTool] = useState<string | null>(null)
+  const [toolLoading, setToolLoading] = useState(false)
+  const [toolSuccess, setToolSuccess] = useState(false)
 
-  const clients = Object.values(CLIENTS)
-  const totalMRR = clients.reduce((sum, c) => sum + c.mrr, 0)
-  const activeClients = clients.filter(c => c.status === "active").length
+  // Tool execution
+  const runTool = async (toolId: string) => {
+    setActiveTool(toolId)
+    setToolLoading(true)
+    setToolSuccess(false)
 
-  const filteredClients = clients.filter(c =>
-    c.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+    // Simulate tool execution
+    await new Promise(r => setTimeout(r, 2000))
 
-  const client = selectedClient ? CLIENTS[selectedClient as keyof typeof CLIENTS] : null
+    setToolLoading(false)
+    setToolSuccess(true)
+
+    setTimeout(() => {
+      setToolSuccess(false)
+      setActiveTool(null)
+    }, 2000)
+  }
+
+  // Send course to GHL
+  const sendCourseToGHL = async () => {
+    if (!activeClient.ghlLocation) {
+      alert("This client doesn't have GHL connected yet.")
+      return
+    }
+
+    setActiveTool("course")
+    setToolLoading(true)
+
+    try {
+      const response = await fetch("/api/ghl/course", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          locationId: activeClient.ghlLocation,
+          courseName: "AI Business Growth Blueprint",
+          clientName: activeClient.name
+        })
+      })
+
+      if (response.ok) {
+        setToolSuccess(true)
+      }
+    } catch (error) {
+      console.error("Failed to send course:", error)
+    }
+
+    setToolLoading(false)
+    setTimeout(() => {
+      setToolSuccess(false)
+      setActiveTool(null)
+    }, 3000)
+  }
+
+  const totalMRR = CLIENTS.reduce((sum, c) => sum + c.mrr, 0)
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Top Bar */}
-      <div className="border-b border-zinc-800 bg-zinc-950">
-        <div className="max-w-[1800px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-              <Rocket className="w-6 h-6" />
+    <div className="min-h-screen bg-black text-white flex flex-col">
+      {/* Clean Header */}
+      <header className="border-b border-zinc-900">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+              <Rocket className="w-5 h-5" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold">Command Center</h1>
-              <p className="text-sm text-zinc-500">RocketOpp Agency HQ</p>
-            </div>
+            <span className="font-semibold text-lg">Command</span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="text-right">
-              <p className="text-2xl font-bold text-green-400">${totalMRR.toLocaleString()}</p>
-              <p className="text-xs text-zinc-500">Monthly MRR</p>
+          <div className="flex items-center gap-8 text-sm">
+            <div className="flex items-center gap-2 text-zinc-400">
+              <span className="text-green-400 font-medium">${totalMRR.toLocaleString()}</span>
+              <span>MRR</span>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-blue-400">{activeClients}</p>
-              <p className="text-xs text-zinc-500">Active Clients</p>
-            </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-purple-400">{clients.length}</p>
-              <p className="text-xs text-zinc-500">Total Clients</p>
+            <div className="flex items-center gap-2 text-zinc-400">
+              <span className="text-white font-medium">{CLIENTS.filter(c => c.status === "active").length}</span>
+              <span>Active</span>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-[1800px] mx-auto p-6">
-        <div className="grid grid-cols-12 gap-6">
+      {/* Main Content - Clean & Focused */}
+      <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-10">
+        {/* Client Selector - Clean Pills */}
+        <div className="flex items-center gap-2 mb-10">
+          {CLIENTS.map((client) => (
+            <button
+              key={client.id}
+              onClick={() => setActiveClient(client)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
+                activeClient.id === client.id
+                  ? "bg-white text-black"
+                  : "bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800"
+              }`}
+            >
+              <span>{client.logo}</span>
+              <span className="font-medium">{client.name}</span>
+              {client.status === "onboarding" && (
+                <span className="w-2 h-2 rounded-full bg-yellow-400" />
+              )}
+            </button>
+          ))}
+        </div>
 
-          {/* Left Sidebar - Clients */}
-          <div className="col-span-3 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                <input
-                  type="text"
-                  placeholder="Search clients..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm focus:outline-none focus:border-orange-500"
-                />
-              </div>
-              <button className="p-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition-colors">
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-2">
-              {filteredClients.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setSelectedClient(c.id)}
-                  className={`w-full p-4 rounded-xl border transition-all text-left ${
-                    selectedClient === c.id
-                      ? "bg-zinc-800 border-orange-500"
-                      : "bg-zinc-900/50 border-zinc-800 hover:border-zinc-700"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{c.logo}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold truncate">{c.name}</h3>
-                        <span className={`w-2 h-2 rounded-full ${
-                          c.status === "active" ? "bg-green-400" :
-                          c.status === "onboarding" ? "bg-yellow-400" : "bg-zinc-500"
-                        }`} />
-                      </div>
-                      <p className="text-xs text-zinc-500 truncate">{c.industry}</p>
-                    </div>
-                    {c.mrr > 0 && (
-                      <span className="text-sm font-medium text-green-400">${c.mrr}</span>
+        {/* Client Dashboard */}
+        <div className="space-y-8">
+          {/* Client Header */}
+          <div className="flex items-start justify-between">
+            <div>
+              <div className="flex items-center gap-4 mb-2">
+                <span className="text-5xl">{activeClient.logo}</span>
+                <div>
+                  <h1 className="text-3xl font-bold">{activeClient.name}</h1>
+                  <div className="flex items-center gap-4 mt-1 text-zinc-400">
+                    <span className={`flex items-center gap-1.5 ${
+                      activeClient.status === "active" ? "text-green-400" : "text-yellow-400"
+                    }`}>
+                      <span className="w-2 h-2 rounded-full bg-current" />
+                      {activeClient.status}
+                    </span>
+                    <span>Health: {activeClient.health}%</span>
+                    {activeClient.mrr > 0 && (
+                      <span className="text-green-400">${activeClient.mrr}/mo</span>
                     )}
                   </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Main Content Area */}
-          <div className="col-span-6 space-y-6">
-            {client ? (
-              <>
-                {/* Client Header */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                      <span className="text-5xl">{client.logo}</span>
-                      <div>
-                        <h2 className="text-2xl font-bold">{client.name}</h2>
-                        <p className="text-zinc-400">{client.industry}</p>
-                        <div className="flex items-center gap-3 mt-2">
-                          <span className={`px-2 py-0.5 text-xs rounded-full ${
-                            client.status === "active" ? "bg-green-500/20 text-green-400" :
-                            client.status === "onboarding" ? "bg-yellow-500/20 text-yellow-400" :
-                            "bg-zinc-500/20 text-zinc-400"
-                          }`}>
-                            {client.status}
-                          </span>
-                          <span className="text-sm text-zinc-500">Health: {client.health}%</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                      {client.website && (
-                        <a
-                          href={client.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors"
-                          title="Visit Website"
-                        >
-                          <Globe className="w-5 h-5" />
-                        </a>
-                      )}
-                      {client.github && (
-                        <a
-                          href={client.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors"
-                          title="GitHub Repo"
-                        >
-                          <Code className="w-5 h-5" />
-                        </a>
-                      )}
-                      {client.ghl?.connected && (
-                        <a
-                          href={`https://app.gohighlevel.com/location/${client.ghl.locationId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors"
-                          title="GHL Dashboard"
-                        >
-                          <Zap className="w-5 h-5" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Quick Stats */}
-                  <div className="grid grid-cols-4 gap-4">
-                    <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold text-green-400">${client.mrr}</p>
-                      <p className="text-xs text-zinc-500">MRR</p>
-                    </div>
-                    <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold">{client.projects.length}</p>
-                      <p className="text-xs text-zinc-500">Projects</p>
-                    </div>
-                    <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold text-blue-400">
-                        {client.ghl?.connected ? "✓" : "✗"}
-                      </p>
-                      <p className="text-xs text-zinc-500">GHL</p>
-                    </div>
-                    <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
-                      <p className={`text-2xl font-bold ${
-                        client.health >= 80 ? "text-green-400" :
-                        client.health >= 50 ? "text-yellow-400" : "text-red-400"
-                      }`}>{client.health}%</p>
-                      <p className="text-xs text-zinc-500">Health</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Projects */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold flex items-center gap-2">
-                      <FolderKanban className="w-5 h-5 text-purple-400" />
-                      Projects
-                    </h3>
-                    <button className="text-sm text-orange-400 hover:underline">+ Add Project</button>
-                  </div>
-
-                  <div className="space-y-3">
-                    {client.projects.map((project, i) => (
-                      <div key={i} className="flex items-center gap-4 p-3 bg-zinc-800/50 rounded-lg">
-                        <div className={`w-3 h-3 rounded-full ${
-                          project.status === "complete" ? "bg-green-400" :
-                          project.status === "active" ? "bg-blue-400" :
-                          project.status === "planning" ? "bg-yellow-400" : "bg-zinc-500"
-                        }`} />
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">{project.name}</span>
-                            {project.url && (
-                              <a href={project.url} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="w-3 h-3 text-zinc-500 hover:text-white" />
-                              </a>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div className="flex-1 h-1.5 bg-zinc-700 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full"
-                                style={{ width: `${project.progress}%` }}
-                              />
-                            </div>
-                            <span className="text-xs text-zinc-500">{project.progress}%</span>
-                          </div>
-                        </div>
-                        <span className={`text-xs px-2 py-0.5 rounded ${
-                          project.status === "complete" ? "bg-green-500/20 text-green-400" :
-                          project.status === "active" ? "bg-blue-500/20 text-blue-400" :
-                          "bg-zinc-500/20 text-zinc-400"
-                        }`}>
-                          {project.status}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Contacts */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <h3 className="font-semibold flex items-center gap-2 mb-4">
-                    <Users className="w-5 h-5 text-blue-400" />
-                    Contacts
-                  </h3>
-
-                  <div className="space-y-3">
-                    {client.contacts.map((contact, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 bg-zinc-800/50 rounded-lg">
-                        <div>
-                          <p className="font-medium">{contact.name}</p>
-                          <p className="text-sm text-zinc-400">{contact.email}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <a
-                            href={`mailto:${contact.email}`}
-                            className="p-2 bg-zinc-700 rounded-lg hover:bg-zinc-600 transition-colors"
-                          >
-                            <Mail className="w-4 h-4" />
-                          </a>
-                          {contact.phone && (
-                            <a
-                              href={`tel:${contact.phone}`}
-                              className="p-2 bg-zinc-700 rounded-lg hover:bg-zinc-600 transition-colors"
-                            >
-                              <Phone className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Quick Actions for this client */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <h3 className="font-semibold mb-4">Quick Actions</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    <button className="p-3 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2">
-                      <Send className="w-4 h-4" /> Send Update
-                    </button>
-                    <button className="p-3 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2">
-                      <FileText className="w-4 h-4" /> Generate Report
-                    </button>
-                    <button className="p-3 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors text-sm font-medium flex items-center justify-center gap-2">
-                      <Calendar className="w-4 h-4" /> Schedule Call
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              /* No client selected - show tools */
-              <div className="space-y-6">
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4">Select a client to get started</h3>
-                  <p className="text-zinc-400">Click on a client in the sidebar to view details, projects, and take actions.</p>
-                </div>
-
-                {/* Tools Grid */}
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
-                    <Terminal className="w-5 h-5 text-orange-400" />
-                    Agency Tools
-                  </h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    {TOOLS.map((tool) => (
-                      <Link
-                        key={tool.name}
-                        href={tool.href}
-                        className={`p-4 rounded-xl border border-zinc-800 hover:border-${tool.color}-500/50 transition-all group`}
-                      >
-                        <tool.icon className={`w-8 h-8 text-${tool.color}-400 mb-3`} />
-                        <h4 className="font-medium group-hover:text-orange-400 transition-colors">{tool.name}</h4>
-                        <p className="text-xs text-zinc-500 mt-1">{tool.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Right Sidebar - Quick Links & Activity */}
-          <div className="col-span-3 space-y-4">
             {/* Quick Links */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <h3 className="font-semibold mb-3 text-sm text-zinc-400 uppercase tracking-wider">Quick Links</h3>
-              <div className="space-y-1">
-                {QUICK_LINKS.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-800 transition-colors group"
-                  >
-                    <link.icon className="w-4 h-4 text-zinc-500 group-hover:text-white" />
-                    <span className="text-sm">{link.name}</span>
-                    <ExternalLink className="w-3 h-3 text-zinc-600 ml-auto" />
+            <div className="flex items-center gap-2">
+              {activeClient.website && (
+                <a
+                  href={activeClient.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-zinc-900 rounded-lg hover:bg-zinc-800 transition-colors"
+                >
+                  <Globe className="w-4 h-4" />
+                  <span className="text-sm">Website</span>
+                </a>
+              )}
+              {activeClient.github && (
+                <a
+                  href={activeClient.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-zinc-900 rounded-lg hover:bg-zinc-800 transition-colors"
+                >
+                  <Code className="w-4 h-4" />
+                  <span className="text-sm">GitHub</span>
+                </a>
+              )}
+              {activeClient.ghlLocation && (
+                <a
+                  href={`https://app.gohighlevel.com/location/${activeClient.ghlLocation}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Zap className="w-4 h-4" />
+                  <span className="text-sm">GHL</span>
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Action Cards Grid */}
+          <div className="grid grid-cols-3 gap-4">
+            {/* Send Course to GHL */}
+            <button
+              onClick={sendCourseToGHL}
+              disabled={!activeClient.ghlLocation || toolLoading}
+              className={`relative p-6 rounded-2xl text-left transition-all group ${
+                activeClient.ghlLocation
+                  ? "bg-gradient-to-br from-purple-600/20 to-pink-600/20 border border-purple-500/30 hover:border-purple-500/60"
+                  : "bg-zinc-900/50 border border-zinc-800 opacity-50 cursor-not-allowed"
+              }`}
+            >
+              {activeTool === "course" && toolLoading && (
+                <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
+                </div>
+              )}
+              {activeTool === "course" && toolSuccess && (
+                <div className="absolute inset-0 bg-green-600/20 rounded-2xl flex items-center justify-center border border-green-500">
+                  <Check className="w-8 h-8 text-green-400" />
+                </div>
+              )}
+              <GraduationCap className="w-8 h-8 text-purple-400 mb-3" />
+              <h3 className="font-semibold mb-1">Send AI Course</h3>
+              <p className="text-sm text-zinc-400">Deploy course to GHL</p>
+            </button>
+
+            {/* Generate Content */}
+            <button
+              onClick={() => runTool("content")}
+              className="relative p-6 rounded-2xl text-left bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-blue-500/30 hover:border-blue-500/60 transition-all group"
+            >
+              {activeTool === "content" && toolLoading && (
+                <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
+                </div>
+              )}
+              {activeTool === "content" && toolSuccess && (
+                <div className="absolute inset-0 bg-green-600/20 rounded-2xl flex items-center justify-center border border-green-500">
+                  <Check className="w-8 h-8 text-green-400" />
+                </div>
+              )}
+              <FileText className="w-8 h-8 text-blue-400 mb-3" />
+              <h3 className="font-semibold mb-1">Generate Content</h3>
+              <p className="text-sm text-zinc-400">Blog posts, emails, social</p>
+            </button>
+
+            {/* SEO Analysis */}
+            <button
+              onClick={() => runTool("seo")}
+              className="relative p-6 rounded-2xl text-left bg-gradient-to-br from-green-600/20 to-emerald-600/20 border border-green-500/30 hover:border-green-500/60 transition-all group"
+            >
+              {activeTool === "seo" && toolLoading && (
+                <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-green-400" />
+                </div>
+              )}
+              {activeTool === "seo" && toolSuccess && (
+                <div className="absolute inset-0 bg-green-600/20 rounded-2xl flex items-center justify-center border border-green-500">
+                  <Check className="w-8 h-8 text-green-400" />
+                </div>
+              )}
+              <TrendingUp className="w-8 h-8 text-green-400 mb-3" />
+              <h3 className="font-semibold mb-1">SEO Analysis</h3>
+              <p className="text-sm text-zinc-400">Audit & recommendations</p>
+            </button>
+
+            {/* Send Email */}
+            <button
+              onClick={() => window.location.href = `mailto:${activeClient.email}`}
+              className="p-6 rounded-2xl text-left bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all"
+            >
+              <Mail className="w-8 h-8 text-orange-400 mb-3" />
+              <h3 className="font-semibold mb-1">Send Email</h3>
+              <p className="text-sm text-zinc-400">{activeClient.email}</p>
+            </button>
+
+            {/* View Leads */}
+            <a
+              href="/dashboard/leads"
+              className="p-6 rounded-2xl text-left bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all"
+            >
+              <Users className="w-8 h-8 text-yellow-400 mb-3" />
+              <h3 className="font-semibold mb-1">View Leads</h3>
+              <p className="text-sm text-zinc-400">Lead management</p>
+            </a>
+
+            {/* Analytics */}
+            <a
+              href="/dashboard/analytics"
+              className="p-6 rounded-2xl text-left bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all"
+            >
+              <BarChart3 className="w-8 h-8 text-cyan-400 mb-3" />
+              <h3 className="font-semibold mb-1">Analytics</h3>
+              <p className="text-sm text-zinc-400">Traffic & conversions</p>
+            </a>
+          </div>
+
+          {/* Platform Notice for WordPress clients */}
+          {activeClient.platform === "wordpress" && (
+            <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+                <Layers className="w-5 h-5 text-yellow-400" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-medium text-yellow-400">WordPress Site</h4>
+                <p className="text-sm text-zinc-400">
+                  This client uses WordPress. RocketWP plugin coming soon for full control.
+                </p>
+              </div>
+              <button className="px-4 py-2 bg-yellow-500/20 text-yellow-400 rounded-lg text-sm font-medium hover:bg-yellow-500/30 transition-colors">
+                Plan Rebuild
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Footer Mega Menu */}
+      <footer className="border-t border-zinc-900 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Mega Menu Dropdown */}
+          {megaMenuOpen && (
+            <div className="py-8 grid grid-cols-4 gap-8 border-b border-zinc-800 animate-in slide-in-from-bottom-2 duration-200">
+              {/* Tools */}
+              <div>
+                <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Tools</h4>
+                <div className="space-y-2">
+                  <a href="/assessment" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Bot className="w-4 h-4" /> Spark Assessment
                   </a>
-                ))}
+                  <a href="/dashboard/tools/content-writer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <FileText className="w-4 h-4" /> Content Writer
+                  </a>
+                  <a href="/dashboard/tools/image-generator" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Image className="w-4 h-4" /> Image Generator
+                  </a>
+                  <a href="/dashboard/tools/seo-analyzer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <TrendingUp className="w-4 h-4" /> SEO Analyzer
+                  </a>
+                </div>
+              </div>
+
+              {/* External */}
+              <div>
+                <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">External</h4>
+                <div className="space-y-2">
+                  <a href="https://app.gohighlevel.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Zap className="w-4 h-4" /> GoHighLevel
+                  </a>
+                  <a href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Globe className="w-4 h-4" /> Vercel
+                  </a>
+                  <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Database className="w-4 h-4" /> Supabase
+                  </a>
+                  <a href="https://github.com/Crypto-Goatz" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Code className="w-4 h-4" /> GitHub
+                  </a>
+                </div>
+              </div>
+
+              {/* Dashboard */}
+              <div>
+                <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Dashboard</h4>
+                <div className="space-y-2">
+                  <a href="/dashboard" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Home className="w-4 h-4" /> Home
+                  </a>
+                  <a href="/dashboard/leads" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Users className="w-4 h-4" /> Leads
+                  </a>
+                  <a href="/dashboard/analytics" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <BarChart3 className="w-4 h-4" /> Analytics
+                  </a>
+                  <a href="/dashboard/admin" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                    <Settings className="w-4 h-4" /> Admin
+                  </a>
+                </div>
+              </div>
+
+              {/* Quick Contact */}
+              <div>
+                <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Jessica AI</h4>
+                <div className="p-4 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-xl border border-orange-500/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+                      <Bot className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Call Jessica</p>
+                      <p className="text-xs text-zinc-500">Available 24/7</p>
+                    </div>
+                  </div>
+                  <a
+                    href="tel:+18788881230"
+                    className="block w-full py-2 bg-orange-500 rounded-lg text-center text-sm font-medium hover:bg-orange-600 transition-colors"
+                  >
+                    (878) 888-1230
+                  </a>
+                </div>
               </div>
             </div>
+          )}
 
-            {/* Recent Activity */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <h3 className="font-semibold mb-3 text-sm text-zinc-400 uppercase tracking-wider">Recent Activity</h3>
-              <div className="space-y-3">
-                <div className="flex gap-3 text-sm">
-                  <div className="w-2 h-2 rounded-full bg-green-400 mt-1.5" />
-                  <div>
-                    <p>Spark Assessment rebranded</p>
-                    <p className="text-xs text-zinc-500">Just now</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 text-sm">
-                  <div className="w-2 h-2 rounded-full bg-blue-400 mt-1.5" />
-                  <div>
-                    <p>Agency dashboard created</p>
-                    <p className="text-xs text-zinc-500">5 min ago</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 text-sm">
-                  <div className="w-2 h-2 rounded-full bg-purple-400 mt-1.5" />
-                  <div>
-                    <p>EcoSpray added as prospect</p>
-                    <p className="text-xs text-zinc-500">10 min ago</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 text-sm">
-                  <div className="w-2 h-2 rounded-full bg-orange-400 mt-1.5" />
-                  <div>
-                    <p>ABK SEO campaign updated</p>
-                    <p className="text-xs text-zinc-500">2 hours ago</p>
-                  </div>
-                </div>
-              </div>
+          {/* Footer Nav Bar */}
+          <div className="py-4 flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <a href="/dashboard" className="text-sm text-zinc-500 hover:text-white transition-colors">
+                Dashboard
+              </a>
+              <a href="/dashboard/leads" className="text-sm text-zinc-500 hover:text-white transition-colors">
+                Leads
+              </a>
+              <a href="/dashboard/analytics" className="text-sm text-zinc-500 hover:text-white transition-colors">
+                Analytics
+              </a>
+              <a href="/assessment" className="text-sm text-zinc-500 hover:text-white transition-colors">
+                Assessment
+              </a>
             </div>
 
-            {/* This Week */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-              <h3 className="font-semibold mb-3 text-sm text-zinc-400 uppercase tracking-wider">This Week</h3>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-400">New Leads</span>
-                  <span className="font-medium">12</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-400">Assessments</span>
-                  <span className="font-medium">8</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-400">Calls Booked</span>
-                  <span className="font-medium">3</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-400">Revenue</span>
-                  <span className="font-medium text-green-400">$2,500</span>
-                </div>
-              </div>
-            </div>
+            <button
+              onClick={() => setMegaMenuOpen(!megaMenuOpen)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                megaMenuOpen
+                  ? "bg-orange-500 text-white"
+                  : "bg-zinc-900 text-zinc-400 hover:text-white"
+              }`}
+            >
+              <Layers className="w-4 h-4" />
+              <span className="text-sm font-medium">Menu</span>
+              {megaMenuOpen ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronUp className="w-4 h-4" />
+              )}
+            </button>
 
-            {/* Jessica AI */}
-            <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-                  <Bot className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Jessica AI</h3>
-                  <p className="text-xs text-zinc-400">Always available</p>
-                </div>
-              </div>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://app.gohighlevel.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-500 hover:text-white transition-colors"
+              >
+                <Zap className="w-5 h-5" />
+              </a>
+              <a
+                href="https://github.com/Crypto-Goatz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-500 hover:text-white transition-colors"
+              >
+                <Code className="w-5 h-5" />
+              </a>
               <a
                 href="tel:+18788881230"
-                className="block w-full p-2 bg-orange-500 rounded-lg text-center font-medium hover:bg-orange-600 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-orange-500/20 text-orange-400 rounded-full text-sm hover:bg-orange-500/30 transition-colors"
               >
-                (878) 888-1230
+                <Phone className="w-4 h-4" />
+                Jessica
               </a>
             </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   )
 }
