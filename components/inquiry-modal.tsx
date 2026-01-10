@@ -51,17 +51,28 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
   }
 
   const handleSendDetails = async () => {
-    const webhookUrl = process.env.NEXT_PUBLIC_INQUIRY_WEBHOOK_URL
-    if (webhookUrl) {
-      try {
-        await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, selectedApp }),
-        })
-      } catch (error) {
-        console.error("[v0] Failed to send to inquiry webhook:", error)
-      }
+    // Send to leads API
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          project: formData.project,
+          source: "inquiry-modal",
+          formName: "Inquiry Modal",
+          tags: ["Website Lead", "Inquiry", formData.service].filter(Boolean),
+          customFields: {
+            selected_app: selectedApp || "",
+          },
+        }),
+      })
+    } catch (error) {
+      console.error("[InquiryModal] Failed to send lead:", error)
     }
 
     const params = new URLSearchParams({
@@ -79,17 +90,28 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
   }
 
   const handleStartAssessment = async () => {
-    const inquiryWebhookUrl = process.env.NEXT_PUBLIC_INQUIRY_WEBHOOK_URL
-    if (inquiryWebhookUrl) {
-      try {
-        await fetch(inquiryWebhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, selectedApp }),
-        })
-      } catch (error) {
-        console.error("[v0] Failed to send to inquiry webhook:", error)
-      }
+    // Send to leads API
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          project: formData.project,
+          source: "inquiry-modal-assessment",
+          formName: "Assessment Request",
+          tags: ["Website Lead", "Assessment Request", formData.service].filter(Boolean),
+          customFields: {
+            selected_app: selectedApp || "",
+          },
+        }),
+      })
+    } catch (error) {
+      console.error("[InquiryModal] Failed to send lead:", error)
     }
 
     const params = new URLSearchParams({

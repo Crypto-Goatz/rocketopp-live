@@ -52,7 +52,7 @@ const services = [
     features: [
       { name: "Mobile Apps", href: "/services/app-development#mobile", icon: Smartphone },
       { name: "Web Applications", href: "/services/app-development#web", icon: Globe },
-      { name: "SaaS Products", href: "/services/app-development#saas", icon: Code2 },
+      { name: "Request an App", href: "/request-app", icon: Rocket },
     ]
   },
   {
