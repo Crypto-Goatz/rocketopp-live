@@ -471,12 +471,19 @@ export function Navbar() {
               {loading ? (
                 <div className="w-20 h-9 bg-muted animate-pulse rounded-md" />
               ) : user ? (
-                <Button variant="outline" asChild>
-                  <Link href="/dashboard">
-                    <User className="w-4 h-4 mr-2" />
-                    Dashboard
-                  </Link>
-                </Button>
+                <>
+                  <Button variant="outline" asChild>
+                    <Link href="/dashboard">
+                      <User className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                    <Link href="/assessment">
+                      Free AI Assessment
+                    </Link>
+                  </Button>
+                </>
               ) : (
                 <>
                   <Link
@@ -608,12 +615,17 @@ export function Navbar() {
 
                 <div className="border-t border-border pt-4 mt-2">
                   {user ? (
-                    <Button asChild className="w-full">
-                      <Link href="/dashboard">
-                        <User className="w-4 h-4 mr-2" />
-                        Dashboard
-                      </Link>
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <Button asChild className="w-full">
+                        <Link href="/dashboard">
+                          <User className="w-4 h-4 mr-2" />
+                          Dashboard
+                        </Link>
+                      </Button>
+                      <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-red-500">
+                        <Link href="/assessment">Free AI Assessment</Link>
+                      </Button>
+                    </div>
                   ) : (
                     <div className="flex flex-col gap-2">
                       <Button variant="outline" asChild>
