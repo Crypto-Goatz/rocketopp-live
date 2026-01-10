@@ -301,41 +301,77 @@ const GeneratingBlueprint: React.FC<{ companyName: string }> = ({ companyName })
 const FinalSummary: React.FC<{
   userName: string
   companyName: string
-  blueprintUrl: string | null
-}> = ({ userName, companyName, blueprintUrl }) => (
+  email?: string
+}> = ({ userName, companyName, email }) => (
   <div className="min-h-screen flex items-center justify-center p-4">
     <div className="max-w-2xl w-full bg-zinc-900/80 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800 text-center animate-fade-in">
       <SparkLogo className="mx-auto mb-6" />
       <h1 className="text-4xl font-bold mb-4">
         Thank You, {userName}!
       </h1>
-      <p className="text-xl text-zinc-300 mb-8">
-        Your preliminary assessment for <span className="text-orange-400 font-bold">{companyName}</span> is complete.
+      <p className="text-xl text-zinc-300 mb-6">
+        Your assessment for <span className="text-orange-400 font-bold">{companyName}</span> is complete.
       </p>
 
-      <div className="bg-zinc-800/50 rounded-lg p-6 mb-8">
-        <h2 className="text-xl font-semibold text-orange-400 mb-3">What Happens Next?</h2>
-        <p className="text-zinc-400">
-          Our AI is conducting a deeper analysis. A RocketOpp expert will contact you
-          to schedule your complimentary strategy session and present your complete blueprint.
+      {/* Email Confirmation */}
+      <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 rounded-lg p-6 mb-6">
+        <div className="flex items-center justify-center gap-3 mb-3">
+          <svg className="w-8 h-8 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <h2 className="text-xl font-bold text-orange-400">Check Your Inbox!</h2>
+        </div>
+        <p className="text-zinc-300">
+          We're sending your personalized Strategic Blueprint to{' '}
+          <span className="text-white font-semibold">{email}</span>
+        </p>
+        <p className="text-sm text-zinc-500 mt-2">
+          Check your spam folder if you don't see it within 5 minutes.
         </p>
       </div>
 
-      {blueprintUrl && (
-        <a
-          href={blueprintUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500
-                     rounded-lg text-white font-bold hover:opacity-90 transition-opacity mb-6"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          Access Your Blueprint
-        </a>
-      )}
+      {/* What Happens Next */}
+      <div className="bg-zinc-800/50 rounded-lg p-6 mb-6">
+        <h2 className="text-lg font-semibold text-white mb-4">What Happens Next?</h2>
+        <div className="space-y-4 text-left">
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center">
+              <span className="text-orange-400 font-bold text-sm">1</span>
+            </div>
+            <div>
+              <h3 className="font-medium text-white">Blueprint Delivered</h3>
+              <p className="text-sm text-zinc-400">Your full assessment + recommendations arrive via email within minutes.</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center">
+              <span className="text-orange-400 font-bold text-sm">2</span>
+            </div>
+            <div>
+              <h3 className="font-medium text-white">Strategy Call Scheduled</h3>
+              <p className="text-sm text-zinc-400">A RocketOpp expert will reach out to book your complimentary strategy session.</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center">
+              <span className="text-orange-400 font-bold text-sm">3</span>
+            </div>
+            <div>
+              <h3 className="font-medium text-white">Custom Implementation Plan</h3>
+              <p className="text-sm text-zinc-400">We'll present actionable steps tailored specifically to {companyName}.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="bg-zinc-800/30 rounded-lg p-4 mb-6">
+        <p className="text-zinc-400 text-sm">
+          <span className="text-orange-400 font-semibold">Can't wait?</span>{' '}
+          Call us directly at <a href="tel:+14125551234" className="text-white hover:text-orange-400 font-medium">(412) 555-1234</a>
+        </p>
+      </div>
 
       <p className="text-sm text-zinc-500">Powered by Spark - RocketOpp AI</p>
     </div>
@@ -454,7 +490,6 @@ export default function AssessmentPage() {
   const [potentialCompetitors, setPotentialCompetitors] = useState<Competitor[]>([])
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null)
-  const [blueprintUrl, setBlueprintUrl] = useState<string | null>(null)
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([])
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -687,24 +722,7 @@ export default function AssessmentPage() {
     setAppState('generating')
 
     try {
-      // Generate blueprint
-      const gammaRes = await fetch('/api/assessment/gamma', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userName: info.name,
-          companyName: personalization.company,
-          assessmentData,
-          insights,
-          collectedData,
-        }),
-      })
-      const gammaData = await gammaRes.json()
-      if (gammaData.deckUrl) {
-        setBlueprintUrl(gammaData.deckUrl)
-      }
-
-      // Submit lead
+      // Submit lead to GHL for email automation + follow-up
       await fetch('/api/assessment/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -713,9 +731,11 @@ export default function AssessmentPage() {
           companyName: personalization.company,
           website: personalization.website,
           zipCode: personalization.zipCode,
-          blueprintUrl: gammaData.deckUrl,
+          industry: personalization.industry,
           assessmentSummary: assessmentData,
+          insights: insights,
           conversationHistory: collectedData.map((d) => `Q: ${d.question}\nA: ${d.answer}`).join('\n\n'),
+          competitors: insights.find(i => i.type === 'competitive_analysis')?.competitors || [],
         }),
       })
 
@@ -759,7 +779,7 @@ export default function AssessmentPage() {
       <FinalSummary
         userName={contactInfo?.name || personalization.name}
         companyName={personalization.company}
-        blueprintUrl={blueprintUrl}
+        email={contactInfo?.email}
       />
     )
   }

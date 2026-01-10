@@ -1,14 +1,21 @@
 // ============================================================
 // Assessment Submit API - Final lead capture
 // ============================================================
-// CRITICAL: This endpoint captures leads from the AI Assessment
-// Sends to GHL webhook for immediate lead processing
+// CRITICAL: This endpoint captures leads from the Rocket AI Assessment
+// Sends to GHL webhook for email automation + follow-up calls
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
 
 // GHL Webhook for RocketOpp location
 const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/6MSqx0trfxgLxeHBJE1k/webhook-trigger/16e971d9-d576-4b5d-a90f-4cf8224c67e9'
+
+interface Competitor {
+  name: string
+  rating: number
+  userRatingsTotal: number
+  isPlayer: boolean
+}
 
 export async function POST(request: NextRequest) {
   console.log('[Assessment Submit] Received submission request')
@@ -22,9 +29,11 @@ export async function POST(request: NextRequest) {
       companyName,
       website,
       zipCode,
-      blueprintUrl,
+      industry,
       assessmentSummary,
+      insights,
       conversationHistory,
+      competitors,
     } = body
 
     console.log('[Assessment Submit] Processing lead:', { name, email, companyName })
@@ -38,7 +47,23 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Build webhook payload
+    // Format assessment for email template
+    const summary = assessmentSummary || {}
+    const executiveSummary = summary['Executive Summary'] || 'Assessment completed. Our team will provide detailed insights.'
+    const strengths = summary['Identified Strengths'] || ''
+    const weaknesses = summary['Critical Weaknesses'] || ''
+    const opportunities = summary['Market Opportunities'] || ''
+    const threats = summary['Competitive Threats'] || ''
+    const socialPresence = summary['Social Media Presence'] || ''
+    const nextSteps = summary['Strategic Next Steps'] || ''
+
+    // Format competitors list
+    const competitorList = (competitors || [])
+      .filter((c: Competitor) => !c.isPlayer)
+      .map((c: Competitor) => `${c.name} (${c.rating}★, ${c.userRatingsTotal} reviews)`)
+      .join(', ')
+
+    // Build webhook payload with all data for email automation
     const webhookPayload = {
       // Contact fields (GHL standard)
       first_name: name?.split(' ')[0] || '',
@@ -49,13 +74,24 @@ export async function POST(request: NextRequest) {
       company_name: companyName || '',
       website: website || '',
 
-      // Custom fields
+      // Custom fields for email templates
       zip_code: zipCode || '',
-      blueprint_url: blueprintUrl || '',
-      assessment_summary: typeof assessmentSummary === 'string'
-        ? assessmentSummary
-        : JSON.stringify(assessmentSummary, null, 2),
+      industry: industry || '',
+
+      // Assessment sections (for email body)
+      executive_summary: executiveSummary,
+      identified_strengths: strengths,
+      critical_weaknesses: weaknesses,
+      market_opportunities: opportunities,
+      competitive_threats: threats,
+      social_media_presence: socialPresence,
+      strategic_next_steps: nextSteps,
+      competitors_analyzed: competitorList || 'None identified',
+
+      // Full data (for detailed follow-up)
+      assessment_summary_json: JSON.stringify(assessmentSummary || {}, null, 2),
       conversation_history: conversationHistory || '',
+      insights_json: JSON.stringify(insights || [], null, 2),
 
       // Source tracking
       source: 'AI Assessment',
@@ -64,14 +100,19 @@ export async function POST(request: NextRequest) {
       page_url: 'https://rocketopp.com/assessment',
 
       // Tags for GHL automation
-      tags: ['AI Assessment', 'Website Lead', 'Hot Lead'],
+      tags: ['AI Assessment', 'Website Lead', 'Hot Lead', 'Blueprint Requested'],
 
       // Metadata
       timestamp: new Date().toISOString(),
       submitted_at: new Date().toISOString(),
+
+      // Trigger flags for GHL workflows
+      send_blueprint_email: true,
+      schedule_followup_call: phone ? true : false,
     }
 
     console.log('[Assessment Submit] Sending to GHL webhook...')
+    console.log('[Assessment Submit] Payload keys:', Object.keys(webhookPayload))
 
     // Send to GHL webhook
     const webhookResponse = await fetch(GHL_WEBHOOK_URL, {
