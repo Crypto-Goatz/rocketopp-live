@@ -58,8 +58,11 @@ export default function ContactPage() {
               <div className="flex items-start space-x-3">
                 <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold">Phone</h4>
-                  <span className="text-muted-foreground">Schedule a call using the form</span>
+                  <h4 className="font-semibold">Talk to Jessica (AI Assistant)</h4>
+                  <a href="tel:+18788881230" className="text-muted-foreground hover:text-primary block">
+                    +1 (878) 888-1230
+                  </a>
+                  <span className="text-xs text-muted-foreground/70">Available 24/7 - Book appointments, get answers, or start a project</span>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -77,9 +80,15 @@ export default function ContactPage() {
             <CardHeader>
               <CardTitle>Business Hours</CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground">
-              <p>Monday - Friday: 9:00 AM - 6:00 PM (EST)</p>
-              <p>Saturday & Sunday: Closed</p>
+            <CardContent className="text-muted-foreground space-y-2">
+              <div>
+                <p className="font-medium text-foreground">Jessica (AI)</p>
+                <p>Available 24/7 - Call anytime</p>
+              </div>
+              <div>
+                <p className="font-medium text-foreground">Human Team</p>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM (EST)</p>
+              </div>
             </CardContent>
           </Card>
         </div>

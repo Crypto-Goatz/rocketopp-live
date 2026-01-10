@@ -81,11 +81,29 @@ const jsonLd = {
     "@type": "PostalAddress",
     addressCountry: "US",
   },
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "Customer Service",
-    availableLanguage: ["English"],
-  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+1-878-888-1230",
+      contactType: "Customer Service",
+      contactOption: "TollFree",
+      areaServed: "US",
+      availableLanguage: ["English"],
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "00:00",
+        closes: "23:59",
+      },
+      description: "Jessica - AI Assistant available 24/7 for appointments, questions, and project inquiries",
+    },
+    {
+      "@type": "ContactPoint",
+      email: "Mike@rocketopp.com",
+      contactType: "Sales",
+      availableLanguage: ["English"],
+    },
+  ],
   sameAs: ["https://twitter.com/rocketopp", "https://linkedin.com/company/rocketopp", "https://github.com/rocketopp"],
   areaServed: "Worldwide",
   knowsAbout: [
