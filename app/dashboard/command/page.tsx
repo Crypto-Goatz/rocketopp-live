@@ -1,13 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Rocket, Building2, Globe, Code, Zap, BarChart3, Users, Mail,
   Phone, ExternalLink, FolderKanban, ChevronDown, ChevronUp,
   Terminal, Database, Server, Bot, TrendingUp, DollarSign,
   Send, FileText, Image, Megaphone, GraduationCap, Settings,
-  Home, Layers, X, Check, Loader2, PlayCircle
+  Home, Layers, X, Check, Loader2, PlayCircle, Activity, RefreshCw,
+  AlertCircle, CheckCircle2
 } from "lucide-react"
+
+interface HealthCheck {
+  service: string
+  status: 'ok' | 'error' | 'missing'
+  message: string
+  latency?: number
+}
+
+interface HealthData {
+  status: 'healthy' | 'degraded' | 'incomplete'
+  summary: {
+    ok: number
+    errors: number
+    missing: number
+    total: number
+  }
+  checks: HealthCheck[]
+  totalLatency: number
+}
 
 // ============================================================
 // HARDCODED DATA - WORKS IMMEDIATELY
@@ -62,6 +82,27 @@ export default function CommandCenter() {
   const [activeTool, setActiveTool] = useState<string | null>(null)
   const [toolLoading, setToolLoading] = useState(false)
   const [toolSuccess, setToolSuccess] = useState(false)
+  const [health, setHealth] = useState<HealthData | null>(null)
+  const [healthLoading, setHealthLoading] = useState(false)
+
+  // Fetch health status
+  const fetchHealth = async () => {
+    setHealthLoading(true)
+    try {
+      const response = await fetch("/api/health")
+      if (response.ok) {
+        const data = await response.json()
+        setHealth(data)
+      }
+    } catch (error) {
+      console.error("Health check failed:", error)
+    }
+    setHealthLoading(false)
+  }
+
+  useEffect(() => {
+    fetchHealth()
+  }, [])
 
   // Tool execution
   const runTool = async (toolId: string) => {
@@ -228,6 +269,72 @@ export default function CommandCenter() {
               )}
             </div>
           </div>
+
+          {/* System Health Status */}
+          {activeClient.id === "rocketopp" && (
+            <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-orange-400" />
+                  <h3 className="font-semibold">System Health</h3>
+                  {health && (
+                    <span className={`px-2 py-0.5 text-xs rounded-full ${
+                      health.status === 'healthy'
+                        ? 'bg-green-500/20 text-green-400'
+                        : health.status === 'degraded'
+                        ? 'bg-red-500/20 text-red-400'
+                        : 'bg-yellow-500/20 text-yellow-400'
+                    }`}>
+                      {health.status}
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={fetchHealth}
+                  disabled={healthLoading}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors"
+                >
+                  <RefreshCw className={`w-3 h-3 ${healthLoading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </button>
+              </div>
+
+              {health ? (
+                <div className="grid grid-cols-7 gap-2">
+                  {health.checks.map((check) => (
+                    <div
+                      key={check.service}
+                      className={`p-3 rounded-lg text-center ${
+                        check.status === 'ok'
+                          ? 'bg-green-500/10 border border-green-500/20'
+                          : check.status === 'error'
+                          ? 'bg-red-500/10 border border-red-500/20'
+                          : 'bg-yellow-500/10 border border-yellow-500/20'
+                      }`}
+                    >
+                      <div className="flex justify-center mb-1">
+                        {check.status === 'ok' ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-400" />
+                        ) : check.status === 'error' ? (
+                          <AlertCircle className="w-4 h-4 text-red-400" />
+                        ) : (
+                          <AlertCircle className="w-4 h-4 text-yellow-400" />
+                        )}
+                      </div>
+                      <p className="text-xs font-medium truncate">{check.service}</p>
+                      {check.latency && (
+                        <p className="text-[10px] text-zinc-500">{check.latency}ms</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : healthLoading ? (
+                <div className="flex items-center justify-center py-4">
+                  <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
+                </div>
+              ) : null}
+            </div>
+          )}
 
           {/* Action Cards Grid */}
           <div className="grid grid-cols-3 gap-4">
