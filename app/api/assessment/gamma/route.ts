@@ -2,12 +2,14 @@
 // Gamma API Integration - Generate Assessment Deck
 // ============================================================
 // Creates a beautiful presentation from assessment data
+// Uses Gamma API v1.0: https://developers.gamma.app/docs
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
 import type { AssessmentData, Insight } from '@/lib/assessment/types'
 
-const GAMMA_API_URL = 'https://api.gamma.app/v1'
+// Gamma API v1.0 endpoint (GA as of Nov 2025)
+const GAMMA_API_URL = 'https://public-api.gamma.app/v1.0/generations'
 
 interface GammaRequest {
   userName: string
@@ -29,27 +31,68 @@ export async function POST(request: NextRequest) {
     const gammaApiKey = process.env.GAMMA_API_KEY
 
     if (gammaApiKey) {
-      // Real Gamma API call
-      const response = await fetch(`${GAMMA_API_URL}/generate`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${gammaApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: `Strategic Blueprint: ${companyName}`,
-          content: deckContent,
-          theme: 'professional',
+      try {
+        // Gamma API v1.0 request format
+        const gammaPayload = {
+          inputText: deckContent,
+          textMode: 'preserve', // Keep our formatted content
           format: 'presentation',
-        }),
-      })
+          numCards: 12, // Appropriate for a strategic blueprint
+          additionalInstructions: `Create a professional strategic business blueprint presentation for ${companyName}. Use a clean, modern executive style with strong visual hierarchy. Make it look like a premium consulting deliverable.`,
+          textOptions: {
+            amount: 'detailed',
+            tone: 'professional, authoritative, strategic',
+            audience: 'business executives and decision makers',
+            language: 'en',
+          },
+          imageOptions: {
+            source: 'aiGenerated',
+            style: 'professional business, modern corporate, clean minimal',
+          },
+          cardOptions: {
+            dimensions: '16x9',
+          },
+          sharingOptions: {
+            externalAccess: 'view',
+          },
+        }
 
-      if (response.ok) {
-        const result = await response.json()
-        return NextResponse.json({
-          success: true,
-          deckUrl: result.shareUrl || result.url,
+        const response = await fetch(GAMMA_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${gammaApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(gammaPayload),
         })
+
+        if (response.ok) {
+          const result = await response.json()
+          const deckUrl = result.shareUrl || result.url || result.gammaUrl
+
+          // Send to webhook with real URL
+          await sendToWebhook({
+            userName,
+            companyName,
+            assessmentData,
+            insights,
+            collectedData,
+            deckUrl,
+          })
+
+          return NextResponse.json({
+            success: true,
+            deckUrl,
+            gammaId: result.id,
+          })
+        } else {
+          const errorText = await response.text()
+          console.error('Gamma API error:', response.status, errorText)
+          // Fall through to mock URL
+        }
+      } catch (gammaError) {
+        console.error('Gamma API request failed:', gammaError)
+        // Fall through to mock URL
       }
     }
 
@@ -71,7 +114,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       deckUrl: mockUrl,
-      note: 'Using mock URL - set GAMMA_API_KEY for real generation',
+      note: gammaApiKey ? 'Gamma API call failed, using fallback URL' : 'Set GAMMA_API_KEY for real generation',
     })
   } catch (error) {
     console.error('Gamma API error:', error)
