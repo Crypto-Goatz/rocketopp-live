@@ -485,9 +485,9 @@ export function Navbar() {
                   >
                     Sign In
                   </Link>
-                  <Button asChild>
-                    <Link href="/contact">
-                      Get Started
+                  <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                    <Link href="/assessment">
+                      Free AI Assessment
                     </Link>
                   </Button>
                 </>
@@ -619,8 +619,8 @@ export function Navbar() {
                       <Button variant="outline" asChild>
                         <Link href="/login">Sign In</Link>
                       </Button>
-                      <Button asChild>
-                        <Link href="/contact">Get Started</Link>
+                      <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500">
+                        <Link href="/assessment">Free AI Assessment</Link>
                       </Button>
                     </div>
                   )}
