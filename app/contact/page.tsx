@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Mail, Phone, MapPin } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Contact Us | RocketOpp",
+  title: "Contact Us - Schedule a Discovery Call | RocketOpp",
   description:
-    "Get in touch with the RocketOpp team. Schedule a consultation, ask a question, or start your next project with us. We're here to help you leverage AI and web technology.",
+    "Schedule a free discovery call with the RocketOpp team. Discuss your project, explore AI solutions, or start building with us. We're here to help you leverage AI and automation.",
 }
 
 export default function ContactPage() {
@@ -15,7 +15,7 @@ export default function ContactPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Contact RocketOpp</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Whether you have a question, a project idea, or want to schedule a free consultation, we're ready to listen.
+          Schedule a free discovery call to discuss your project, or reach out directly. We're ready to help you leverage AI and automation.
         </p>
       </div>
 
@@ -23,17 +23,17 @@ export default function ContactPage() {
         <div className="lg:col-span-2">
           <Card className="overflow-hidden">
             <CardHeader>
-              <CardTitle>Schedule a Consultation</CardTitle>
-              <CardDescription>Use our interactive calendar to find a time that works for you.</CardDescription>
+              <CardTitle>Schedule a Discovery Call</CardTitle>
+              <CardDescription>Book a free 30-minute discovery call to discuss your project and explore how we can help you leverage AI and automation.</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="h-[750px] w-full">
                 <iframe
-                  src="https://api.rocketclients.com/widget/booking/dnH2nAQpjwwS71EufcnC"
+                  src="https://api.rocketclients.com/widget/booking/p4EEMwP9hLoGQ1eF7pv0"
                   style={{ width: "100%", height: "100%", border: "none", overflow: "hidden" }}
                   scrolling="no"
-                  id="dnH2nAQpjwwS71EufcnC_1753665080517"
-                  title="Booking Widget"
+                  id="discovery-call-booking"
+                  title="Schedule a Discovery Call"
                 ></iframe>
               </div>
             </CardContent>
