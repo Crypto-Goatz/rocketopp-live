@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import EcosprayNavbar from "./components/navbar"
+import "./ecospray.css"
 
 export const metadata: Metadata = {
   title: "EcoSpray Solutions | Spray Foam Insulation Pittsburgh",
@@ -21,14 +22,7 @@ export default function EcosprayLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-zinc-950">
-      <style jsx global>{`
-        :root {
-          --ecospray-primary: 142 76% 36%;
-          --ecospray-primary-light: 142 70% 45%;
-          --ecospray-accent: 142 80% 40%;
-        }
-      `}</style>
+    <div className="min-h-screen bg-zinc-950 ecospray-theme">
       <EcosprayNavbar />
       <main>{children}</main>
     </div>
