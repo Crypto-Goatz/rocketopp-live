@@ -1,128 +1,125 @@
 import type { Metadata } from "next"
-import Script from "next/script"
-import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Mail, Phone, MapPin, Calendar, ArrowRight } from "lucide-react"
-import { SmartContactForm } from "@/components/contact/SmartContactForm"
+import { ContactForm } from "./contact-form"
+import { Mail, Phone, Zap, Clock, Shield, Star } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Contact Us - Get Started with RocketOpp",
   description:
-    "Tell us about your project and get a personalized response within 24 hours. Schedule a free discovery call to explore AI and automation solutions for your business.",
+    "Ready to transform your business with AI? Get in touch and we'll respond within 24 hours.",
 }
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-primary/5">
-      <div className="container mx-auto px-4 py-12 md:py-20">
+    <div className="min-h-screen bg-zinc-950 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-red-500/15 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/5 rounded-full blur-3xl" />
+
+        {/* Grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+                             linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-16 md:py-24">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            Let's Build Something{" "}
-            <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent">
-              Amazing
+        <div className="text-center mb-16 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-primary text-sm font-medium mb-6">
+            <Zap className="h-4 w-4" />
+            Response within 24 hours
+          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+            Let's Build{" "}
+            <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,107,53,0.3)]">
+              Together
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Tell us about your project and we'll get back to you within 24 hours with a personalized response.
+          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">
+            Ready to transform your business with AI and automation?
+            Tell us about your project and let's make it happen.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
-          {/* Smart Contact Form - Primary CTA */}
-          <div className="lg:col-span-2">
-            <SmartContactForm variant="contact-page-v1" />
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
+          {/* Contact Form - Takes up 3 columns */}
+          <div className="lg:col-span-3">
+            <ContactForm />
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Quick Book Card */}
-            <Card className="bg-gradient-to-br from-primary/10 to-orange-500/10 border-primary/20">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-lg">Prefer to talk now?</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Skip the form and jump straight to a live conversation.
-                </p>
-                <Link href="/consultation">
-                  <Button className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90">
-                    Book Discovery Call
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+          {/* Sidebar - Takes up 2 columns */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Direct Contact Card */}
+            <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm">
+              <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                <span className="text-primary">💬</span>
+                Prefer to talk directly?
+              </h3>
+              <div className="space-y-4">
+                <a
+                  href="mailto:Mike@rocketopp.com"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <Mail className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Email Us</p>
+                    <p className="text-xs text-zinc-500">Mike@rocketopp.com</p>
+                  </div>
+                </a>
+                <a
+                  href="tel:+18788881230"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <Phone className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Call Jessica (AI)</p>
+                    <p className="text-xs text-zinc-500">+1 (878) 888-1230</p>
+                  </div>
+                </a>
+              </div>
+            </div>
 
-            {/* Contact Details */}
-            <Card className="border-primary/20">
-              <CardHeader className="pb-3">
-                <CardTitle>Contact Details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
-                    <Mail className="h-4 w-4 text-primary" />
+            {/* Why Choose Us */}
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-red-500/5 border border-primary/20">
+              <h3 className="font-semibold text-lg mb-4">Why RocketOpp?</h3>
+              <div className="space-y-3">
+                {[
+                  { icon: Zap, text: "AI-first approach to every solution" },
+                  { icon: Clock, text: "Rapid delivery, no wasted time" },
+                  { icon: Shield, text: "Enterprise-grade security" },
+                  { icon: Star, text: "100+ successful projects delivered" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-sm text-zinc-400">
+                    <item.icon className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>{item.text}</span>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Email</h4>
-                    <a href="mailto:Mike@rocketopp.com" className="text-muted-foreground hover:text-primary text-sm">
-                      Mike@rocketopp.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
-                    <Phone className="h-4 w-4 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Talk to Jessica (AI)</h4>
-                    <a href="tel:+18788881230" className="text-muted-foreground hover:text-primary block text-sm">
-                      +1 (878) 888-1230
-                    </a>
-                    <span className="text-xs text-muted-foreground/70">Available 24/7</span>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
-                    <MapPin className="h-4 w-4 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Location</h4>
-                    <span className="text-muted-foreground text-sm">Serving clients globally</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                ))}
+              </div>
+            </div>
 
-            {/* Business Hours */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle>Response Time</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">Form submissions</span>
-                  <span className="text-sm bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full">Within 24h</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">Jessica (AI)</span>
-                  <span className="text-sm bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full">Instant</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">Discovery calls</span>
-                  <span className="text-sm text-muted-foreground">Book anytime</span>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Trust Badge */}
+            <div className="p-4 rounded-xl bg-zinc-900/30 border border-zinc-800 text-center">
+              <p className="text-xs text-zinc-500 mb-2">Trusted by agencies worldwide</p>
+              <div className="flex items-center justify-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-sm font-medium mt-1">4.9/5 from 50+ reviews</p>
+            </div>
           </div>
         </div>
       </div>
-      <Script src="https://links.rocketclients.com/js/form_embed.js" strategy="lazyOnload" />
     </div>
   )
 }
