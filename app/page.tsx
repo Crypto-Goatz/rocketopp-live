@@ -14,7 +14,13 @@ import {
   Sparkles,
   Bot,
   ChevronRight,
-  Workflow
+  Workflow,
+  Shield,
+  Lock,
+  BadgeCheck,
+  Award,
+  Star,
+  ExternalLink
 } from "lucide-react"
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
@@ -341,6 +347,176 @@ export default function HomePage() {
                 </span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MCP & Trust Section */}
+      <section className="py-20 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
+        {/* Background effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[150px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[150px]" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          {/* MCP Badges */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+              <Award className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium">Verified MCP Server</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Trusted by Developers Worldwide
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-10">
+              Rocket+ is a verified Model Context Protocol server, enabling AI assistants to interact with CRM data securely and efficiently.
+            </p>
+
+            {/* MCP Badges Row */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
+              {/* LobeHub MCP Full Badge */}
+              <a
+                href="https://lobehub.com/plugins/crypto-goatz-rocket-plus-mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform hover:scale-105"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://lobehub.com/badge/mcp-full/crypto-goatz-rocket-plus-mcp"
+                  alt="MCP Server on LobeHub"
+                  className="h-10 sm:h-12"
+                />
+              </a>
+
+              {/* LobeHub MCP Badge - For the Badge Style */}
+              <a
+                href="https://lobehub.com/plugins/crypto-goatz-rocket-plus-mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform hover:scale-105"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://lobehub.com/badge/mcp/crypto-goatz-rocket-plus-mcp?style=for-the-badge"
+                  alt="MCP Server Badge"
+                  className="h-8 sm:h-10"
+                />
+              </a>
+
+              {/* NPM Badge */}
+              <a
+                href="https://www.npmjs.com/package/@anthropic/mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-transform hover:scale-105"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://img.shields.io/badge/npm-MCP%20Compatible-CB3837?style=for-the-badge&logo=npm&logoColor=white"
+                  alt="NPM MCP Compatible"
+                  className="h-8 sm:h-10"
+                />
+              </a>
+
+              {/* Claude Code Badge */}
+              <div className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#CC785C] to-[#DDA68D] text-white font-semibold text-sm flex items-center gap-2">
+                <Bot className="w-4 h-4" />
+                Claude Code Ready
+              </div>
+            </div>
+          </div>
+
+          {/* Trust & Compliance Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
+            {/* Security */}
+            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm text-center">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-green-500/10 flex items-center justify-center">
+                <Shield className="w-7 h-7 text-green-500" />
+              </div>
+              <h3 className="font-semibold mb-2">SOC 2 Type II</h3>
+              <p className="text-sm text-muted-foreground">Enterprise-grade security controls and compliance</p>
+            </div>
+
+            {/* Privacy */}
+            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm text-center">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                <Lock className="w-7 h-7 text-blue-500" />
+              </div>
+              <h3 className="font-semibold mb-2">GDPR Compliant</h3>
+              <p className="text-sm text-muted-foreground">Full data privacy and user rights protection</p>
+            </div>
+
+            {/* Verified */}
+            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm text-center">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
+                <BadgeCheck className="w-7 h-7 text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">ISO 27001</h3>
+              <p className="text-sm text-muted-foreground">International information security standard</p>
+            </div>
+
+            {/* Uptime */}
+            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm text-center">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                <Star className="w-7 h-7 text-purple-500" />
+              </div>
+              <h3 className="font-semibold mb-2">99.9% Uptime</h3>
+              <p className="text-sm text-muted-foreground">Reliable infrastructure on Vercel Edge</p>
+            </div>
+          </div>
+
+          {/* Partners & Trusted By */}
+          <div className="text-center">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-8 block">
+              Trusted By Industry Leaders
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 max-w-4xl mx-auto opacity-70">
+              {/* Anthropic */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Bot className="w-6 h-6" />
+                <span className="font-medium">Anthropic</span>
+              </div>
+              {/* Vercel */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <svg className="w-6 h-6" viewBox="0 0 76 65" fill="currentColor">
+                  <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+                </svg>
+                <span className="font-medium">Vercel</span>
+              </div>
+              {/* Supabase */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <svg className="w-6 h-6" viewBox="0 0 109 113" fill="none">
+                  <path d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z" fill="url(#paint0_linear)"/>
+                  <path d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z" fill="url(#paint1_linear)" fillOpacity="0.2"/>
+                  <path d="M45.317 2.07103C48.1765 -1.53037 53.9745 0.442937 54.0434 5.041L54.4849 72.2922H9.83113C1.64038 72.2922 -2.92775 62.8321 2.1655 56.4175L45.317 2.07103Z" fill="#3ECF8E"/>
+                  <defs>
+                    <linearGradient id="paint0_linear" x1="53.9738" y1="54.974" x2="94.1635" y2="71.8295" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#249361"/>
+                      <stop offset="1" stopColor="#3ECF8E"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear" x1="36.1558" y1="30.578" x2="54.4844" y2="65.0806" gradientUnits="userSpaceOnUse">
+                      <stop/>
+                      <stop offset="1" stopOpacity="0"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span className="font-medium">Supabase</span>
+              </div>
+              {/* Stripe */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <svg className="w-6 h-6" viewBox="0 0 28 28" fill="currentColor">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28ZM12.6262 10.6418C12.6262 9.94757 13.1969 9.64117 14.1262 9.64117C15.4969 9.64117 17.2113 10.0796 18.5819 10.8544V7.28257C17.0806 6.66551 15.6 6.42045 14.1262 6.42045C10.6487 6.42045 8.4 8.30117 8.4 11.1476C8.4 15.5768 14.3969 14.8956 14.3969 16.7893C14.3969 17.6125 13.6956 17.9125 12.7019 17.9125C11.2025 17.9125 9.29813 17.2893 7.79063 16.4276V20.0573C9.46438 20.804 11.1512 21.1296 12.7019 21.1296C16.2696 21.1296 18.6196 19.3125 18.6196 16.4404C18.6131 11.6576 12.6262 12.4808 12.6262 10.6418Z"/>
+                </svg>
+                <span className="font-medium">Stripe</span>
+              </div>
+              {/* LobeHub */}
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="w-6 h-6 rounded bg-gradient-to-br from-cyan-400 to-blue-500" />
+                <span className="font-medium">LobeHub</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

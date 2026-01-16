@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { Cpu, Bot, Zap, Brain, MessageSquare, Workflow, Database, Shield, CheckCircle, ArrowRight, Star, Award, Sparkles, BarChart3 } from "lucide-react"
 import { ServiceHero } from "@/components/service-hero"
 import { Button } from "@/components/ui/button"
@@ -157,6 +158,72 @@ export default function AIApplicationsPage() {
           ctaText="Explore AI Solutions"
           ctaHref="/contact?service=ai-applications"
         />
+
+        {/* Visual Showcase */}
+        <section className="py-16 bg-gradient-to-b from-background to-muted/30">
+          <div className="container">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="relative">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/20">
+                  <Image
+                    src="/photorealistic-astronaut-with-ai-neural-network.jpg"
+                    alt="AI Neural Network Visualization"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white/80 text-sm">Advanced AI neural networks powering your business</p>
+                  </div>
+                </div>
+                {/* Floating accent images */}
+                <div className="absolute -top-6 -right-6 w-32 h-32 rounded-xl overflow-hidden shadow-xl border-2 border-background hidden lg:block">
+                  <Image
+                    src="/photorealistic-astronaut-analyzing-seo-data.jpg"
+                    alt="AI Data Analysis"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -bottom-6 -left-6 w-40 h-28 rounded-xl overflow-hidden shadow-xl border-2 border-background hidden lg:block">
+                  <Image
+                    src="/photorealistic-astronaut-controlling-automated.jpg"
+                    alt="Process Automation"
+                    width={160}
+                    height={112}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div>
+                <span className="text-primary text-sm font-semibold uppercase tracking-wider">The Future of Business</span>
+                <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-6">AI-Powered Intelligence at Scale</h2>
+                <p className="text-muted-foreground text-lg mb-6">
+                  Our AI solutions combine cutting-edge machine learning with practical business applications.
+                  We don't just build AI—we build AI that understands your business, learns from your data,
+                  and delivers measurable results.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Custom-trained models</strong> on your unique business data</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Enterprise-grade security</strong> with SOC 2 compliance</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span><strong>Seamless integration</strong> with your existing systems</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Stats Bar */}
         <section className="py-12 bg-muted/30 border-y border-border/50">
