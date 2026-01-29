@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-
-// GHL Webhook for lead capture
-const GHL_WEBHOOK_URL = process.env.LEADS_WEBHOOK_URL ||
-  "https://services.leadconnectorhq.com/hooks/6MSqx0trfxgLxeHBJE1k/webhook-trigger/16e971d9-d576-4b5d-a90f-4cf8224c67e9"
+import { GHL_WEBHOOK_URL } from "@/lib/ghl/webhook"
 
 interface LeadForm {
   firstName: string

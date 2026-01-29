@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
+import { sendToGHLWebhook, WebhookSources } from "@/lib/ghl/webhook"
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -106,28 +107,20 @@ export async function POST(request: NextRequest) {
       console.warn("GHL_LOCATION_API_KEY not configured - skipping GHL submission")
     }
 
-    // Send notification via GHL webhook (backup method if direct API isn't configured)
-    if (!GHL_API_KEY && process.env.GHL_WEBHOOK_URL) {
-      try {
-        await fetch(process.env.GHL_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: data.name,
-            first_name: firstName,
-            last_name: lastName,
-            email: data.email,
-            phone: data.phone,
-            company: data.company,
-            message: data.message,
-            source: "RocketOpp Contact Form",
-            submitted_at: new Date().toISOString(),
-          }),
-        })
-      } catch (webhookError) {
-        console.error("Webhook submission failed:", webhookError)
-      }
-    }
+    // Always send to GHL webhook for lead capture
+    await sendToGHLWebhook({
+      email: data.email,
+      firstName,
+      lastName,
+      fullName: data.name,
+      phone: data.phone,
+      company: data.company,
+      message: data.message,
+      source: WebhookSources.CONTACT_FORM,
+      formName: "Contact Form",
+      pageUrl: request.headers.get("referer") || "https://rocketopp.com/contact",
+      tags: ["Website Lead", "Contact Form"],
+    })
 
     return NextResponse.json({
       success: true,
