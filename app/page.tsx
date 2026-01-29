@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
-import { OrganizationSchema, WebsiteSchema, FAQSchema } from "@/components/seo/json-ld"
+import { OrganizationSchema, WebsiteSchema, FAQSchema, VideoSchema } from "@/components/seo/json-ld"
 import { HeroAnimation } from "@/components/hero-animation"
 
 export const metadata: Metadata = {
@@ -637,6 +637,57 @@ export default function HomePage() {
                   <p className="text-muted-foreground">{item.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Insights Section */}
+      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+        <VideoSchema
+          name="25 Years of Marketing Trends: What Actually Works"
+          description="A deep dive into marketing evolution over the past 25 years. Learn what strategies have stood the test of time and what's driving results today."
+          thumbnailUrl="https://img.youtube.com/vi/90N8kne60Os/maxresdefault.jpg"
+          uploadDate="2024-01-01"
+          duration="PT10M"
+          embedUrl="https://www.youtube.com/embed/90N8kne60Os"
+        />
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                Industry Insights
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold mt-4 mb-4">
+                25 Years of Marketing Evolution
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                See how marketing has transformed over the decades and what strategies are driving results today.
+              </p>
+            </div>
+
+            {/* Video Embed */}
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-border/50 shadow-2xl shadow-black/20">
+              <iframe
+                src="https://www.youtube.com/embed/90N8kne60Os"
+                title="25 Years of Marketing Trends"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+                loading="lazy"
+              />
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-muted-foreground mb-6">
+                Want to leverage these insights for your business? Our team combines decades of marketing experience with cutting-edge AI.
+              </p>
+              <Button variant="outline" asChild>
+                <Link href="/services/web-marketing">
+                  Explore Our Marketing Services
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

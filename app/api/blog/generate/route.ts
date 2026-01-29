@@ -31,20 +31,45 @@ const SEO_CONFIG = {
   MAX_FAQS: 8
 }
 
-// Topics pool for daily generation (can be expanded or pulled from trending)
+// Topics pool for daily generation - Traffic-focused, service-aligned content
 const TOPIC_POOL = [
-  // AI & Automation
+  // AI & Automation (High-intent traffic drivers)
+  { topic: 'How to Automate Your Business in 2026: Complete Guide', category: 'AI & Automation', keywords: ['business automation', 'automate business', 'automation tools', 'workflow automation'] },
+  { topic: 'AI Chatbots vs Human Support: Which is Better for Business?', category: 'AI & Automation', keywords: ['AI chatbot', 'business chatbot', 'customer service automation', 'AI support'] },
   { topic: 'How AI Agents Are Revolutionizing Small Business Operations', category: 'AI & Automation', keywords: ['AI agents', 'business automation', 'small business AI', 'workflow automation'] },
   { topic: 'Building Your First AI-Powered Marketing Funnel', category: 'Marketing', keywords: ['AI marketing', 'marketing funnel', 'lead generation', 'automated marketing'] },
   { topic: 'The Complete Guide to CRM Automation in 2026', category: 'Technology', keywords: ['CRM automation', 'sales automation', 'customer management', 'CRM tools'] },
-  { topic: 'AI Content Creation: Best Practices for Authentic Brand Voice', category: 'Marketing', keywords: ['AI content', 'content creation', 'brand voice', 'content marketing'] },
   { topic: 'How to Implement Conversational AI for Customer Service', category: 'AI & Automation', keywords: ['conversational AI', 'chatbots', 'customer service', 'AI support'] },
+  { topic: 'Automating Lead Follow-Up: The Complete Guide', category: 'AI & Automation', keywords: ['lead follow up', 'sales automation', 'lead nurturing', 'automated sales'] },
+  { topic: 'How to Generate Leads While You Sleep', category: 'Marketing', keywords: ['lead generation', 'passive leads', 'automated marketing', '24/7 marketing'] },
+
+  // Website & SEO (Service-focused traffic)
+  { topic: 'Website Redesign ROI: Is It Worth the Investment?', category: 'Digital Transformation', keywords: ['website redesign', 'website ROI', 'business website', 'web design cost'] },
+  { topic: 'Local SEO Strategies That Actually Work in 2026', category: 'Marketing', keywords: ['local SEO', 'SEO strategies', 'local business SEO', 'Google My Business'] },
+  { topic: 'Website Speed Benchmarks: How Fast Should Your Site Load?', category: 'Technology', keywords: ['website speed', 'page load time', 'website performance', 'Core Web Vitals'] },
+  { topic: 'E-commerce Website Mistakes That Kill Conversions', category: 'Business Strategy', keywords: ['ecommerce website', 'conversion optimization', 'online store', 'ecommerce mistakes'] },
+  { topic: 'Why Local Businesses Are Winning with AI-Powered SEO', category: 'Marketing', keywords: ['local SEO', 'AI SEO', 'local business', 'search optimization'] },
+
+  // App Development
+  { topic: 'Mobile App vs Web App: Which Should You Build?', category: 'Technology', keywords: ['mobile app vs web app', 'app development', 'business app', 'custom software'] },
+  { topic: 'Custom App Development Cost Guide for 2026', category: 'Business Strategy', keywords: ['app development cost', 'custom app pricing', 'software development cost'] },
+
+  // Comparison Posts (High traffic potential)
+  { topic: 'GoHighLevel vs HubSpot: Complete CRM Comparison', category: 'Technology', keywords: ['GoHighLevel vs HubSpot', 'CRM comparison', 'best CRM', 'CRM review'] },
+  { topic: 'Top 10 Business Automation Platforms Compared', category: 'Technology', keywords: ['automation platforms', 'business automation tools', 'automation software'] },
+  { topic: 'AI Writing Tools Comparison: Which Should You Use?', category: 'AI & Automation', keywords: ['AI writing tools', 'AI content', 'ChatGPT alternatives', 'AI comparison'] },
+
+  // Industry-Specific
+  { topic: 'AI Tools Every Real Estate Agent Needs in 2026', category: 'AI & Automation', keywords: ['real estate AI', 'realtor automation', 'real estate technology'] },
+  { topic: 'How Law Firms Are Using AI to Win More Cases', category: 'AI & Automation', keywords: ['legal AI', 'law firm automation', 'legal technology'] },
+  { topic: 'Healthcare Practice Automation: Implementation Guide', category: 'Digital Transformation', keywords: ['healthcare automation', 'medical practice software', 'healthcare technology'] },
+
+  // Original topics
+  { topic: 'AI Content Creation: Best Practices for Authentic Brand Voice', category: 'Marketing', keywords: ['AI content', 'content creation', 'brand voice', 'content marketing'] },
   { topic: 'Digital Transformation Roadmap for Service-Based Businesses', category: 'Digital Transformation', keywords: ['digital transformation', 'service business', 'business modernization'] },
   { topic: 'Measuring ROI on AI Investments: A Practical Framework', category: 'Business Strategy', keywords: ['AI ROI', 'technology investment', 'business metrics', 'AI analytics'] },
   { topic: 'The Rise of No-Code AI Tools: What Business Owners Need to Know', category: 'Technology', keywords: ['no-code AI', 'AI tools', 'business tools', 'automation platforms'] },
   { topic: 'Personalizing Customer Journeys with Machine Learning', category: 'Marketing', keywords: ['personalization', 'machine learning', 'customer journey', 'AI marketing'] },
-  { topic: 'Why Local Businesses Are Winning with AI-Powered SEO', category: 'Marketing', keywords: ['local SEO', 'AI SEO', 'local business', 'search optimization'] },
-  { topic: 'Automating Lead Qualification: From Inquiry to Close', category: 'AI & Automation', keywords: ['lead qualification', 'sales automation', 'lead scoring', 'sales funnel'] },
   { topic: 'The Future of Email Marketing: AI-Driven Campaigns', category: 'Marketing', keywords: ['email marketing', 'AI email', 'campaign automation', 'email optimization'] },
   { topic: 'Building a Data-Driven Culture in Your Organization', category: 'Business Strategy', keywords: ['data-driven', 'business analytics', 'organizational culture', 'data strategy'] },
   { topic: 'Voice AI: The Next Frontier in Customer Engagement', category: 'Technology', keywords: ['voice AI', 'voice assistants', 'customer engagement', 'voice technology'] },

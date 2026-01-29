@@ -1,16 +1,95 @@
 import Footer from "@/components/footer"
 import { Rocket, Zap, Clock, Brain } from "lucide-react"
 import type { Metadata } from "next"
+import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
+import { TestimonialsSection, TestimonialStrip } from "@/components/seo/testimonials"
 
 export const metadata: Metadata = {
-  title: "About",
-  description: "RocketOpp builds tools that work while you sleep. We're a small team that ships fast and hates busywork as much as you do.",
+  title: "About RocketOpp | AI-Powered Business Automation Company",
+  description: "RocketOpp builds AI-powered tools that work while you sleep. We're a team of automation experts who ship fast and eliminate busywork. Learn about our mission to transform how businesses operate.",
+  keywords: [
+    "about RocketOpp",
+    "AI automation company",
+    "business automation experts",
+    "workflow automation",
+    "AI tools company",
+    "digital transformation agency"
+  ],
+  openGraph: {
+    title: "About RocketOpp | We Build. You Sleep.",
+    description: "We're a team that hates busywork as much as you do. Learn how we're transforming businesses with AI-powered automation.",
+    url: "https://rocketopp.com/about",
+    type: "website"
+  },
+  alternates: {
+    canonical: "https://rocketopp.com/about"
+  }
+}
+
+// LocalBusiness Schema for About page
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://rocketopp.com/#organization",
+  name: "RocketOpp",
+  alternateName: "Rocket Opp",
+  description: "AI-powered automation tools and digital transformation services for businesses",
+  url: "https://rocketopp.com",
+  logo: "https://rocketopp.com/images/rocketopp-logo.png",
+  image: "https://rocketopp.com/images/rocketopp-og.png",
+  telephone: "+1-878-888-1230",
+  email: "Mike@rocketopp.com",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "US"
+  },
+  priceRange: "$$",
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "00:00",
+    closes: "23:59"
+  },
+  sameAs: [
+    "https://twitter.com/rocketopp",
+    "https://linkedin.com/company/rocketopp",
+    "https://github.com/rocketopp"
+  ],
+  knowsAbout: [
+    "Business Automation",
+    "AI Integration",
+    "CRM Systems",
+    "Workflow Automation",
+    "AI Agents",
+    "Website Design",
+    "App Development"
+  ],
+  areaServed: {
+    "@type": "GeoCircle",
+    geoMidpoint: {
+      "@type": "GeoCoordinates",
+      latitude: 39.8283,
+      longitude: -98.5795
+    },
+    geoRadius: "5000 miles"
+  }
 }
 
 export default function AboutPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      {/* LocalBusiness Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+
       <main className="flex-grow">
+        {/* Breadcrumbs */}
+        <div className="container mx-auto px-4 pt-8">
+          <Breadcrumbs items={breadcrumbPaths.about} />
+        </div>
+
         {/* Hero Section */}
         <section className="py-24 md:py-32">
           <div className="container mx-auto px-4">
@@ -19,9 +98,11 @@ export default function AboutPage() {
                 We Build.
                 <span className="bg-gradient-to-r from-primary via-orange-400 to-red-500 bg-clip-text text-transparent"> You Sleep.</span>
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                That's not just a tagline. It's the entire point.
+              <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+                That&apos;s not just a tagline. It&apos;s the entire point.
               </p>
+              {/* Trust Badge */}
+              <TestimonialStrip />
             </div>
           </div>
         </section>
@@ -126,13 +207,20 @@ export default function AboutPage() {
         <section className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              That's the story.
+              That&apos;s the story.
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              If you hate busywork as much as we do, you'll probably like what we build.
+              If you hate busywork as much as we do, you&apos;ll probably like what we build.
             </p>
           </div>
         </section>
+
+        {/* Testimonials Section */}
+        <TestimonialsSection
+          title="What Our Clients Say"
+          subtitle="Real results from real businesses"
+          maxItems={6}
+        />
       </main>
       <Footer />
     </div>
