@@ -4,11 +4,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { RocketOppLogo } from "@/components/logo"
 import {
-  Menu, X, ShoppingBag, User, ChevronDown,
+  Menu, X, User, ChevronDown,
   Globe, Cpu, Code2, Megaphone, Search, Workflow,
   Palette, Zap, BarChart3, Target,
   Bot, Smartphone, PenTool, Share2, LineChart,
-  Lightbulb, HelpCircle, FileText, Sparkles, Package, CreditCard, Rocket
+  Lightbulb, FileText, Sparkles, Package, Rocket, ExternalLink
 } from "lucide-react"
 import { useState, useEffect, useRef, useCallback } from "react"
 
@@ -93,27 +93,27 @@ const services = [
   },
 ]
 
-const marketplaceProducts = [
-  { name: "Rocket+", description: "50+ AI automation tools", href: "/marketplace/rocket-plus", icon: Rocket, color: "from-orange-500 to-red-500" },
-  { name: "MCPFED", description: "MCP server management", href: "/marketplace/mcpfed", icon: Cpu, color: "from-blue-500 to-cyan-500" },
-  { name: "BotCoaches", description: "AI coaching profiles", href: "/marketplace/botcoaches", icon: Bot, color: "from-purple-500 to-pink-500" },
+const ourApps = [
+  { name: "Rocket+", description: "50+ AI CRM tools", href: "https://rocketadd.com", icon: Rocket, color: "from-orange-500 to-red-500", external: true, status: "Live" },
+  { name: "MCPFED", description: "AI agent command center", href: "https://mcpfed.com", icon: Cpu, color: "from-cyan-500 to-blue-500", external: true, status: "Live" },
+  { name: "BotCoaches", description: "AI coaching personas", href: "https://botcoaches.com", icon: Bot, color: "from-purple-500 to-pink-500", external: true, status: "Soon" },
 ]
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false)
-  const [marketplaceMenuOpen, setMarketplaceMenuOpen] = useState(false)
+  const [appsMenuOpen, setAppsMenuOpen] = useState(false)
   const [servicesAnimating, setServicesAnimating] = useState(false)
-  const [marketplaceAnimating, setMarketplaceAnimating] = useState(false)
+  const [appsAnimating, setAppsAnimating] = useState(false)
   const [user, setUser] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
   const [mobileServiceExpanded, setMobileServiceExpanded] = useState<string | null>(null)
-  const [mobileMarketplaceExpanded, setMobileMarketplaceExpanded] = useState(false)
+  const [mobileAppsExpanded, setMobileAppsExpanded] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const marketplaceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const appsTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const servicesDropdownRef = useRef<HTMLDivElement>(null)
-  const marketplaceDropdownRef = useRef<HTMLDivElement>(null)
+  const appsDropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     async function checkAuth() {
@@ -141,8 +141,8 @@ export function Navbar() {
 
   const handleServicesEnter = () => {
     if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current)
-    setMarketplaceMenuOpen(false)
-    setMarketplaceAnimating(false)
+    setAppsMenuOpen(false)
+    setAppsAnimating(false)
     setServicesAnimating(true)
     setServicesMenuOpen(true)
   }
@@ -155,25 +155,25 @@ export function Navbar() {
     }, 100)
   }
 
-  const handleMarketplaceEnter = () => {
-    if (marketplaceTimeoutRef.current) clearTimeout(marketplaceTimeoutRef.current)
+  const handleAppsEnter = () => {
+    if (appsTimeoutRef.current) clearTimeout(appsTimeoutRef.current)
     setServicesMenuOpen(false)
     setServicesAnimating(false)
-    setMarketplaceAnimating(true)
-    setMarketplaceMenuOpen(true)
+    setAppsAnimating(true)
+    setAppsMenuOpen(true)
   }
 
-  const handleMarketplaceLeave = () => {
-    marketplaceTimeoutRef.current = setTimeout(() => {
-      setMarketplaceAnimating(false)
-      setTimeout(() => setMarketplaceMenuOpen(false), 300)
+  const handleAppsLeave = () => {
+    appsTimeoutRef.current = setTimeout(() => {
+      setAppsAnimating(false)
+      setTimeout(() => setAppsMenuOpen(false), 300)
     }, 100)
   }
 
   useEffect(() => {
     return () => {
       if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current)
-      if (marketplaceTimeoutRef.current) clearTimeout(marketplaceTimeoutRef.current)
+      if (appsTimeoutRef.current) clearTimeout(appsTimeoutRef.current)
     }
   }, [])
 
@@ -289,23 +289,23 @@ export function Navbar() {
                 )}
               </div>
 
-              {/* Marketplace Mega Menu */}
+              {/* Our Apps Mega Menu */}
               <div
                 className="relative"
-                onMouseEnter={handleMarketplaceEnter}
-                onMouseLeave={handleMarketplaceLeave}
+                onMouseEnter={handleAppsEnter}
+                onMouseLeave={handleAppsLeave}
               >
                 <button className="flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5">
-                  <ShoppingBag className="w-4 h-4" />
-                  Marketplace
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${marketplaceMenuOpen ? 'rotate-180' : ''}`} />
+                  <Rocket className="w-4 h-4" />
+                  Our Apps
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${appsMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Marketplace Mega Menu Dropdown */}
-                {marketplaceMenuOpen && (
+                {/* Our Apps Mega Menu Dropdown */}
+                {appsMenuOpen && (
                   <div
-                    ref={marketplaceDropdownRef}
-                    className={`absolute top-full left-0 pt-2 w-[580px] z-[100] ${marketplaceAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    ref={appsDropdownRef}
+                    className={`absolute top-full left-0 pt-2 w-[480px] z-[100] ${appsAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
                     <div className="relative bg-black border border-white/10 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden">
@@ -314,7 +314,7 @@ export function Navbar() {
                         <div
                           className="absolute w-[400px] h-[400px] rounded-full blur-3xl transition-all duration-500 ease-out"
                           style={{
-                            background: 'radial-gradient(circle, rgba(139,92,246,0.4) 0%, transparent 70%)',
+                            background: 'radial-gradient(circle, rgba(255,107,0,0.4) 0%, transparent 70%)',
                             left: mousePos.x - 200,
                             top: mousePos.y - 200,
                           }}
@@ -333,116 +333,106 @@ export function Navbar() {
 
                       {/* Edge glow effect */}
                       <div className="absolute inset-0 rounded-2xl" style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(139,92,246,0.05) 100%)'
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,107,0,0.05) 100%)'
                       }} />
 
                       <div className="relative p-6">
-                        {/* Products */}
+                        {/* Apps */}
                         <div className="mb-6">
-                          <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Products</h4>
-                          <div className="grid grid-cols-3 gap-3">
-                            {marketplaceProducts.map((product) => {
-                              const Icon = product.icon
+                          <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Our Software</h4>
+                          <div className="space-y-2">
+                            {ourApps.map((app) => {
+                              const Icon = app.icon
                               return (
-                                <Link
-                                  key={product.name}
-                                  href={product.href}
-                                  className="group p-3 rounded-xl hover:bg-white/10 transition-all duration-300 text-center"
+                                <a
+                                  key={app.name}
+                                  href={app.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition-all duration-300"
                                   onClick={() => {
-                                    setMarketplaceAnimating(false)
-                                    setTimeout(() => setMarketplaceMenuOpen(false), 50)
+                                    setAppsAnimating(false)
+                                    setTimeout(() => setAppsMenuOpen(false), 50)
                                   }}
                                 >
-                                  <div className={`w-12 h-12 mx-auto rounded-xl bg-gradient-to-br ${product.color} flex items-center justify-center mb-2 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 shadow-lg`}>
+                                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${app.color} flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 shadow-lg`}>
                                     <Icon className="w-6 h-6 text-white" />
                                   </div>
-                                  <h3 className="font-semibold text-sm text-white">{product.name}</h3>
-                                  <p className="text-xs text-white/50 mt-0.5">{product.description}</p>
-                                </Link>
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2">
+                                      <h3 className="font-semibold text-sm text-white">{app.name}</h3>
+                                      <span className={`px-1.5 py-0.5 text-[10px] font-medium rounded-full ${
+                                        app.status === 'Live'
+                                          ? 'bg-green-500/20 text-green-400'
+                                          : 'bg-amber-500/20 text-amber-400'
+                                      }`}>
+                                        {app.status}
+                                      </span>
+                                    </div>
+                                    <p className="text-xs text-white/50 mt-0.5">{app.description}</p>
+                                  </div>
+                                  <ExternalLink className="w-4 h-4 text-white/30 group-hover:text-white/60 transition-colors" />
+                                </a>
                               )
                             })}
                           </div>
                         </div>
 
-                        {/* Actions Grid */}
-                        <div className="grid grid-cols-2 gap-3 mb-4">
+                        {/* Actions */}
+                        <div className="grid grid-cols-2 gap-3">
                           <Link
                             href="/pitch-idea"
-                            className="group p-4 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 hover:border-primary/40 transition-all duration-300"
+                            className="group p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 hover:border-primary/40 transition-all duration-300"
                             onClick={() => {
-                              setMarketplaceAnimating(false)
-                              setTimeout(() => setMarketplaceMenuOpen(false), 50)
+                              setAppsAnimating(false)
+                              setTimeout(() => setAppsMenuOpen(false), 50)
                             }}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <Lightbulb className="w-5 h-5 text-primary" />
+                              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <Lightbulb className="w-4 h-4 text-primary" />
                               </div>
                               <div>
-                                <h3 className="font-semibold text-sm text-white">Pitch Us an Idea</h3>
-                                <p className="text-xs text-white/50">Got a concept? Let's build it</p>
+                                <h3 className="font-semibold text-xs text-white">Pitch an Idea</h3>
+                                <p className="text-[10px] text-white/50">We might build it</p>
                               </div>
                             </div>
                           </Link>
 
                           <Link
                             href="/request-app"
-                            className="group p-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
+                            className="group p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
                             onClick={() => {
-                              setMarketplaceAnimating(false)
-                              setTimeout(() => setMarketplaceMenuOpen(false), 50)
+                              setAppsAnimating(false)
+                              setTimeout(() => setAppsMenuOpen(false), 50)
                             }}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <Package className="w-5 h-5 text-purple-400" />
+                              <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <Package className="w-4 h-4 text-purple-400" />
                               </div>
                               <div>
-                                <h3 className="font-semibold text-sm text-white">Request an App</h3>
-                                <p className="text-xs text-white/50">Custom build for your needs</p>
+                                <h3 className="font-semibold text-xs text-white">Request App</h3>
+                                <p className="text-[10px] text-white/50">Custom build</p>
                               </div>
                             </div>
                           </Link>
                         </div>
 
-                        {/* Lease Info */}
-                        <Link
-                          href="/how-leasing-works"
-                          className="group block p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300"
-                          onClick={() => {
-                            setMarketplaceAnimating(false)
-                            setTimeout(() => setMarketplaceMenuOpen(false), 50)
-                          }}
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                              <CreditCard className="w-6 h-6 text-white" />
-                            </div>
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-sm text-white flex items-center gap-2">
-                                How Does Leasing Work?
-                                <span className="px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-400 rounded-full">Industry First</span>
-                              </h3>
-                              <p className="text-xs text-white/50 mt-0.5">Pay monthly, own it eventually. The smart way to get premium software.</p>
-                            </div>
-                            <ChevronDown className="w-4 h-4 text-white/40 -rotate-90 group-hover:translate-x-1 transition-transform duration-300" />
-                          </div>
-                        </Link>
-
                         <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                           <p className="text-xs text-white/40">
                             <Sparkles className="w-3 h-3 inline mr-1" />
-                            Buy, Subscribe, or Lease-to-Own
+                            AI-Powered Software Suite
                           </p>
                           <Link
-                            href="/marketplace"
+                            href="/apps"
                             className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
                             onClick={() => {
-                              setMarketplaceAnimating(false)
-                              setTimeout(() => setMarketplaceMenuOpen(false), 50)
+                              setAppsAnimating(false)
+                              setTimeout(() => setAppsMenuOpen(false), 50)
                             }}
                           >
-                            Browse All
+                            View All Apps
                             <ChevronDown className="w-3 h-3 -rotate-90" />
                           </Link>
                         </div>
@@ -549,49 +539,61 @@ export function Navbar() {
                   )}
                 </div>
 
-                {/* Marketplace Accordion */}
+                {/* Our Apps Accordion */}
                 <div className="border-b border-border/50 pb-2 mb-2">
                   <button
                     className="flex items-center justify-between w-full px-2 py-2 text-sm font-medium"
-                    onClick={() => setMobileMarketplaceExpanded(!mobileMarketplaceExpanded)}
+                    onClick={() => setMobileAppsExpanded(!mobileAppsExpanded)}
                   >
                     <span className="flex items-center gap-2">
-                      <ShoppingBag className="w-4 h-4" />
-                      Marketplace
+                      <Rocket className="w-4 h-4" />
+                      Our Apps
                     </span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${mobileMarketplaceExpanded ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform ${mobileAppsExpanded ? 'rotate-180' : ''}`} />
                   </button>
 
-                  {mobileMarketplaceExpanded && (
+                  {mobileAppsExpanded && (
                     <div className="mt-2 space-y-2 pl-2">
-                      {marketplaceProducts.map((product) => {
-                        const Icon = product.icon
+                      {ourApps.map((app) => {
+                        const Icon = app.icon
                         return (
-                          <Link
-                            key={product.name}
-                            href={product.href}
+                          <a
+                            key={app.name}
+                            href={app.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors"
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${product.color} flex items-center justify-center`}>
+                            <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${app.color} flex items-center justify-center`}>
                               <Icon className="w-4 h-4 text-white" />
                             </div>
-                            <div>
-                              <div className="text-sm font-medium">{product.name}</div>
-                              <div className="text-xs text-muted-foreground">{product.description}</div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium">{app.name}</span>
+                                <span className={`px-1.5 py-0.5 text-[10px] font-medium rounded-full ${
+                                  app.status === 'Live'
+                                    ? 'bg-green-500/20 text-green-400'
+                                    : 'bg-amber-500/20 text-amber-400'
+                                }`}>
+                                  {app.status}
+                                </span>
+                              </div>
+                              <div className="text-xs text-muted-foreground">{app.description}</div>
                             </div>
-                          </Link>
+                            <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                          </a>
                         )
                       })}
                       <div className="pt-2 space-y-2">
+                        <Link href="/apps" className="flex items-center gap-2 px-2 py-2 text-sm text-primary" onClick={() => setMobileMenuOpen(false)}>
+                          <Sparkles className="w-4 h-4" /> View All Apps
+                        </Link>
                         <Link href="/pitch-idea" className="flex items-center gap-2 px-2 py-2 text-sm text-primary" onClick={() => setMobileMenuOpen(false)}>
                           <Lightbulb className="w-4 h-4" /> Pitch Us an Idea
                         </Link>
                         <Link href="/request-app" className="flex items-center gap-2 px-2 py-2 text-sm text-purple-400" onClick={() => setMobileMenuOpen(false)}>
                           <Package className="w-4 h-4" /> Request an App
-                        </Link>
-                        <Link href="/how-leasing-works" className="flex items-center gap-2 px-2 py-2 text-sm text-emerald-400" onClick={() => setMobileMenuOpen(false)}>
-                          <CreditCard className="w-4 h-4" /> How Leasing Works
                         </Link>
                       </div>
                     </div>

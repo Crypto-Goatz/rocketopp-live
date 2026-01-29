@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Globe, Cpu, Code2, Megaphone, Search, Workflow } from "lucide-react"
+import { Globe, Cpu, Code2, Megaphone, Search, Workflow, Rocket, Bot, ExternalLink } from "lucide-react"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -58,30 +58,51 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Marketplace */}
+          {/* Our Apps */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold">Products</h3>
-            <nav aria-label="Marketplace Navigation">
+            <h3 className="text-sm font-bold">Our Apps</h3>
+            <nav aria-label="Apps Navigation">
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/marketplace" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Browse Marketplace
+                  <Link href="/apps" className="text-muted-foreground hover:text-foreground transition-colors">
+                    View All Apps
                   </Link>
                 </li>
                 <li>
-                  <Link href="/marketplace/rocket-plus" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a
+                    href="https://rocketadd.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    <Rocket className="w-3 h-3" />
                     Rocket+
-                  </Link>
+                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                  </a>
                 </li>
                 <li>
-                  <Link href="/marketplace/mcpfed" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a
+                    href="https://mcpfed.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    <Cpu className="w-3 h-3" />
                     MCPFED
-                  </Link>
+                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                  </a>
                 </li>
                 <li>
-                  <Link href="/marketplace/botcoaches" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a
+                    href="https://botcoaches.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    <Bot className="w-3 h-3" />
                     BotCoaches
-                  </Link>
+                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                  </a>
                 </li>
               </ul>
             </nav>
