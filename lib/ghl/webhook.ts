@@ -14,6 +14,7 @@ export const WebhookSources = {
   INQUIRY_MODAL: 'rocketopp-inquiry-modal',
   ASSESSMENT: 'rocketopp-ai-assessment',
   REQUEST_APP: 'rocketopp-request-app',
+  PITCH_IDEA: 'rocketopp-pitch-idea',
   SUPPORT: 'rocketopp-support',
   GENERAL: 'rocketopp-website',
 } as const
