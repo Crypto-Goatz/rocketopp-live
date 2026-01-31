@@ -6,15 +6,27 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Rocket, Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Zap, Shield, Sparkles } from "lucide-react"
 
+// Product redirect mapping for SSO
+const SSO_PRODUCTS: Record<string, string> = {
+  'sxo': 'https://sxowebsite.com/api/auth/sso',
+  'rocket-plus': 'https://rocketadd.com/api/auth/sso',
+  'mcpfed': 'https://mcpfed.com/api/auth/sso',
+  'cro9': 'https://cro9.io/api/auth/sso',
+}
+
 function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get("redirect") || "/dashboard"
+  const redirectParam = searchParams.get("redirect")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Check if redirect is a product SSO request
+  const isProductRedirect = redirectParam && SSO_PRODUCTS[redirectParam]
+  const redirect = isProductRedirect ? "/dashboard" : (redirectParam || "/dashboard")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +44,21 @@ function LoginContent() {
 
       if (!response.ok) {
         throw new Error(data.error || "Login failed")
+      }
+
+      // If this is a product SSO redirect, generate token and redirect
+      if (isProductRedirect && redirectParam) {
+        const ssoResponse = await fetch("/api/auth/sso/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product: redirectParam })
+        })
+
+        if (ssoResponse.ok) {
+          const { token } = await ssoResponse.json()
+          window.location.href = `${SSO_PRODUCTS[redirectParam]}?token=${token}`
+          return
+        }
       }
 
       router.push(redirect)

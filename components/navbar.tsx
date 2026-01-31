@@ -8,7 +8,8 @@ import {
   Globe, Cpu, Code2, Megaphone, Search, Workflow,
   Palette, Zap, BarChart3, Target,
   Bot, Smartphone, PenTool, Share2, LineChart,
-  Lightbulb, FileText, Sparkles, Package, Rocket, ExternalLink
+  Lightbulb, FileText, Sparkles, Package, Rocket, ExternalLink,
+  ShoppingBag
 } from "lucide-react"
 import { useState, useEffect, useRef, useCallback } from "react"
 

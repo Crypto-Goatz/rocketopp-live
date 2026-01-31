@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
-  Rocket, Home, Building2, User,
+  Rocket, Home, Building2, User, CreditCard,
   Settings, LogOut, HelpCircle, ChevronRight, ChevronLeft,
   Star, BarChart3, FileText, Users, Shield,
   Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb, Sparkles, Puzzle
@@ -33,6 +33,7 @@ const mainNavItems = [
   { name: "Overview", href: "/dashboard", icon: Home },
   { name: "My Business", href: "/dashboard/company", icon: Building2 },
   { name: "Profile", href: "/dashboard/profile", icon: User },
+  { name: "Account & Billing", href: "/dashboard/account", icon: CreditCard },
 ]
 
 const clientNavItems = [

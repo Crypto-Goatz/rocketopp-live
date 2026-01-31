@@ -1,5 +1,29 @@
 "use client"
 
+// Pre-computed particle positions to avoid hydration mismatch from Math.random()
+const PARTICLES = [
+  { size: 4, top: 15, left: 20, opacity: 0.4, duration: 8, delay: 0 },
+  { size: 3, top: 25, left: 85, opacity: 0.3, duration: 12, delay: 1 },
+  { size: 5, top: 40, left: 10, opacity: 0.5, duration: 7, delay: 2 },
+  { size: 2, top: 60, left: 75, opacity: 0.35, duration: 11, delay: 0.5 },
+  { size: 4, top: 80, left: 30, opacity: 0.45, duration: 9, delay: 3 },
+  { size: 3, top: 10, left: 50, opacity: 0.3, duration: 13, delay: 1.5 },
+  { size: 5, top: 35, left: 65, opacity: 0.5, duration: 6, delay: 4 },
+  { size: 2, top: 55, left: 5, opacity: 0.25, duration: 10, delay: 2.5 },
+  { size: 4, top: 75, left: 90, opacity: 0.4, duration: 8, delay: 0.8 },
+  { size: 3, top: 20, left: 40, opacity: 0.35, duration: 14, delay: 3.5 },
+  { size: 5, top: 45, left: 55, opacity: 0.45, duration: 7, delay: 1.2 },
+  { size: 2, top: 65, left: 25, opacity: 0.3, duration: 12, delay: 4.5 },
+  { size: 4, top: 85, left: 70, opacity: 0.5, duration: 9, delay: 0.3 },
+  { size: 3, top: 5, left: 15, opacity: 0.25, duration: 11, delay: 2.8 },
+  { size: 5, top: 30, left: 80, opacity: 0.4, duration: 8, delay: 1.8 },
+  { size: 2, top: 50, left: 45, opacity: 0.35, duration: 13, delay: 3.2 },
+  { size: 4, top: 70, left: 60, opacity: 0.45, duration: 6, delay: 4.2 },
+  { size: 3, top: 90, left: 35, opacity: 0.3, duration: 10, delay: 0.6 },
+  { size: 5, top: 12, left: 95, opacity: 0.5, duration: 7, delay: 2.2 },
+  { size: 2, top: 58, left: 8, opacity: 0.25, duration: 15, delay: 3.8 },
+]
+
 export function HeroAnimation() {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -87,18 +111,18 @@ export function HeroAnimation() {
       </div>
 
       {/* Floating Particles */}
-      {[...Array(20)].map((_, i) => (
+      {PARTICLES.map((particle, i) => (
         <div
           key={i}
           className="absolute rounded-full bg-primary"
           style={{
-            width: `${2 + Math.random() * 4}px`,
-            height: `${2 + Math.random() * 4}px`,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            opacity: 0.2 + Math.random() * 0.4,
-            animation: `particle ${5 + Math.random() * 10}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 5}s`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            top: `${particle.top}%`,
+            left: `${particle.left}%`,
+            opacity: particle.opacity,
+            animation: `particle ${particle.duration}s ease-in-out infinite`,
+            animationDelay: `${particle.delay}s`,
           }}
         />
       ))}
