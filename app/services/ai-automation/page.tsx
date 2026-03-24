@@ -1,132 +1,131 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Globe, CheckCircle, ArrowRight, Clock, Smartphone, Zap, Search, Shield, Palette, ShoppingBag } from "lucide-react"
+import { Cpu, CheckCircle, ArrowRight, Clock, Bot, MessageSquare, Zap, Workflow, Brain, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ServiceOfferSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Website Development - Pricing & What's Included | RocketOpp",
+  title: "AI Business Automation - Pricing & What's Included | RocketOpp",
   description:
-    "Professional website development from $2,497. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See pricing and what's included.",
+    "AI business automation from $2,997. Custom AI systems that automate operations — customer service, lead qualification, content creation. Delivered in 2 weeks. Powered by 0nMCP.",
   keywords: [
-    "cost for website design",
-    "website development pricing",
-    "how much does a website cost",
-    "professional website cost",
-    "custom website development",
-    "affordable website design",
-    "Next.js website development",
-    "responsive web design cost",
-    "e-commerce website pricing",
-    "website development agency",
+    "AI for business cost",
+    "business automation pricing",
+    "AI automation services",
+    "custom AI systems",
+    "AI chatbot for business",
+    "AI lead qualification",
+    "business process automation cost",
+    "AI integration pricing",
+    "enterprise AI systems",
+    "AI workflow automation",
   ],
   openGraph: {
-    title: "Website Development - Pricing & What's Included | RocketOpp",
-    description: "Professional websites from $2,497. Launched in 2 weeks. See exactly what's included.",
-    url: "https://rocketopp.com/services/website-development",
+    title: "AI Business Automation - Pricing & What's Included | RocketOpp",
+    description: "Custom AI automation from $2,997. Delivered in 2 weeks. Powered by 0nMCP.",
+    url: "https://rocketopp.com/services/ai-automation",
   },
-  alternates: { canonical: "https://rocketopp.com/services/website-development" },
+  alternates: { canonical: "https://rocketopp.com/services/ai-automation" },
 }
 
 const tiers = [
   {
-    name: "Professional Website",
-    price: "$2,497",
+    name: "AI Starter",
+    price: "$2,997",
     timeline: "2 weeks",
     features: [
-      "Custom design (up to 8 pages)",
-      "Mobile-first responsive layout",
-      "SEO optimization & meta tags",
-      "Contact forms & lead capture",
-      "Analytics integration (GA4)",
-      "SSL certificate & hosting setup",
-      "CMS for content editing",
+      "AI chatbot for customer service",
+      "Lead qualification automation",
+      "Email response automation",
+      "FAQ bot with your content",
+      "Integration with your CRM",
+      "Analytics dashboard",
+      "Training & documentation",
       "1 month of support",
     ],
   },
   {
-    name: "E-Commerce Store",
-    price: "$4,997",
+    name: "AI Business Suite",
+    price: "$5,997",
     timeline: "3 weeks",
     popular: true,
     features: [
-      "Everything in Professional",
-      "Product catalog (unlimited SKUs)",
-      "Stripe/PayPal checkout",
-      "Inventory management",
-      "Order tracking & notifications",
-      "Customer accounts & wishlists",
-      "Abandoned cart recovery",
+      "Everything in AI Starter",
+      "Multi-channel AI (web, email, SMS)",
+      "AI content generation pipeline",
+      "Automated reporting & insights",
+      "Custom AI agents (up to 3)",
+      "Workflow orchestration via 0nMCP",
+      "API integrations (up to 10 services)",
       "3 months of support",
     ],
   },
   {
-    name: "Full Digital Presence",
-    price: "$7,997",
-    timeline: "4 weeks",
+    name: "AI Enterprise",
+    price: "$12,997",
+    timeline: "6 weeks",
     features: [
-      "Everything in E-Commerce",
-      "Blog & content marketing setup",
-      "Email marketing integration",
-      "CRM automation setup",
-      "Social media integration",
-      "AI chatbot integration",
-      "SXO audit & optimization",
-      "6 months of support",
+      "Everything in Business Suite",
+      "Unlimited custom AI agents",
+      "Full 0nMCP deployment (1,171 tools)",
+      "MCP server integration",
+      "Custom model fine-tuning",
+      "On-premise or cloud deployment",
+      "SLA & priority support",
+      "12 months of support",
     ],
   },
 ]
 
 const faqs = [
   {
-    question: "How much does a professional website cost in 2026?",
+    question: "How much does AI automation cost for a small business?",
     answer:
-      "Industry average for a professional website is $5,000 - $15,000. At RocketOpp, professional websites start at $2,497 because our AI-powered workflow (0nMCP) reduces development time by 60-70%. You get enterprise quality at a fraction of the cost.",
+      "Industry average for custom AI systems is $5,000 - $25,000. RocketOpp starts at $2,997 because we build on 0nMCP — our orchestration platform with 1,171 pre-built tools across 54 services. Instead of building from scratch, we configure and connect existing capabilities.",
   },
   {
-    question: "How long does it take to build a website?",
+    question: "What can AI automation actually do for my business?",
     answer:
-      "Traditional agencies take 2-4 months. We deliver professional websites in 2 weeks, e-commerce stores in 3 weeks, and full digital presence packages in 4 weeks. Our AI-native process eliminates the bottlenecks that slow down traditional agencies.",
+      "AI automation can handle customer service inquiries 24/7, qualify and route leads automatically, generate content (emails, social posts, reports), analyze data and surface insights, automate repetitive workflows, and much more. The typical business saves 15-30 hours per week.",
   },
   {
-    question: "What technology do you use for websites?",
+    question: "Do I need technical knowledge to use AI automation?",
     answer:
-      "We build with Next.js, React, and Tailwind CSS — the same stack used by Vercel, Netflix, and major tech companies. Sites are deployed on Vercel for instant global CDN, automatic HTTPS, and 99.99% uptime.",
+      "No. We build everything with user-friendly interfaces. Your team interacts with AI through chat, dashboards, and simple buttons — not code. We provide full training and documentation so anyone on your team can manage the system.",
   },
   {
-    question: "Do you offer ongoing maintenance?",
+    question: "What AI models do you use?",
     answer:
-      "Yes. All packages include initial support (1-6 months depending on tier). After that, we offer monthly maintenance plans starting at $197/month that include updates, security patches, performance monitoring, and content changes.",
+      "We use the best model for each task. Claude (Anthropic) for complex reasoning and customer service, GPT-4 for content generation, and specialized models for specific tasks. Our 0nMCP orchestrator routes to the optimal model automatically.",
   },
   {
-    question: "Can I update the website content myself?",
+    question: "How do you handle data privacy with AI?",
     answer:
-      "Absolutely. Every website includes a CMS (content management system) that lets you update text, images, blog posts, and products without touching code. We provide training and documentation so your team is self-sufficient from day one.",
+      "Data privacy is foundational. All data is encrypted at rest and in transit. We use enterprise AI APIs with data processing agreements. Your data is never used to train AI models. We can deploy on-premise for maximum security (Enterprise tier).",
   },
 ]
 
-export default function WebsiteDevelopmentPage() {
+export default function AIAutomationPage() {
   return (
     <>
       <ServiceOfferSchema
-        name="Professional Website Development"
-        description="Custom website development with AI-powered workflow. Mobile-first, SEO-optimized, conversion-focused websites delivered in 2 weeks."
-        serviceType="Website Development"
-        url="https://rocketopp.com/services/website-development"
-        price={2497}
+        name="AI Business Automation"
+        description="Custom AI systems for business automation — customer service, lead qualification, content creation. Powered by 0nMCP with 1,171 tools across 54 services."
+        serviceType="AI Business Automation"
+        url="https://rocketopp.com/services/ai-automation"
+        price={2997}
       />
       <FAQSchema items={faqs} />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://rocketopp.com" },
           { name: "Services", url: "https://rocketopp.com/services" },
-          { name: "Website Development", url: "https://rocketopp.com/services/website-development" },
+          { name: "AI Automation", url: "https://rocketopp.com/services/ai-automation" },
         ]}
       />
 
       <main className="min-h-screen">
-        {/* Hero */}
         <section className="pt-24 pb-16 md:pt-32 md:pb-20 relative overflow-hidden">
           <div className="absolute inset-0 grid-background opacity-20" />
           <div className="absolute inset-0 grid-gradient" />
@@ -137,10 +136,10 @@ export default function WebsiteDevelopmentPage() {
                 Ships in 2 weeks
               </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Website Development — Pricing & What&apos;s Included
+                AI Business Automation — Pricing & What&apos;s Included
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Custom websites built with AI. Mobile-first, SEO-optimized, conversion-focused. Launches in 2 weeks, not 2 months. Starting at <span className="text-primary font-bold">$2,497</span>.
+                Custom AI systems that automate your operations. From customer service to lead qualification to content creation. Starting at <span className="text-primary font-bold">$2,997</span>.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="text-lg px-8 py-6" asChild>
@@ -156,18 +155,17 @@ export default function WebsiteDevelopmentPage() {
           </div>
         </section>
 
-        {/* What you get */}
         <section className="py-16 md:py-24 bg-card/50">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What You Get</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What AI Can Do For You</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {[
-                { icon: Palette, title: "Custom Design", desc: "Unique, branded design tailored to your business. No templates." },
-                { icon: Smartphone, title: "Mobile-First", desc: "Looks perfect on every device. 60%+ of traffic is mobile." },
-                { icon: Search, title: "SEO Built In", desc: "Schema markup, meta tags, sitemap, Core Web Vitals optimized." },
-                { icon: Zap, title: "Lightning Fast", desc: "Sub-second load times with Next.js and global CDN deployment." },
-                { icon: Shield, title: "Secure & Reliable", desc: "HTTPS, DDoS protection, 99.99% uptime on Vercel." },
-                { icon: ShoppingBag, title: "E-Commerce Ready", desc: "Stripe checkout, inventory management, order tracking." },
+                { icon: Bot, title: "AI Customer Service", desc: "24/7 chatbot trained on your business. Handles inquiries, books appointments, qualifies leads." },
+                { icon: MessageSquare, title: "Smart Lead Routing", desc: "AI scores and routes leads to the right person. No more manual triage." },
+                { icon: FileText, title: "Content Generation", desc: "Blog posts, social media, emails, and reports generated automatically." },
+                { icon: Workflow, title: "Workflow Automation", desc: "Automate repetitive processes with 0nMCP's 1,171 connected tools." },
+                { icon: Brain, title: "AI Insights", desc: "Automated analysis of your business data with actionable recommendations." },
+                { icon: Zap, title: "Multi-Channel", desc: "One AI brain across web chat, email, SMS, and social media." },
               ].map((item) => {
                 const Icon = item.icon
                 return (
@@ -184,12 +182,11 @@ export default function WebsiteDevelopmentPage() {
           </div>
         </section>
 
-        {/* Pricing Tiers */}
         <section id="pricing" className="py-16 md:py-24">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Pricing</h2>
             <p className="text-center text-muted-foreground mb-12 max-w-xl mx-auto">
-              Pick the package that fits. No hidden fees. No surprises.
+              From single chatbot to full enterprise AI deployment.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {tiers.map((tier) => (
@@ -231,7 +228,6 @@ export default function WebsiteDevelopmentPage() {
           </div>
         </section>
 
-        {/* FAQ */}
         <section className="py-16 md:py-24 bg-card/50">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
@@ -246,12 +242,11 @@ export default function WebsiteDevelopmentPage() {
           </div>
         </section>
 
-        {/* CTA */}
         <section className="py-16 md:py-24">
           <div className="container px-4 md:px-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Website?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Automate?</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-              Stop paying agency markups. Get a professional website in 2 weeks for $2,497.
+              Save 15-30 hours per week with AI automation. Starting at $2,997.
             </p>
             <Button size="lg" className="text-lg px-8 py-6" asChild>
               <Link href="/contact">

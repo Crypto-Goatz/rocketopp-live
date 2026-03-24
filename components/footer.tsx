@@ -1,17 +1,17 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Globe, Cpu, Code2, Megaphone, Search, Workflow, Rocket, Bot, ExternalLink } from "lucide-react"
+import { Globe, Cpu, Search, Target, BarChart3, Terminal, ExternalLink, Rocket } from "lucide-react"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
   const services = [
     { name: "Website Development", href: "/services/website-development", icon: Globe },
-    { name: "AI Applications", href: "/services/ai-applications", icon: Cpu },
-    { name: "App Development", href: "/services/app-development", icon: Code2 },
-    { name: "SOP Automation", href: "/services/sop-automation", icon: Workflow },
-    { name: "Online Marketing", href: "/services/online-marketing", icon: Megaphone },
-    { name: "Search Optimization", href: "/services/search-optimization", icon: Search },
+    { name: "AI Automation", href: "/services/ai-automation", icon: Cpu },
+    { name: "SXO (Search Experience)", href: "/services/sxo", icon: Search },
+    { name: "CRM Automation", href: "/services/crm-automation", icon: Target },
+    { name: "PPC Management", href: "/services/ppc-management", icon: BarChart3 },
+    { name: "MCP Integration", href: "/services/mcp-integration", icon: Terminal },
   ]
 
   return (
@@ -23,7 +23,7 @@ export function Footer() {
             <Link href="/" className="inline-block">
               <Image
                 src="/images/rocketopp-logo-full.png"
-                alt="RocketOpp - AI-Powered Business Solutions"
+                alt="RocketOpp - an 0n Company"
                 width={160}
                 height={40}
                 className="h-9 w-auto object-contain"
@@ -31,7 +31,10 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-muted-foreground">
-              We Build. You Win. AI-powered digital services that drive real business results.
+              Enterprise AI systems at startup speed. Transparent pricing, no discovery calls.
+            </p>
+            <p className="text-xs text-primary font-medium">
+              RocketOpp -- an 0n Company
             </p>
           </div>
 
@@ -58,49 +61,56 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Our Apps */}
+          {/* 0n Ecosystem */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold">Our Apps</h3>
-            <nav aria-label="Apps Navigation">
+            <h3 className="text-sm font-bold">0n Ecosystem</h3>
+            <nav aria-label="Ecosystem Navigation">
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/apps" className="text-muted-foreground hover:text-foreground transition-colors">
-                    View All Apps
-                  </Link>
+                  <a
+                    href="https://0nmcp.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    <Terminal className="w-3 h-3" />
+                    0nmcp.com
+                    <ExternalLink className="w-2.5 h-2.5 opacity-50" />
+                  </a>
                 </li>
                 <li>
                   <a
-                    href="https://rocketadd.com"
+                    href="https://0ncore.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
                   >
                     <Rocket className="w-3 h-3" />
-                    Rocket+
+                    0ncore.com
                     <ExternalLink className="w-2.5 h-2.5 opacity-50" />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://mcpfed.com"
+                    href="https://cro9.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
                   >
-                    <Cpu className="w-3 h-3" />
-                    MCPFED
+                    <BarChart3 className="w-3 h-3" />
+                    cro9.com
                     <ExternalLink className="w-2.5 h-2.5 opacity-50" />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://botcoaches.com"
+                    href="https://sxowebsite.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
                   >
-                    <Bot className="w-3 h-3" />
-                    BotCoaches
+                    <Search className="w-3 h-3" />
+                    sxowebsite.com
                     <ExternalLink className="w-2.5 h-2.5 opacity-50" />
                   </a>
                 </li>
@@ -124,13 +134,13 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Privacy Policy
-                  </Link>
+                  <a href="mailto:mike@rocketopp.com" className="text-muted-foreground hover:text-foreground transition-colors">
+                    mike@rocketopp.com
+                  </a>
                 </li>
                 <li>
-                  <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Terms of Service
+                  <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+                    Privacy Policy
                   </Link>
                 </li>
               </ul>
@@ -140,7 +150,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} RocketOpp. All rights reserved.
+            &copy; {currentYear} RocketOpp LLC &mdash; an 0n Company. All rights reserved.
           </p>
           <div className="flex gap-4">
             <Link

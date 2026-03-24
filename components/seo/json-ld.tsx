@@ -301,6 +301,87 @@ export function ServiceSchema({
   )
 }
 
+// Service with Offer Schema (includes pricing for SXO)
+interface ServiceOfferSchemaProps {
+  name: string
+  description: string
+  provider?: string
+  serviceType?: string
+  areaServed?: string
+  url?: string
+  price: number
+  priceCurrency?: string
+  priceUnit?: string // e.g., "MONTH" for monthly pricing
+  eligibleRegion?: string
+}
+
+export function ServiceOfferSchema({
+  name,
+  description,
+  provider = "RocketOpp",
+  serviceType,
+  areaServed = "Worldwide",
+  url,
+  price,
+  priceCurrency = "USD",
+  priceUnit,
+  eligibleRegion = "US"
+}: ServiceOfferSchemaProps) {
+  const offer: Record<string, unknown> = {
+    "@type": "Offer",
+    price,
+    priceCurrency,
+    availability: "https://schema.org/InStock",
+    seller: {
+      "@type": "Organization",
+      name: provider,
+      url: "https://rocketopp.com"
+    },
+    eligibleRegion: {
+      "@type": "Place",
+      name: eligibleRegion
+    }
+  }
+
+  if (priceUnit) {
+    offer.priceSpecification = {
+      "@type": "UnitPriceSpecification",
+      price,
+      priceCurrency,
+      unitText: priceUnit,
+      referenceQuantity: {
+        "@type": "QuantitativeValue",
+        value: 1,
+        unitCode: priceUnit
+      }
+    }
+  }
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    provider: {
+      "@type": "Organization",
+      name: provider,
+      url: "https://rocketopp.com",
+      logo: "https://rocketopp.com/images/rocketopp-logo.png"
+    },
+    serviceType: serviceType || name,
+    areaServed,
+    url: url || "https://rocketopp.com/services",
+    offers: offer
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
 // Video Schema for YouTube embeds
 interface VideoSchemaProps {
   name: string

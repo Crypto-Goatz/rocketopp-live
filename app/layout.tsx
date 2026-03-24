@@ -18,13 +18,13 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 export const metadata: Metadata = {
   title: {
-    default: "RocketOpp - We Build Tools That Work While You Sleep",
+    default: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
     template: "%s | RocketOpp"
   },
   description:
-    "RocketOpp builds AI-powered automation tools for businesses. Rocket+, MCPFED, and more. Describe what you want. Watch it happen.",
+    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites from $2,497. CRM automation from $1,497. AI systems from $2,997. No fluff. No discovery calls. Just results.",
   keywords:
-    "RocketOpp, business automation, AI tools, Rocket+, MCPFED, CRM automation, workflow automation, AI agents, business software, MCP server, Model Context Protocol",
+    "RocketOpp, website development pricing, AI automation, CRM setup cost, SXO services, PPC management, MCP server integration, transparent pricing, 0nMCP, CRO9, business automation, digital agency",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],
   creator: "RocketOpp",
   publisher: "RocketOpp",
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://rocketopp.com",
-    title: "RocketOpp - We Build Tools That Work While You Sleep",
+    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
     description:
-      "Business automation tools that actually work. Describe what you want. Watch it happen.",
+      "Transparent pricing for websites, AI automation, CRM, SXO, PPC, and MCP integration. Powered by 0nMCP and CRO9.",
     siteName: "RocketOpp",
     images: [
       {
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RocketOpp - We Build Tools That Work While You Sleep",
-    description: "Business automation tools that actually work. Describe what you want. Watch it happen.",
+    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    description: "Transparent pricing. No discovery calls. Websites from $2,497. AI systems from $2,997.",
     site: "@rocketopp",
     creator: "@rocketopp",
     images: [
@@ -99,7 +99,7 @@ const jsonLd = {
   name: "RocketOpp",
   url: "https://rocketopp.com",
   logo: "https://rocketopp.com/images/rocketopp-logo.png",
-  description: "We build AI-powered automation tools for businesses. Describe what you want. Watch it happen.",
+  description: "Enterprise AI systems at startup speed. Transparent pricing for websites, automation, CRM, SXO, PPC, and MCP integration. Powered by 0nMCP and CRO9. An 0n Company.",
   address: {
     "@type": "PostalAddress",
     addressCountry: "US",
@@ -127,14 +127,17 @@ const jsonLd = {
       availableLanguage: ["English"],
     },
   ],
-  sameAs: ["https://twitter.com/rocketopp", "https://linkedin.com/company/rocketopp", "https://github.com/rocketopp"],
+  sameAs: ["https://twitter.com/rocketopp", "https://linkedin.com/company/rocketopp", "https://github.com/rocketopp", "https://0nmcp.com", "https://cro9.com"],
   areaServed: "Worldwide",
   knowsAbout: [
-    "Business Automation",
-    "AI Tools",
-    "CRM Systems",
-    "Workflow Automation",
-    "AI Agents",
+    "Website Development",
+    "AI Business Automation",
+    "CRM Automation",
+    "Search Experience Optimization",
+    "PPC Management",
+    "MCP Server Integration",
+    "0nMCP",
+    "CRO9",
   ],
 }
 

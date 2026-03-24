@@ -22,74 +22,74 @@ interface UserData {
 const services = [
   {
     name: "Website Development",
-    tagline: "Sites That Convert",
+    tagline: "From $2,497 — 2 weeks",
     href: "/services/website-development",
     icon: Globe,
     color: "from-blue-500 to-cyan-500",
     features: [
       { name: "Custom Web Design", href: "/services/website-development", icon: Palette },
-      { name: "E-Commerce Sites", href: "/services/website-development#ecommerce", icon: ShoppingBag },
-      { name: "Landing Pages", href: "/services/website-development#landing", icon: Target },
+      { name: "E-Commerce Stores", href: "/services/website-development#pricing", icon: ShoppingBag },
+      { name: "Full Digital Presence", href: "/services/website-development#pricing", icon: Target },
     ]
   },
   {
-    name: "AI Applications",
-    tagline: "Intelligence On Demand",
-    href: "/services/ai-applications",
+    name: "AI Automation",
+    tagline: "From $2,997 — 2 weeks",
+    href: "/services/ai-automation",
     icon: Cpu,
     color: "from-orange-500 to-red-500",
     features: [
-      { name: "AI Chatbots", href: "/services/ai-applications#chatbots", icon: Bot },
-      { name: "Process Automation", href: "/services/ai-applications#automation", icon: Zap },
-      { name: "Custom AI Tools", href: "/services/ai-applications#tools", icon: Cpu },
+      { name: "AI Chatbots", href: "/services/ai-automation", icon: Bot },
+      { name: "Workflow Automation", href: "/services/ai-automation#pricing", icon: Zap },
+      { name: "0nMCP Integration", href: "/services/mcp-integration", icon: Cpu },
     ]
   },
   {
-    name: "App Development",
-    tagline: "Ideas to Reality",
-    href: "/services/app-development",
-    icon: Code2,
-    color: "from-purple-500 to-pink-500",
-    features: [
-      { name: "Mobile Apps", href: "/services/app-development#mobile", icon: Smartphone },
-      { name: "Web Applications", href: "/services/app-development#web", icon: Globe },
-      { name: "Request an App", href: "/request-app", icon: Rocket },
-    ]
-  },
-  {
-    name: "SOP Automation",
-    tagline: "Systems That Scale",
-    href: "/services/sop-automation",
-    icon: Workflow,
-    color: "from-indigo-500 to-violet-500",
-    features: [
-      { name: "Process Mapping", href: "/services/sop-automation#mapping", icon: FileText },
-      { name: "Workflow Automation", href: "/services/sop-automation#workflows", icon: Zap },
-      { name: "Team Training", href: "/services/sop-automation#training", icon: Bot },
-    ]
-  },
-  {
-    name: "Online Marketing",
-    tagline: "Growth That Compounds",
-    href: "/services/online-marketing",
-    icon: Megaphone,
-    color: "from-green-500 to-emerald-500",
-    features: [
-      { name: "Social Media", href: "/services/online-marketing#social", icon: Share2 },
-      { name: "Content Strategy", href: "/services/online-marketing#content", icon: PenTool },
-      { name: "PPC Advertising", href: "/services/online-marketing#ppc", icon: BarChart3 },
-    ]
-  },
-  {
-    name: "Search Optimization",
-    tagline: "Get Found First",
-    href: "/services/search-optimization",
+    name: "SXO",
+    tagline: "From $997/mo",
+    href: "/services/sxo",
     icon: Search,
     color: "from-yellow-500 to-orange-500",
     features: [
-      { name: "Technical SEO", href: "/services/search-optimization#technical", icon: Code2 },
-      { name: "Local SEO", href: "/services/search-optimization#local", icon: Target },
-      { name: "Analytics & Reporting", href: "/services/search-optimization#analytics", icon: LineChart },
+      { name: "Search Optimization", href: "/services/sxo", icon: Search },
+      { name: "Conversion Optimization", href: "/services/sxo#pricing", icon: Target },
+      { name: "Content Strategy", href: "/services/sxo#pricing", icon: PenTool },
+    ]
+  },
+  {
+    name: "CRM Automation",
+    tagline: "From $1,497 — 1 week",
+    href: "/services/crm-automation",
+    icon: Workflow,
+    color: "from-indigo-500 to-violet-500",
+    features: [
+      { name: "Pipeline Setup", href: "/services/crm-automation", icon: Target },
+      { name: "Email Automation", href: "/services/crm-automation#pricing", icon: Zap },
+      { name: "Lead Scoring", href: "/services/crm-automation#pricing", icon: BarChart3 },
+    ]
+  },
+  {
+    name: "PPC Management",
+    tagline: "From $797/mo",
+    href: "/services/ppc-management",
+    icon: BarChart3,
+    color: "from-green-500 to-emerald-500",
+    features: [
+      { name: "Google Ads", href: "/services/ppc-management", icon: Search },
+      { name: "Meta Ads", href: "/services/ppc-management#pricing", icon: Target },
+      { name: "LinkedIn Ads", href: "/services/ppc-management#pricing", icon: BarChart3 },
+    ]
+  },
+  {
+    name: "MCP Integration",
+    tagline: "From $1,997 — 1 week",
+    href: "/services/mcp-integration",
+    icon: Code2,
+    color: "from-cyan-500 to-blue-500",
+    features: [
+      { name: "54 Services", href: "/services/mcp-integration", icon: Globe },
+      { name: "1,171 Tools", href: "/services/mcp-integration#pricing", icon: Zap },
+      { name: "Vault Security", href: "/services/mcp-integration#pricing", icon: Sparkles },
     ]
   },
 ]
