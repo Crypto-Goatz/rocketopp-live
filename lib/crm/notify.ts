@@ -9,6 +9,8 @@
 // whether a CRM workflow is configured.
 // ============================================================
 
+import { renderTemplate, formKindFromSource, type TemplateContext } from './email-templates'
+
 const CRM_API_BASE = 'https://services.leadconnectorhq.com'
 const CRM_API_VERSION = '2021-07-28'
 
@@ -66,6 +68,7 @@ export interface NotifyResult {
   contactId: string | null
   webhookFired: boolean
   mikeEmailed: boolean
+  leadThanked: boolean
   error?: string
 }
 
@@ -249,20 +252,56 @@ async function fireLegacyWebhook(sub: FormSubmission): Promise<boolean> {
   }
 }
 
+async function sendThankYou(sub: FormSubmission, leadContactId: string | null): Promise<boolean> {
+  if (!LOCATION_PIT || !leadContactId) return false
+  const kind = formKindFromSource(sub.source)
+  const ctx: TemplateContext = {
+    firstName: sub.firstName || sub.fullName?.split(' ')[0],
+    ticketId: sub.customFields?.ticket_id as string | number | undefined,
+  }
+  const { subject, html, text } = renderTemplate(kind, ctx)
+  try {
+    const res = await fetch(`${CRM_API_BASE}/conversations/messages`, {
+      method: 'POST',
+      headers: crmHeaders(),
+      body: JSON.stringify({
+        type: 'Email',
+        contactId: leadContactId,
+        subject,
+        html,
+        text,
+        emailTo: sub.email,
+        emailFrom: FROM_EMAIL,
+      }),
+    })
+    if (!res.ok) {
+      console.error('[CRM Notify] thank-you failed:', res.status, await res.text())
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[CRM Notify] thank-you error:', err)
+    return false
+  }
+}
+
 /**
- * One-call: upsert lead, fire webhook, email Mike directly.
- * All three run in parallel; partial failures are reported but never throw.
+ * One-call: upsert lead, fire webhook, email Mike, and thank the lead.
+ * Upsert runs first to get the contact ID, then the remaining three run in
+ * parallel. Partial failures are reported but never throw.
  */
 export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyResult> {
-  const [contactId, webhookFired, mikeEmailed] = await Promise.all([
-    upsertLeadContact(sub),
+  const contactId = await upsertLeadContact(sub)
+  const [webhookFired, mikeEmailed, leadThanked] = await Promise.all([
     fireLegacyWebhook(sub),
     emailMike(sub),
+    sendThankYou(sub, contactId),
   ])
   return {
     success: Boolean(contactId || webhookFired || mikeEmailed),
     contactId,
     webhookFired,
     mikeEmailed,
+    leadThanked,
   }
 }
