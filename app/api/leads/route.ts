@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { GHL_WEBHOOK_URL } from "@/lib/ghl/webhook"
+import { notifyFormSubmission, FormSources } from "@/lib/crm/notify"
 
 interface LeadForm {
   firstName: string
@@ -28,50 +28,27 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Build webhook payload
-    const webhookPayload = {
-      // Contact Info
-      first_name: body.firstName,
-      last_name: body.lastName || "",
-      full_name: body.lastName ? `${body.firstName} ${body.lastName}` : body.firstName,
+    const result = await notifyFormSubmission({
       email: body.email,
-      phone: body.phone || "",
-      company_name: body.company || "",
-
-      // Inquiry Details
-      service_interested: body.service || "",
-      project_description: body.project || "",
-
-      // Source Tracking
-      source: body.source || "rocketopp-website",
-      form_name: body.formName || "General Inquiry",
-      page_url: body.pageUrl || "https://rocketopp.com",
-
-      // Tags
+      firstName: body.firstName,
+      lastName: body.lastName,
+      fullName: body.lastName ? `${body.firstName} ${body.lastName}` : body.firstName,
+      phone: body.phone,
+      company: body.company,
+      service: body.service,
+      project: body.project,
+      source: body.source || FormSources.GENERAL,
+      formName: body.formName || "General Inquiry",
+      pageUrl: body.pageUrl || "https://rocketopp.com",
       tags: body.tags || ["Website Lead"],
+      customFields: body.customFields,
+    })
 
-      // Custom fields
-      ...(body.customFields || {}),
-
-      // Metadata
-      submitted_at: new Date().toISOString(),
-    }
-
-    // Send to GHL Webhook
-    try {
-      const response = await fetch(GHL_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(webhookPayload),
-      })
-
-      if (!response.ok) {
-        console.error("[Leads API] Webhook response not OK:", response.status)
-      }
-    } catch (webhookError) {
-      console.error("[Leads API] Webhook error:", webhookError)
-      // Don't fail the request if webhook fails
-    }
+    console.log("[Leads API] notify result:", {
+      success: result.success,
+      contactId: result.contactId,
+      mikeEmailed: result.mikeEmailed,
+    })
 
     return NextResponse.json({
       success: true,

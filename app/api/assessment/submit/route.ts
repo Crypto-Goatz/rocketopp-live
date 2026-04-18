@@ -6,7 +6,7 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import { GHL_WEBHOOK_URL } from '@/lib/ghl/webhook'
+import { notifyFormSubmission, FormSources } from '@/lib/crm/notify'
 
 interface Competitor {
   name: string
@@ -61,81 +61,44 @@ export async function POST(request: NextRequest) {
       .map((c: Competitor) => `${c.name} (${c.rating}★, ${c.userRatingsTotal} reviews)`)
       .join(', ')
 
-    // Build webhook payload with all data for email automation
-    const webhookPayload = {
-      // Contact fields (GHL standard)
-      first_name: name?.split(' ')[0] || '',
-      last_name: name?.split(' ').slice(1).join(' ') || '',
-      full_name: name || '',
+    const result = await notifyFormSubmission({
       email,
-      phone: phone || '',
-      company_name: companyName || '',
-      website: website || '',
-
-      // Custom fields for email templates
-      zip_code: zipCode || '',
-      industry: industry || '',
-
-      // Assessment sections (for email body)
-      executive_summary: executiveSummary,
-      identified_strengths: strengths,
-      critical_weaknesses: weaknesses,
-      market_opportunities: opportunities,
-      competitive_threats: threats,
-      social_media_presence: socialPresence,
-      strategic_next_steps: nextSteps,
-      competitors_analyzed: competitorList || 'None identified',
-
-      // Full data (for detailed follow-up)
-      assessment_summary_json: JSON.stringify(assessmentSummary || {}, null, 2),
-      conversation_history: conversationHistory || '',
-      insights_json: JSON.stringify(insights || [], null, 2),
-
-      // Source tracking
-      source: 'AI Assessment',
-      lead_source: 'rocketopp-ai-assessment',
-      form_name: 'Rocket AI Assessment',
-      page_url: 'https://rocketopp.com/assessment',
-
-      // Tags for GHL automation
+      fullName: name || '',
+      phone: phone || undefined,
+      company: companyName || undefined,
+      source: FormSources.ASSESSMENT,
+      formName: 'Rocket AI Assessment',
+      pageUrl: 'https://rocketopp.com/assessment',
       tags: ['AI Assessment', 'Website Lead', 'Hot Lead', 'Blueprint Requested'],
-
-      // Metadata
-      timestamp: new Date().toISOString(),
-      submitted_at: new Date().toISOString(),
-
-      // Trigger flags for GHL workflows
-      send_blueprint_email: true,
-      schedule_followup_call: phone ? true : false,
-    }
-
-    console.log('[Assessment Submit] Sending to GHL webhook...')
-    console.log('[Assessment Submit] Payload keys:', Object.keys(webhookPayload))
-
-    // Send to GHL webhook
-    const webhookResponse = await fetch(GHL_WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+      extras: {
+        website: website || '',
+        zip_code: zipCode || '',
+        industry: industry || '',
+        executive_summary: executiveSummary,
+        identified_strengths: strengths,
+        critical_weaknesses: weaknesses,
+        market_opportunities: opportunities,
+        competitive_threats: threats,
+        social_media_presence: socialPresence,
+        strategic_next_steps: nextSteps,
+        competitors_analyzed: competitorList || 'None identified',
+        conversation_history: (conversationHistory || '').slice(0, 4000),
       },
-      body: JSON.stringify(webhookPayload),
+      customFields: {
+        assessment_summary_json: JSON.stringify(assessmentSummary || {}).slice(0, 8000),
+        insights_json: JSON.stringify(insights || []).slice(0, 8000),
+        send_blueprint_email: true,
+        schedule_followup_call: Boolean(phone),
+      },
     })
 
-    const webhookStatus = webhookResponse.status
-    console.log('[Assessment Submit] GHL webhook response:', webhookStatus)
-
-    if (!webhookResponse.ok) {
-      const errorText = await webhookResponse.text().catch(() => 'Unknown error')
-      console.error('[Assessment Submit] Webhook failed:', webhookStatus, errorText)
-      // Still return success to user - lead data is logged
-    } else {
-      console.log('[Assessment Submit] Lead successfully sent to GHL!')
-    }
+    console.log('[Assessment Submit] notify result:', result)
 
     return NextResponse.json({
       success: true,
       message: 'Assessment submitted successfully',
-      leadCaptured: webhookResponse.ok,
+      leadCaptured: result.success,
+      mikeEmailed: result.mikeEmailed,
     })
   } catch (error) {
     console.error('[Assessment Submit] Error:', error)

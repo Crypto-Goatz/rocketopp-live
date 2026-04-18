@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getSession } from '@/lib/auth/session'
 import { z } from 'zod'
+import { sendToGHLWebhook, WebhookSources } from '@/lib/ghl/webhook'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -58,8 +59,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to submit ticket' }, { status: 500 })
     }
 
-    // TODO: Send email notification to support team
-    // TODO: Send confirmation email to user
+    // Send to CRM for tracking
+    await sendToGHLWebhook({
+      email: validated.user_email,
+      fullName: validated.user_name || undefined,
+      source: WebhookSources.SUPPORT,
+      formName: 'Support Ticket',
+      pageUrl: 'https://rocketopp.com/support',
+      tags: ['Support Ticket', `Priority: ${validated.priority}`, `Category: ${validated.category}`],
+      message: `[${validated.category.toUpperCase()}] ${validated.subject}\n\n${validated.message}`,
+      customFields: {
+        support_category: validated.category,
+        support_priority: validated.priority,
+        support_subject: validated.subject,
+        ticket_id: ticket?.id || '',
+      },
+    })
 
     return NextResponse.json({
       success: true,

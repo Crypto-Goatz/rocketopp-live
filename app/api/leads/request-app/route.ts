@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { GHL_WEBHOOK_URL } from "@/lib/ghl/webhook"
+import { notifyFormSubmission, FormSources } from "@/lib/crm/notify"
 
 interface RequestAppForm {
   firstName: string
@@ -55,56 +55,30 @@ export async function POST(request: NextRequest) {
       "exploring": "Just Exploring Options",
     }
 
-    // Send to GHL Webhook
-    const webhookPayload = {
-      // Contact Info
-      first_name: body.firstName,
-      last_name: body.lastName,
-      full_name: `${body.firstName} ${body.lastName}`,
+    const result = await notifyFormSubmission({
       email: body.email,
-      phone: body.phone || "",
-      company_name: body.company || "",
+      firstName: body.firstName,
+      lastName: body.lastName,
+      fullName: `${body.firstName} ${body.lastName}`,
+      phone: body.phone,
+      company: body.company,
+      message: body.description,
+      source: FormSources.REQUEST_APP,
+      formName: "Request App Form",
+      pageUrl: "https://rocketopp.com/request-app",
+      tags: ["App Request", "Website Lead", body.appType].filter(Boolean) as string[],
+      extras: {
+        app_type: appTypeLabels[body.appType] || body.appType,
+        budget_range: budgetLabels[body.budget || ""] || body.budget || "Not specified",
+        timeline: timelineLabels[body.timeline || ""] || body.timeline || "Not specified",
+      },
+    })
 
-      // App Request Details
-      app_type: appTypeLabels[body.appType] || body.appType,
-      budget_range: budgetLabels[body.budget || ""] || body.budget || "Not specified",
-      timeline: timelineLabels[body.timeline || ""] || body.timeline || "Not specified",
-      project_description: body.description,
-
-      // Source Tracking
-      source: "rocketopp-request-app",
-      form_name: "Request App Form",
-      page_url: "https://rocketopp.com/request-app",
-
-      // Tags
-      tags: ["App Request", "Website Lead", body.appType].filter(Boolean),
-
-      // Metadata
-      submitted_at: new Date().toISOString(),
-    }
-
-    try {
-      await fetch(GHL_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(webhookPayload),
-      })
-    } catch (webhookError) {
-      console.error("[Request App] Webhook error:", webhookError)
-      // Don't fail the request if webhook fails - still return success
-    }
-
-    // Also send notification email (backup)
-    try {
-      // This could be enhanced with Resend or another email service
-      console.log("[Request App] New submission:", {
-        name: `${body.firstName} ${body.lastName}`,
-        email: body.email,
-        appType: body.appType,
-      })
-    } catch (emailError) {
-      console.error("[Request App] Email error:", emailError)
-    }
+    console.log("[Request App] notify result:", {
+      success: result.success,
+      contactId: result.contactId,
+      mikeEmailed: result.mikeEmailed,
+    })
 
     return NextResponse.json({
       success: true,
