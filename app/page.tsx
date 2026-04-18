@@ -432,6 +432,77 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Free Stack Health Audit CTA */}
+        <section className="relative overflow-hidden py-20 md:py-28 border-y border-border">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
+          <div className="absolute inset-0 grid-background opacity-25" />
+          <div className="container relative z-10 px-4 md:px-6">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6">
+                  <Shield className="w-4 h-4" />
+                  Free · No account required
+                </div>
+                <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">
+                  Is your web app{' '}
+                  <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent animate-gradient-x">
+                    actually healthy?
+                  </span>
+                </h2>
+                <p className="text-lg text-muted-foreground mb-8">
+                  Drop your URL. We run the same external audit a security engineer would —
+                  50+ checks across infrastructure, TLS, headers, framework EOL, exposed
+                  dev artifacts, and asset freshness. You get a letter grade and a
+                  remediation roadmap emailed to you in minutes.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button size="lg" className="text-lg px-8 py-6 animate-pulse-glow" asChild>
+                    <Link href="/health-check">
+                      Run my free audit
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
+                    <Link href="/health-check#how-it-works">
+                      What we check
+                    </Link>
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Passive external reconnaissance only. We don&apos;t touch private surfaces.
+                </p>
+              </div>
+
+              <div className="card-lifted-xl p-6 md:p-8 bg-card">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Sample output</div>
+                  <div className="text-5xl font-extrabold text-red-500">F</div>
+                </div>
+                <div className="space-y-2.5 text-sm">
+                  {[
+                    { sev: 'CRITICAL', color: 'bg-red-500', text: 'Public .env file — credential leak' },
+                    { sev: 'CRITICAL', color: 'bg-red-500', text: 'Expired TLS cert on stag.' },
+                    { sev: 'HIGH', color: 'bg-orange-500', text: 'Missing HSTS / CSP / X-Frame-Options' },
+                    { sev: 'HIGH', color: 'bg-orange-500', text: 'jQuery 3.4.1 (CVE-2020-11022)' },
+                    { sev: 'MEDIUM', color: 'bg-yellow-500', text: 'Server version banner disclosed' },
+                    { sev: 'MEDIUM', color: 'bg-yellow-500', text: 'Core assets > 3 years old' },
+                  ].map((row) => (
+                    <div key={row.text} className="flex items-center gap-3 py-1">
+                      <span className={`text-[9px] font-bold text-white px-1.5 py-0.5 rounded ${row.color} tracking-wider shrink-0`}>{row.sev}</span>
+                      <span className="text-foreground/85">{row.text}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 pt-6 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
+                  <span>Score: <strong className="text-foreground">0 / 100</strong></span>
+                  <span>Findings: <strong className="text-foreground">14</strong></span>
+                  <span>Runtime: <strong className="text-foreground">6 min</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* How We're Different */}
         <section className="py-20 md:py-28">
           <div className="container px-4 md:px-6">
