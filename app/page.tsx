@@ -22,6 +22,7 @@ import {
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } from "@/components/seo/json-ld"
+import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
 
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
@@ -273,10 +274,18 @@ export default function HomePage() {
 
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28">
-          {/* Background grid */}
-          <div className="absolute inset-0 grid-background opacity-30" />
-          <div className="absolute inset-0 grid-gradient" />
+        <section className="relative overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28 min-h-[88vh] flex items-center">
+          {/* Cinematic video backdrop */}
+          <VideoBackground
+            src={ROCKETOPP_HERO_VIDEO}
+            eager
+            overlay="radial"
+            className="opacity-90"
+          />
+          {/* Keep the subtle grid on top for brand continuity */}
+          <div className="absolute inset-0 grid-background opacity-10 pointer-events-none" />
+          {/* Fade to page bg at the bottom for smooth scroll-in to pricing */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none" />
 
           <div className="container relative z-10 px-4 md:px-6">
             <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -554,11 +563,21 @@ export default function HomePage() {
         </section>
 
         {/* Results / Social Proof */}
-        <section className="py-20 md:py-28 bg-card/50">
-          <div className="container px-4 md:px-6">
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <VideoBackground
+            src={ROCKETOPP_HERO_VIDEO}
+            overlay="darker"
+            className="opacity-80"
+          />
+          <div className="absolute inset-0 grid-background opacity-10 pointer-events-none" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">Results That Speak</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 backdrop-blur text-sm font-medium text-primary mb-6">
+                <BarChart3 className="w-4 h-4" />
+                Real Numbers
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">Results That Speak</h2>
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">
                 We measure success by your outcomes, not our proposals.
               </p>
             </div>
@@ -598,23 +617,36 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 md:py-28">
-          <div className="container px-4 md:px-6">
+        <section className="relative overflow-hidden py-28 md:py-40">
+          <VideoBackground
+            src={ROCKETOPP_HERO_VIDEO}
+            overlay="radial"
+            className="opacity-95"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="max-w-3xl mx-auto text-center space-y-8">
-              <h2 className="text-3xl md:text-5xl font-bold">
-                Ready to Ship?
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 backdrop-blur text-sm font-medium text-primary">
+                <Rocket className="w-4 h-4" />
+                Ship Mode
+              </div>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+                Ready to{" "}
+                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent animate-gradient-x">
+                  Ship?
+                </span>
               </h2>
-              <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              <p className="text-lg md:text-xl text-white/85 max-w-xl mx-auto">
                 Stop comparing proposals. Start building. Pick a service, see the price, and let&apos;s go.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="text-lg px-8 py-6" asChild>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+                <Button size="lg" className="text-lg px-8 py-6 animate-pulse-glow" asChild>
                   <a href="#pricing">
                     View Pricing
                     <DollarSign className="ml-2 w-5 h-5" />
                   </a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6 bg-white/5 backdrop-blur border-white/30 text-white hover:bg-white/10" asChild>
                   <Link href="/contact">
                     Contact Us
                     <ArrowRight className="ml-2 w-5 h-5" />
