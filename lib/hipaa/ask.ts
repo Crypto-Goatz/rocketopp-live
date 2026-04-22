@@ -6,8 +6,6 @@
  * cites 45 CFR §164 + flags 2026 NPRM deltas without an extra retrieval step.
  */
 
-import { createGroq } from "@ai-sdk/groq"
-import { generateText } from "ai"
 import {
   HIPAA_RULE_CITATIONS,
   NPRM_2026_HEADLINES,
@@ -18,7 +16,38 @@ import {
   ROCKETOPP_HIPAA_PRODUCT,
 } from "./knowledge"
 
-const groq = createGroq({ apiKey: process.env.GROQ_API_KEY })
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+
+interface GroqResponse {
+  choices?: Array<{ message?: { content?: string } }>
+  error?: { message?: string }
+}
+
+async function callGroq(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+  temperature: number,
+): Promise<string> {
+  const apiKey = process.env.GROQ_API_KEY
+  if (!apiKey) throw new Error("GROQ_API_KEY not configured")
+
+  const res = await fetch(GROQ_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ model, messages, temperature, max_tokens: 800 }),
+  })
+
+  const data = (await res.json()) as GroqResponse
+  if (!res.ok) {
+    throw new Error(data.error?.message || `Groq ${res.status}`)
+  }
+  const content = data.choices?.[0]?.message?.content
+  if (!content) throw new Error("Groq returned empty response")
+  return content.trim()
+}
 
 export interface AskHipaaInput {
   question: string
@@ -141,17 +170,13 @@ export async function askHipaa(input: AskHipaaInput): Promise<AskHipaaResult> {
     ? `Context (from current scan or report): ${input.context}\n\nQuestion: ${input.question}`
     : input.question
 
-  const messages: Array<{ role: "user" | "assistant"; content: string }> = [
+  const messages: Array<{ role: string; content: string }> = [
+    { role: "system", content: buildSystemPrompt() },
     ...history,
     { role: "user", content: userPrompt },
   ]
 
-  const { text } = await generateText({
-    model: groq(model),
-    system: buildSystemPrompt(),
-    messages,
-    temperature: 0.3,
-  })
+  const text = await callGroq(model, messages, 0.3)
 
   return {
     answer: text,
