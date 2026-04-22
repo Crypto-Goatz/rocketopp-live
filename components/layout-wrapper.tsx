@@ -3,11 +3,14 @@
 import { usePathname } from "next/navigation"
 import Navbar from "./navbar"
 
-// Routes that should NOT show the public navbar or have pt-16 padding
+// Routes that should NOT show the public navbar or have pt-16 padding.
+// /hipaa is a standalone product surface with its own chrome — no parent
+// RocketOpp navbar, no footer, no site-wide padding.
 const HIDDEN_ROUTES = [
   "/dashboard",
   "/login",
   "/register",
+  "/hipaa",
 ]
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
