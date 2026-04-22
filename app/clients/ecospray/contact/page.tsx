@@ -23,8 +23,30 @@ export default function EcosprayContactPage() {
     e.preventDefault()
     setFormState('loading')
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    try {
+      const nameParts = formData.name.trim().split(' ')
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || '',
+          email: formData.email,
+          phone: formData.phone,
+          source: 'ecospray-contact-form',
+          formName: 'Ecospray Quote Request',
+          pageUrl: 'https://rocketopp.com/clients/ecospray/contact',
+          tags: ['Ecospray', 'Quote Request', `Property: ${formData.propertyType}`],
+          customFields: {
+            property_type: formData.propertyType,
+            square_footage: formData.squareFootage,
+            project_description: formData.message,
+          },
+        }),
+      })
+    } catch (error) {
+      console.error('Ecospray form submission failed:', error)
+    }
 
     setFormState('success')
   }

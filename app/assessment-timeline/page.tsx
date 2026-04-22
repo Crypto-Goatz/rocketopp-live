@@ -39,21 +39,24 @@ export default function AssessmentTimelinePage() {
   const handleSubmit = async () => {
     if (!selectedTimeline) return
 
-    const assessmentWebhookUrl = process.env.NEXT_PUBLIC_ASSESSMENT_WEBHOOK_URL
-    if (assessmentWebhookUrl) {
-      try {
-        await fetch(assessmentWebhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            timeline: selectedTimeline,
-            firstName: searchParams.get("firstName"),
-            email: searchParams.get("email"),
-          }),
-        })
-      } catch (error) {
-        console.error("Failed to send to assessment webhook:", error)
-      }
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: searchParams.get("firstName") || "",
+          email: searchParams.get("email") || "",
+          source: "rocketopp-ai-assessment",
+          formName: "Assessment Timeline",
+          pageUrl: "https://rocketopp.com/assessment-timeline",
+          tags: ["AI Assessment", "Timeline Selection", `Timeline: ${selectedTimeline}`],
+          customFields: {
+            project_timeline: selectedTimeline,
+          },
+        }),
+      })
+    } catch (error) {
+      console.error("Failed to send assessment timeline:", error)
     }
 
     router.push("/assessment-thank-you")
