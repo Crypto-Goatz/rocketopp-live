@@ -35,6 +35,8 @@ export async function POST(req: NextRequest) {
         sourceSite:    body.sourceSite || 'rocketopp.com',
         referralCode:  body.referralCode || null,
         creditHidden:  Boolean(body.creditHidden),
+        tier:          Math.max(1, Math.min(4, Number(body.tier) || 1)),
+        freeTest:      Boolean(body.freeTest),
       }),
     })
     const data = await r.json().catch(() => ({}))
