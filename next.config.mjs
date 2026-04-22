@@ -57,7 +57,13 @@ const nextConfig = {
         ]
       }
     ]
-  }
+  },
+  async redirects() {
+    return [
+      { source: '/hippa', destination: '/hipaa', permanent: true },
+      { source: '/hippa/:path*', destination: '/hipaa/:path*', permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

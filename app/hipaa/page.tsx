@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { HIPAALanding } from './hipaa-landing'
 
 export const metadata: Metadata = {
-  title: 'HIPAA Compliance Scanner — 51-Point Assessment | RocketOpp',
+  title: 'Free HIPAA Compliance Scanner — 63-Point Assessment | RocketOpp',
   description:
-    'Scan your healthcare website for HIPAA compliance in 30 seconds. 51 automated checks against current Security Rule and proposed 2026 NPRM requirements. Dual scoring, remediation roadmap, and state-specific guidance. From $149.',
+    'Scan your healthcare website for HIPAA compliance in 30 seconds. 63 automated checks against current Security Rule and proposed 2026 NPRM requirements. Dual scoring, remediation roadmap, and state-specific guidance. Free instant scan.',
   keywords: [
     'HIPAA compliance scanner',
     'HIPAA website audit',
