@@ -368,8 +368,8 @@ function PricingCard({ tier }: { tier: typeof TIERS[number] }) {
       <div className="mt-1 text-xl font-bold text-white">{tier.name}</div>
       <div className="mt-1 text-sm text-white/60">{tier.tagline}</div>
       <div className="mt-5 flex items-baseline gap-2">
-        <div className="text-4xl font-black tracking-tight text-white">${tier.price}</div>
-        {tier.anchor && <div className="text-sm font-semibold text-white/40 line-through">${tier.anchor}</div>}
+        <div className="text-4xl font-black tracking-tight text-white">${tier.price.toLocaleString('en-US')}</div>
+        {tier.anchor && <div className="text-sm font-semibold text-white/40 line-through">${tier.anchor.toLocaleString('en-US')}</div>}
       </div>
       <div className="mt-1 text-[11px] uppercase tracking-widest text-white/40">One-time · {tier.delivery}</div>
       <ul className="mt-5 space-y-2 text-sm text-white/80">
@@ -452,8 +452,8 @@ export function HIPAALanding() {
                   >
                     <div className="text-[10px] uppercase tracking-widest text-white/40">Tier {t.id} · {t.name}</div>
                     <div className="mt-0.5 flex items-baseline gap-1.5">
-                      <div className="text-lg font-black text-white">${t.price}</div>
-                      {t.anchor && <div className="text-xs font-semibold text-white/40 line-through">${t.anchor}</div>}
+                      <div className="text-lg font-black text-white">${t.price.toLocaleString('en-US')}</div>
+                      {t.anchor && <div className="text-xs font-semibold text-white/40 line-through">${t.anchor.toLocaleString('en-US')}</div>}
                     </div>
                   </a>
                 ))}
