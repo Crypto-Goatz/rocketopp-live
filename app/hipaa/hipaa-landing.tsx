@@ -22,6 +22,7 @@ import {
   Linkedin, BadgeCheck, TrendingUp, Sparkles, AlertTriangle, ExternalLink,
 } from 'lucide-react'
 import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
+import { RocketOppLogo } from '@/components/logo/SiteLogo'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -261,14 +262,9 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/hipaa" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-orange-500 to-rose-500">
-            <Shield className="h-4 w-4 text-white" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm font-bold tracking-tight text-white">RocketOpp HIPAA</span>
-            <span className="hidden text-[10px] uppercase tracking-widest text-white/40 sm:inline">Scanner + Report</span>
-          </div>
+        <Link href="/" className="flex items-center gap-3">
+          <RocketOppLogo height={28} width={150} />
+          <span className="hidden text-[10px] uppercase tracking-widest text-white/40 sm:inline border-l border-white/20 pl-3">HIPAA Scanner</span>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-3">
           <a href="#pricing" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">Pricing</a>
