@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Shield, CheckCircle2, Lock, Eye, Server, Users, FileWarning, ArrowRight, Clock, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Footer from '@/components/footer'
+import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
 
 const CHECKS = [
   { icon: Lock, label: 'Transport Security', count: 14, desc: 'TLS, HSTS, certificates, redirect chains, encryption-in-transit' },
@@ -50,6 +51,13 @@ export function HIPAALanding() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* ═══ FREE SCAN (primary CTA — powered by 0nCore) ═══ */}
+      <section className="relative border-b border-border/40 bg-gradient-to-b from-orange-950/10 via-background to-background">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <HipaaQuickScan />
+        </div>
+      </section>
+
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden border-b border-border/40">
         <div className="absolute inset-0 bg-gradient-to-b from-red-950/20 via-background to-background" />
