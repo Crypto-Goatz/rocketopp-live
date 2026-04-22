@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { HIPAALanding } from './hipaa-landing'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'HIPAA Compliance Scanner + AI Report | 15-min Delivery | From $149',
   description:
