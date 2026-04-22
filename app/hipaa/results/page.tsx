@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Shield, AlertTriangle, ArrowLeft, Loader2, FileText, Mail, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
 
 function gradeColor(grade: string) {
   if (grade === 'A') return 'text-emerald-400'
@@ -260,6 +261,15 @@ export default function HIPAAResultsPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-red-400" /></div>}>
       <ResultsInner />
+      <HipaaChatWidget
+        greeting="Your scan just finished. I can explain any finding, cite the 45 CFR §164 section it maps to, and walk you through remediation. What do you want to dig into?"
+        suggestions={[
+          'Explain my top critical finding',
+          'What does the 2026 NPRM change?',
+          'Which tier do I need?',
+          'Is this scan enough for OCR?',
+        ]}
+      />
     </Suspense>
   )
 }

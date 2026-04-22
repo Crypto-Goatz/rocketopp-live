@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
 import { RocketOppLogo } from '@/components/logo/SiteLogo'
+import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -782,6 +783,9 @@ export function HIPAALanding() {
       </section>
 
       <Footer />
+
+      {/* Floating HIPAA AI chat — powered by /api/k/hipaa */}
+      <HipaaChatWidget />
     </div>
   )
 }
