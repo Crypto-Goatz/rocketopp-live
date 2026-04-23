@@ -21,12 +21,12 @@ import {
   Clock, ChevronDown, Zap, Award, FileText, Code2, Telescope, Crown,
   Linkedin, BadgeCheck, TrendingUp, Sparkles, AlertTriangle, ExternalLink,
 } from 'lucide-react'
-import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
 import { RocketOppLogo } from '@/components/logo/SiteLogo'
 import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
 import { HipaaLoginModal } from '@/components/hipaa-login-modal'
 import { HipaaNprmCard } from '@/components/hipaa-nprm-card'
 import { HipaaEliteAssessment } from '@/components/hipaa-elite-assessment'
+import { HipaaStepOneLauncher } from '@/components/hipaa-step-one-launcher'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -552,7 +552,7 @@ export function HIPAALanding() {
             </p>
           </div>
           <div className="mt-10">
-            <HipaaQuickScan />
+            <HipaaStepOneLauncher />
           </div>
         </div>
       </section>

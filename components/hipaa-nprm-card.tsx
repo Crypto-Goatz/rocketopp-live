@@ -85,7 +85,7 @@ export function HipaaNprmCard({ onStartAssessment }: Props) {
         <div className="hipaa-nprm-card__corner hipaa-nprm-card__corner--br" />
 
         {/* Header */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <AlertTriangle className="h-4 w-4 text-orange-400" />
           <div className="hipaa-nprm-card__headline text-xs font-black uppercase tracking-[0.22em]">
             2026 NPRM Countdown
@@ -93,27 +93,27 @@ export function HipaaNprmCard({ onStartAssessment }: Props) {
         </div>
 
         {/* Countdown — lifts on card hover */}
-        <div className="hipaa-nprm-card__countdown-wrap mt-5 relative">
+        <div className="hipaa-nprm-card__countdown-wrap mt-5 relative text-center">
           <div className="hipaa-nprm-card__countdown-halo" />
-          <div className="relative inline-flex items-baseline gap-4">
+          <div className="relative flex flex-col items-center">
             <div className="text-6xl md:text-7xl font-black tracking-tight text-white leading-none hipaa-nprm-card__big">
               {days}
             </div>
-            <div className="text-sm text-white/60 max-w-[11rem] leading-snug">
+            <div className="mt-2 text-sm text-white/60 max-w-[14rem] leading-snug">
               days to estimated compliance deadline
             </div>
           </div>
-          <div className="mt-3 flex items-center gap-2 text-[11px] font-mono font-semibold uppercase tracking-wider text-white/70">
+          <div className="mt-4 flex items-center justify-center gap-3 text-[13px] font-mono font-bold uppercase tracking-wider">
             <Time label="HR" value={hh} />
-            <span className="text-white/25">:</span>
+            <span className="hipaa-nprm-card__colon">:</span>
             <Time label="MIN" value={mm} />
-            <span className="text-white/25">:</span>
+            <span className="hipaa-nprm-card__colon">:</span>
             <Time label="SEC" value={ss} />
           </div>
         </div>
 
         {/* Animated SVG process timeline */}
-        <div className="mt-6">
+        <div className="mt-6 text-center">
           <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/35 mb-3">
             What changes for you
           </div>
@@ -121,7 +121,7 @@ export function HipaaNprmCard({ onStartAssessment }: Props) {
         </div>
 
         {/* Disclaimer pill */}
-        <div className="mt-5 rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-[11px] leading-relaxed text-white/55">
+        <div className="mt-5 rounded-lg border border-white/10 bg-black/40 px-3 py-2.5 text-[11px] leading-relaxed text-white/55 text-center">
           Tier 3 and 4 reports overlay every finding against the proposed rule so you know
           what breaks today vs. what breaks when the rule finalizes.
         </div>
@@ -261,6 +261,27 @@ export function HipaaNprmCard({ onStartAssessment }: Props) {
         .hipaa-nprm-card__cta:hover .hipaa-nprm-card__cta-bg {
           opacity: 1;
         }
+        .hipaa-nprm-card__time-value {
+          font-size: 1.35rem;
+          font-weight: 900;
+          color: #ffffff;
+          letter-spacing: 0.02em;
+          text-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 0 32px rgba(255, 107, 53, 0.25);
+        }
+        .hipaa-nprm-card__time-label {
+          margin-top: 3px;
+          font-size: 9.5px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          color: rgba(255, 255, 255, 0.45);
+        }
+        .hipaa-nprm-card__colon {
+          font-size: 1.35rem;
+          font-weight: 900;
+          color: rgba(255, 107, 53, 0.7);
+          text-shadow: 0 0 12px rgba(255, 107, 53, 0.5);
+          transform: translateY(-6px);
+        }
       `}</style>
     </div>
   )
@@ -268,9 +289,9 @@ export function HipaaNprmCard({ onStartAssessment }: Props) {
 
 function Time({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex flex-col items-center leading-none">
-      <span className="text-sm text-white tabular-nums">{value}</span>
-      <span className="mt-0.5 text-[9px] text-white/35">{label}</span>
+    <span className="hipaa-nprm-card__time inline-flex flex-col items-center leading-none">
+      <span className="hipaa-nprm-card__time-value tabular-nums">{value}</span>
+      <span className="hipaa-nprm-card__time-label">{label}</span>
     </span>
   )
 }

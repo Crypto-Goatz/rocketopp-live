@@ -79,25 +79,18 @@ export function HipaaLoginModal({ trigger }: Props) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="hipaa-login-title"
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-          style={{
-            background: 'rgba(0,0,0,0.7)',
-            backdropFilter: 'blur(8px)',
-            animation: 'hipaaFadeIn 0.2s ease-out',
-          }}
+          className="hipaa-login-overlay fixed inset-0 z-[9999] flex items-center justify-center p-4"
           onClick={handleClose}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md rounded-2xl overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, #1a0a0a 0%, #0a0a0a 100%)',
-              border: '1px solid rgba(239, 68, 68, 0.25)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(239,68,68,0.1)',
-              animation: 'hipaaSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
+            className="hipaa-login-panel relative w-full max-w-md rounded-2xl overflow-hidden"
           >
-            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent" />
+            {/* Cinematic lava edges + radial corner glows (matches elite assessment) */}
+            <div className="hipaa-login-edge hipaa-login-edge--top" />
+            <div className="hipaa-login-edge hipaa-login-edge--bottom" />
+            <div className="hipaa-login-glow hipaa-login-glow--tl" />
+            <div className="hipaa-login-glow hipaa-login-glow--br" />
 
             <button
               onClick={handleClose}
@@ -235,23 +228,77 @@ export function HipaaLoginModal({ trigger }: Props) {
           </div>
 
           <style jsx>{`
-            @keyframes hipaaFadeIn {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
+            .hipaa-login-overlay {
+              background: radial-gradient(
+                ellipse at center,
+                rgba(0, 0, 0, 0.85),
+                rgba(0, 0, 0, 0.95)
+              );
+              backdrop-filter: blur(14px);
+              animation: hipaaLoginFade 0.3s ease-out;
             }
-            @keyframes hipaaSlideIn {
+            .hipaa-login-panel {
+              background: linear-gradient(145deg, #120905 0%, #070403 100%);
+              border: 1px solid rgba(255, 107, 53, 0.18);
+              box-shadow:
+                0 60px 120px -20px rgba(0, 0, 0, 0.9),
+                0 0 80px -20px rgba(255, 107, 53, 0.25);
+              animation: hipaaLoginPop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .hipaa-login-edge {
+              position: absolute;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: linear-gradient(
+                90deg,
+                transparent 0%,
+                #ef4444 25%,
+                #ff6b35 50%,
+                #f59e0b 75%,
+                transparent 100%
+              );
+              background-size: 200% 100%;
+              animation: hipaaLoginShimmer 3s linear infinite;
+              z-index: 15;
+            }
+            .hipaa-login-edge--top { top: 0; }
+            .hipaa-login-edge--bottom { bottom: 0; }
+            .hipaa-login-glow {
+              position: absolute;
+              width: 260px;
+              height: 260px;
+              border-radius: 50%;
+              filter: blur(60px);
+              pointer-events: none;
+            }
+            .hipaa-login-glow--tl {
+              top: -80px;
+              left: -80px;
+              background: radial-gradient(circle, rgba(239, 68, 68, 0.32), transparent 70%);
+            }
+            .hipaa-login-glow--br {
+              bottom: -100px;
+              right: -100px;
+              background: radial-gradient(circle, rgba(245, 158, 11, 0.22), transparent 70%);
+            }
+            @keyframes hipaaLoginFade {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes hipaaLoginPop {
               from {
                 opacity: 0;
-                transform: translateY(16px) scale(0.98);
+                transform: translateY(20px) scale(0.96);
               }
               to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
               }
+            }
+            @keyframes hipaaLoginShimmer {
+              0% { background-position: 0% 0; }
+              100% { background-position: 200% 0; }
             }
           `}</style>
         </div>

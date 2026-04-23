@@ -39,18 +39,30 @@ import {
 interface Props {
   open: boolean
   onClose: () => void
+  /** Optional pre-filled URL — jumps straight to step 2 when provided */
+  initialUrl?: string
 }
 
 const STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']
 
-export function HipaaEliteAssessment({ open, onClose }: Props) {
+export function HipaaEliteAssessment({ open, onClose, initialUrl }: Props) {
   const router = useRouter()
 
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState<'forward' | 'back'>('forward')
 
   // Form state
-  const [publicUrl, setPublicUrl] = useState('')
+  const [publicUrl, setPublicUrl] = useState(initialUrl || '')
+
+  // Sync pre-fill whenever the modal opens with a fresh URL
+  useEffect(() => {
+    if (open && initialUrl) {
+      setPublicUrl(initialUrl)
+      // Skip step 0 since it's already answered
+      setStep(1)
+      setDirection('forward')
+    }
+  }, [open, initialUrl])
   const [dashboardUrl, setDashboardUrl] = useState('')
   const [entityType, setEntityType] = useState<'covered-entity' | 'business-associate' | 'both' | 'unsure'>('unsure')
   const [state, setState] = useState('')
@@ -62,11 +74,11 @@ export function HipaaEliteAssessment({ open, onClose }: Props) {
     if (!open) {
       // reset after close animation
       setTimeout(() => {
-        setStep(0)
+        setStep(initialUrl ? 1 : 0)
         setDirection('forward')
       }, 300)
     }
-  }, [open])
+  }, [open, initialUrl])
 
   // Esc to close
   useEffect(() => {
