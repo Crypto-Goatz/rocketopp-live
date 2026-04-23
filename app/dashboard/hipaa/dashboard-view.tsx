@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import {
-  ShieldCheck, Mail, Loader2, Sparkles, ExternalLink, Calendar, CheckCircle2,
-  FileText, Code2, Telescope, Crown, LogOut, Gift, MessageSquare, Zap,
+  ShieldCheck, Mail, MailCheck, MailX, Loader2, Sparkles, ExternalLink, Calendar, CheckCircle2,
+  FileText, Code2, Telescope, Crown, LogOut, Gift, MessageSquare, Zap, Phone,
 } from 'lucide-react'
 import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
 
@@ -20,6 +20,8 @@ interface OrderRow {
   support_call_expires_at: string | null
   source_site: string | null
   created_at: string
+  initial_email_sent_at?: string | null
+  full_report_sent_at?: string | null
 }
 
 export function DashboardView() {
@@ -193,6 +195,31 @@ export function DashboardView() {
         </div>
       )}
 
+      {/* Always-on phone / AI voice support */}
+      <div className="relative mt-6 rounded-xl border border-orange-500/25 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, rgba(255,107,53,0.08), rgba(245,158,11,0.03))' }}>
+        <div className="absolute h-[2px] left-0 right-0 top-0 bg-gradient-to-r from-transparent via-orange-400 to-transparent opacity-70" />
+        <div className="p-5 flex items-center gap-4 flex-wrap">
+          <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0"
+            style={{ background: 'linear-gradient(135deg,#ef4444,#ff6b35,#f59e0b)', boxShadow: '0 0 20px rgba(255,107,53,0.35)' }}>
+            <Phone className="h-5 w-5 text-white" strokeWidth={2.5} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-bold text-white">Stuck on anything? Our AI voice agent is live 24/7.</div>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Call for answers about any finding, help reading your report, or to book a compliance strategy call —
+              the AI picks up, understands HIPAA, and schedules directly into our calendar.
+            </p>
+          </div>
+          <a href="tel:+18788881230"
+            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white shrink-0"
+            style={{ background: 'linear-gradient(135deg,#ef4444,#ff6b35)', boxShadow: '0 4px 14px -2px rgba(255,107,53,0.5)' }}>
+            <Phone className="h-4 w-4" />
+            +1 (878) 888-1230
+          </a>
+        </div>
+      </div>
+
       {/* 0nCore ad */}
       <a href="https://0ncore.com" target="_blank" rel="noopener noreferrer"
         className="group mt-8 block rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.03] to-transparent p-5 hover:border-white/20 transition-colors">
@@ -258,6 +285,9 @@ function OrderCard({ order }: { order: OrderRow }) {
   const viewUrl = `/hipaa/reports/${order.id}?t=${encodeURIComponent(order.report_view_token)}`
   const bookUrl = `/hipaa/book-call?order=${order.id}`
 
+  const emailConfirmFired = Boolean(order.initial_email_sent_at)
+  const emailReadyFired = Boolean(order.full_report_sent_at)
+
   return (
     <article className="rounded-xl border border-border bg-card p-5 hover:border-foreground/25 transition-colors">
       <div className="flex items-start justify-between flex-wrap gap-4">
@@ -278,7 +308,7 @@ function OrderCard({ order }: { order: OrderRow }) {
         <div className="flex items-center gap-2">
           {isReady ? (
             <a href={viewUrl} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-rose-500 text-white text-sm font-semibold">
-              Open report <ExternalLink className="w-3.5 h-3.5" />
+              Open interactive report <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
             <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border text-xs text-muted-foreground">
@@ -292,6 +322,38 @@ function OrderCard({ order }: { order: OrderRow }) {
           )}
         </div>
       </div>
+
+      {/* Email delivery status + fallback hint */}
+      <div className="mt-4 flex items-center gap-2 flex-wrap text-[11px]">
+        <EmailBadge label="Confirmation" sentAt={order.initial_email_sent_at || null} fired={emailConfirmFired} />
+        {isReady && (
+          <EmailBadge label="Report ready" sentAt={order.full_report_sent_at || null} fired={emailReadyFired} />
+        )}
+        {isReady && (
+          <a
+            href={viewUrl}
+            className="ml-auto inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
+          >
+            <MailX className="w-3 h-3" /> Didn't get the email? Open report here →
+          </a>
+        )}
+      </div>
     </article>
+  )
+}
+
+function EmailBadge({ label, sentAt, fired }: { label: string; sentAt: string | null; fired: boolean }) {
+  if (!fired) {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-rose-500/25 bg-rose-500/5 text-rose-300">
+        <MailX className="w-3 h-3" /> {label} · not sent
+      </span>
+    )
+  }
+  const when = sentAt ? new Date(sentAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-emerald-500/25 bg-emerald-500/5 text-emerald-300">
+      <MailCheck className="w-3 h-3" /> {label} sent{when ? ` · ${when}` : ''}
+    </span>
   )
 }

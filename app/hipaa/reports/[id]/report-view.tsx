@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import {
   ShieldCheck, AlertTriangle, Download, Calendar, Loader2, RefreshCw,
@@ -9,14 +9,16 @@ import {
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
-// Local-first remediation progress.
+// Local-first remediation progress + per-finding notes.
 // Persists to localStorage immediately (optimistic UX) and fire-and-forgets
 // the server sync to /api/hipaa/progress — if the backend isn't wired yet,
 // the UI still works perfectly across the same browser/device.
 // ---------------------------------------------------------------------------
 function useRemediationProgress(orderId: string, token: string) {
   const storageKey = `hipaa_progress_${orderId}`
+  const notesKey = `hipaa_notes_${orderId}`
   const [resolved, setResolved] = useState<Record<string, string>>({})
+  const [notes, setNotes] = useState<Record<string, string>>({})
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
@@ -25,18 +27,25 @@ function useRemediationProgress(orderId: string, token: string) {
       const raw = localStorage.getItem(storageKey)
       if (raw) setResolved(JSON.parse(raw))
     } catch { /* ignore */ }
+    try {
+      const rawNotes = localStorage.getItem(notesKey)
+      if (rawNotes) setNotes(JSON.parse(rawNotes))
+    } catch { /* ignore */ }
     setHydrated(true)
 
-    // Try to fetch server-side state and overlay it
     fetch(`/api/hipaa/progress?orderId=${encodeURIComponent(orderId)}&t=${encodeURIComponent(token)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
-        if (d && d.resolved && typeof d.resolved === 'object') {
+        if (!d) return
+        if (d.resolved && typeof d.resolved === 'object') {
           setResolved((prev) => ({ ...prev, ...d.resolved }))
         }
+        if (d.notes && typeof d.notes === 'object') {
+          setNotes((prev) => ({ ...prev, ...d.notes }))
+        }
       })
-      .catch(() => { /* silent — server sync optional */ })
-  }, [orderId, storageKey, token])
+      .catch(() => {})
+  }, [orderId, storageKey, notesKey, token])
 
   const toggle = useCallback(
     (checkId: string) => {
@@ -45,7 +54,6 @@ function useRemediationProgress(orderId: string, token: string) {
         if (next[checkId]) delete next[checkId]
         else next[checkId] = new Date().toISOString()
         try { localStorage.setItem(storageKey, JSON.stringify(next)) } catch {}
-        // Fire-and-forget server sync
         fetch('/api/hipaa/progress', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -57,7 +65,36 @@ function useRemediationProgress(orderId: string, token: string) {
     [orderId, storageKey, token],
   )
 
-  return { resolved, toggle, hydrated }
+  // Debounced note save — commit after 800ms of keystroke inactivity
+  const saveNote = useCallback(
+    (checkId: string, value: string) => {
+      setNotes((prev) => {
+        const next = { ...prev }
+        if (value.trim()) next[checkId] = value
+        else delete next[checkId]
+        try { localStorage.setItem(notesKey, JSON.stringify(next)) } catch {}
+        return next
+      })
+    },
+    [notesKey],
+  )
+
+  const pendingNoteSync = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  const queueNoteSync = useCallback(
+    (checkId: string, value: string) => {
+      if (pendingNoteSync.current[checkId]) clearTimeout(pendingNoteSync.current[checkId])
+      pendingNoteSync.current[checkId] = setTimeout(() => {
+        fetch('/api/hipaa/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, token, checkId, note: value }),
+        }).catch(() => {})
+      }, 800)
+    },
+    [orderId, token],
+  )
+
+  return { resolved, notes, toggle, saveNote, queueNoteSync, hydrated }
 }
 
 interface ReportFinding {
@@ -122,7 +159,7 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState<string | null>(null)
   const [expandedFinding, setExpandedFinding] = useState<string | null>(null)
-  const { resolved, toggle: toggleResolved, hydrated } = useRemediationProgress(orderId, token)
+  const { resolved, notes, toggle: toggleResolved, saveNote, queueNoteSync, hydrated } = useRemediationProgress(orderId, token)
 
   async function load() {
     setErr(null)
@@ -205,12 +242,26 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
       </div>
 
       {/* Title block */}
-      <div className="mb-10 pb-8 border-b border-border">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">
-          {tierIcon} Tier {report.tier} · {report.tierMeta.name}
+      <div className="mb-10 pb-8 border-b border-border flex items-start justify-between gap-6 flex-wrap">
+        <div className="min-w-0 flex-1">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">
+            {tierIcon} Tier {report.tier} · {report.tierMeta.name}
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">{report.companyName} — HIPAA Readiness Report</h1>
+          {a && <p className="text-sm text-muted-foreground">{a.publicUrl} · scanned {new Date(a.scanDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">{report.companyName} — HIPAA Readiness Report</h1>
-        {a && <p className="text-sm text-muted-foreground">{a.publicUrl} · scanned {new Date(a.scanDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
+        <a
+          href="tel:+18788881230"
+          className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white"
+          style={{
+            background: 'linear-gradient(135deg,#ef4444,#ff6b35,#f59e0b)',
+            boxShadow: '0 8px 24px -6px rgba(255,107,53,0.45)',
+          }}
+          title="AI voice agent — 24/7. Books directly into our calendar."
+        >
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+          Call AI · (878) 888-1230
+        </a>
       </div>
 
       {/* Scorecards */}
@@ -399,6 +450,28 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
                         <div className="mt-3 text-[11px] text-muted-foreground">Estimated time: ~{f.devFix.estimatedMinutes} min</div>
                       </Block>
                     )}
+
+                    {/* Your notes */}
+                    <Block label="Your notes">
+                      <textarea
+                        value={notes[f.checkId] || ''}
+                        onChange={(e) => {
+                          const v = e.target.value
+                          saveNote(f.checkId, v)
+                          queueNoteSync(f.checkId, v)
+                        }}
+                        placeholder="Jot what you did, what's left, or who owns this on your team. Auto-saves."
+                        className="w-full min-h-[90px] rounded-lg border border-border bg-background p-3 text-sm leading-relaxed resize-y focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/15 placeholder:text-muted-foreground/50"
+                      />
+                      <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
+                        <span>Auto-saves to your browser + account</span>
+                        {notes[f.checkId] && (
+                          <span className="inline-flex items-center gap-1 text-emerald-400">
+                            <Check className="w-3 h-3" /> Saved
+                          </span>
+                        )}
+                      </div>
+                    </Block>
                   </div>
                 )}
               </article>

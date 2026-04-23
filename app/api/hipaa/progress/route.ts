@@ -52,6 +52,14 @@ export async function POST(req: NextRequest) {
   }
   if (!SECRET) return NextResponse.json({ ok: true, persisted: false })
 
+  const payload: Record<string, unknown> = {
+    orderId,
+    token: body.token || null,
+    checkId,
+  }
+  if (body.resolved !== undefined) payload.resolved = Boolean(body.resolved)
+  if (body.note !== undefined) payload.note = String(body.note).slice(0, 4000)
+
   try {
     const r = await fetch(`${ONCORE_URL}/api/hipaa/progress`, {
       method: 'POST',
@@ -59,12 +67,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
         'x-hipaa-webhook-secret': SECRET,
       },
-      body: JSON.stringify({
-        orderId,
-        token: body.token || null,
-        checkId,
-        resolved: Boolean(body.resolved),
-      }),
+      body: JSON.stringify(payload),
     })
     if (!r.ok) return NextResponse.json({ ok: true, persisted: false })
     return NextResponse.json({ ok: true, persisted: true })

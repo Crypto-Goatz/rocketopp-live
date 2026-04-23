@@ -274,6 +274,14 @@ function Header() {
           <a href="#pricing" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">Pricing</a>
           <a href="#how" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">How it works</a>
           <a href="#faq" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white md:inline-block">FAQ</a>
+          <a
+            href="tel:+18788881230"
+            className="hidden items-center gap-1.5 rounded-md border border-orange-500/35 bg-orange-500/5 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/10 md:inline-flex"
+            title="AI voice agent — 24/7"
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            (878) 888-1230
+          </a>
           <HipaaLoginModal
             trigger={
               <span className="inline-block rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/10 cursor-pointer">
