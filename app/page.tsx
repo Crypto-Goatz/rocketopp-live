@@ -727,9 +727,111 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ================================================================= */}
+        {/* Powered by 0nCore — 2-hour build acknowledgment                    */}
+        {/* ================================================================= */}
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(ellipse at top, rgba(110,224,90,0.08) 0%, transparent 60%)',
+            }}
+          />
+          <div className="relative max-w-5xl mx-auto">
+            <div className="rounded-3xl border border-emerald-500/15 bg-gradient-to-br from-zinc-950/80 via-black/90 to-zinc-950/80 backdrop-blur-xl p-6 sm:p-10 md:p-12 overflow-hidden">
+              <div className="grid md:grid-cols-[auto,1fr] gap-8 md:gap-10 items-center">
+                <div className="relative">
+                  {/* Glow halo */}
+                  <div
+                    className="absolute inset-0 -m-4 rounded-full blur-3xl pointer-events-none"
+                    style={{
+                      background:
+                        'radial-gradient(circle, rgba(110,224,90,0.18) 0%, transparent 70%)',
+                    }}
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/video/0ncore-logo-reveal.gif"
+                    alt="0nCore logo reveal"
+                    className="relative w-56 md:w-72 h-auto rounded-2xl"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-emerald-400 text-xs font-bold uppercase tracking-[0.18em] mb-4">
+                    <Sparkles className="w-3.5 h-3.5" /> Generously donated
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+                    This site was built in{' '}
+                    <span
+                      className="bg-clip-text text-transparent"
+                      style={{
+                        backgroundImage:
+                          'linear-gradient(135deg, #6EE05A 0%, #06b6d4 60%, #a5f3fc 100%)',
+                      }}
+                    >
+                      2 hours
+                    </span>{' '}
+                    with 0nMCP.
+                  </h2>
+                  <p className="text-base md:text-lg text-white/70 leading-relaxed max-w-2xl mb-6">
+                    Every page, every API route, every database table, every email template —
+                    from conception to production — delivered in a single focused session.
+                    Powered by the patent-pending <strong className="text-white">0nMCP</strong>{' '}
+                    orchestration engine, generously donated to RocketOpp by{' '}
+                    <a
+                      href="https://0ncore.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 font-semibold hover:text-emerald-300 transition-colors"
+                    >
+                      0nCore
+                    </a>
+                    .
+                  </p>
+
+                  <div className="grid grid-cols-3 gap-3 mb-6 max-w-md mx-auto md:mx-0">
+                    <Stat label="Tools" value="1,554" />
+                    <Stat label="Services" value="96" />
+                    <Stat label="Hours to ship" value="2" />
+                  </div>
+
+                  <a
+                    href="https://0ncore.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-all"
+                    style={{
+                      background: 'linear-gradient(135deg,#6EE05A,#4ecb3a)',
+                      color: '#080B0F',
+                      boxShadow: '0 4px 20px rgba(110,224,90,0.3)',
+                    }}
+                  >
+                    See what 0nCore can build for you
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
     </>
+  )
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-3 text-center">
+      <div className="text-xl md:text-2xl font-extrabold text-white tabular-nums">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/80 mt-0.5">
+        {label}
+      </div>
+    </div>
   )
 }
