@@ -27,6 +27,8 @@ import { HipaaLoginModal } from '@/components/hipaa-login-modal'
 import { HipaaNprmCard } from '@/components/hipaa-nprm-card'
 import { HipaaEliteAssessment } from '@/components/hipaa-elite-assessment'
 import { HipaaStepOneLauncher } from '@/components/hipaa-step-one-launcher'
+import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
+import { HipaaRulesTable } from '@/components/hipaa-rules-table'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -431,7 +433,9 @@ export function HIPAALanding() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative">
+      <HipaaAnimatedBackground />
+      <div className="relative z-10">
       <Header />
 
       {/* ============================= HERO ============================= */}
@@ -715,6 +719,24 @@ export function HIPAALanding() {
         </div>
       </section>
 
+      {/* ============================= RULES TABLE ============================= */}
+      <section id="rules" className="border-b border-white/10 py-16 sm:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Reference</div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              Every rule we score against, in one place.
+            </h2>
+            <p className="mt-4 text-white/60 max-w-2xl mx-auto">
+              Search the full HIPAA Security + Privacy + Breach Notification catalog, with
+              the 2026 NPRM deltas flagged inline. The scoring algorithm is ours — the rules
+              are yours to study.
+            </p>
+          </div>
+          <HipaaRulesTable />
+        </div>
+      </section>
+
       {/* ============================= FAQ ============================= */}
       <section id="faq" className="border-b border-white/10 py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
@@ -779,6 +801,7 @@ export function HIPAALanding() {
       </section>
 
       <Footer />
+      </div>
 
       {/* Floating HIPAA AI chat — powered by /api/k/hipaa */}
       <HipaaChatWidget />
