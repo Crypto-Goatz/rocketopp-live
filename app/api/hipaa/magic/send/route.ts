@@ -13,7 +13,12 @@ export async function POST(req: NextRequest) {
   const r = await fetch(`${ONCORE_URL}/api/hipaa/magic/send`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-hipaa-webhook-secret': SECRET },
-    body: JSON.stringify({ email: body.email, returnTo: 'https://rocketopp.com/dashboard/hipaa' }),
+    body: JSON.stringify({
+      email: body.email,
+      website: body.website || null,
+      companyName: body.companyName || null,
+      returnTo: 'https://rocketopp.com/dashboard/hipaa',
+    }),
   })
   const data = await r.json().catch(() => ({}))
   return NextResponse.json(data, { status: r.status })

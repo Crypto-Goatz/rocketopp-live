@@ -24,6 +24,7 @@ import {
 import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
 import { RocketOppLogo } from '@/components/logo/SiteLogo'
 import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
+import { HipaaLoginModal } from '@/components/hipaa-login-modal'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -271,12 +272,13 @@ function Header() {
           <a href="#pricing" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">Pricing</a>
           <a href="#how" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">How it works</a>
           <a href="#faq" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white md:inline-block">FAQ</a>
-          <Link
-            href="/dashboard/hipaa"
-            className="rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/10"
-          >
-            Sign in
-          </Link>
+          <HipaaLoginModal
+            trigger={
+              <span className="inline-block rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/10 cursor-pointer">
+                Sign in
+              </span>
+            }
+          />
           <a
             href="#scan"
             className="rounded-md bg-gradient-to-br from-orange-500 to-rose-500 px-3 py-1.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 hover:from-orange-400 hover:to-rose-400"
@@ -325,7 +327,11 @@ function Footer() {
               <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
               <li><a href="#how" className="hover:text-white">How it works</a></li>
               <li><a href="#scan" className="hover:text-white">Free scan</a></li>
-              <li><Link href="/dashboard/hipaa" className="hover:text-white">Sign in</Link></li>
+              <li>
+                <HipaaLoginModal
+                  trigger={<span className="hover:text-white cursor-pointer">Sign in</span>}
+                />
+              </li>
             </ul>
           </div>
           <div>
