@@ -4,7 +4,6 @@
  * HipaaAnimatedBackground — deep space atmosphere for /hipaa surfaces.
  *
  *   - 60 stars placed deterministically with varied sparkle cadences
- *   - One drifting shooting star every ~9-12s
  *   - Three slow-moving gradient blobs (red, orange, cyan) for depth
  *
  * Pure CSS, no JS animation loop, no canvas. Respects prefers-reduced-motion.
@@ -70,11 +69,6 @@ export function HipaaAnimatedBackground() {
         />
       ))}
 
-      {/* Shooting stars — 3 offset streaks */}
-      <span className="hipaa-bg__shoot" style={{ top: '18%', animationDelay: '0s' }} />
-      <span className="hipaa-bg__shoot" style={{ top: '42%', animationDelay: '6s' }} />
-      <span className="hipaa-bg__shoot" style={{ top: '71%', animationDelay: '13s' }} />
-
       <style jsx>{`
         .hipaa-bg {
           position: fixed;
@@ -100,46 +94,6 @@ export function HipaaAnimatedBackground() {
           50% {
             opacity: 1;
             transform: scale(1.1);
-          }
-        }
-
-        .hipaa-bg__shoot {
-          position: absolute;
-          left: -60px;
-          width: 140px;
-          height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0) 10%,
-            rgba(255, 107, 53, 0.85) 50%,
-            rgba(255, 255, 255, 1) 92%,
-            transparent 100%
-          );
-          filter: drop-shadow(0 0 6px rgba(255, 107, 53, 0.75));
-          transform-origin: left center;
-          animation: hipaaShoot 14s linear infinite;
-          will-change: transform, opacity;
-        }
-        @keyframes hipaaShoot {
-          0% {
-            opacity: 0;
-            transform: translateX(0) translateY(0) rotate(-18deg) scaleX(0.3);
-          }
-          5% {
-            opacity: 1;
-            transform: translateX(0) translateY(0) rotate(-18deg) scaleX(1);
-          }
-          16% {
-            opacity: 1;
-            transform: translateX(110vw) translateY(25vh) rotate(-18deg) scaleX(0.6);
-          }
-          18% {
-            opacity: 0;
-            transform: translateX(110vw) translateY(25vh) rotate(-18deg) scaleX(0);
-          }
-          100% {
-            opacity: 0;
           }
         }
 
@@ -189,11 +143,9 @@ export function HipaaAnimatedBackground() {
 
         @media (prefers-reduced-motion: reduce) {
           .hipaa-bg__star,
-          .hipaa-bg__shoot,
           .hipaa-bg__blob {
             animation: none !important;
           }
-          .hipaa-bg__shoot { opacity: 0; }
         }
       `}</style>
     </div>
