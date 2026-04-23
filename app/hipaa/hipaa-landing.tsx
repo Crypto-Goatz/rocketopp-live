@@ -25,6 +25,8 @@ import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
 import { RocketOppLogo } from '@/components/logo/SiteLogo'
 import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
 import { HipaaLoginModal } from '@/components/hipaa-login-modal'
+import { HipaaNprmCard } from '@/components/hipaa-nprm-card'
+import { HipaaEliteAssessment } from '@/components/hipaa-elite-assessment'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -410,6 +412,7 @@ function PricingCard({ tier }: { tier: typeof TIERS[number] }) {
 export function HIPAALanding() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [daysToDeadline, setDaysToDeadline] = useState<number | null>(null)
+  const [assessmentOpen, setAssessmentOpen] = useState(false)
 
   useEffect(() => {
     // Assume final rule roughly Jan 1, 2027 — countdown as "days to compliance".
@@ -490,30 +493,9 @@ export function HIPAALanding() {
               </div>
             </div>
 
-            {/* Right — NPRM countdown card */}
+            {/* Right — NPRM countdown (upgraded) */}
             <div className="lg:col-span-2">
-              <div className="relative rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-rose-500/5 to-transparent p-6">
-                <div className="flex items-center gap-2 text-amber-300">
-                  <AlertTriangle className="h-4 w-4" />
-                  <div className="text-xs font-bold uppercase tracking-widest">2026 NPRM countdown</div>
-                </div>
-                <div className="mt-4 flex items-baseline gap-3">
-                  <div className="text-5xl font-black tracking-tight text-white">
-                    {daysToDeadline ?? '—'}
-                  </div>
-                  <div className="text-sm text-white/60">days to estimated <br />compliance deadline</div>
-                </div>
-                <div className="mt-5 space-y-2 text-sm text-white/80">
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> MFA mandatory for every ePHI account</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Encryption at rest required</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> "Addressable" category eliminated</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Biennial penetration tests</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Six-month vulnerability scans</div>
-                </div>
-                <div className="mt-5 rounded-lg border border-white/10 bg-black/30 p-3 text-[12px] text-white/60">
-                  Tier 3 and Tier 4 reports overlay every finding against the proposed rule so you know what breaks today vs. what breaks when the rule finalizes.
-                </div>
-              </div>
+              <HipaaNprmCard onStartAssessment={() => setAssessmentOpen(true)} />
             </div>
           </div>
         </div>
@@ -792,6 +774,9 @@ export function HIPAALanding() {
 
       {/* Floating HIPAA AI chat — powered by /api/k/hipaa */}
       <HipaaChatWidget />
+
+      {/* Elite cinematic assessment modal */}
+      <HipaaEliteAssessment open={assessmentOpen} onClose={() => setAssessmentOpen(false)} />
     </div>
   )
 }

@@ -6,8 +6,64 @@
  * Calls /api/hipaa/chat which wraps the /api/k/hipaa K-layer synthesis.
  */
 
-import { useState, useRef, useEffect } from 'react'
-import { Shield, Send, X, MessageCircle } from 'lucide-react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { Shield, Send, X, MessageCircle, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
+
+// -------------------------------------------------------------------------
+// Browser Web Speech API — zero-cost voice I/O.
+// -------------------------------------------------------------------------
+interface SpeechRecognitionResult {
+  transcript: string
+  isFinal: boolean
+}
+interface SpeechRecognitionLike {
+  continuous: boolean
+  interimResults: boolean
+  lang: string
+  start: () => void
+  stop: () => void
+  onresult: ((e: { results: ArrayLike<ArrayLike<SpeechRecognitionResult>> }) => void) | null
+  onerror: (() => void) | null
+  onend: (() => void) | null
+}
+type SpeechRecognitionCtor = new () => SpeechRecognitionLike
+
+function getSpeechRecognition(): SpeechRecognitionCtor | null {
+  if (typeof window === 'undefined') return null
+  const w = window as unknown as {
+    SpeechRecognition?: SpeechRecognitionCtor
+    webkitSpeechRecognition?: SpeechRecognitionCtor
+  }
+  return w.SpeechRecognition || w.webkitSpeechRecognition || null
+}
+
+function speak(text: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  // Strip markdown-ish tokens for cleaner speech
+  const clean = text
+    .replace(/[*_`#>]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+  const utter = new SpeechSynthesisUtterance(clean)
+  utter.rate = 1.05
+  utter.pitch = 1
+  utter.volume = 1
+  // Prefer an English voice if available
+  const voices = window.speechSynthesis.getVoices()
+  const enVoice =
+    voices.find((v) => /en[-_](US|GB)/i.test(v.lang) && /female|samantha|zira|karen/i.test(v.name)) ||
+    voices.find((v) => /en[-_](US|GB)/i.test(v.lang)) ||
+    null
+  if (enVoice) utter.voice = enVoice
+  window.speechSynthesis.cancel()
+  window.speechSynthesis.speak(utter)
+}
+
+function stopSpeaking() {
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.cancel()
+  }
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -39,8 +95,63 @@ export function HipaaChatWidget({ context, greeting, suggestions }: HipaaChatWid
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [greeted, setGreeted] = useState(false)
+  const [listening, setListening] = useState(false)
+  const [voiceOn, setVoiceOn] = useState(false)
+  const [voiceSupported, setVoiceSupported] = useState(false)
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Detect voice support on mount
+  useEffect(() => {
+    const SR = getSpeechRecognition()
+    const ttsOk = typeof window !== 'undefined' && 'speechSynthesis' in window
+    setVoiceSupported(Boolean(SR) && ttsOk)
+  }, [])
+
+  const stopListening = useCallback(() => {
+    try { recognitionRef.current?.stop() } catch {}
+    recognitionRef.current = null
+    setListening(false)
+  }, [])
+
+  const startListening = useCallback(() => {
+    const SR = getSpeechRecognition()
+    if (!SR) return
+    stopSpeaking()
+    const rec = new SR()
+    rec.continuous = false
+    rec.interimResults = true
+    rec.lang = 'en-US'
+    rec.onresult = (e) => {
+      let text = ''
+      for (let i = 0; i < e.results.length; i++) {
+        const res = e.results[i]
+        const r0 = res[0] as SpeechRecognitionResult
+        text += r0.transcript
+        if (r0.isFinal) {
+          setInput('')
+          stopListening()
+          setTimeout(() => sendMessage(text.trim()), 50)
+          return
+        }
+      }
+      setInput(text)
+    }
+    rec.onerror = () => stopListening()
+    rec.onend = () => setListening(false)
+    recognitionRef.current = rec
+    rec.start()
+    setListening(true)
+  }, [stopListening])
+
+  // Clean up voice state on widget close
+  useEffect(() => {
+    if (!open) {
+      stopListening()
+      stopSpeaking()
+    }
+  }, [open, stopListening])
 
   useEffect(() => {
     if (open && !greeted) {
@@ -73,14 +184,16 @@ export function HipaaChatWidget({ context, greeting, suggestions }: HipaaChatWid
         }),
       })
       const data = await res.json()
+      const reply = data.reply || data.error || 'Something went wrong. Please try again.'
       setMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
-          content: data.reply || data.error || 'Something went wrong. Please try again.',
+          content: reply,
           citations: data.citations,
         },
       ])
+      if (voiceOn) speak(reply)
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -375,16 +488,83 @@ export function HipaaChatWidget({ context, greeting, suggestions }: HipaaChatWid
             borderTop: '1px solid rgba(255,255,255,0.06)',
             display: 'flex',
             gap: '8px',
+            alignItems: 'center',
             background: 'rgba(0,0,0,0.3)',
           }}
         >
+          {voiceSupported && (
+            <>
+              <button
+                onClick={() => (listening ? stopListening() : startListening())}
+                aria-label={listening ? 'Stop listening' : 'Start voice input'}
+                title={listening ? 'Stop' : 'Speak'}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '10px',
+                  background: listening
+                    ? 'linear-gradient(135deg,#ef4444,#f97316)'
+                    : 'rgba(255,255,255,0.05)',
+                  border: listening
+                    ? 'none'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  boxShadow: listening
+                    ? '0 0 16px rgba(239,68,68,0.5)'
+                    : 'none',
+                  animation: listening ? 'hipaaMicPulse 1.4s ease-in-out infinite' : 'none',
+                }}
+              >
+                {listening ? (
+                  <MicOff size={16} color="#fff" strokeWidth={2.5} />
+                ) : (
+                  <Mic size={16} color="rgba(255,255,255,0.7)" strokeWidth={2.2} />
+                )}
+              </button>
+              <button
+                onClick={() => {
+                  const next = !voiceOn
+                  setVoiceOn(next)
+                  if (!next) stopSpeaking()
+                }}
+                aria-label={voiceOn ? 'Disable voice replies' : 'Enable voice replies'}
+                title={voiceOn ? 'Voice replies: on' : 'Voice replies: off'}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '10px',
+                  background: voiceOn
+                    ? 'rgba(16,185,129,0.12)'
+                    : 'rgba(255,255,255,0.05)',
+                  border: voiceOn
+                    ? '1px solid rgba(16,185,129,0.4)'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {voiceOn ? (
+                  <Volume2 size={16} color="#10b981" strokeWidth={2.4} />
+                ) : (
+                  <VolumeX size={16} color="rgba(255,255,255,0.5)" strokeWidth={2.2} />
+                )}
+              </button>
+            </>
+          )}
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-            placeholder="Ask a HIPAA question..."
+            placeholder={listening ? 'Listening…' : 'Ask a HIPAA question...'}
             style={{
               flex: 1,
               padding: '10px 14px',
@@ -472,6 +652,10 @@ export function HipaaChatWidget({ context, greeting, suggestions }: HipaaChatWid
 
       <style>{`
         @keyframes hipaa-pulse { 0%, 100% { opacity: 0.3 } 50% { opacity: 1 } }
+        @keyframes hipaaMicPulse {
+          0%, 100% { box-shadow: 0 0 12px rgba(239,68,68,0.45); transform: scale(1); }
+          50% { box-shadow: 0 0 22px rgba(239,68,68,0.75); transform: scale(1.04); }
+        }
       `}</style>
     </>
   )
