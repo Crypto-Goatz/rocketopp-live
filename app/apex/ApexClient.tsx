@@ -3,16 +3,20 @@
 /**
  * APEX — rebuilt on Groq. Single-page conversational assessment.
  *
- * States: intro → consent → collectingInfo (name/company/zip/industry/website)
- *        → selectingCompetitors → interacting (6-8 AI questions)
- *        → capturing (email/phone) → generating (PDF + webhook) → outro.
+ * Layout:
+ *   - Desktop: left column stays fixed (question + input); right column is
+ *     a vertically scrolling event stream with a gradient mask fade on
+ *     top + bottom. Newest events animate in from the top and push older
+ *     ones down with framer-motion's `layout` prop.
+ *   - Mobile: no stream column; only the question and the most-recent AI
+ *     insight render, one at a time.
  *
  * Every AI call goes to /api/apex/* — no keys leak to the client. PDF is
- * generated client-side with jspdf (kept for parity + to avoid a paid
- * headless-chrome render pipeline).
+ * generated client-side with jspdf.
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ApexLogo } from '@/components/apex/ApexLogo'
 import type {
   AppState, Assessment, ChatMsg, Collected, Competitor, InfoStep,
@@ -20,7 +24,6 @@ import type {
 } from '@/components/apex/types'
 
 const TOTAL_STEPS = 7
-
 const INDUSTRY_OPTIONS = ['Home Services', 'Restaurant', 'Retail', 'Automotive', 'Professional Services']
 
 const INDUSTRY_INSIGHTS: Record<string, { title: string; text: string }> = {
@@ -30,6 +33,15 @@ const INDUSTRY_INSIGHTS: Record<string, { title: string; text: string }> = {
   'Automotive':             { title: 'Automotive Insight',           text: '75% of auto-service searches start online. An **easy-to-use online booking** system significantly lifts appointments.' },
   'Professional Services':  { title: 'Professional Services Insight', text: '**Case studies and testimonials** are the most effective credibility content for professional services, per LinkedIn.' },
   'default':                { title: 'Business Insight',              text: 'Websites that load in under **2 seconds** have significantly higher conversion rates. Speed is a feature.' },
+}
+
+type StreamEvent =
+  | { id: string; kind: 'qa'; question: string; answer: string }
+  | { id: string; kind: 'insight'; insight: Insight }
+
+function uid(): string {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
 }
 
 function carveJson(text: string): string | null {
@@ -60,9 +72,7 @@ export function ApexClient() {
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null)
 
   const [conversation, setConversation] = useState<ChatMsg[]>([]) // for /api/apex/chat
-  const [collected, setCollected] = useState<Collected[]>([])
-  const [insights, setInsights] = useState<Insight[]>([])
-
+  const [events, setEvents] = useState<StreamEvent[]>([])         // render source
   const [competitors, setCompetitors] = useState<Competitor[]>([])
   const [assessmentStep, setAssessmentStep] = useState(0)
   const [assessment, setAssessment] = useState<Assessment | null>(null)
@@ -71,7 +81,31 @@ export function ApexClient() {
 
   const textRef = useRef<HTMLTextAreaElement>(null)
 
-  // Intro → consent after 2.2s
+  // Derive the flat arrays the backend calls need.
+  const collected: Collected[] = useMemo(
+    () => events.filter((e): e is Extract<StreamEvent, { kind: 'qa' }> => e.kind === 'qa'),
+    [events],
+  )
+  const insights: Insight[] = useMemo(
+    () => events.filter((e): e is Extract<StreamEvent, { kind: 'insight' }> => e.kind === 'insight').map(e => e.insight),
+    [events],
+  )
+  // Newest-first + latest insight for the mobile card.
+  const reversed = useMemo(() => [...events].reverse(), [events])
+  const latestInsight = useMemo(() => {
+    for (let i = events.length - 1; i >= 0; i--) {
+      if (events[i].kind === 'insight') return (events[i] as Extract<StreamEvent, { kind: 'insight' }>).insight
+    }
+    return null
+  }, [events])
+
+  function pushQA(question: string, answer: string) {
+    setEvents(prev => [...prev, { id: uid(), kind: 'qa', question, answer }])
+  }
+  function pushInsight(insight: Insight) {
+    setEvents(prev => [...prev, { id: uid(), kind: 'insight', insight }])
+  }
+
   useEffect(() => {
     const t = setTimeout(() => setAppState('consent'), 2200)
     return () => clearTimeout(t)
@@ -158,7 +192,6 @@ export function ApexClient() {
         body: JSON.stringify({ url: websiteAnswer }),
       }).then(r => r.json()).catch(() => ({ ok: false }))
 
-      let analysisInsights: Insight[] = []
       if (shot?.ok && shot.imageUrl) {
         setLoadingMessage('Running **proactive website analysis**...')
         const analysis = await fetch('/api/apex/analyze', {
@@ -167,16 +200,15 @@ export function ApexClient() {
           body: JSON.stringify({ imageUrl: shot.imageUrl }),
         }).then(r => r.json()).catch(() => ({}))
 
-        if (analysis?.seo) analysisInsights.push({ type: 'standard', title: analysis.seo.title, text: analysis.seo.text })
-        if (analysis?.mobile) analysisInsights.push({ type: 'standard', title: analysis.mobile.title, text: analysis.mobile.text })
+        if (analysis?.seo) pushInsight({ type: 'standard', title: analysis.seo.title, text: analysis.seo.text })
+        if (analysis?.mobile) pushInsight({ type: 'standard', title: analysis.mobile.title, text: analysis.mobile.text })
       } else {
-        analysisInsights.push({
+        pushInsight({
           type: 'standard',
           title: 'Analysis Note',
           text: "Automated website capture hit a snag — we'll **proceed** with the info you've provided.",
         })
       }
-      setInsights(prev => [...prev, ...analysisInsights])
 
       setLoadingMessage('Identifying **local competitors**...')
       const comps = await fetch('/api/apex/competitors', {
@@ -201,11 +233,9 @@ export function ApexClient() {
 
     if (currentTurn?.question) {
       const q = currentTurn.question.replace(/\*\*(.*?)\*\*/g, '$1')
-      setCollected(prev => [...prev, { question: q, answer }])
+      pushQA(q, answer)
     }
-    if (currentTurn?.insight) {
-      setInsights(prev => [...prev, { ...currentTurn.insight }])
-    }
+    if (currentTurn?.insight) pushInsight({ ...currentTurn.insight })
     setCurrentAnswer('')
 
     const trimmed = answer.trim()
@@ -255,7 +285,7 @@ export function ApexClient() {
   }
 
   function pickCompetitors(selected: Competitor[]) {
-    setInsights(prev => [...prev, { type: 'competitive_analysis', title: 'Your Competitive Landscape', competitors: selected }])
+    pushInsight({ type: 'competitive_analysis', title: 'Your Competitive Landscape', competitors: selected })
     const names = selected.filter(c => !c.isPlayer).map(c => c.name).join(', ')
     setAppState('interacting')
     const first = `Name: ${personalization.name}. Company: ${personalization.company}. Industry: ${personalization.industry}. Website: ${personalization.website}. Competitors: ${names || 'None identified'}. We've reviewed the initial analysis. Ask me the first critical assessment question.`
@@ -266,7 +296,6 @@ export function ApexClient() {
     setContact(info)
     setAppState('generating')
     try {
-      // Dynamic import so the PDF lib is only loaded when needed.
       const [{ jsPDF }] = await Promise.all([import('jspdf')])
       const doc = new jsPDF({ unit: 'pt', format: 'letter' })
       doc.setFont('helvetica', 'bold'); doc.setFontSize(24)
@@ -329,22 +358,10 @@ export function ApexClient() {
     )
   }
 
-  if (appState === 'consent') {
-    return <ConsentModal onConsent={beginInfo} />
-  }
-
-  if (appState === 'selectingCompetitors') {
-    return <CompetitorStep competitors={competitors} onSubmit={pickCompetitors} />
-  }
-
-  if (appState === 'capturing' && assessment) {
-    return <LeadCapture userName={personalization.name} onSubmit={handleLead} />
-  }
-
-  if (appState === 'generating') {
-    return <Generating />
-  }
-
+  if (appState === 'consent') return <ConsentModal onConsent={beginInfo} />
+  if (appState === 'selectingCompetitors') return <CompetitorStep competitors={competitors} onSubmit={pickCompetitors} />
+  if (appState === 'capturing' && assessment) return <LeadCapture userName={personalization.name} onSubmit={handleLead} />
+  if (appState === 'generating') return <Generating />
   if (appState === 'outro' && assessment) {
     return (
       <Summary
@@ -359,12 +376,16 @@ export function ApexClient() {
 
   // collectingInfo / interacting
   return (
-    <main className="min-h-screen bg-[#08090c] text-white flex">
-      <section className="flex-1 min-w-0 flex items-center justify-center p-6">
+    <main className="h-screen overflow-hidden bg-[#08090c] text-white flex flex-col lg:flex-row">
+      {/* Left — fixed question column */}
+      <section className="flex-1 min-w-0 lg:h-screen flex items-center justify-center p-6">
         <div className="w-full max-w-xl">
           {appState === 'interacting' && (
             <div className="mb-6 h-1.5 rounded-full bg-white/5 overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-[#F97316] to-[#EA580C]" style={{ width: `${Math.min(100, (assessmentStep / TOTAL_STEPS) * 100)}%` }} />
+              <div
+                className="h-full bg-gradient-to-r from-[#F97316] to-[#EA580C] transition-[width] duration-500"
+                style={{ width: `${Math.min(100, (assessmentStep / TOTAL_STEPS) * 100)}%` }}
+              />
             </div>
           )}
           {loadingMessage ? (
@@ -411,28 +432,65 @@ export function ApexClient() {
                   >→</button>
                 </div>
               )}
+
+              {/* Mobile-only: single latest insight inline below the question */}
+              {latestInsight && (
+                <div className="mt-8 lg:hidden">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={latestInsight.title || 'latest'}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <div className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-mono mb-2">— Latest insight</div>
+                      <InsightCard ins={latestInsight} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              )}
             </>
           ) : null}
         </div>
       </section>
 
-      <aside className="hidden lg:flex flex-1 min-w-0 border-l border-white/5 bg-[#0b0d12] p-8 overflow-y-auto">
-        <div className="w-full max-w-md mx-auto">
-          <div className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-mono mb-5">— Live Assessment</div>
-          {collected.length === 0 && insights.length === 0 ? (
-            <div className="text-sm text-white/45">Insights will appear here as the conversation unfolds.</div>
-          ) : (
-            <div className="space-y-3">
-              {insights.map((ins, i) => <InsightCard key={i} ins={ins} />)}
-              {collected.map((c, i) => (
-                <div key={`c-${i}`} className="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-sm">
-                  <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Q &amp; A · {i + 1}</div>
-                  <div className="text-white/70 text-[13px]">{c.question}</div>
-                  <div className="text-white font-medium mt-1">{c.answer}</div>
-                </div>
-              ))}
-            </div>
-          )}
+      {/* Right — scrollable stream, gradient-masked */}
+      <aside
+        className="hidden lg:block flex-1 min-w-0 lg:h-screen border-l border-white/5 bg-[#0b0d12] relative"
+      >
+        <div
+          className="h-full overflow-y-auto p-8 pt-10 pb-12"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0, black 36px, black calc(100% - 48px), transparent 100%)',
+            maskImage:       'linear-gradient(to bottom, transparent 0, black 36px, black calc(100% - 48px), transparent 100%)',
+          }}
+        >
+          <div className="w-full max-w-md mx-auto">
+            <div className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-mono mb-5 sticky top-0 bg-[#0b0d12]/80 backdrop-blur-sm py-1 z-10">— Live Assessment</div>
+            {events.length === 0 ? (
+              <div className="text-sm text-white/45">Insights will appear here as the conversation unfolds.</div>
+            ) : (
+              <motion.div layout className="space-y-3">
+                <AnimatePresence initial={false}>
+                  {reversed.map((e) => (
+                    <motion.div
+                      key={e.id}
+                      layout
+                      initial={{ opacity: 0, y: -14, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 32, mass: 0.8 }}
+                    >
+                      {e.kind === 'insight'
+                        ? <InsightCard ins={e.insight} />
+                        : <QACard question={e.question} answer={e.answer} />}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </div>
         </div>
       </aside>
     </main>
@@ -453,10 +511,9 @@ function ConsentModal({ onConsent }: { onConsent: () => void }) {
           produce a strategic blueprint. No account required. Your email is used only to send the
           blueprint and to let a RocketOpp strategist follow up.
         </p>
-        <button
-          onClick={onConsent}
-          className="mt-6 w-full h-11 rounded-lg bg-[#F97316] text-white font-bold"
-        >Start my assessment →</button>
+        <button onClick={onConsent} className="mt-6 w-full h-11 rounded-lg bg-[#F97316] text-white font-bold">
+          Start my assessment →
+        </button>
         <p className="text-[11px] text-white/40 mt-3">
           By continuing you agree to our Privacy Policy. This is an informational tool, not consulting advice.
         </p>
@@ -466,8 +523,9 @@ function ConsentModal({ onConsent }: { onConsent: () => void }) {
 }
 
 function CompetitorStep({ competitors, onSubmit }: { competitors: Competitor[]; onSubmit: (selected: Competitor[]) => void }) {
-  const [picked, setPicked] = useState<Set<string>>(new Set(competitors.filter(c => !c.isPlayer).slice(0, 4).map(c => c.name)))
-
+  const [picked, setPicked] = useState<Set<string>>(
+    new Set(competitors.filter(c => !c.isPlayer).slice(0, 4).map(c => c.name)),
+  )
   function toggle(name: string) {
     setPicked(prev => {
       const next = new Set(prev)
@@ -475,7 +533,6 @@ function CompetitorStep({ competitors, onSubmit }: { competitors: Competitor[]; 
       return next
     })
   }
-
   const selected = useMemo(() => {
     const you = competitors.find(c => c.isPlayer)
     const rest = competitors.filter(c => !c.isPlayer && picked.has(c.name))
@@ -487,7 +544,7 @@ function CompetitorStep({ competitors, onSubmit }: { competitors: Competitor[]; 
       <div className="max-w-2xl mx-auto">
         <div className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-mono mb-2">— Competitive Landscape</div>
         <h1 className="text-3xl font-bold mb-2">Confirm your top local competitors.</h1>
-        <p className="text-sm text-white/60 mb-8">We found these nearby. Pick the ones that actually compete with you — we'll scope the rest of the assessment around them.</p>
+        <p className="text-sm text-white/60 mb-8">We found these nearby. Pick the ones that actually compete with you — we&apos;ll scope the rest of the assessment around them.</p>
         <div className="space-y-2">
           {competitors.map((c) => {
             const active = c.isPlayer || picked.has(c.name)
@@ -506,10 +563,16 @@ function CompetitorStep({ competitors, onSubmit }: { competitors: Competitor[]; 
               >
                 <div>
                   <div className="text-sm font-semibold">{c.name}{c.isPlayer ? ' · (you)' : ''}</div>
-                  {!c.isPlayer && <div className="text-[11px] text-white/45 font-mono mt-1">{c.rating.toFixed(1)}★ · {c.userRatingsTotal} reviews</div>}
+                  {!c.isPlayer && (
+                    <div className="text-[11px] text-white/45 font-mono mt-1">
+                      {c.rating.toFixed(1)}★ · {c.userRatingsTotal} reviews
+                    </div>
+                  )}
                 </div>
                 {!c.isPlayer && (
-                  <span className={`text-xs font-bold ${active ? 'text-[#F97316]' : 'text-white/30'}`}>{active ? 'PICKED' : '＋'}</span>
+                  <span className={`text-xs font-bold ${active ? 'text-[#F97316]' : 'text-white/30'}`}>
+                    {active ? 'PICKED' : '＋'}
+                  </span>
                 )}
               </button>
             )
@@ -653,6 +716,16 @@ function InsightCard({ ins }: { ins: Insight }) {
     <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
       <div className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-mono mb-1">— {ins.title}</div>
       <p className="text-[13px] text-white/80">{parseAndHighlight(ins.text || '')}</p>
+    </div>
+  )
+}
+
+function QACard({ question, answer }: { question: string; answer: string }) {
+  return (
+    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-sm">
+      <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1 font-mono">— Q &amp; A</div>
+      <div className="text-white/65 text-[13px]">{question}</div>
+      <div className="text-white font-medium mt-1">{answer}</div>
     </div>
   )
 }
