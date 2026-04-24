@@ -92,6 +92,43 @@ const services = [
       { name: "Vault Security", href: "/services/mcp-integration#pricing", icon: Sparkles },
     ]
   },
+  // ── Row 3 — new product-oriented service tracks (distinct color palette) ──
+  {
+    name: "Agentic AI Apps",
+    tagline: "From $4,997 — 3 weeks",
+    href: "/services/agentic-ai-apps",
+    icon: Sparkles,
+    color: "from-fuchsia-500 to-purple-600",
+    features: [
+      { name: "0nMCP Agents", href: "/services/agentic-ai-apps", icon: Bot },
+      { name: "Custom Workflows", href: "/services/agentic-ai-apps#pricing", icon: Workflow },
+      { name: "Agent Orchestration", href: "/services/agentic-ai-apps#pricing", icon: Sparkles },
+    ]
+  },
+  {
+    name: "SaaS Platforms",
+    tagline: "From $12,500 — 6 weeks",
+    href: "/services/saas-platforms",
+    icon: Package,
+    color: "from-rose-500 to-pink-600",
+    features: [
+      { name: "Multi-tenant Auth", href: "/services/saas-platforms", icon: Package },
+      { name: "Subscription Billing", href: "/services/saas-platforms#pricing", icon: BarChart3 },
+      { name: "Admin Dashboards", href: "/services/saas-platforms#pricing", icon: LineChart },
+    ]
+  },
+  {
+    name: "Lead Tool Apps",
+    tagline: "From $3,497 — 2 weeks",
+    href: "/services/lead-tool-apps",
+    icon: Megaphone,
+    color: "from-lime-400 to-teal-500",
+    features: [
+      { name: "Lead Scanners", href: "/services/lead-tool-apps", icon: Search },
+      { name: "Assessment Funnels", href: "/services/lead-tool-apps#pricing", icon: Target },
+      { name: "Viral Growth Loops", href: "/services/lead-tool-apps#pricing", icon: Share2 },
+    ]
+  },
 ]
 
 const ourApps = [
@@ -201,14 +238,14 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${servicesMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Services Mega Menu Dropdown */}
+                {/* Services Mega Menu Dropdown — full-width, square corners */}
                 {servicesMenuOpen && (
                   <div
                     ref={servicesDropdownRef}
-                    className={`absolute top-full left-0 pt-2 w-[720px] z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    className={`fixed top-16 left-0 right-0 pt-2 z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
-                    <div className="relative bg-black border border-white/10 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden">
+                    <div className="relative bg-black border-y border-white/10 shadow-2xl shadow-black/80 overflow-hidden">
                       {/* Animated gradient background */}
                       <div className="absolute inset-0 opacity-30">
                         <div
@@ -232,11 +269,11 @@ export function Navbar() {
                       />
 
                       {/* Edge glow effect */}
-                      <div className="absolute inset-0 rounded-2xl" style={{
+                      <div className="absolute inset-0" style={{
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,107,0,0.05) 100%)'
                       }} />
 
-                      <div className="relative p-6">
+                      <div className="relative mx-auto max-w-7xl px-6 py-6">
                         <div className="grid grid-cols-3 gap-3">
                           {services.map((service) => {
                             const Icon = service.icon
