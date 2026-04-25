@@ -166,6 +166,7 @@ export const PRODUCTS: ShopProduct[] = [
       { q: 'Is this defensible to OCR?', a: 'Yes — the report doubles as your "ongoing monitoring" artifact under 45 CFR §164.308(a)(1)(ii)(A).' },
     ],
     ctaLabel: 'Lock in $899 — start now',
+    gammaUrl: 'https://gamma.app/docs/0wi0qd71euwhonx',
   },
 
   // -------------------- Web --------------------
@@ -336,7 +337,7 @@ export const PRODUCTS: ShopProduct[] = [
       { q: 'Can it act on my CRM?', a: 'Yes — full GHL integration including contacts, opportunities, calendar, conversations.' },
     ],
     ctaLabel: 'Lock in $4,997 — start onboarding',
-    gammaUrl: undefined, // populated by the deck-generation script
+    gammaUrl: 'https://gamma.app/docs/qw1emryxz6c7f43',
   },
 
   // -------------------- SaaS --------------------
@@ -363,6 +364,7 @@ export const PRODUCTS: ShopProduct[] = [
       { q: 'Includes hosting?', a: 'First 90 days on RocketOpp infrastructure included. Move to your own Vercel / Supabase any time.' },
     ],
     ctaLabel: 'Lock in $12,500 — start onboarding',
+    gammaUrl: 'https://gamma.app/docs/ob630v05dk7y4ip',
   },
 ]
 
