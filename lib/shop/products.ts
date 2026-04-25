@@ -37,6 +37,7 @@ export interface ShopProduct {
   icon: LucideIcon
   gradient: string                 // tailwind gradient classes
   imageUrl?: string                // Gamma-generated hero image (1920x1088)
+  stripePriceId?: string           // Stripe price ID — present when product is checkout-ready
   badge?: 'Best seller' | 'New' | 'Free' | 'Recurring'
   features: string[]
   faqs: Array<{ q: string; a: string }>
@@ -87,6 +88,7 @@ export const PRODUCTS: ShopProduct[] = [
     icon: ShieldCheck,
     gradient: 'from-sky-500 to-blue-600',
     imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/W2JldZLPuvEBKyGbwKYAp.png',
+    stripePriceId: 'price_1TOSjPHThmAuKVQMHOjWI74H',
     features: [
       '51-point automated scan, 5 categories',
       'Every finding cited to 45 CFR §164',
@@ -112,6 +114,7 @@ export const PRODUCTS: ShopProduct[] = [
     icon: Code2,
     gradient: 'from-violet-500 to-purple-600',
     imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/qoALSHsv4uUrHY98RStO5.png',
+    stripePriceId: 'price_1TPxYVHThmAuKVQMmPLvRoPE',
     features: [
       'Everything in Cited Issues',
       'Stack-detected dev steps (Next.js, Apache, IIS, Cloudflare, WP)',
@@ -136,6 +139,7 @@ export const PRODUCTS: ShopProduct[] = [
     icon: BarChart3,
     gradient: 'from-fuchsia-500 to-purple-600',
     imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/IDWA4ImfYs12eyzWje_rg.png',
+    stripePriceId: 'price_1TPxYXHThmAuKVQMu8dkBkA2',
     features: [
       'Everything in Cited Issues',
       '2026 NPRM side-by-side analysis',
@@ -159,6 +163,7 @@ export const PRODUCTS: ShopProduct[] = [
     icon: ShieldCheck,
     gradient: 'from-emerald-500 to-cyan-500',
     imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/fEHNF9J9pzh6jUytQmZ87.png',
+    stripePriceId: 'price_1TPxYYHThmAuKVQMu9am8IRG',
     badge: 'Best seller',
     features: [
       'Cited Issues + Developer Fix Kit + NPRM Overview',
