@@ -36,6 +36,7 @@ export interface ShopProduct {
   recurring?: 'month'              // present if subscription
   icon: LucideIcon
   gradient: string                 // tailwind gradient classes
+  imageUrl?: string                // Gamma-generated hero image (1920x1088)
   badge?: 'Best seller' | 'New' | 'Free' | 'Recurring'
   features: string[]
   faqs: Array<{ q: string; a: string }>
@@ -57,6 +58,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '5-minute live report',
     icon: Lightbulb,
     gradient: 'from-amber-500 to-orange-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/ypRIkLeGeXOTHon-jBg9S.png',
     badge: 'Free',
     features: [
       'Real screenshot + AI vision analysis',
@@ -84,6 +86,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '15 minutes',
     icon: ShieldCheck,
     gradient: 'from-sky-500 to-blue-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/W2JldZLPuvEBKyGbwKYAp.png',
     features: [
       '51-point automated scan, 5 categories',
       'Every finding cited to 45 CFR §164',
@@ -108,6 +111,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '15 minutes',
     icon: Code2,
     gradient: 'from-violet-500 to-purple-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/qoALSHsv4uUrHY98RStO5.png',
     features: [
       'Everything in Cited Issues',
       'Stack-detected dev steps (Next.js, Apache, IIS, Cloudflare, WP)',
@@ -131,6 +135,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '15 minutes',
     icon: BarChart3,
     gradient: 'from-fuchsia-500 to-purple-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/IDWA4ImfYs12eyzWje_rg.png',
     features: [
       'Everything in Cited Issues',
       '2026 NPRM side-by-side analysis',
@@ -153,6 +158,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '15-min report · 60-day call window',
     icon: ShieldCheck,
     gradient: 'from-emerald-500 to-cyan-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/fEHNF9J9pzh6jUytQmZ87.png',
     badge: 'Best seller',
     features: [
       'Cited Issues + Developer Fix Kit + NPRM Overview',
@@ -181,6 +187,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '2 weeks',
     icon: Globe,
     gradient: 'from-blue-500 to-cyan-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/HfdjxQ42dc2TXMb6HG86W.png',
     features: [
       'Custom Next.js + Supabase build',
       'Brand-aligned design + content',
@@ -207,6 +214,7 @@ export const PRODUCTS: ShopProduct[] = [
     recurring: 'month',
     icon: Search,
     gradient: 'from-orange-500 to-amber-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/m6xgbErDGWwjHi_sDOuBf.png',
     badge: 'Recurring',
     features: [
       'Monthly SXO audit + fixes',
@@ -232,6 +240,7 @@ export const PRODUCTS: ShopProduct[] = [
     recurring: 'month',
     icon: Megaphone,
     gradient: 'from-pink-500 to-purple-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/6IfBDi5pVhhP2jDNp8-G-.png',
     badge: 'Recurring',
     features: [
       'Weekly long-form blog post (SXO-optimized)',
@@ -255,6 +264,7 @@ export const PRODUCTS: ShopProduct[] = [
     recurring: 'month',
     icon: Target,
     gradient: 'from-green-500 to-emerald-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/pOFpXaaObr88ShBD-yqFg.png',
     badge: 'Recurring',
     features: [
       'Google Ads management',
@@ -281,6 +291,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '1 week',
     icon: Workflow,
     gradient: 'from-cyan-500 to-blue-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/A9XtlQDUGl3zkoS2N3-Yq.png',
     features: [
       'Connect 54 services (Stripe, Notion, GHL, Slack, GitHub, etc.)',
       '1,171 tools available out of the box',
@@ -302,6 +313,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '2 weeks',
     icon: Megaphone,
     gradient: 'from-lime-400 to-teal-500',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/lxhLPrzukvFz_B4JpaoBb.png',
     features: [
       'Custom assessment / scanner / calculator',
       'Hosted on your domain',
@@ -325,6 +337,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '3 weeks',
     icon: Bot,
     gradient: 'from-fuchsia-500 to-purple-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/ZXzDjbQ3_fsdwSte8sIR1.png',
     badge: 'New',
     features: [
       'Custom agent on 0nMCP (1,554 tools)',
@@ -352,6 +365,7 @@ export const PRODUCTS: ShopProduct[] = [
     delivery: '6 weeks',
     icon: Package,
     gradient: 'from-rose-500 to-pink-600',
+    imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/exPTcVH19tmHaDNoWuHmR.png',
     features: [
       'Multi-tenant auth + RLS isolation',
       'Stripe subscriptions + billing portal',

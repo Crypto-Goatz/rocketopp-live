@@ -90,39 +90,60 @@ function ProductCard({ product }: { product: ShopProduct }) {
   return (
     <Link
       href={`/shop/${product.slug}`}
-      className="group relative block rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm p-6 hover:border-primary/30 transition-all duration-300 hover:-translate-y-0.5 overflow-hidden"
+      className="group relative block rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 hover:-translate-y-0.5 overflow-hidden"
     >
-      {/* gradient backdrop tint */}
-      <div className={`absolute inset-0 opacity-[0.07] bg-gradient-to-br ${product.gradient} pointer-events-none`} />
-
-      <div className="relative flex items-start justify-between mb-5">
-        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-          <Icon className="w-6 h-6 text-white" />
+      {/* Hero — Gamma-generated AI image, fades into card body at the bottom */}
+      {product.imageUrl ? (
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-card to-transparent pointer-events-none" />
+          {product.badge && (
+            <span className={`absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border backdrop-blur-md ${
+              product.badge === 'Free'        ? 'border-emerald-500/40 bg-emerald-500/20 text-emerald-300' :
+              product.badge === 'Best seller' ? 'border-orange-500/40 bg-orange-500/20 text-orange-300'   :
+              product.badge === 'New'         ? 'border-violet-500/40 bg-violet-500/20 text-violet-200'   :
+                                                'border-cyan-500/40 bg-cyan-500/20 text-cyan-200'
+            }`}>{product.badge}</span>
+          )}
         </div>
-        {product.badge && (
-          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border ${
-            product.badge === 'Free'        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
-            product.badge === 'Best seller' ? 'border-orange-500/30 bg-orange-500/10 text-orange-400'   :
-            product.badge === 'New'         ? 'border-violet-500/30 bg-violet-500/10 text-violet-300'   :
-                                              'border-cyan-500/30 bg-cyan-500/10 text-cyan-300'
-          }`}>{product.badge}</span>
-        )}
-      </div>
-
-      <h3 className="relative text-lg font-bold tracking-tight mb-1.5 group-hover:text-primary transition-colors">{product.name}</h3>
-      <p className="relative text-sm text-muted-foreground mb-5 leading-relaxed">{product.tagline}</p>
-
-      <div className="relative flex items-end justify-between">
-        <div>
-          <div className="text-2xl font-black tracking-tight">
-            {product.priceLabel}
-            {product.recurring && <span className="text-sm font-medium text-muted-foreground">/{product.recurring}</span>}
+      ) : (
+        <div className={`relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br ${product.gradient}`}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Icon className="w-12 h-12 text-white/40" />
           </div>
-          <div className="text-[11px] text-muted-foreground font-mono mt-0.5">{product.delivery}</div>
         </div>
-        <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
-          Buy now <ArrowUpRight className="w-3.5 h-3.5" />
-        </span>
+      )}
+
+      <div className="p-6">
+        <div className="flex items-start gap-3 mb-3">
+          <div className={`w-9 h-9 -mt-7 rounded-lg bg-gradient-to-br ${product.gradient} flex items-center justify-center shadow-lg shrink-0 ring-2 ring-card`}>
+            <Icon className="w-4 h-4 text-white" />
+          </div>
+          <h3 className="text-lg font-bold tracking-tight group-hover:text-primary transition-colors flex-1 min-w-0 leading-snug">
+            {product.name}
+          </h3>
+        </div>
+
+        <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{product.tagline}</p>
+
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-2xl font-black tracking-tight">
+              {product.priceLabel}
+              {product.recurring && <span className="text-sm font-medium text-muted-foreground">/{product.recurring}</span>}
+            </div>
+            <div className="text-[11px] text-muted-foreground font-mono mt-0.5">{product.delivery}</div>
+          </div>
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
+            Buy now <ArrowUpRight className="w-3.5 h-3.5" />
+          </span>
+        </div>
       </div>
     </Link>
   )

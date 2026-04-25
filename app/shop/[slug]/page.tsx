@@ -49,6 +49,19 @@ export default async function Page({ params }: Props) {
             <ArrowLeft className="w-3.5 h-3.5" /> All products
           </Link>
 
+          {/* Hero image — Gamma-generated, full-bleed band before content */}
+          {product.imageUrl && (
+            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-2xl border border-border/60 mb-10 bg-black">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+            </div>
+          )}
+
           {/* Hero */}
           <div className="grid lg:grid-cols-[1fr,360px] gap-10 items-start">
             <div>
