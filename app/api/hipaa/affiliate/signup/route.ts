@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { crmPost } from '@/lib/crm/client'
+import { sendAffiliateWelcomeEmail } from '@/lib/affiliate-kit/welcome-email'
 
 export const runtime = 'nodejs'
 
@@ -127,11 +128,29 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  // Welcome email — fire-and-forget. We mark the row whether it lands or not
+  // so a single CRM hiccup doesn't block the signup, and we can audit failures.
+  const referralUrl = `https://rocketopp.com/hipaa?ref=${insert.data.slug}`
+  const emailRes = await sendAffiliateWelcomeEmail({
+    firstName,
+    email,
+    slug:        insert.data.slug,
+    referralUrl,
+    contactId:   crmContactId,
+    locationId:  ROCKETOPP_LOCATION,
+  }).catch(err => ({ ok: false, error: err instanceof Error ? err.message : 'unknown' }))
+
+  await supabaseAdmin
+    .from('hipaa_affiliates')
+    .update({ welcome_email_sent_at: emailRes.ok ? new Date().toISOString() : null })
+    .eq('id', insert.data.id)
+
   return NextResponse.json({
-    ok: true,
-    existing: false,
-    slug: insert.data.slug,
-    referralUrl: `https://rocketopp.com/hipaa?ref=${insert.data.slug}`,
-    portalUrl: '/dashboard/affiliate',
+    ok:           true,
+    existing:     false,
+    slug:         insert.data.slug,
+    referralUrl,
+    portalUrl:    '/dashboard/affiliate',
+    welcomeEmail: emailRes.ok ? 'sent' : `failed:${emailRes.error || ''}`,
   })
 }
