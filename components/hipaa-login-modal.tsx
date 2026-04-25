@@ -79,13 +79,17 @@ export function HipaaLoginModal({ trigger }: Props) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="hipaa-login-title"
-          className="hipaa-login-overlay fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          className="hipaa-login-overlay fixed inset-0 z-[9999] overflow-y-auto"
           onClick={handleClose}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="hipaa-login-panel relative w-full max-w-md rounded-2xl overflow-hidden"
-          >
+          {/* Inner flex wrapper — min-h-full so it fills the scroll container.
+             items-center vertically centers when there's room; overflow
+             scrolls naturally when the panel is taller than the viewport. */}
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="hipaa-login-panel relative w-full max-w-md rounded-2xl overflow-hidden"
+            >
             {/* Cinematic lava edges + radial corner glows (matches elite assessment) */}
             <div className="hipaa-login-edge hipaa-login-edge--top" />
             <div className="hipaa-login-edge hipaa-login-edge--bottom" />
@@ -224,6 +228,7 @@ export function HipaaLoginModal({ trigger }: Props) {
                   </button>
                 </div>
               )}
+            </div>
             </div>
           </div>
 
