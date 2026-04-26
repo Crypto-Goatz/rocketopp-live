@@ -11,6 +11,7 @@ const HIDDEN_ROUTES = [
   "/login",
   "/register",
   "/hipaa",
+  "/gtm",
 ]
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
