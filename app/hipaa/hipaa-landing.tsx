@@ -275,6 +275,8 @@ function Header() {
         <nav className="flex items-center gap-1 sm:gap-3">
           <a href="#pricing" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">Pricing</a>
           <a href="#how" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">How it works</a>
+          <a href="#case-study" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white md:inline-block">Case Study</a>
+          <a href="#deep-dives" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white lg:inline-block">Deep Dives</a>
           <a href="#faq" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white md:inline-block">FAQ</a>
           <a
             href="tel:+18788881230"
@@ -734,6 +736,171 @@ export function HIPAALanding() {
             </p>
           </div>
           <HipaaRulesTable />
+        </div>
+      </section>
+
+      {/* ============================= 0nCORE CASE STUDY ============================= */}
+      <section id="case-study" className="border-b border-white/10 bg-gradient-to-b from-transparent via-orange-950/10 to-transparent py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="text-center">
+            <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Built with 0nCore + 0nMCP</div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              This product is a <span className="bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent">case study</span> of 0nCore tech
+            </h2>
+            <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-white/70">
+              We built a working 63-check HIPAA scanner with AI-written reports, four-tier pricing, magic-link delivery, and 2026 NPRM overlay — in <strong className="text-white">four weeks with one engineer</strong>. The orchestration layer is <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener" className="text-orange-300 underline decoration-dotted underline-offset-4 hover:text-orange-200">0nMCP</a>, the customer portal is <a href="https://0ncore.com" target="_blank" rel="noopener" className="text-orange-300 underline decoration-dotted underline-offset-4 hover:text-orange-200">0nCore</a>, and the AI generation pipeline is the same one we ship to enterprise customers.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-rose-500">
+                  <Sparkles className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">Generative AI</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">63 tools, 60-second reports</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                Each HIPAA check is registered as an MCP tool with its 45 CFR rule section pre-bound. Claude translates findings to plain English — never invents citations. Result: zero rule-section hallucinations across 1,400+ reports.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-500">
+                  <Zap className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">Three-Level Execution</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">Pipeline → Assembly Line → Radial Burst</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                Patent-pending orchestration shape: scanner runs sequential, orchestrator fans out to 12 parallel workers per finding, then merges. 8-12 sec wall-clock for AI generation across all 63 findings.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-500">
+                  <Server className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">96 services, 1 config</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">Stripe + Resend + Supabase + Spectra Assure</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                Every external service is one config block in <code className="rounded bg-black/40 px-1 py-0.5 text-xs text-orange-200">~/.0n/connections/</code>. Adding new providers (Slack alerts, GitHub issues, vulnerability feeds) is a single registry entry — not a new integration sprint.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-green-500">
+                  <Lock className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">Supply chain</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">+6 software supply chain checks</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                Spectra Assure (secure.software) Community API integration adds malware, CVE, embedded-secret, tampering, license-compliance, and SBOM checks — mapped to HIPAA 164.308(a)(1)(ii)(A) Risk Analysis evidence.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500">
+                  <BadgeCheck className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">2026 weighted engine</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">Executive 0–100 score across 5 domains</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                Tier 4 reports add a weighted score: Authentication 30%, Encryption 20%, Web Privacy 20%, Integrity 20%, Resilience 10%. FIDO2/WebAuthn=1.0, TOTP=0.7, SMS=0.3. 85+ = COMPLIANT. Auto-sorted P0 → P1 → P2 remediation roadmap.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-500/10 to-rose-500/10 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-rose-500">
+                  <Crown className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wider text-orange-300">The takeaway</div>
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-white">If you can describe an outcome, 0nMCP can ship it</h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/80">
+                We built this in 4 weeks. With <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener" className="text-orange-300 underline decoration-dotted underline-offset-4 hover:text-orange-200">0nMCP</a> you can do the same — for any compliance, any vertical, any outcome. Stop building workflows. Start describing outcomes.
+              </p>
+              <a href="https://0ncore.com" target="_blank" rel="noopener" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-orange-300 hover:text-orange-200">
+                Build your own with 0nCore <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================= DEEP DIVES (BLOG) ============================= */}
+      <section id="deep-dives" className="border-b border-white/10 py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="text-center">
+            <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Deep Dives</div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              How the engine works
+            </h2>
+            <p className="mt-3 text-base text-white/60">
+              Three technical deep dives + four 0nMCP fundamentals. Read the build log, the regulatory context, and the architecture.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {/* New HIPAA case-study posts */}
+            <a href="/blog/how-we-built-hipaa-scanner-in-4-weeks-with-0nmcp" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Case Study</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">How We Built a HIPAA Compliance Scanner in 4 Weeks Using 0nMCP</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">The full build log: 63 checks, four pricing tiers, $149-$899, magic-link delivery — and the architecture decisions that made it ship in a month.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the build log <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
+            <a href="/blog/hipaa-2026-nprm-17-new-requirements-healthcare-websites" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Compliance</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">HIPAA 2026 NPRM: 17 New Security Rule Requirements</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Mandatory MFA, encryption at rest, immutable audit logs, 72-hour DR testing — every new requirement cited to 45 CFR with website-level remediation.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the breakdown <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
+            <a href="/blog/inside-engine-how-0nmcp-generates-hipaa-reports-60-seconds" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Engineering</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">Inside the Engine: How 0nMCP Generates HIPAA Reports in 60 Seconds</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Tool registration, citation locking, parallel Radial Burst generation, stack-aware fix routing, and three-tier provider failover.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the deep dive <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
+            {/* Foundational 0nMCP posts */}
+            <a href="/blog/what-is-mcp-model-context-protocol-explained" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Fundamentals</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">What is MCP? The Model Context Protocol Explained</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">A primer on Model Context Protocol — the standard underlying everything in this product, from tool registration to provider routing.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">Learn the protocol <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
+            <a href="/blog/build-ai-employee-using-mcp-and-claude" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Tutorial</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">How to Build an AI Employee Using MCP and Claude</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Same orchestration patterns we used here, generalized: stand up an autonomous AI worker that runs scheduled tasks across your tooling.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">Build the pattern <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
+            <a href="/blog/setting-up-automated-crm-workflows-with-0nmcp-in-under-15-minutes" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Workflow</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">Setting Up Automated CRM Workflows with 0nMCP in Under 15 Minutes</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">The same MCP tool-registration pattern that drives HIPAA report generation — applied to CRM workflow automation.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">15-min walkthrough <ArrowRight className="h-3 w-3" /></div>
+            </a>
+          </div>
+
+          <div className="mt-10 text-center">
+            <a href="/blog" className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-bold text-white hover:bg-white/10">
+              Browse all posts <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
       </section>
 
