@@ -21,7 +21,14 @@ import {
   Clock, ChevronDown, Zap, Award, FileText, Code2, Telescope, Crown,
   Linkedin, BadgeCheck, TrendingUp, Sparkles, AlertTriangle, ExternalLink,
 } from 'lucide-react'
-import { HipaaQuickScan } from '@/components/hipaa-quick-scan'
+import { RocketOppLogo } from '@/components/logo/SiteLogo'
+import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
+import { HipaaLoginModal } from '@/components/hipaa-login-modal'
+import { HipaaNprmCard } from '@/components/hipaa-nprm-card'
+import { HipaaEliteAssessment } from '@/components/hipaa-elite-assessment'
+import { HipaaStepOneLauncher } from '@/components/hipaa-step-one-launcher'
+import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
+import { HipaaRulesTable } from '@/components/hipaa-rules-table'
 
 // ---------------------------------------------------------------------------
 // Pricing — locked. Tier 4 anchor $1,499 → $899.
@@ -261,25 +268,29 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/hipaa" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-orange-500 to-rose-500">
-            <Shield className="h-4 w-4 text-white" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm font-bold tracking-tight text-white">RocketOpp HIPAA</span>
-            <span className="hidden text-[10px] uppercase tracking-widest text-white/40 sm:inline">Scanner + Report</span>
-          </div>
+        <Link href="/" className="flex items-center gap-3">
+          <RocketOppLogo height={28} width={150} />
+          <span className="hidden text-[10px] uppercase tracking-widest text-white/40 sm:inline border-l border-white/20 pl-3">HIPAA Scanner</span>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-3">
           <a href="#pricing" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">Pricing</a>
           <a href="#how" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white sm:inline-block">How it works</a>
           <a href="#faq" className="hidden rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white md:inline-block">FAQ</a>
-          <Link
-            href="/dashboard/hipaa"
-            className="rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/10"
+          <a
+            href="tel:+18788881230"
+            className="hidden items-center gap-1.5 rounded-md border border-orange-500/35 bg-orange-500/5 px-3 py-1.5 text-xs font-bold text-orange-300 hover:bg-orange-500/10 md:inline-flex"
+            title="AI voice agent — 24/7"
           >
-            Sign in
-          </Link>
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            (878) 888-1230
+          </a>
+          <HipaaLoginModal
+            trigger={
+              <span className="inline-block rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/10 cursor-pointer">
+                Sign in
+              </span>
+            }
+          />
           <a
             href="#scan"
             className="rounded-md bg-gradient-to-br from-orange-500 to-rose-500 px-3 py-1.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 hover:from-orange-400 hover:to-rose-400"
@@ -328,7 +339,11 @@ function Footer() {
               <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
               <li><a href="#how" className="hover:text-white">How it works</a></li>
               <li><a href="#scan" className="hover:text-white">Free scan</a></li>
-              <li><Link href="/dashboard/hipaa" className="hover:text-white">Sign in</Link></li>
+              <li>
+                <HipaaLoginModal
+                  trigger={<span className="hover:text-white cursor-pointer">Sign in</span>}
+                />
+              </li>
             </ul>
           </div>
           <div>
@@ -407,6 +422,7 @@ function PricingCard({ tier }: { tier: typeof TIERS[number] }) {
 export function HIPAALanding() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [daysToDeadline, setDaysToDeadline] = useState<number | null>(null)
+  const [assessmentOpen, setAssessmentOpen] = useState(false)
 
   useEffect(() => {
     // Assume final rule roughly Jan 1, 2027 — countdown as "days to compliance".
@@ -417,7 +433,9 @@ export function HIPAALanding() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative">
+      <HipaaAnimatedBackground />
+      <div className="relative z-10">
       <Header />
 
       {/* ============================= HERO ============================= */}
@@ -487,30 +505,9 @@ export function HIPAALanding() {
               </div>
             </div>
 
-            {/* Right — NPRM countdown card */}
+            {/* Right — NPRM countdown (upgraded) */}
             <div className="lg:col-span-2">
-              <div className="relative rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-rose-500/5 to-transparent p-6">
-                <div className="flex items-center gap-2 text-amber-300">
-                  <AlertTriangle className="h-4 w-4" />
-                  <div className="text-xs font-bold uppercase tracking-widest">2026 NPRM countdown</div>
-                </div>
-                <div className="mt-4 flex items-baseline gap-3">
-                  <div className="text-5xl font-black tracking-tight text-white">
-                    {daysToDeadline ?? '—'}
-                  </div>
-                  <div className="text-sm text-white/60">days to estimated <br />compliance deadline</div>
-                </div>
-                <div className="mt-5 space-y-2 text-sm text-white/80">
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> MFA mandatory for every ePHI account</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Encryption at rest required</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> "Addressable" category eliminated</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Biennial penetration tests</div>
-                  <div className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-300" /> Six-month vulnerability scans</div>
-                </div>
-                <div className="mt-5 rounded-lg border border-white/10 bg-black/30 p-3 text-[12px] text-white/60">
-                  Tier 3 and Tier 4 reports overlay every finding against the proposed rule so you know what breaks today vs. what breaks when the rule finalizes.
-                </div>
-              </div>
+              <HipaaNprmCard onStartAssessment={() => setAssessmentOpen(true)} />
             </div>
           </div>
         </div>
@@ -567,7 +564,7 @@ export function HIPAALanding() {
             </p>
           </div>
           <div className="mt-10">
-            <HipaaQuickScan />
+            <HipaaStepOneLauncher />
           </div>
         </div>
       </section>
@@ -722,6 +719,24 @@ export function HIPAALanding() {
         </div>
       </section>
 
+      {/* ============================= RULES TABLE ============================= */}
+      <section id="rules" className="border-b border-white/10 py-16 sm:py-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Reference</div>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              Every rule we score against, in one place.
+            </h2>
+            <p className="mt-4 text-white/60 max-w-2xl mx-auto">
+              Search the full HIPAA Security + Privacy + Breach Notification catalog, with
+              the 2026 NPRM deltas flagged inline. The scoring algorithm is ours — the rules
+              are yours to study.
+            </p>
+          </div>
+          <HipaaRulesTable />
+        </div>
+      </section>
+
       {/* ============================= FAQ ============================= */}
       <section id="faq" className="border-b border-white/10 py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
@@ -786,6 +801,13 @@ export function HIPAALanding() {
       </section>
 
       <Footer />
+      </div>
+
+      {/* Floating HIPAA AI chat — powered by /api/k/hipaa */}
+      <HipaaChatWidget />
+
+      {/* Elite cinematic assessment modal */}
+      <HipaaEliteAssessment open={assessmentOpen} onClose={() => setAssessmentOpen(false)} />
     </div>
   )
 }

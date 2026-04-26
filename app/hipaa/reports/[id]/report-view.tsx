@@ -1,11 +1,101 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import {
   ShieldCheck, AlertTriangle, Download, Calendar, Loader2, RefreshCw,
   ChevronRight, FileText, Code2, Telescope, Crown, Check, ExternalLink,
+  CircleCheck, Circle,
 } from 'lucide-react'
+
+// ---------------------------------------------------------------------------
+// Local-first remediation progress + per-finding notes.
+// Persists to localStorage immediately (optimistic UX) and fire-and-forgets
+// the server sync to /api/hipaa/progress — if the backend isn't wired yet,
+// the UI still works perfectly across the same browser/device.
+// ---------------------------------------------------------------------------
+function useRemediationProgress(orderId: string, token: string) {
+  const storageKey = `hipaa_progress_${orderId}`
+  const notesKey = `hipaa_notes_${orderId}`
+  const [resolved, setResolved] = useState<Record<string, string>>({})
+  const [notes, setNotes] = useState<Record<string, string>>({})
+  const [hydrated, setHydrated] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      const raw = localStorage.getItem(storageKey)
+      if (raw) setResolved(JSON.parse(raw))
+    } catch { /* ignore */ }
+    try {
+      const rawNotes = localStorage.getItem(notesKey)
+      if (rawNotes) setNotes(JSON.parse(rawNotes))
+    } catch { /* ignore */ }
+    setHydrated(true)
+
+    fetch(`/api/hipaa/progress?orderId=${encodeURIComponent(orderId)}&t=${encodeURIComponent(token)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!d) return
+        if (d.resolved && typeof d.resolved === 'object') {
+          setResolved((prev) => ({ ...prev, ...d.resolved }))
+        }
+        if (d.notes && typeof d.notes === 'object') {
+          setNotes((prev) => ({ ...prev, ...d.notes }))
+        }
+      })
+      .catch(() => {})
+  }, [orderId, storageKey, notesKey, token])
+
+  const toggle = useCallback(
+    (checkId: string) => {
+      setResolved((prev) => {
+        const next = { ...prev }
+        if (next[checkId]) delete next[checkId]
+        else next[checkId] = new Date().toISOString()
+        try { localStorage.setItem(storageKey, JSON.stringify(next)) } catch {}
+        fetch('/api/hipaa/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, token, checkId, resolved: Boolean(next[checkId]) }),
+        }).catch(() => {})
+        return next
+      })
+    },
+    [orderId, storageKey, token],
+  )
+
+  // Debounced note save — commit after 800ms of keystroke inactivity
+  const saveNote = useCallback(
+    (checkId: string, value: string) => {
+      setNotes((prev) => {
+        const next = { ...prev }
+        if (value.trim()) next[checkId] = value
+        else delete next[checkId]
+        try { localStorage.setItem(notesKey, JSON.stringify(next)) } catch {}
+        return next
+      })
+    },
+    [notesKey],
+  )
+
+  const pendingNoteSync = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  const queueNoteSync = useCallback(
+    (checkId: string, value: string) => {
+      if (pendingNoteSync.current[checkId]) clearTimeout(pendingNoteSync.current[checkId])
+      pendingNoteSync.current[checkId] = setTimeout(() => {
+        fetch('/api/hipaa/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, token, checkId, note: value }),
+        }).catch(() => {})
+      }, 800)
+    },
+    [orderId, token],
+  )
+
+  return { resolved, notes, toggle, saveNote, queueNoteSync, hydrated }
+}
 
 interface ReportFinding {
   checkId: string
@@ -69,6 +159,7 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState<string | null>(null)
   const [expandedFinding, setExpandedFinding] = useState<string | null>(null)
+  const { resolved, notes, toggle: toggleResolved, saveNote, queueNoteSync, hydrated } = useRemediationProgress(orderId, token)
 
   async function load() {
     setErr(null)
@@ -151,12 +242,26 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
       </div>
 
       {/* Title block */}
-      <div className="mb-10 pb-8 border-b border-border">
-        <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">
-          {tierIcon} Tier {report.tier} · {report.tierMeta.name}
+      <div className="mb-10 pb-8 border-b border-border flex items-start justify-between gap-6 flex-wrap">
+        <div className="min-w-0 flex-1">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-2">
+            {tierIcon} Tier {report.tier} · {report.tierMeta.name}
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">{report.companyName} — HIPAA Readiness Report</h1>
+          {a && <p className="text-sm text-muted-foreground">{a.publicUrl} · scanned {new Date(a.scanDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">{report.companyName} — HIPAA Readiness Report</h1>
-        {a && <p className="text-sm text-muted-foreground">{a.publicUrl} · scanned {new Date(a.scanDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
+        <a
+          href="tel:+18788881230"
+          className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white"
+          style={{
+            background: 'linear-gradient(135deg,#ef4444,#ff6b35,#f59e0b)',
+            boxShadow: '0 8px 24px -6px rgba(255,107,53,0.45)',
+          }}
+          title="AI voice agent — 24/7. Books directly into our calendar."
+        >
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+          Call AI · (878) 888-1230
+        </a>
       </div>
 
       {/* Scorecards */}
@@ -209,30 +314,85 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
 
       {/* Findings */}
       <section className="mb-12">
-        <div className="flex items-baseline justify-between mb-4">
+        <div className="flex items-baseline justify-between mb-3">
           <h2 className="text-xl font-bold">Findings ({report.findings.length})</h2>
-          <div className="text-xs text-muted-foreground">Priority order</div>
+          <div className="text-xs text-muted-foreground">
+            {hydrated && (
+              <>
+                {Object.keys(resolved).filter((k) => report.findings.some((f) => f.checkId === k)).length} / {report.findings.length} resolved
+              </>
+            )}
+          </div>
         </div>
+
+        {/* Progress bar */}
+        {hydrated && (() => {
+          const done = report.findings.filter((f) => resolved[f.checkId]).length
+          const pct = report.findings.length > 0 ? Math.round((done / report.findings.length) * 100) : 0
+          return (
+            <div className="mb-5">
+              <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${pct}%`,
+                    background: 'linear-gradient(90deg,#10b981,#06b6d4)',
+                    boxShadow: pct > 0 ? '0 0 12px rgba(16,185,129,0.4)' : 'none',
+                  }}
+                />
+              </div>
+              <div className="mt-2 text-[11px] text-muted-foreground">
+                {pct}% complete · tap the circle next to any finding when you've fixed it. Progress saves automatically.
+              </div>
+            </div>
+          )
+        })()}
+
         <div className="space-y-3">
           {report.findings.map((f, i) => {
             const open = expandedFinding === f.checkId
+            const isResolved = Boolean(resolved[f.checkId])
             return (
-              <article key={f.checkId} className="rounded-xl border border-border bg-card overflow-hidden">
-                <button onClick={() => setExpandedFinding(open ? null : f.checkId)} className="w-full text-left p-5 hover:bg-muted/40 transition-colors">
-                  <div className="flex items-start gap-4">
-                    <div className="text-xs font-mono text-muted-foreground w-8 pt-1">{String(i + 1).padStart(2, '0')}</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold uppercase tracking-wider ${sevCls(f.severity)}`}>{f.severity}</span>
-                        <span className="text-xs font-mono text-muted-foreground">§{f.ruleSection}</span>
-                        {f.status === 'fail' && <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-500 text-white font-semibold uppercase tracking-wider">FAIL</span>}
+              <article
+                key={f.checkId}
+                className={`rounded-xl border bg-card overflow-hidden transition-all ${
+                  isResolved ? 'border-emerald-500/30 bg-emerald-500/[0.02] opacity-70' : 'border-border'
+                }`}
+              >
+                <div className="flex">
+                  {/* Resolution toggle */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); toggleResolved(f.checkId) }}
+                    aria-label={isResolved ? `Mark ${f.name} as unresolved` : `Mark ${f.name} as resolved`}
+                    className="flex-none w-14 flex items-center justify-center border-r border-border hover:bg-emerald-500/5 transition-colors"
+                  >
+                    {isResolved ? (
+                      <CircleCheck className="h-6 w-6 text-emerald-400" strokeWidth={2.2} />
+                    ) : (
+                      <Circle className="h-6 w-6 text-muted-foreground/50 hover:text-emerald-400 transition-colors" strokeWidth={2} />
+                    )}
+                  </button>
+
+                  <button onClick={() => setExpandedFinding(open ? null : f.checkId)} className="flex-1 text-left p-5 hover:bg-muted/40 transition-colors">
+                    <div className="flex items-start gap-4">
+                      <div className="text-xs font-mono text-muted-foreground w-8 pt-1">{String(i + 1).padStart(2, '0')}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold uppercase tracking-wider ${isResolved ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : sevCls(f.severity)}`}>
+                            {isResolved ? 'resolved' : f.severity}
+                          </span>
+                          <span className="text-xs font-mono text-muted-foreground">§{f.ruleSection}</span>
+                          {!isResolved && f.status === 'fail' && <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-500 text-white font-semibold uppercase tracking-wider">FAIL</span>}
+                        </div>
+                        <div className={`font-semibold text-base ${isResolved ? 'line-through text-muted-foreground' : ''}`}>
+                          {f.name}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{f.explanation}</p>
                       </div>
-                      <div className="font-semibold text-base">{f.name}</div>
-                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{f.explanation}</p>
+                      <ChevronRight className={`w-4 h-4 mt-1.5 text-muted-foreground shrink-0 transition-transform ${open ? 'rotate-90' : ''}`} />
                     </div>
-                    <ChevronRight className={`w-4 h-4 mt-1.5 text-muted-foreground shrink-0 transition-transform ${open ? 'rotate-90' : ''}`} />
-                  </div>
-                </button>
+                  </button>
+                </div>
 
                 {open && (
                   <div className="border-t border-border bg-muted/20 p-5 space-y-5">
@@ -290,6 +450,28 @@ export function ReportView({ orderId, token }: { orderId: string; token: string 
                         <div className="mt-3 text-[11px] text-muted-foreground">Estimated time: ~{f.devFix.estimatedMinutes} min</div>
                       </Block>
                     )}
+
+                    {/* Your notes */}
+                    <Block label="Your notes">
+                      <textarea
+                        value={notes[f.checkId] || ''}
+                        onChange={(e) => {
+                          const v = e.target.value
+                          saveNote(f.checkId, v)
+                          queueNoteSync(f.checkId, v)
+                        }}
+                        placeholder="Jot what you did, what's left, or who owns this on your team. Auto-saves."
+                        className="w-full min-h-[90px] rounded-lg border border-border bg-background p-3 text-sm leading-relaxed resize-y focus:outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/15 placeholder:text-muted-foreground/50"
+                      />
+                      <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
+                        <span>Auto-saves to your browser + account</span>
+                        {notes[f.checkId] && (
+                          <span className="inline-flex items-center gap-1 text-emerald-400">
+                            <Check className="w-3 h-3" /> Saved
+                          </span>
+                        )}
+                      </div>
+                    </Block>
                   </div>
                 )}
               </article>

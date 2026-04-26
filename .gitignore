@@ -49,3 +49,4 @@ logs
 *.log
 google-service-account.json
 supabase/.temp/
+.apex-reference

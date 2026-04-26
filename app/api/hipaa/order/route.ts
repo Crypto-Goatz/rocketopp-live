@@ -21,6 +21,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'assessmentId + customerEmail required' }, { status: 400 })
   }
 
+  // Attribute affiliate referral from the ropp_ref cookie when the client
+  // didn't send one explicitly. 60-day cookie is set by <AffiliateTracker/>.
+  const cookieRef = req.cookies.get('ropp_ref')?.value || null
+  const referralCode = body.referralCode || cookieRef || null
+
   try {
     const r = await fetch(`${ONCORE_URL}/api/hipaa/order`, {
       method: 'POST',
@@ -33,7 +38,7 @@ export async function POST(req: NextRequest) {
         customerEmail: body.customerEmail,
         customerName:  body.customerName || null,
         sourceSite:    body.sourceSite || 'rocketopp.com',
-        referralCode:  body.referralCode || null,
+        referralCode:  referralCode,
         creditHidden:  Boolean(body.creditHidden),
         tier:          Math.max(1, Math.min(4, Number(body.tier) || 1)),
         freeTest:      Boolean(body.freeTest),

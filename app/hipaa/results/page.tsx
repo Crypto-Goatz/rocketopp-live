@@ -5,6 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Shield, AlertTriangle, ArrowLeft, Loader2, FileText, Mail, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
+import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
+import { HipaaVerdictBranch } from '@/components/hipaa-verdict-branch'
 
 function gradeColor(grade: string) {
   if (grade === 'A') return 'text-emerald-400'
@@ -72,7 +75,17 @@ function ResultsInner() {
   async function handleOrder(e: React.FormEvent) {
     e.preventDefault()
     if (!orderEmail || !result) return
+    void placeOrder(4)
+  }
+
+  async function placeOrder(tier: 1 | 2 | 3 | 4) {
+    if (!orderEmail) {
+      setError('Please enter your email to receive the report.')
+      return
+    }
+    if (!result) return
     setOrdering(true)
+    setError('')
     try {
       const res = await fetch('/api/hipaa/order', {
         method: 'POST',
@@ -82,10 +95,11 @@ function ResultsInner() {
           publicUrl: url,
           dashboardUrl: params.get('dashboardUrl') || url,
           scanResult: result,
+          tier,
         }),
       })
       const data = await res.json()
-      if (data.success) setOrdered(true)
+      if (data.success || data.ok) setOrdered(true)
       else setError(data.error || 'Order failed')
     } catch {
       setError('Failed to submit order')
@@ -177,8 +191,9 @@ function ResultsInner() {
 
   // ── Minimal results ──
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-3xl px-6 py-12">
+    <div className="min-h-screen bg-background relative">
+      <HipaaAnimatedBackground />
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-12">
         <Link href="/hipaa" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-8">
           <ArrowLeft className="h-4 w-4" /> Back to Scanner
         </Link>
@@ -220,28 +235,32 @@ function ResultsInner() {
           </div>
         </div>
 
-        {/* ═══ ORDER FULL REPORT ═══ */}
-        <div className="rounded-xl border-2 border-red-500/30 bg-gradient-to-b from-red-950/10 to-card p-8 text-center mb-10">
-          <FileText className="h-10 w-10 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Get Your Full Report</h2>
-          <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">
-            The full report includes all 63 check results with pass/fail details, HIPAA rule references,
-            severity ratings, a prioritized remediation roadmap, and state-specific compliance guidance.
-            Delivered as a PDF to your inbox within 60 minutes.
-          </p>
-
-          <form onSubmit={handleOrder} className="max-w-sm mx-auto">
-            <div className="mb-4">
-              <input type="email" required placeholder="your@email.com" value={orderEmail} onChange={e => setOrderEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-center focus:outline-none focus:ring-2 focus:ring-red-500/40" />
-            </div>
-            <Button type="submit" disabled={ordering || !orderEmail}
-              className="w-full bg-red-600 hover:bg-red-700 text-white h-11 text-sm font-semibold">
-              {ordering ? 'Processing...' : 'Order Full Report Now — Free'}
-            </Button>
-            <p className="text-[10px] text-muted-foreground mt-3">Free during beta. No credit card required.</p>
-          </form>
+        {/* Email — required so the AI pipeline can deliver */}
+        <div className="rounded-xl border border-white/10 bg-black/30 backdrop-blur-md p-4 mb-6 flex items-center gap-3 flex-wrap">
+          <Mail className="h-4 w-4 text-white/40 shrink-0" />
+          <label className="text-xs text-white/60 whitespace-nowrap">Deliver report to:</label>
+          <input
+            type="email"
+            required
+            placeholder="you@practice.com"
+            value={orderEmail}
+            onChange={(e) => setOrderEmail(e.target.value)}
+            className="flex-1 min-w-[180px] rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/40"
+          />
+          {error && <p className="text-[11px] text-red-400 w-full">{error}</p>}
         </div>
+
+        {/* AI-branched post-scan verdict + upsell */}
+        <HipaaVerdictBranch
+          currentGrade={r.currentGrade as string}
+          currentRuleScore={r.currentRuleScore as number}
+          nprmGrade={r.nprmGrade as string}
+          nprm2026Score={r.nprm2026Score as number}
+          criticalFindings={r.criticalFindings as number}
+          highFindings={r.highFindings as number}
+          onOrder={(tier) => void placeOrder(tier)}
+          ordering={ordering}
+        />
 
         {/* 0nCore badge */}
         <div className="flex items-center justify-center pb-8">
@@ -260,6 +279,15 @@ export default function HIPAAResultsPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-red-400" /></div>}>
       <ResultsInner />
+      <HipaaChatWidget
+        greeting="Your scan just finished. I can explain any finding, cite the 45 CFR §164 section it maps to, and walk you through remediation. What do you want to dig into?"
+        suggestions={[
+          'Explain my top critical finding',
+          'What does the 2026 NPRM change?',
+          'Which tier do I need?',
+          'Is this scan enough for OCR?',
+        ]}
+      />
     </Suspense>
   )
 }

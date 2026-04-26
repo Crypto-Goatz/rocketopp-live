@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { DashboardView } from './dashboard-view'
+import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,8 +11,11 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-background">
-      <DashboardView />
+    <main className="min-h-screen bg-background relative">
+      <HipaaAnimatedBackground />
+      <div className="relative z-10">
+        <DashboardView />
+      </div>
     </main>
   )
 }

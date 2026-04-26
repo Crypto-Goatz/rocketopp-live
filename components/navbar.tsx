@@ -92,12 +92,68 @@ const services = [
       { name: "Vault Security", href: "/services/mcp-integration#pricing", icon: Sparkles },
     ]
   },
+  // ── Row 3 — new product-oriented service tracks (distinct color palette) ──
+  {
+    name: "Agentic AI Apps",
+    tagline: "From $4,997 — 3 weeks",
+    href: "/services/agentic-ai-apps",
+    icon: Sparkles,
+    color: "from-fuchsia-500 to-purple-600",
+    features: [
+      { name: "0nMCP Agents", href: "/services/agentic-ai-apps", icon: Bot },
+      { name: "Custom Workflows", href: "/services/agentic-ai-apps#pricing", icon: Workflow },
+      { name: "Agent Orchestration", href: "/services/agentic-ai-apps#pricing", icon: Sparkles },
+    ]
+  },
+  {
+    name: "SaaS Platforms",
+    tagline: "From $12,500 — 6 weeks",
+    href: "/services/saas-platforms",
+    icon: Package,
+    color: "from-rose-500 to-pink-600",
+    features: [
+      { name: "Multi-tenant Auth", href: "/services/saas-platforms", icon: Package },
+      { name: "Subscription Billing", href: "/services/saas-platforms#pricing", icon: BarChart3 },
+      { name: "Admin Dashboards", href: "/services/saas-platforms#pricing", icon: LineChart },
+    ]
+  },
+  {
+    name: "Lead Tool Apps",
+    tagline: "From $3,497 — 2 weeks",
+    href: "/services/lead-tool-apps",
+    icon: Megaphone,
+    color: "from-lime-400 to-teal-500",
+    features: [
+      { name: "Lead Scanners", href: "/services/lead-tool-apps", icon: Search },
+      { name: "Assessment Funnels", href: "/services/lead-tool-apps#pricing", icon: Target },
+      { name: "Viral Growth Loops", href: "/services/lead-tool-apps#pricing", icon: Share2 },
+    ]
+  },
 ]
 
+// Apps mega menu — full ecosystem, grouped left-to-right by stage.
+// Layout follows the Services treatment: full-width fixed dropdown,
+// 3-column grid inside max-w-7xl, square corners, gradient on each tile.
 const ourApps = [
-  { name: "Rocket+", description: "50+ AI CRM tools", href: "https://rocketadd.com", icon: Rocket, color: "from-orange-500 to-red-500", external: true, status: "Live" },
-  { name: "MCPFED", description: "AI agent command center", href: "https://mcpfed.com", icon: Cpu, color: "from-cyan-500 to-blue-500", external: true, status: "Live" },
-  { name: "BotCoaches", description: "AI coaching personas", href: "https://botcoaches.com", icon: Bot, color: "from-purple-500 to-pink-500", external: true, status: "Soon" },
+  // Row 1 — flagship AI infrastructure
+  { name: "0nMCP",            tagline: "AI orchestrator · 1,554 tools",  href: "https://0nmcp.com",            icon: Cpu,       color: "from-orange-500 to-red-500",     external: true,  status: "Live" },
+  { name: "0nCore",           tagline: "Customer portal · 0n stack",     href: "https://0ncore.com",           icon: Sparkles,  color: "from-cyan-500 to-blue-500",      external: true,  status: "Live" },
+  { name: "0n Marketplace",   tagline: "Pay-per-execution SaaS",         href: "https://marketplace.rocketclients.com", icon: Package, color: "from-violet-500 to-purple-600", external: true, status: "Live" },
+
+  // Row 2 — agency CRM + lead engines
+  { name: "Rocket+",          tagline: "50+ AI CRM tools",               href: "https://rocketadd.com",        icon: Rocket,    color: "from-orange-500 to-amber-500",   external: true,  status: "Live" },
+  { name: "MCPFED",           tagline: "AI agent command center",        href: "https://mcpfed.com",           icon: Bot,       color: "from-emerald-500 to-cyan-500",   external: true,  status: "Live" },
+  { name: "180 CRM",          tagline: "Mortgage CRM · GHL-grade",       href: "https://180crm.com",           icon: Workflow,  color: "from-blue-500 to-indigo-600",    external: true,  status: "Live" },
+
+  // Row 3 — vertical applications + SXO
+  { name: "Apex Assessment",  tagline: "Free 5-minute AI assessment",    href: "/apex",                        icon: Lightbulb, color: "from-amber-500 to-orange-600",   external: false, status: "New"  },
+  { name: "Youth Hockey Leagues", tagline: "AI rule bot · $8/mo",         href: "https://youthhockeyleagues.com", icon: Target, color: "from-sky-500 to-blue-600",       external: true,  status: "Live" },
+  { name: "SXO Website",      tagline: "Search-experience optimization", href: "https://sxowebsite.com",       icon: Search,    color: "from-fuchsia-500 to-purple-600", external: true,  status: "Live" },
+
+  // Row 4 — coming-soon / specialty
+  { name: "Social0n",         tagline: "LinkedIn growth engine",         href: "https://social0n.com",         icon: Share2,    color: "from-rose-500 to-pink-600",      external: true,  status: "Soon" },
+  { name: "Web0n",            tagline: "AI website builder",             href: "https://web0n.com",            icon: Palette,   color: "from-lime-400 to-teal-500",      external: true,  status: "Soon" },
+  { name: "BotCoaches",       tagline: "AI coaching personas",           href: "https://botcoaches.com",       icon: Smartphone,color: "from-purple-500 to-pink-500",    external: true,  status: "Soon" },
 ]
 
 export function Navbar() {
@@ -201,14 +257,14 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${servicesMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Services Mega Menu Dropdown */}
+                {/* Services Mega Menu Dropdown — full-width, square corners */}
                 {servicesMenuOpen && (
                   <div
                     ref={servicesDropdownRef}
-                    className={`absolute top-full left-0 pt-2 w-[720px] z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    className={`fixed top-16 left-0 right-0 pt-2 z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
-                    <div className="relative bg-black border border-white/10 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden">
+                    <div className="relative bg-black border-y border-white/10 shadow-2xl shadow-black/80 overflow-hidden">
                       {/* Animated gradient background */}
                       <div className="absolute inset-0 opacity-30">
                         <div
@@ -232,11 +288,11 @@ export function Navbar() {
                       />
 
                       {/* Edge glow effect */}
-                      <div className="absolute inset-0 rounded-2xl" style={{
+                      <div className="absolute inset-0" style={{
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,107,0,0.05) 100%)'
                       }} />
 
-                      <div className="relative p-6">
+                      <div className="relative mx-auto max-w-7xl px-6 py-6">
                         <div className="grid grid-cols-3 gap-3">
                           {services.map((service) => {
                             const Icon = service.icon
@@ -302,22 +358,22 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${appsMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Our Apps Mega Menu Dropdown */}
+                {/* Our Apps Mega Menu Dropdown — full-width, square corners (mirrors Services) */}
                 {appsMenuOpen && (
                   <div
                     ref={appsDropdownRef}
-                    className={`absolute top-full left-0 pt-2 w-[480px] z-[100] ${appsAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    className={`fixed top-16 left-0 right-0 pt-2 z-[100] ${appsAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
-                    <div className="relative bg-black border border-white/10 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden">
-                      {/* Animated gradient background */}
+                    <div className="relative bg-black border-y border-white/10 shadow-2xl shadow-black/80 overflow-hidden">
+                      {/* Animated gradient background — follows the mouse */}
                       <div className="absolute inset-0 opacity-30">
                         <div
-                          className="absolute w-[400px] h-[400px] rounded-full blur-3xl transition-all duration-500 ease-out"
+                          className="absolute w-[500px] h-[500px] rounded-full blur-3xl transition-all duration-500 ease-out"
                           style={{
                             background: 'radial-gradient(circle, rgba(255,107,0,0.4) 0%, transparent 70%)',
-                            left: mousePos.x - 200,
-                            top: mousePos.y - 200,
+                            left: mousePos.x - 250,
+                            top: mousePos.y - 250,
                           }}
                         />
                       </div>
@@ -328,103 +384,86 @@ export function Navbar() {
                         style={{
                           backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
                                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                          backgroundSize: '20px 20px'
+                          backgroundSize: '20px 20px',
                         }}
                       />
 
-                      {/* Edge glow effect */}
-                      <div className="absolute inset-0 rounded-2xl" style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,107,0,0.05) 100%)'
+                      {/* Edge glow */}
+                      <div className="absolute inset-0" style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,107,0,0.05) 100%)',
                       }} />
 
-                      <div className="relative p-6">
-                        {/* Apps */}
-                        <div className="mb-6">
-                          <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Our Software</h4>
-                          <div className="space-y-2">
-                            {ourApps.map((app) => {
-                              const Icon = app.icon
-                              return (
-                                <a
-                                  key={app.name}
-                                  href={app.href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition-all duration-300"
-                                  onClick={() => {
-                                    setAppsAnimating(false)
-                                    setTimeout(() => setAppsMenuOpen(false), 50)
-                                  }}
-                                >
-                                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${app.color} flex items-center justify-center group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 shadow-lg`}>
-                                    <Icon className="w-6 h-6 text-white" />
+                      <div className="relative mx-auto max-w-7xl px-6 py-6">
+                        <div className="grid grid-cols-3 gap-3">
+                          {ourApps.map((app) => {
+                            const Icon = app.icon
+                            const Tag = app.external ? 'a' : Link
+                            const linkProps = app.external
+                              ? { href: app.href, target: '_blank', rel: 'noopener noreferrer' as const }
+                              : { href: app.href }
+                            return (
+                              <Tag
+                                key={app.name}
+                                {...linkProps}
+                                className="group p-4 rounded-xl hover:bg-white/10 transition-all duration-300"
+                                onClick={() => {
+                                  setAppsAnimating(false)
+                                  setTimeout(() => setAppsMenuOpen(false), 50)
+                                }}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${app.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/20 transition-all duration-300 shadow-lg`}>
+                                    <Icon className="w-5 h-5 text-white" />
                                   </div>
-                                  <div className="flex-1">
-                                    <div className="flex items-center gap-2">
-                                      <h3 className="font-semibold text-sm text-white">{app.name}</h3>
-                                      <span className={`px-1.5 py-0.5 text-[10px] font-medium rounded-full ${
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex items-center gap-1.5">
+                                      <h3 className="font-semibold text-sm text-white group-hover:text-primary transition-colors duration-300 truncate">
+                                        {app.name}
+                                      </h3>
+                                      <span className={`px-1.5 py-0.5 text-[9px] font-bold rounded-full uppercase tracking-wider ${
                                         app.status === 'Live'
-                                          ? 'bg-green-500/20 text-green-400'
-                                          : 'bg-amber-500/20 text-amber-400'
+                                          ? 'bg-green-500/15 text-green-400 border border-green-500/30'
+                                          : app.status === 'New'
+                                            ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30'
+                                            : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
                                       }`}>
                                         {app.status}
                                       </span>
+                                      {app.external && (
+                                        <ExternalLink className="w-3 h-3 text-white/30 group-hover:text-white/60 transition-colors flex-shrink-0" />
+                                      )}
                                     </div>
-                                    <p className="text-xs text-white/50 mt-0.5">{app.description}</p>
+                                    <p className="text-xs text-white/50 mt-0.5 truncate">{app.tagline}</p>
                                   </div>
-                                  <ExternalLink className="w-4 h-4 text-white/30 group-hover:text-white/60 transition-colors" />
-                                </a>
-                              )
-                            })}
+                                </div>
+                              </Tag>
+                            )
+                          })}
+                        </div>
+
+                        <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between gap-4 flex-wrap">
+                          <div className="flex gap-2 flex-wrap">
+                            <Link
+                              href="/pitch-idea"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/15 border border-primary/30 text-xs font-semibold text-primary hover:bg-primary/25 transition"
+                              onClick={() => {
+                                setAppsAnimating(false)
+                                setTimeout(() => setAppsMenuOpen(false), 50)
+                              }}
+                            >
+                              <Lightbulb className="w-3.5 h-3.5" /> Pitch an idea
+                            </Link>
+                            <Link
+                              href="/request-app"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-xs font-semibold text-purple-300 hover:bg-purple-500/25 transition"
+                              onClick={() => {
+                                setAppsAnimating(false)
+                                setTimeout(() => setAppsMenuOpen(false), 50)
+                              }}
+                            >
+                              <Package className="w-3.5 h-3.5" /> Request a custom app
+                            </Link>
                           </div>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-3">
-                          <Link
-                            href="/pitch-idea"
-                            className="group p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 hover:border-primary/40 transition-all duration-300"
-                            onClick={() => {
-                              setAppsAnimating(false)
-                              setTimeout(() => setAppsMenuOpen(false), 50)
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <Lightbulb className="w-4 h-4 text-primary" />
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-xs text-white">Pitch an Idea</h3>
-                                <p className="text-[10px] text-white/50">We might build it</p>
-                              </div>
-                            </div>
-                          </Link>
-
-                          <Link
-                            href="/request-app"
-                            className="group p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
-                            onClick={() => {
-                              setAppsAnimating(false)
-                              setTimeout(() => setAppsMenuOpen(false), 50)
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <Package className="w-4 h-4 text-purple-400" />
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-xs text-white">Request App</h3>
-                                <p className="text-[10px] text-white/50">Custom build</p>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                          <p className="text-xs text-white/40">
-                            <Sparkles className="w-3 h-3 inline mr-1" />
-                            AI-Powered Software Suite
-                          </p>
                           <Link
                             href="/apps"
                             className="text-xs font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
@@ -433,7 +472,7 @@ export function Navbar() {
                               setTimeout(() => setAppsMenuOpen(false), 50)
                             }}
                           >
-                            View All Apps
+                            View all apps
                             <ChevronDown className="w-3 h-3 -rotate-90" />
                           </Link>
                         </div>
@@ -580,7 +619,7 @@ export function Navbar() {
                                   {app.status}
                                 </span>
                               </div>
-                              <div className="text-xs text-muted-foreground">{app.description}</div>
+                              <div className="text-xs text-muted-foreground">{app.tagline}</div>
                             </div>
                             <ExternalLink className="w-3 h-3 text-muted-foreground" />
                           </a>

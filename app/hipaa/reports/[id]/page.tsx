@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { ReportView } from './report-view'
+import { HipaaChatWidget } from '@/components/hipaa-chat-widget'
+import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,8 +16,20 @@ export default async function Page({ params, searchParams }: Props) {
   const { id } = await params
   const { t } = await searchParams
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background relative">
+      <HipaaAnimatedBackground />
+      <div className="relative z-10">
       <ReportView orderId={id} token={t || ''} />
+      </div>
+      <HipaaChatWidget
+        greeting="Ask me anything about your report. I can expand on a specific finding, cite the rule section, or help you decide what to fix first."
+        suggestions={[
+          'Explain my highest-severity finding',
+          'How does the 2026 NPRM affect me?',
+          'What evidence do I need for OCR?',
+          'How do I implement MFA properly?',
+        ]}
+      />
     </main>
   )
 }

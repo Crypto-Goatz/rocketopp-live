@@ -95,31 +95,55 @@ export function SiteLogo({
   return content
 }
 
-// Static version for server components that always shows RocketOpp branding
+// RocketOpp brand lockup — rocket icon + bold wordmark.
+// Renders as icon + "RocketOpp" text; icon scales to height, text scales
+// proportionally so a single `height` prop controls the whole lockup.
 export function RocketOppLogo({
   height = 36,
   width = 180,
   className = '',
+  wordmark = true,
 }: {
   height?: number
   width?: number
   className?: string
+  /** Hide the wordmark and show only the rocket icon */
+  wordmark?: boolean
 }) {
+  const iconSize = height
+  const textSize = Math.round(height * 0.55)
+
   return (
-    <div className={`flex items-center ${className}`}>
+    <div
+      className={`flex items-center ${className}`}
+      style={{ gap: Math.round(height * 0.28) }}
+    >
       <Image
-        src="/images/rocketopp-logo-full.png"
-        alt="RocketOpp - AI-Powered Business Solutions"
-        width={width}
-        height={height}
-        className="object-contain"
+        src="/images/logo.png"
+        alt="RocketOpp"
+        width={iconSize}
+        height={iconSize}
+        className="object-contain shrink-0"
         style={{
-          height: height,
-          width: 'auto',
-          maxWidth: width,
+          height: iconSize,
+          width: iconSize,
+          filter: 'drop-shadow(0 0 8px rgba(255, 107, 53, 0.25))',
         }}
         priority
       />
+      {wordmark && (
+        <span
+          className="font-black tracking-tight text-white whitespace-nowrap"
+          style={{
+            fontSize: textSize,
+            lineHeight: 1,
+            letterSpacing: '-0.02em',
+            maxWidth: Math.max(0, width - iconSize),
+          }}
+        >
+          RocketOpp
+        </span>
+      )}
     </div>
   )
 }

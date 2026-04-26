@@ -6,6 +6,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LayoutWrapper } from "@/components/layout-wrapper"
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider"
+import { Cro9Tracker } from "@/components/cro9-tracker"
+import { AffiliateTracker } from "@/components/affiliate-tracker"
 import { CookieConsent } from "@/components/cookie-consent"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -162,6 +164,9 @@ export default function RootLayout({
             >
               <LayoutWrapper>{children}</LayoutWrapper>
               <CookieConsent />
+              {/* CRO9 tracker — pageview + UTM capture across every route */}
+              <Cro9Tracker siteId="site_rocketopp" />
+              <AffiliateTracker />
             </AnalyticsProvider>
           </Suspense>
         </ThemeProvider>
