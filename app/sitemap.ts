@@ -7,6 +7,10 @@
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/db/supabase'
 
+// Re-render the sitemap every 60 seconds so newly published blog posts
+// + marketplace products show up without a redeploy.
+export const revalidate = 60
+
 type Freq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
 
 const BASE = 'https://rocketopp.com'
