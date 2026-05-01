@@ -26,6 +26,7 @@ import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-backgr
 import LiveActivityTicker from "@/components/live-activity-ticker"
 import TrustStrip from "@/components/trust-strip"
 import FirstCustomerSpotlight from "@/components/first-customer-spotlight"
+import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
@@ -342,7 +343,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Live activity — proves the platform is alive (between hero and pricing) */}
+        {/* Live ecosystem heartbeat — sourced from 0nCore UCP dispatch feed */}
+        <UcpLiveStrip />
+
+        {/* Curated activity — narrative complement to the live ecosystem strip */}
         <LiveActivityTicker />
 
         {/* Trust strip — infrastructure providers, builds credibility */}
