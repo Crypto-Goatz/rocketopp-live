@@ -487,3 +487,19 @@
 .animate-scale-in {
   animation: scale-in 0.5s ease-out forwards;
 }
+
+/* Live activity ticker — infinite horizontal marquee.
+   The ticker component renders each item twice, so 50% translation makes
+   the loop seamless. 40s feels paced for skimming without dizzying. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

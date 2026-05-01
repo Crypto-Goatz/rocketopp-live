@@ -23,6 +23,9 @@ import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } from "@/components/seo/json-ld"
 import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
+import LiveActivityTicker from "@/components/live-activity-ticker"
+import TrustStrip from "@/components/trust-strip"
+import FirstCustomerSpotlight from "@/components/first-customer-spotlight"
 
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
@@ -339,6 +342,15 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Live activity — proves the platform is alive (between hero and pricing) */}
+        <LiveActivityTicker />
+
+        {/* Trust strip — infrastructure providers, builds credibility */}
+        <TrustStrip />
+
+        {/* First Customer Spotlight — Rob / Outlook Financial Center case study */}
+        <FirstCustomerSpotlight />
+
         {/* Transparent Pricing Section */}
         <section id="pricing" className="py-20 md:py-28 bg-card/50">
           <div className="container px-4 md:px-6">
@@ -401,6 +413,28 @@ export default function HomePage() {
               <p className="text-xs text-muted-foreground mt-4 text-center">
                 * Based on Clutch.co, Agency Analytics, and WebFX 2026 industry data
               </p>
+
+              {/* 30-day guarantee — risk reversal under the table */}
+              <div className="mt-10 mx-auto max-w-3xl rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] via-card/40 to-transparent p-6 md:p-8">
+                <div className="flex flex-col items-center gap-4 md:flex-row md:gap-6 md:text-left">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-primary/15">
+                    <Shield className="h-7 w-7 text-primary" />
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="font-mono text-[10px] uppercase tracking-widest text-primary mb-1">
+                      30-day results guarantee
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground md:text-xl">
+                      Hit your KPI, or we keep working until you do.
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Every project ships with a measurable goal — score lift, conversion
+                      rate, MQLs, whatever you care about. If we miss it in 30 days, we
+                      keep building at no extra charge until we hit it.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Pricing Cards — Mobile */}
