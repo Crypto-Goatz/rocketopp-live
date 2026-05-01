@@ -23,11 +23,10 @@ import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } from "@/components/seo/json-ld"
 import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
-// Temporarily disabled while diagnosing the 2026-05-01 homepage hydration crash.
-// import LiveActivityTicker from "@/components/live-activity-ticker"
-// import TrustStrip from "@/components/trust-strip"
-// import FirstCustomerSpotlight from "@/components/first-customer-spotlight"
-// import UcpLiveStrip from "@/components/ucp-live-strip"
+import LiveActivityTicker from "@/components/live-activity-ticker"
+import TrustStrip from "@/components/trust-strip"
+import FirstCustomerSpotlight from "@/components/first-customer-spotlight"
+import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
@@ -344,17 +343,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/*
-          Temporarily disabled while investigating a homepage hydration crash
-          reported 2026-05-01. These four new sections were the most-recent
-          additions to the homepage tree. Restoring one at a time after
-          verifying the homepage loads cleanly without them.
+        {/* Live ecosystem heartbeat — sourced from 0nCore UCP dispatch feed */}
+        <UcpLiveStrip />
 
-          <UcpLiveStrip />
-          <LiveActivityTicker />
-          <TrustStrip />
-          <FirstCustomerSpotlight />
-        */}
+        {/* Curated activity — narrative complement to the live ecosystem strip */}
+        <LiveActivityTicker />
+
+        {/* Trust strip — infrastructure providers, builds credibility */}
+        <TrustStrip />
+
+        {/* First Customer Spotlight — Rob / Outlook Financial Center case study */}
+        <FirstCustomerSpotlight />
 
         {/* Transparent Pricing Section */}
         <section id="pricing" className="py-20 md:py-28 bg-card/50">
