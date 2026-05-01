@@ -131,38 +131,29 @@ const services = [
   },
 ]
 
-// "Our Apps" mega menu — restructured into three buckets per Mike's spec:
-//   1. AI Lead Gen Apps   — tools that drive leads (free or freemium)
-//   2. AI SaaS Apps       — productized recurring revenue
-//   3. 0nMCP              — singular hero, the orchestrator behind everything
-// Each tile links to /family/[slug] (deep-dive lead-gen page on rocketopp.com)
-// instead of opening externally — keeps visitors on rocketopp, drops a lead form,
-// and earns SXO authority for every keyword in each member's catalog.
+// Apps mega menu — full ecosystem, grouped left-to-right by stage.
+// Layout follows the Services treatment: full-width fixed dropdown,
+// 3-column grid inside max-w-7xl, square corners, gradient on each tile.
 const ourApps = [
-  // Section 1 — AI Lead Gen Apps
-  { name: "SXO Website",       tagline: "Free SXO scan + Living DOM rewrite",     href: "/family/sxowebsite",  icon: Search,   color: "from-fuchsia-500 to-purple-600", external: false, status: "Live" },
-  { name: "VerifiedSXO",       tagline: "Verified marketing claims · proof layer", href: "/family/verifiedsxo", icon: ShieldCheck, color: "from-emerald-500 to-teal-500",  external: false, status: "Live" },
-  { name: "Apex Assessment",   tagline: "Free 5-minute AI assessment",            href: "/apex",               icon: Lightbulb, color: "from-amber-500 to-orange-600",   external: false, status: "Live" },
+  // Row 1 — flagship AI infrastructure
+  { name: "0nMCP",            tagline: "AI orchestrator · 1,554 tools",  href: "https://0nmcp.com",            icon: Cpu,       color: "from-orange-500 to-red-500",     external: true,  status: "Live" },
+  { name: "0nCore",           tagline: "Customer portal · 0n stack",     href: "https://0ncore.com",           icon: Sparkles,  color: "from-cyan-500 to-blue-500",      external: true,  status: "Live" },
+  { name: "0n Marketplace",   tagline: "Pay-per-execution SaaS",         href: "https://marketplace.rocketclients.com", icon: Package, color: "from-violet-500 to-purple-600", external: true, status: "Live" },
 
-  // Section 2 — AI SaaS Apps
-  { name: "0nCore",            tagline: "Customer portal for the 0n stack",       href: "/family/0ncore",      icon: Sparkles, color: "from-cyan-500 to-blue-500",     external: false, status: "Live" },
-  { name: "Rocket+",           tagline: "Modular CRM enhancements · 50+ mods",    href: "/family/rocketadd",   icon: Rocket,   color: "from-orange-500 to-amber-500",   external: false, status: "Live" },
-  { name: "CRO9",              tagline: "Self-optimizing landing pages",          href: "/family/cro9",        icon: TrendingUp, color: "from-cyan-500 to-blue-500",   external: false, status: "Live" },
+  // Row 2 — agency CRM + lead engines
+  { name: "Rocket+",          tagline: "50+ AI CRM tools",               href: "https://rocketadd.com",        icon: Rocket,    color: "from-orange-500 to-amber-500",   external: true,  status: "Live" },
+  { name: "MCPFED",           tagline: "AI agent command center",        href: "https://mcpfed.com",           icon: Bot,       color: "from-emerald-500 to-cyan-500",   external: true,  status: "Live" },
+  { name: "180 CRM",          tagline: "Mortgage CRM · GHL-grade",       href: "https://180crm.com",           icon: Workflow,  color: "from-blue-500 to-indigo-600",    external: true,  status: "Live" },
 
-  // Section 3 — 0nMCP (the hero)
-  { name: "0nMCP",             tagline: "The world's largest interconnected MCP server · 1,554 tools, 96 services", href: "/family/0nmcp", icon: Cpu, color: "from-orange-500 to-red-500", external: false, status: "Live", hero: true },
-]
+  // Row 3 — vertical applications + SXO
+  { name: "Apex Assessment",  tagline: "Free 5-minute AI assessment",    href: "/apex",                        icon: Lightbulb, color: "from-amber-500 to-orange-600",   external: false, status: "New"  },
+  { name: "Youth Hockey Leagues", tagline: "AI rule bot · $8/mo",         href: "https://youthhockeyleagues.com", icon: Target, color: "from-sky-500 to-blue-600",       external: true,  status: "Live" },
+  { name: "SXO Website",      tagline: "Search-experience optimization", href: "https://sxowebsite.com",       icon: Search,    color: "from-fuchsia-500 to-purple-600", external: true,  status: "Live" },
 
-// Sister 0n family links — shown below the three sections in the dropdown.
-const ourAppsFamilyLinks = [
-  { name: "0nMCP.com",            href: "https://0nmcp.com",                       external: true },
-  { name: "0nCore.com",           href: "https://0ncore.com",                      external: true },
-  { name: "0n Marketplace",       href: "https://marketplace.rocketclients.com",   external: true },
-  { name: "sxowebsite.com",       href: "https://sxowebsite.com",                  external: true },
-  { name: "VerifiedSXO.com",      href: "https://verifiedsxo.com",                 external: true },
-  { name: "RocketArticle.com",    href: "https://rocketarticle.com",               external: true },
-  { name: "MCPFED.com",           href: "https://mcpfed.com",                      external: true },
-  { name: "180crm.com",           href: "https://180crm.com",                      external: true },
+  // Row 4 — coming-soon / specialty
+  { name: "Social0n",         tagline: "LinkedIn growth engine",         href: "https://social0n.com",         icon: Share2,    color: "from-rose-500 to-pink-600",      external: true,  status: "Soon" },
+  { name: "Web0n",            tagline: "AI website builder",             href: "https://web0n.com",            icon: Palette,   color: "from-lime-400 to-teal-500",      external: true,  status: "Soon" },
+  { name: "BotCoaches",       tagline: "AI coaching personas",           href: "https://botcoaches.com",       icon: Smartphone,color: "from-purple-500 to-pink-500",    external: true,  status: "Soon" },
 ]
 
 export function Navbar() {
