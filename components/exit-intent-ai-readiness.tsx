@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { X, Sparkles, Mail, Globe, Loader2 } from 'lucide-react'
+import { X, Sparkles, Mail, Globe } from 'lucide-react'
+import { AiScanSequence, SCAN_TOTAL_MS } from './ai-scan-sequence'
 
 const SHOW_KEY = 'rocketopp-aireadiness-shown-at'
 const COOLDOWN_MS = 24 * 60 * 60 * 1000 // 24h
@@ -83,6 +84,30 @@ export function ExitIntentAiReadiness() {
     }
   }, [open])
 
+  // ── State machine: idle → scanning (animation + API in parallel) → redirect ──
+  const [scanId, setScanId] = useState<string | null>(null)
+  const [scanError, setScanError] = useState<string | null>(null)
+  const [animationDone, setAnimationDone] = useState(false)
+
+  // When BOTH the scan_id is back AND the animation has finished, redirect.
+  useEffect(() => {
+    if (!loading) return
+    if (scanId && animationDone) {
+      router.push(`/ai-readiness/thanks?scanId=${scanId}`)
+    }
+  }, [loading, scanId, animationDone, router])
+
+  // If the API errors during scan, surface it without leaving the user stuck.
+  useEffect(() => {
+    if (scanError && animationDone) {
+      setError(scanError)
+      setLoading(false)
+      setScanError(null)
+    }
+  }, [scanError, animationDone])
+
+  const cleanedDomain = domain.trim().replace(/^https?:\/\//, '').replace(/\/$/, '')
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -90,14 +115,20 @@ export function ExitIntentAiReadiness() {
       setError('Email and domain are both required.')
       return
     }
+    // Flip into scanning state immediately so the animation starts at t=0 and
+    // can run in parallel with the API request. The redirect waits for both.
     setLoading(true)
+    setScanId(null)
+    setScanError(null)
+    setAnimationDone(false)
+
     try {
       const res = await fetch('/api/ai-readiness/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
-          domain: domain.trim().replace(/^https?:\/\//, '').replace(/\/$/, ''),
+          domain: cleanedDomain,
           source: 'exit-intent',
         }),
       })
@@ -105,10 +136,9 @@ export function ExitIntentAiReadiness() {
       if (!res.ok || !data.scan_id) {
         throw new Error(data.error || 'Could not start the scan.')
       }
-      router.push(`/ai-readiness/thanks?scanId=${data.scan_id}`)
+      setScanId(data.scan_id as string)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong.')
-      setLoading(false)
+      setScanError(err instanceof Error ? err.message : 'Something went wrong.')
     }
   }
 
@@ -129,35 +159,46 @@ export function ExitIntentAiReadiness() {
 
       {/* Panel */}
       <div className="relative w-full max-w-lg bg-card border border-border rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-        {/* Accent header */}
-        <div className="relative bg-gradient-to-br from-primary/30 via-orange-500/15 to-transparent p-6 pb-5">
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close"
-            className="absolute top-3 right-3 p-1.5 rounded-lg text-foreground/60 hover:text-foreground hover:bg-white/10 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+        {/* Accent header — only when not scanning */}
+        {!loading && (
+          <div className="relative bg-gradient-to-br from-primary/30 via-orange-500/15 to-transparent p-6 pb-5">
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close"
+              className="absolute top-3 right-3 p-1.5 rounded-lg text-foreground/60 hover:text-foreground hover:bg-white/10 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-3">
-            <Sparkles className="w-3 h-3" />
-            Free · 60 seconds
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-3">
+              <Sparkles className="w-3 h-3" />
+              Free · 60 seconds
+            </div>
+            <h2 id="exit-intent-title" className="text-2xl md:text-3xl font-bold tracking-tight">
+              Wait — get a free{" "}
+              <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
+                AI Readiness scan
+              </span>{" "}
+              of your site.
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              We'll grade your site on AI-search visibility, schema, performance,
+              and conversion signals. Personalized report in your inbox in under
+              a minute.
+            </p>
           </div>
-          <h2 id="exit-intent-title" className="text-2xl md:text-3xl font-bold tracking-tight">
-            Wait — get a free{" "}
-            <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">
-              AI Readiness scan
-            </span>{" "}
-            of your site.
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-            We'll grade your site on AI-search visibility, schema, performance,
-            and conversion signals. Personalized report in your inbox in under
-            a minute.
-          </p>
-        </div>
+        )}
 
-        {/* Form */}
+        {/* Scanning sequence — replaces the form once submitted */}
+        {loading && (
+          <AiScanSequence
+            domain={cleanedDomain || 'your site'}
+            onComplete={() => setAnimationDone(true)}
+          />
+        )}
+
+        {/* Form — only when not scanning */}
+        {!loading && (
         <form onSubmit={handleSubmit} className="p-6 pt-2 space-y-4">
           <div>
             <label htmlFor="ei-email" className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1 block">
@@ -173,7 +214,6 @@ export function ExitIntentAiReadiness() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                disabled={loading}
                 className="w-full pl-10 pr-3 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-sm"
               />
             </div>
@@ -192,7 +232,6 @@ export function ExitIntentAiReadiness() {
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 placeholder="yourdomain.com"
-                disabled={loading}
                 className="w-full pl-10 pr-3 py-2.5 rounded-lg bg-background border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-sm"
               />
             </div>
@@ -202,20 +241,10 @@ export function ExitIntentAiReadiness() {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-base font-bold text-primary-foreground shadow-[0_0_24px_-8px_rgba(255,107,53,0.6)] hover:scale-[1.02] transition-transform disabled:opacity-60 disabled:hover:scale-100"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-base font-bold text-primary-foreground shadow-[0_0_24px_-8px_rgba(255,107,53,0.6)] hover:scale-[1.02] transition-transform"
           >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Starting your scan…
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                Get my free scan
-              </>
-            )}
+            <Sparkles className="w-4 h-4" />
+            Get my free scan
           </button>
 
           <p className="text-xs text-muted-foreground text-center">
@@ -223,6 +252,7 @@ export function ExitIntentAiReadiness() {
             Unsubscribe anytime.
           </p>
         </form>
+        )}
       </div>
     </div>
   )
