@@ -397,6 +397,31 @@
   animation-delay: 400ms;
 }
 
+/* ================================================
+   SECTION-BG: aurora mesh sweep
+   Used by <SectionBg variant="mesh" />
+   ================================================ */
+@keyframes section-mesh-pan {
+  0%   { background-position:   0%   0%, 100% 100%,  50%   0%; }
+  50%  { background-position: 100% 100%,   0%   0%,  50% 100%; }
+  100% { background-position:   0%   0%, 100% 100%,  50%   0%; }
+}
+
+.section-mesh {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(255, 107, 53, 0.20), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(120, 60, 200, 0.22), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(20, 120, 180, 0.18), transparent 65%);
+  background-size: 200% 200%, 200% 200%, 200% 200%;
+  animation: section-mesh-pan 28s ease-in-out infinite;
+  filter: blur(40px) saturate(1.05);
+  will-change: background-position;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-mesh { animation: none; }
+}
+
 .animation-delay-600 {
   animation-delay: 600ms;
 }

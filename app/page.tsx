@@ -25,8 +25,8 @@ import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } fro
 import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
 import LiveActivityTicker from "@/components/live-activity-ticker"
 import TrustStrip from "@/components/trust-strip"
-import FirstCustomerSpotlight from "@/components/first-customer-spotlight"
 import UcpLiveStrip from "@/components/ucp-live-strip"
+import { SectionBg } from "@/components/section-bg"
 
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
@@ -352,12 +352,10 @@ export default function HomePage() {
         {/* Trust strip — infrastructure providers, builds credibility */}
         <TrustStrip />
 
-        {/* First Customer Spotlight — Rob / Outlook Financial Center case study */}
-        <FirstCustomerSpotlight />
-
         {/* Transparent Pricing Section */}
-        <section id="pricing" className="py-20 md:py-28 bg-card/50">
-          <div className="container px-4 md:px-6">
+        <section id="pricing" className="relative overflow-hidden py-20 md:py-28">
+          <SectionBg variant="solid-deep" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6">
                 <DollarSign className="w-4 h-4" />
@@ -541,9 +539,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How We're Different */}
-        <section className="py-20 md:py-28">
-          <div className="container px-4 md:px-6">
+        {/* How We're Different — transparent middle, branded seams (stars show) */}
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <SectionBg variant="seam" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4">
                 How We&apos;re Different
@@ -571,8 +570,9 @@ export default function HomePage() {
         </section>
 
         {/* Services Section */}
-        <section className="py-20 md:py-28 bg-card/50">
-          <div className="container px-4 md:px-6">
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <SectionBg variant="solid-card" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6">
                 <Rocket className="w-4 h-4" />
@@ -617,9 +617,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Powered By Section */}
-        <section className="py-20 md:py-28">
-          <div className="container px-4 md:px-6">
+        {/* Powered By Section — transparent middle, branded seams (stars show) */}
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <SectionBg variant="seam" />
+          <div className="container relative z-10 px-4 md:px-6">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4">Powered By</h2>
               <p className="text-lg text-muted-foreground">
