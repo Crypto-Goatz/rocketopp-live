@@ -275,7 +275,7 @@ export function Navbar() {
                 {servicesMenuOpen && (
                   <div
                     ref={servicesDropdownRef}
-                    className={`fixed top-16 left-0 right-0 pt-2 z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    className={`fixed top-16 left-0 right-0 z-[100] ${servicesAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
                     <div className="relative bg-black border-y border-white/10 shadow-2xl shadow-black/80 overflow-hidden">
@@ -376,7 +376,7 @@ export function Navbar() {
                 {appsMenuOpen && (
                   <div
                     ref={appsDropdownRef}
-                    className={`fixed top-16 left-0 right-0 pt-2 z-[100] ${appsAnimating ? 'menu-enter' : 'menu-exit'}`}
+                    className={`fixed top-16 left-0 right-0 z-[100] ${appsAnimating ? 'menu-enter' : 'menu-exit'}`}
                     onMouseMove={handleMouseMove}
                   >
                     <div className="relative bg-black border-y border-white/10 shadow-2xl shadow-black/80 overflow-hidden">
