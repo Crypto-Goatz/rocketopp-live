@@ -234,8 +234,14 @@ export async function POST(req: NextRequest) {
   }
 
   const session = event.data.object as Stripe.Checkout.Session
-  if (session.metadata?.source !== 'rocketopp-store') {
-    return NextResponse.json({ ok: true, ignored_source: session.metadata?.source })
+  const source = session.metadata?.source
+  // Two recognized sources: rocketopp-store cart purchases AND
+  // rocketopp-order-deposit (the $50 quote-lock from /order wizard).
+  if (
+    source !== 'rocketopp-store' &&
+    source !== 'rocketopp-order-deposit'
+  ) {
+    return NextResponse.json({ ok: true, ignored_source: source })
   }
 
   const email =
@@ -243,8 +249,66 @@ export async function POST(req: NextRequest) {
   if (!email) {
     return NextResponse.json({ error: 'no email on session' }, { status: 400 })
   }
-  const name = session.customer_details?.name || undefined
+  const name =
+    session.customer_details?.name || session.metadata?.contact_name || undefined
 
+  const pit = pickPit()
+  if (!pit) {
+    console.error('[stripe-store webhook] no CRM PIT available')
+    return NextResponse.json({ error: 'CRM not configured' }, { status: 500 })
+  }
+
+  const contactId = await upsertContact(email, name, pit)
+  if (!contactId) {
+    return NextResponse.json({ error: 'CRM upsert failed' }, { status: 500 })
+  }
+
+  const amount = session.amount_total ?? 0
+  const amountFormatted = formatUsd(amount, session.currency || 'usd')
+
+  // Branch 1: order deposit — quote-lock + book kickoff
+  if (source === 'rocketopp-order-deposit') {
+    const meta = session.metadata || {}
+    const serviceSlugs = (meta.service_slugs || '').split(',').filter(Boolean)
+    const crmTags = (meta.crm_tags || '').split(',').filter(Boolean)
+    const orderId = meta.order_id || ''
+
+    await addTags(contactId, crmTags, pit)
+    await setCustomFields(
+      contactId,
+      [
+        { key: 'last_deposit_date', value: new Date().toISOString() },
+        { key: 'last_deposit_amount', value: amountFormatted },
+        { key: 'rocketopp_order_id', value: orderId },
+        { key: 'quote_services', value: serviceSlugs.join(', ') },
+        { key: 'quote_one_time', value: meta.quote_one_time_label || '' },
+        { key: 'quote_recurring', value: meta.quote_recurring_label || '' },
+        { key: 'contact_company', value: meta.contact_company || '' },
+        { key: 'contact_phone', value: meta.contact_phone || '' },
+        { key: 'contact_industry', value: meta.contact_industry || '' },
+        { key: 'contact_timeline', value: meta.contact_timeline || '' },
+        { key: 'stripe_session_id', value: session.id },
+      ],
+      pit,
+    )
+    await sendDepositThankYouEmail(
+      contactId,
+      orderId,
+      meta.quote_one_time_label || '',
+      meta.quote_recurring_label || '',
+      pit,
+    )
+
+    return NextResponse.json({
+      ok: true,
+      flow: 'order-deposit',
+      contact_id: contactId,
+      order_id: orderId,
+      tagged: crmTags.length,
+    })
+  }
+
+  // Branch 2: cart purchase (existing behavior)
   const cartItems = parseCartItems(session.metadata?.cart_items)
   const productNames = cartItems
     .map((c) => PRODUCTS.find((p) => p.slug === c.slug)?.name || c.slug)
@@ -257,20 +321,6 @@ export async function POST(req: NextRequest) {
     `purchase-mode-${session.mode || 'unknown'}`,
     ...cartItems.map((c) => c.tag).filter(Boolean),
   ]
-
-  const amount = session.amount_total ?? 0
-  const amountFormatted = formatUsd(amount, session.currency || 'usd')
-
-  const pit = pickPit()
-  if (!pit) {
-    console.error('[stripe-store webhook] no CRM PIT available')
-    return NextResponse.json({ error: 'CRM not configured' }, { status: 500 })
-  }
-
-  const contactId = await upsertContact(email, name, pit)
-  if (!contactId) {
-    return NextResponse.json({ error: 'CRM upsert failed' }, { status: 500 })
-  }
 
   await addTags(contactId, baseTags, pit)
   await setCustomFields(
@@ -289,8 +339,60 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
+    flow: 'cart-purchase',
     contact_id: contactId,
     tagged: baseTags.length,
     items: productNames.length,
   })
+}
+
+async function sendDepositThankYouEmail(
+  contactId: string,
+  orderId: string,
+  oneTimeLabel: string,
+  recurringLabel: string,
+  pit: string,
+) {
+  const bookingUrl = process.env.CRM_KICKOFF_BOOKING_URL || ''
+  const subject = `Your kickoff is reserved — pick a time on Mike's calendar`
+  const lines = [
+    `<p>Your $50 deposit is in. We've locked your quote for the next 30 days.</p>`,
+    oneTimeLabel || recurringLabel
+      ? `<p><strong>Your locked quote:</strong></p>` +
+        `<ul>` +
+        (oneTimeLabel && oneTimeLabel !== '$0'
+          ? `<li>One-time build: ${oneTimeLabel}</li>`
+          : '') +
+        (recurringLabel && recurringLabel !== '$0'
+          ? `<li>Monthly retainer: ${recurringLabel}/mo</li>`
+          : '') +
+        `</ul>`
+      : '',
+    bookingUrl
+      ? `<p><strong>Book your 30-minute kickoff with Mike:</strong><br/><a href="${bookingUrl}">${bookingUrl}</a></p>`
+      : `<p>Mike will email you in the next hour with a direct link to his calendar.</p>`,
+    `<p><strong>Order ID:</strong> ${orderId}</p>`,
+    `<p>Reply to this email any time — it lands in our queue.</p>`,
+    `<p>— Mike</p>`,
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  await fetch(`${CRM_BASE}/conversations/messages`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${pit}`,
+      Version: CRM_VERSION,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      type: 'Email',
+      contactId,
+      subject,
+      html: lines,
+      message: `Your $50 deposit is in. ${bookingUrl ? `Book here: ${bookingUrl}` : "Mike will email you with a calendar link."} Order: ${orderId}.`,
+    }),
+  }).catch((e) =>
+    console.error('[stripe-store webhook] deposit email failed', e),
+  )
 }
