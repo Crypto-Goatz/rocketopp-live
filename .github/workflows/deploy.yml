@@ -50,7 +50,10 @@ jobs:
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        # Lockfile is intentionally loose for this repo (React 19 peer-dep
+        # gymnastics). `npm ci` fails on missing entries; `npm install`
+        # tolerates the drift and matches the repo's local-dev pattern.
+        run: npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Build with Vercel CLI
         run: |
