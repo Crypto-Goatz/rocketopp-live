@@ -38,7 +38,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+
+      - name: Enable corepack (pnpm support)
+        # Repo has pnpm-lock.yaml so Vercel CLI invokes pnpm during build.
+        # corepack ships with Node 20+ and provisions pnpm on demand.
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -50,10 +57,8 @@ jobs:
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install dependencies
-        # Lockfile is intentionally loose for this repo (React 19 peer-dep
-        # gymnastics). `npm ci` fails on missing entries; `npm install`
-        # tolerates the drift and matches the repo's local-dev pattern.
-        run: npm install --legacy-peer-deps --no-audit --no-fund
+        # Use pnpm to honor the lockfile (matches what Vercel CLI expects).
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build with Vercel CLI
         run: |
