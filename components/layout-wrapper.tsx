@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation"
 import Navbar from "./navbar"
 import { SpaceBackground } from "./space-background"
+import { CartDrawer } from "./cart/cart-drawer"
 
 const HIDDEN_ROUTES = [
   "/dashboard",
@@ -26,6 +27,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <SpaceBackground />
       <Navbar />
       <main className="pt-16">{children}</main>
+      <CartDrawer />
     </>
   )
 }

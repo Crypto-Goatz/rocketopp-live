@@ -16,6 +16,7 @@ import {
   ShieldCheck, TrendingUp
 } from "lucide-react"
 import { useState, useEffect, useRef, useCallback } from "react"
+import { CartButton } from "@/components/cart/cart-button"
 
 interface UserData {
   id: string
@@ -510,7 +511,8 @@ export function Navbar() {
             </div>
 
             {/* CTA / Auth */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3">
+              <CartButton />
               {loading ? (
                 <div className="w-20 h-9 bg-muted animate-pulse rounded-md" />
               ) : user ? (
@@ -544,13 +546,17 @@ export function Navbar() {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden p-2 text-muted-foreground hover:text-foreground"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile cart + menu */}
+            <div className="lg:hidden flex items-center gap-1">
+              <CartButton />
+              <button
+                className="p-2 text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu */}
