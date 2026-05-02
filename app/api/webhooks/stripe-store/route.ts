@@ -132,29 +132,78 @@ async function setCustomFields(
   }).catch((e) => console.error('[stripe-store webhook] customFields failed', e))
 }
 
+// Sender identity used on every customer-facing email out of this webhook.
+const MIKE_EMAIL = process.env.MIKE_FROM_EMAIL || 'mike@rocketopp.com'
+const MIKE_NAME = process.env.MIKE_FROM_NAME || 'Mike Mento'
+const ROCKETAPPOINTMENTS_URL =
+  process.env.ROCKETAPPOINTMENTS_URL || 'https://rocketappointments.com'
+
+function emailShell(innerHtml: string): string {
+  // Branded HTML wrapper — dark background, orange accents, mobile-safe.
+  return [
+    `<div style="background:#0a0a0f;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;color:#e8e8ed;">`,
+    `  <div style="max-width:560px;margin:0 auto;background:#15161e;border:1px solid #25262d;border-radius:14px;overflow:hidden;">`,
+    `    <div style="padding:24px 28px;border-bottom:1px solid #25262d;background:linear-gradient(135deg,#ff6b35 0%,#ff8a35 50%,#ff6b35 100%);">`,
+    `      <h1 style="margin:0;font-size:20px;line-height:1.2;font-weight:800;color:#0a0a0f;">RocketOpp</h1>`,
+    `      <p style="margin:4px 0 0;font-size:12px;color:#0a0a0f;opacity:0.85;letter-spacing:0.04em;text-transform:uppercase;">An 0n Company</p>`,
+    `    </div>`,
+    `    <div style="padding:28px;font-size:15px;line-height:1.6;color:#e8e8ed;">${innerHtml}</div>`,
+    `    <div style="padding:18px 28px;background:#0d0e15;border-top:1px solid #25262d;font-size:12px;color:#888;line-height:1.5;">`,
+    `      RocketOpp LLC · Reply directly to this email — it lands in Mike's inbox.<br/>`,
+    `      <a href="https://rocketopp.com" style="color:#ff8a35;text-decoration:none;">rocketopp.com</a> · `,
+    `      <a href="${ROCKETAPPOINTMENTS_URL}" style="color:#ff8a35;text-decoration:none;">rocketappointments.com</a>`,
+    `    </div>`,
+    `  </div>`,
+    `</div>`,
+  ].join('\n')
+}
+
+function ctaButton(href: string, label: string): string {
+  return [
+    `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0;">`,
+    `  <tr><td style="background:#ff6b35;border-radius:10px;">`,
+    `    <a href="${href}" style="display:inline-block;padding:14px 28px;color:#0a0a0f;font-weight:800;font-size:16px;text-decoration:none;letter-spacing:0.01em;">${label} →</a>`,
+    `  </td></tr>`,
+    `</table>`,
+  ].join('')
+}
+
 async function sendThankYouEmail(
   contactId: string,
   productNames: string[],
   amountFormatted: string,
   pit: string,
 ) {
-  const subject = `Thanks for your RocketOpp order — we start today`
-  const lines = [
+  const subject = `Your RocketOpp order is in — let's book the kickoff`
+
+  const itemsHtml = productNames
+    .map(
+      (n) =>
+        `<li style="margin:6px 0;color:#e8e8ed;"><strong style="color:#fff;">${n}</strong></li>`,
+    )
+    .join('')
+
+  const innerHtml = [
     `<p>Hey,</p>`,
-    `<p>Order confirmed — thank you for choosing RocketOpp.</p>`,
-    `<p><strong>What you bought:</strong></p>`,
-    `<ul>${productNames.map((n) => `<li>${n}</li>`).join('')}</ul>`,
-    `<p><strong>Total:</strong> ${amountFormatted}</p>`,
-    `<p><strong>What happens next:</strong></p>`,
-    `<ol>`,
-    `<li>Mike reviews your order today.</li>`,
-    `<li>You'll get a kickoff email with intake questions within 24 hours.</li>`,
-    `<li>Build starts. Every product has a published delivery window we hit.</li>`,
-    `</ol>`,
-    `<p>Reply to this email any time — it lands directly in our queue.</p>`,
-    `<p>— Mike + the RocketOpp team</p>`,
-  ]
-  const html = lines.join('\n')
+    `<p>Thanks for putting your trust in us. Your order is confirmed and we're ready to start.</p>`,
+    `<p style="margin-top:20px;font-weight:700;color:#fff;">Here's everything in your setup:</p>`,
+    `<ul style="padding-left:20px;margin:8px 0 18px;">${itemsHtml}</ul>`,
+    `<p style="font-size:14px;color:#a8a8b0;"><strong style="color:#fff;">Total charged:</strong> ${amountFormatted}</p>`,
+    `<hr style="border:none;border-top:1px solid #25262d;margin:24px 0;">`,
+    `<p style="font-weight:700;color:#fff;font-size:16px;">Now let's lock the kickoff.</p>`,
+    `<p>Pick a 30-minute slot that works for you. We'll walk through your setup, lock the build phases, and answer any questions:</p>`,
+    ctaButton(ROCKETAPPOINTMENTS_URL, 'Book the kickoff call'),
+    `<p style="font-size:14px;color:#a8a8b0;">Once we're on the call, the build starts the same business day.</p>`,
+    `<p style="margin-top:24px;">Talk soon,<br/><strong style="color:#fff;">Mike Mento</strong><br/><span style="color:#a8a8b0;">Founder, RocketOpp</span></p>`,
+  ].join('\n')
+
+  const html = emailShell(innerHtml)
+  const message =
+    `Your RocketOpp order is in.\n\n` +
+    `Setup:\n${productNames.map((n) => `- ${n}`).join('\n')}\n\n` +
+    `Total: ${amountFormatted}\n\n` +
+    `Book your kickoff: ${ROCKETAPPOINTMENTS_URL}\n\n` +
+    `— Mike Mento, Founder, RocketOpp`
 
   await fetch(`${CRM_BASE}/conversations/messages`, {
     method: 'POST',
@@ -168,7 +217,9 @@ async function sendThankYouEmail(
       contactId,
       subject,
       html,
-      message: `Order confirmed — thank you for choosing RocketOpp.\n\nWhat you bought:\n${productNames.map((n) => `- ${n}`).join('\n')}\n\nTotal: ${amountFormatted}\n\nMike reviews your order today.\n— RocketOpp`,
+      message,
+      fromEmail: MIKE_EMAIL,
+      fromName: MIKE_NAME,
     }),
   }).catch((e) => console.error('[stripe-store webhook] email failed', e))
 }
@@ -294,10 +345,26 @@ export async function POST(req: NextRequest) {
     await sendDepositThankYouEmail(
       contactId,
       orderId,
+      serviceSlugs,
       meta.quote_one_time_label || '',
       meta.quote_recurring_label || '',
       pit,
     )
+
+    // Notify Mike (Slack + CRM email if configured)
+    await notifyMike({
+      kind: 'order-deposit',
+      customerEmail: email,
+      customerName: name,
+      customerCompany: meta.contact_company || undefined,
+      amountFormatted,
+      itemSummary: serviceSlugs.join(', ') || '(none listed)',
+      orderId,
+      oneTimeLabel: meta.quote_one_time_label,
+      recurringLabel: meta.quote_recurring_label,
+      pit,
+      stripeSessionId: session.id,
+    })
 
     return NextResponse.json({
       ok: true,
@@ -337,6 +404,17 @@ export async function POST(req: NextRequest) {
   await sendThankYouEmail(contactId, productNames, amountFormatted, pit)
   await maybeEnroll0nFlow(email, contactId, productSlugs, amountFormatted)
 
+  // Notify Mike (Slack + CRM email if configured)
+  await notifyMike({
+    kind: 'cart-purchase',
+    customerEmail: email,
+    customerName: name,
+    amountFormatted,
+    itemSummary: productNames.join(', ') || '(none)',
+    pit,
+    stripeSessionId: session.id,
+  })
+
   return NextResponse.json({
     ok: true,
     flow: 'cart-purchase',
@@ -349,34 +427,65 @@ export async function POST(req: NextRequest) {
 async function sendDepositThankYouEmail(
   contactId: string,
   orderId: string,
+  serviceSlugs: string[],
   oneTimeLabel: string,
   recurringLabel: string,
   pit: string,
 ) {
-  const bookingUrl = process.env.CRM_KICKOFF_BOOKING_URL || ''
-  const subject = `Your kickoff is reserved — pick a time on Mike's calendar`
-  const lines = [
-    `<p>Your $50 deposit is in. We've locked your quote for the next 30 days.</p>`,
-    oneTimeLabel || recurringLabel
-      ? `<p><strong>Your locked quote:</strong></p>` +
-        `<ul>` +
-        (oneTimeLabel && oneTimeLabel !== '$0'
-          ? `<li>One-time build: ${oneTimeLabel}</li>`
-          : '') +
-        (recurringLabel && recurringLabel !== '$0'
-          ? `<li>Monthly retainer: ${recurringLabel}/mo</li>`
-          : '') +
-        `</ul>`
+  const subject = `Deposit received — let's book your kickoff at RocketAppointments`
+
+  // Resolve slugs → product/service names
+  const allCatalog = await loadServiceCatalog()
+  const items = serviceSlugs.map((slug) => {
+    const s = allCatalog[slug]
+    return s ? s.name : slug
+  })
+  const itemsHtml =
+    items.length > 0
+      ? `<ul style="padding-left:20px;margin:8px 0 18px;">${items
+          .map(
+            (n) =>
+              `<li style="margin:6px 0;"><strong style="color:#fff;">${n}</strong></li>`,
+          )
+          .join('')}</ul>`
+      : ''
+
+  const totalsHtml = [
+    oneTimeLabel && oneTimeLabel !== '$0'
+      ? `<tr><td style="padding:6px 0;color:#a8a8b0;">One-time build</td><td style="padding:6px 0;text-align:right;font-weight:700;color:#fff;">${oneTimeLabel}</td></tr>`
       : '',
-    bookingUrl
-      ? `<p><strong>Book your 30-minute kickoff with Mike:</strong><br/><a href="${bookingUrl}">${bookingUrl}</a></p>`
-      : `<p>Mike will email you in the next hour with a direct link to his calendar.</p>`,
-    `<p><strong>Order ID:</strong> ${orderId}</p>`,
-    `<p>Reply to this email any time — it lands in our queue.</p>`,
-    `<p>— Mike</p>`,
+    recurringLabel && recurringLabel !== '$0'
+      ? `<tr><td style="padding:6px 0;color:#a8a8b0;">Monthly retainer</td><td style="padding:6px 0;text-align:right;font-weight:700;color:#ff8a35;">${recurringLabel}/mo</td></tr>`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('')
+
+  const innerHtml = [
+    `<p>Your <strong style="color:#fff;">$50 refundable deposit</strong> is in. We've locked your quote for the next 30 days.</p>`,
+    `<p style="margin-top:20px;font-weight:700;color:#fff;">Your locked setup:</p>`,
+    itemsHtml,
+    totalsHtml
+      ? `<table style="width:100%;border-collapse:collapse;margin:18px 0;">${totalsHtml}</table>`
+      : '',
+    `<hr style="border:none;border-top:1px solid #25262d;margin:24px 0;">`,
+    `<p style="font-weight:700;color:#fff;font-size:16px;">Book your 30-minute kickoff.</p>`,
+    `<p>We walk through your AI brief, confirm sequencing, and start work the same day.</p>`,
+    ctaButton(ROCKETAPPOINTMENTS_URL, 'Book at RocketAppointments'),
+    `<p style="font-size:13px;color:#a8a8b0;">Order ID: <code style="color:#ff8a35;">${orderId}</code></p>`,
+    `<p style="margin-top:24px;">Talk soon,<br/><strong style="color:#fff;">Mike Mento</strong><br/><span style="color:#a8a8b0;">Founder, RocketOpp</span></p>`,
   ]
     .filter(Boolean)
     .join('\n')
+
+  const html = emailShell(innerHtml)
+  const message =
+    `Your $50 deposit is in. Locked for 30 days.\n\n` +
+    (items.length > 0 ? `Setup:\n${items.map((n) => `- ${n}`).join('\n')}\n\n` : '') +
+    (oneTimeLabel && oneTimeLabel !== '$0' ? `One-time build: ${oneTimeLabel}\n` : '') +
+    (recurringLabel && recurringLabel !== '$0' ? `Monthly retainer: ${recurringLabel}/mo\n` : '') +
+    `\nBook the kickoff: ${ROCKETAPPOINTMENTS_URL}\n\n` +
+    `Order: ${orderId}\n— Mike Mento, Founder, RocketOpp`
 
   await fetch(`${CRM_BASE}/conversations/messages`, {
     method: 'POST',
@@ -389,10 +498,112 @@ async function sendDepositThankYouEmail(
       type: 'Email',
       contactId,
       subject,
-      html: lines,
-      message: `Your $50 deposit is in. ${bookingUrl ? `Book here: ${bookingUrl}` : "Mike will email you with a calendar link."} Order: ${orderId}.`,
+      html,
+      message,
+      fromEmail: MIKE_EMAIL,
+      fromName: MIKE_NAME,
     }),
   }).catch((e) =>
     console.error('[stripe-store webhook] deposit email failed', e),
   )
+}
+
+// Lazy-load the services catalog so this route doesn't pull react/zustand.
+async function loadServiceCatalog(): Promise<Record<string, { name: string }>> {
+  const { SERVICES } = await import('@/lib/order/services-catalog')
+  const map: Record<string, { name: string }> = {}
+  for (const s of SERVICES) map[s.slug] = { name: s.name }
+  return map
+}
+
+/**
+ * Notify Mike on every purchase + deposit.
+ *
+ * Two channels, both optional — the function falls through gracefully:
+ *
+ *   1. Slack — if MIKE_NOTIFY_SLACK_WEBHOOK is set, POST a formatted
+ *      message to that incoming-webhook URL. Instant, mobile-push.
+ *   2. Email — if MIKE_NOTIFY_CONTACT_ID is set, send through CRM
+ *      Conversations to that contact. Email lands wherever the contact
+ *      is configured. Persistent record in CRM.
+ *
+ * The function never throws. Failure on either channel is logged but
+ * does not block the customer-facing thank-you path.
+ */
+async function notifyMike(opts: {
+  kind: 'cart-purchase' | 'order-deposit'
+  customerEmail: string
+  customerName?: string
+  customerCompany?: string
+  amountFormatted: string
+  itemSummary: string
+  orderId?: string
+  oneTimeLabel?: string
+  recurringLabel?: string
+  pit: string
+  stripeSessionId: string
+}) {
+  const headline =
+    opts.kind === 'order-deposit'
+      ? `💰 New $50 deposit — ${opts.customerEmail}`
+      : `🚀 New purchase ${opts.amountFormatted} — ${opts.customerEmail}`
+
+  const lines: string[] = [
+    headline,
+    '',
+    `*Customer:* ${opts.customerName || '(no name)'} <${opts.customerEmail}>`,
+    opts.customerCompany ? `*Company:* ${opts.customerCompany}` : '',
+    `*Setup:* ${opts.itemSummary}`,
+    opts.oneTimeLabel && opts.oneTimeLabel !== '$0'
+      ? `*One-time:* ${opts.oneTimeLabel}`
+      : '',
+    opts.recurringLabel && opts.recurringLabel !== '$0'
+      ? `*Recurring:* ${opts.recurringLabel}/mo`
+      : '',
+    opts.orderId ? `*Order:* ${opts.orderId}` : '',
+    `*Stripe:* https://dashboard.stripe.com/payments/${opts.stripeSessionId}`,
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  // Slack path
+  const slackUrl = process.env.MIKE_NOTIFY_SLACK_WEBHOOK
+  if (slackUrl) {
+    await fetch(slackUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: lines }),
+    }).catch((e) =>
+      console.error('[notifyMike] slack failed:', e instanceof Error ? e.message : e),
+    )
+  }
+
+  // Email path — sends through CRM to a configured Mike contact
+  const mikeContactId = process.env.MIKE_NOTIFY_CONTACT_ID
+  if (mikeContactId) {
+    const subject = headline
+    const html = emailShell(
+      `<pre style="white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:13px;color:#e8e8ed;background:#0a0a0f;padding:16px;border-radius:8px;border:1px solid #25262d;">${lines.replace(/</g, '&lt;')}</pre>` +
+        `<p style="margin-top:18px;font-size:13px;color:#a8a8b0;">Auto-fired by /api/webhooks/stripe-store on RocketOpp.com.</p>`,
+    )
+    await fetch(`${CRM_BASE}/conversations/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${opts.pit}`,
+        Version: CRM_VERSION,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'Email',
+        contactId: mikeContactId,
+        subject,
+        html,
+        message: lines,
+        fromEmail: 'noreply@rocketopp.com',
+        fromName: 'RocketOpp Notifications',
+      }),
+    }).catch((e) =>
+      console.error('[notifyMike] CRM email failed:', e instanceof Error ? e.message : e),
+    )
+  }
 }
