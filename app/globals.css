@@ -71,6 +71,52 @@
   }
 }
 
+/* ──────────────────────────────────────────────────────────────────────
+   PER-SERVICE ACCENT COLOR SCOPE
+   ──────────────────────────────────────────────────────────────────────
+   Each service has its own accent (set on the navbar dropdown icons +
+   /store cards). When a /services/<slug> page mounts, <ServiceAccentScope>
+   adds [data-service-accent="<color>"] to a wrapping div. Tailwind utilities
+   that use --primary (text-primary, bg-primary, border-primary, ring-primary)
+   automatically retheme to the per-service color inside this scope.
+   ────────────────────────────────────────────────────────────────────── */
+[data-service-accent="orange"] {
+  --primary: 16 100% 60%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 16 100% 60%;
+  --service-accent-rgb: 255 107 53;
+}
+[data-service-accent="cyan"] {
+  --primary: 192 100% 50%;
+  --primary-foreground: 220 20% 8%;
+  --ring: 192 100% 50%;
+  --service-accent-rgb: 0 212 255;
+}
+[data-service-accent="green"] {
+  --primary: 99 64% 60%;
+  --primary-foreground: 220 20% 8%;
+  --ring: 99 64% 60%;
+  --service-accent-rgb: 126 217 87;
+}
+[data-service-accent="violet"] {
+  --primary: 257 92% 73%;
+  --primary-foreground: 220 20% 8%;
+  --ring: 257 92% 73%;
+  --service-accent-rgb: 167 139 250;
+}
+[data-service-accent="amber"] {
+  --primary: 43 96% 56%;
+  --primary-foreground: 220 20% 8%;
+  --ring: 43 96% 56%;
+  --service-accent-rgb: 251 191 36;
+}
+[data-service-accent="red"] {
+  --primary: 0 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 0 84% 67%;
+  --service-accent-rgb: 251 113 133;
+}
+
 @layer base {
   * {
     @apply border-border;

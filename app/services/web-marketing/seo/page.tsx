@@ -1,88 +1,60 @@
 import type { Metadata } from "next"
-import Footer from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { Search, CheckCircle, TrendingUp } from "lucide-react"
+import { Search } from "lucide-react"
+import { ServicePageTemplate } from "@/components/order/service-page-template"
 
 export const metadata: Metadata = {
-  title: "SEO Optimization Services | Rocket Opp",
+  title: "SEO Optimization Services — RocketOpp",
   description:
-    "Boost your search engine rankings and drive organic traffic with Rocket Opp's expert SEO services, including audits, keyword research, on-page, technical, and local SEO.",
+    "Traditional SEO that still moves the needle: keyword research, on-page, technical, local. Monthly retainer starting at $797/mo. Audits, content, and link building included.",
+  alternates: { canonical: "https://rocketopp.com/services/web-marketing/seo" },
 }
-
-const seoServices = [
-  {
-    title: "Comprehensive SEO Audits",
-    description: "In-depth analysis of your site's current SEO performance to identify strengths and weaknesses.",
-  },
-  {
-    title: "Keyword Research & Strategy",
-    description: "Identifying high-traffic, relevant keywords and crafting a plan to rank for them.",
-  },
-  {
-    title: "On-Page SEO Optimization",
-    description: "Optimizing content, meta tags, and internal linking for better visibility and usability.",
-  },
-  {
-    title: "Technical SEO",
-    description:
-      "Ensuring your site meets search engine technical requirements, including speed and mobile-friendliness.",
-  },
-  {
-    title: "Local SEO",
-    description: "Boosting visibility in local search results for businesses serving specific geographic areas.",
-  },
-  {
-    title: "Link Building",
-    description: "Acquiring high-quality backlinks from authoritative sites to boost domain authority.",
-  },
-]
 
 export default function SeoPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-grow">
-        <section className="py-12 md:py-16 bg-primary/5 dark:bg-primary/10">
-          <div className="container text-center">
-            <Search className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">Search Engine Optimization (SEO)</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Unlock the power of organic search. Rocket Opp's SEO services enhance your visibility, drive targeted
-              traffic, and increase conversions.
-            </p>
-          </div>
-        </section>
-
-        <section className="py-12 md:py-16">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Our SEO Services Include:</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {seoServices.map((service) => (
-                <div key={service.title} className="p-6 bg-card rounded-lg shadow-lg">
-                  <CheckCircle className="h-8 w-8 text-green-500 mb-3" />
-                  <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                  <p className="text-sm text-muted-foreground">{service.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12 md:py-16 bg-muted/50 dark:bg-muted/20">
-          <div className="container text-center">
-            <TrendingUp className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-6">Why SEO is Essential</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Increased visibility, cost-effective marketing, building trust and credibility, and achieving long-term
-              sustainable results are key benefits of a strong SEO strategy.
-            </p>
-            <Button asChild size="lg">
-              <Link href="/#contact?service=seo-audit">Request an SEO Audit</Link>
-            </Button>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
+    <ServicePageTemplate
+      slug="web-marketing-seo"
+      Icon={Search}
+      headline="SEO that ranks. Period."
+      subhead="Keyword research, on-page, technical, local — done by humans who actually know what they're doing, ramped by AI to move 4x faster."
+      longDescription="Most agencies will sell you 'SEO' and hand you a spreadsheet of keywords no one searches for. We focus on the queries your buyers actually type, fix the technical debt that's holding you back, and ship content + links every month. You get a monthly report you can read in 5 minutes — what we did, what moved, what's next. No fluff. If you'd rather skip traditional SEO and jump to SXO (the AI-search-aware version), we'll route you there instead."
+      features={[
+        "Comprehensive technical audit (Core Web Vitals, crawl, schema)",
+        "Keyword research with intent + difficulty scoring",
+        "On-page optimization across your top 20 pages",
+        "Internal-linking strategy + topic clusters",
+        "Local SEO (Google Business Profile, citations, reviews)",
+        "Monthly link building (white-hat outreach + digital PR)",
+        "Monthly written report — what moved, what's next",
+        "Slack channel for direct access (no ticket queues)",
+      ]}
+      outcomes={[
+        "Average +47% organic traffic within 90 days on the keywords we target",
+        "Top-10 placements on commercial intent queries that drive revenue",
+        "Page-load + Core Web Vitals consistently above the green threshold",
+        "GSC + GA4 dashboards you can read without us in the room",
+      ]}
+      faqs={[
+        {
+          q: "Why do you offer SEO if SXO is the future?",
+          a: "Because not every client is ready to rebuild for AI search. Traditional SEO still drives 60-80% of search traffic for most industries. We meet you where you are — and when you're ready, we route you to SXO seamlessly.",
+        },
+        {
+          q: "How long until I see results?",
+          a: "Technical fixes show up in 2-4 weeks. Content + ranking lift starts at 60-90 days. Anyone promising you faster than that is either lying or buying spammy backlinks that'll hurt you in 6 months.",
+        },
+        {
+          q: "Do you guarantee rankings?",
+          a: "No, and you should run from anyone who does. We guarantee the work — audits, content, links, optimization — and we report on what's working. Google and AI engines decide the rankings.",
+        },
+        {
+          q: "What's the contract like?",
+          a: "Month-to-month. No long-term lock-in. Cancel any time. Most clients stay 12+ months because the compounding actually works, but you're not stuck.",
+        },
+        {
+          q: "Can I just buy a one-time audit?",
+          a: "Yes — that's our $1,997 SEO Audit + Roadmap. You get the full technical + content audit, a 90-day prioritized roadmap, and a 30-min call to walk through it. Many clients use this to validate they want a retainer first. Add it through the order wizard.",
+        },
+      ]}
+    />
   )
 }

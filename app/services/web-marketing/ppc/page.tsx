@@ -1,105 +1,60 @@
 import type { Metadata } from "next"
-import Footer from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { BarChart2, Target, DollarSign, CheckCircle } from "lucide-react"
+import { BarChart3 } from "lucide-react"
+import { ServicePageTemplate } from "@/components/order/service-page-template"
 
 export const metadata: Metadata = {
-  title: "PPC Advertising Services | Rocket Opp",
+  title: "PPC Management — Google, Meta, LinkedIn Ads — RocketOpp",
   description:
-    "Maximize your ROI with Rocket Opp's expert Pay-Per-Click (PPC) management for Google Ads, Facebook Ads, and more. Drive targeted traffic and generate leads.",
+    "AI-managed paid ads on Google, Meta, and LinkedIn. CRO9-optimized landing pages. Real ROI tracking, weekly reports. Starting at $797/mo management fee.",
+  alternates: { canonical: "https://rocketopp.com/services/web-marketing/ppc" },
 }
-
-const ppcPlatforms = [
-  {
-    name: "Google Ads",
-    description: "Search, Display, Shopping, Video, and Remarketing campaigns to reach high-intent users.",
-  },
-  {
-    name: "Facebook & Instagram Ads",
-    description: "Advanced audience targeting and diverse ad formats to engage users on social media.",
-  },
-  { name: "LinkedIn Ads", description: "Ideal for B2B marketing, reaching professionals and decision-makers." },
-  {
-    name: "Other Platforms",
-    description: "Campaigns on platforms like X (Twitter), Pinterest, and TikTok based on your audience.",
-  },
-]
 
 export default function PpcPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-grow">
-        <section
-          className="py-12 md:py-16 bg-primary/5 dark:bg-primary/10 relative"
-          style={{
-            backgroundImage: "url(/photorealistic-astronaut-managing-ppc-campaigns.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="absolute inset-0 bg-background/85" />
-          <div className="container text-center relative z-10">
-            <BarChart2 className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">Pay-Per-Click (PPC) Advertising</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Supercharge your growth with Rocket Opp's expert PPC management. We create targeted campaigns that deliver
-              immediate results and maximize your return on investment.
-            </p>
-          </div>
-        </section>
-
-        <section className="py-12 md:py-16">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Benefits of PPC with Rocket Opp</h2>
-            <div className="grid md:grid-cols-3 gap-8 text-center">
-              {[
-                {
-                  title: "Immediate Results",
-                  icon: <Target className="h-10 w-10 text-primary" />,
-                  description: "Drive traffic as soon as your ads go live.",
-                },
-                {
-                  title: "Precise Targeting",
-                  icon: <DollarSign className="h-10 w-10 text-primary" />,
-                  description: "Reach specific demographics, locations, and interests.",
-                },
-                {
-                  title: "Cost Control & Measurable ROI",
-                  icon: <CheckCircle className="h-10 w-10 text-primary" />,
-                  description: "Manage your budget effectively and track every conversion.",
-                },
-              ].map((benefit) => (
-                <div key={benefit.title} className="p-6 bg-card rounded-lg shadow-lg">
-                  <div className="flex justify-center mb-3">{benefit.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12 md:py-16 bg-muted/50 dark:bg-muted/20">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-10">Platforms We Manage</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {ppcPlatforms.map((platform) => (
-                <div key={platform.name} className="p-6 bg-card rounded-lg shadow">
-                  <h3 className="text-xl font-semibold text-primary mb-2">{platform.name}</h3>
-                  <p className="text-sm text-muted-foreground">{platform.description}</p>
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-12">
-              <Button asChild size="lg">
-                <Link href="/#contact?service=ppc-management">Optimize Your Ad Spend</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
+    <ServicePageTemplate
+      slug="web-marketing-ppc"
+      Icon={BarChart3}
+      headline="Paid ads, run by an AI that doesn't sleep."
+      subhead="Single-platform PPC management starting at $797/mo. We handle Google, Meta, or LinkedIn — pick one, scale when ready."
+      longDescription="This is the lean version of our PPC service: one platform, dialed in. Most businesses don't need the full multi-platform bundle on day one — they need ONE channel that's actually profitable. Our AI manages bids and budgets in real time. CRO9 tests landing-page variants automatically. You get a weekly Slack message with what changed and what to do next. The day your CAC drops below your target, we tell you to spend more. The day it spikes, we tell you to pause."
+      features={[
+        "Choose one platform: Google, Meta (Facebook + Instagram), or LinkedIn",
+        "AI bid management + automatic budget reallocation",
+        "CRO9 landing-page A/B testing per campaign",
+        "GA4 + Meta Pixel + LinkedIn Insight tracking setup",
+        "Audience research + persona-based segmentation",
+        "Creative refresh every 2 weeks (image, copy, hook)",
+        "Weekly Slack ROI report with do/don't recommendations",
+        "Direct access to your ad ops team — no account managers in the way",
+      ]}
+      outcomes={[
+        "Most clients see CAC drop 25-40% within the first 60 days",
+        "Best-performing creative + audience pair surfaced by AI in week 1",
+        "Real revenue attribution (not last-click) tied to GA4 conversions",
+        "Spend levels you can defend to your CFO with one screenshot",
+      ]}
+      faqs={[
+        {
+          q: "Is the ad spend included?",
+          a: "No — the $797/mo is management. Ad spend is paid directly to Google/Meta/LinkedIn from your account. Most clients run $2-10K/mo in ad spend.",
+        },
+        {
+          q: "What's the minimum ad spend?",
+          a: "$2,000/mo is recommended for meaningful data within 30 days. Below that, the algorithm doesn't have enough signal to optimize. No hard minimum — we'll work with whatever budget you bring.",
+        },
+        {
+          q: "Which platform should I start with?",
+          a: "Depends on your audience. B2B SaaS → LinkedIn or Google. B2C / e-commerce → Meta. Local services → Google + Meta. We'll tell you on the kickoff call which platform fits your customer.",
+        },
+        {
+          q: "Can I add more platforms later?",
+          a: "Yes — we have an Add platform option in the order wizard ($500/mo for each additional platform), or you can upgrade to the full PPC & Paid Ads tier ($797 base + multi-platform scoping).",
+        },
+        {
+          q: "What if my campaigns aren't profitable?",
+          a: "We'll tell you within 60 days. Sometimes the offer needs to change. Sometimes the targeting is wrong. Sometimes the channel is wrong for your business — and we'll route you to where you should actually be spending.",
+        },
+      ]}
+    />
   )
 }

@@ -44,6 +44,9 @@ export interface AddOn {
   recurring?: boolean
 }
 
+/** Per-service accent — keys correspond to CSS variable scopes in globals.css. */
+export type ServiceAccent = 'orange' | 'cyan' | 'green' | 'violet' | 'amber' | 'red'
+
 export interface CatalogService {
   slug: string
   name: string
@@ -57,6 +60,9 @@ export interface CatalogService {
   /** True if this maps 1:1 to a /store/<slug> product (already direct-buyable). */
   inStore?: boolean
   shipsIn: string
+  /** Brand accent — set as data-service-accent on the page wrapper, retints --primary.
+   *  Falls back to the category default if not set. Use getAccent() to resolve. */
+  accent?: ServiceAccent
   scopeOptions?: ScopeOption[]
   addOns?: AddOn[]
   /** /services/<path> URL on rocketopp.com so we can deep-link from order wizard. */
@@ -416,6 +422,32 @@ export const SERVICES: CatalogService[] = [
 // ────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ────────────────────────────────────────────────────────────────────────────
+
+/** Per-category accent defaults — applied when a service doesn't set its own. */
+const CATEGORY_ACCENT: Record<ServiceCategory, ServiceAccent> = {
+  websites: 'orange',     // RocketOpp brand
+  ai_systems: 'cyan',     // tech / electric
+  crm: 'violet',          // structured / process
+  marketing: 'amber',     // ads / energy
+  optimization: 'green',  // SXO/CRO9 — growth
+  specialized: 'cyan',    // tech-leaning
+}
+
+/** Per-slug overrides where the category default doesn't fit. */
+const SLUG_ACCENT: Partial<Record<string, ServiceAccent>> = {
+  sxo: 'green',
+  'mcp-integration': 'cyan',
+  'ai-crm': 'violet',
+  'ppc-management': 'amber',
+  'crm-automation': 'violet',
+  'ai-automation': 'cyan',
+  'website-development': 'orange',
+}
+
+export function getAccent(service: CatalogService | undefined): ServiceAccent {
+  if (!service) return 'orange'
+  return service.accent || SLUG_ACCENT[service.slug] || CATEGORY_ACCENT[service.category]
+}
 
 export function getService(slug: string): CatalogService | undefined {
   return SERVICES.find((s) => s.slug === slug)
