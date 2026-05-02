@@ -64,7 +64,7 @@ async function upsertContact(
   name: string | undefined,
   pit: string,
 ): Promise<string | null> {
-  // Try create first; fall back to search+update on duplicate.
+  // Try create first; fall back to POST search on duplicate.
   const createRes = await fetch(`${CRM_BASE}/contacts/`, {
     method: 'POST',
     headers: {
@@ -83,14 +83,27 @@ async function upsertContact(
 
   if (createRes.ok) {
     const data = await createRes.json()
-    return data?.contact?.id ?? null
+    const id = data?.contact?.id ?? null
+    if (id) return id
   }
 
-  // Duplicate — find existing
-  const searchRes = await fetch(
-    `${CRM_BASE}/contacts/search?locationId=${ROCKETOPP_LOCATION_ID}&query=${encodeURIComponent(email)}`,
-    { headers: { Authorization: `Bearer ${pit}`, Version: CRM_VERSION } },
-  )
+  // CRM returns HTTP 400 (sometimes 422) with a "duplicate" message body
+  // when the email already exists. We need POST /contacts/search to find
+  // the existing record — the GET form returns 404 because /search gets
+  // parsed as a contact id.
+  const searchRes = await fetch(`${CRM_BASE}/contacts/search`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${pit}`,
+      Version: CRM_VERSION,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      locationId: ROCKETOPP_LOCATION_ID,
+      query: email,
+      pageLimit: 1,
+    }),
+  })
   if (!searchRes.ok) {
     console.error(
       '[stripe-store webhook] search failed',
@@ -100,7 +113,12 @@ async function upsertContact(
     return null
   }
   const sd = await searchRes.json()
-  return sd?.contacts?.[0]?.id ?? null
+  // Email match must be exact — search returns fuzzy hits.
+  const exact =
+    (sd?.contacts || []).find(
+      (c: { email?: string }) => (c.email || '').toLowerCase() === email.toLowerCase(),
+    ) || sd?.contacts?.[0]
+  return exact?.id ?? null
 }
 
 async function addTags(contactId: string, tags: string[], pit: string) {
