@@ -50,3 +50,4 @@ logs
 google-service-account.json
 supabase/.temp/
 .apex-reference
+.dispatch-cache/
