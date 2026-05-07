@@ -1,9 +1,10 @@
 /**
  * askHipaa — single synthesis call powering /api/k/hipaa + /api/hipaa/chat.
  *
- * Groq llama-3.3-70b-versatile (enforced by the "GROQ ONLY" rule). No Anthropic.
- * The full HIPAA knowledge base is inlined as the system prompt so every answer
- * cites 45 CFR §164 + flags 2026 NPRM deltas without an extra retrieval step.
+ * Migrated 2026-05-07 from direct Groq → canonical 3-stage SOP. Free CRM Agent
+ * tier first (zero marginal cost), Groq llama-3.3-70b-versatile fallback,
+ * heuristic last. The full HIPAA knowledge base is inlined as the system
+ * prompt so every answer cites 45 CFR §164 + flags 2026 NPRM deltas.
  */
 
 import {
@@ -15,39 +16,7 @@ import {
   ESCALATION,
   ROCKETOPP_HIPAA_PRODUCT,
 } from "./knowledge"
-
-const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-
-interface GroqResponse {
-  choices?: Array<{ message?: { content?: string } }>
-  error?: { message?: string }
-}
-
-async function callGroq(
-  model: string,
-  messages: Array<{ role: string; content: string }>,
-  temperature: number,
-): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) throw new Error("GROQ_API_KEY not configured")
-
-  const res = await fetch(GROQ_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ model, messages, temperature, max_tokens: 800 }),
-  })
-
-  const data = (await res.json()) as GroqResponse
-  if (!res.ok) {
-    throw new Error(data.error?.message || `Groq ${res.status}`)
-  }
-  const content = data.choices?.[0]?.message?.content
-  if (!content) throw new Error("Groq returned empty response")
-  return content.trim()
-}
+import { askAI } from "@/lib/ai-call"
 
 export interface AskHipaaInput {
   question: string
@@ -170,18 +139,27 @@ export async function askHipaa(input: AskHipaaInput): Promise<AskHipaaResult> {
     ? `Context (from current scan or report): ${input.context}\n\nQuestion: ${input.question}`
     : input.question
 
-  const messages: Array<{ role: string; content: string }> = [
-    { role: "system", content: buildSystemPrompt() },
-    ...history,
-    { role: "user", content: userPrompt },
-  ]
+  // Build a single prompt (CRM Agent doesn't take role-based message arrays;
+  // both providers honor concatenated structure when system steers via prefix).
+  const historyBlock = history
+    .map((m) => `[${m.role.toUpperCase()}] ${m.content}`)
+    .join("\n\n")
+  const fullPrompt = [
+    buildSystemPrompt(),
+    historyBlock ? `\n\nPRIOR CONVERSATION:\n${historyBlock}` : "",
+    `\n\nUSER:\n${userPrompt}`,
+  ].join("")
 
-  const text = await callGroq(model, messages, 0.3)
+  const { text, source } = await askAI(fullPrompt, {
+    maxTokens: 800,
+    temperature: 0.3,
+    groqModel: model,
+  })
 
   return {
-    answer: text,
+    answer: text || "AI generation failed — please re-run.",
     citations: extractCitations(text),
     duration_ms: Date.now() - start,
-    model,
+    model: `${model} (via ${source})`,
   }
 }
