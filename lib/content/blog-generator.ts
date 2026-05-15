@@ -1,8 +1,6 @@
-// AI Blog Generator using Claude
-import Anthropic from '@anthropic-ai/sdk'
+// AI Blog Generator — via canonical lib/ai-call SOP
+import { askAIForJson } from '../ai-call'
 import { ContentOpportunity } from '../lunarcrush/client'
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export interface GeneratedPost {
   slug: string
@@ -46,25 +44,32 @@ async function generateBlogPost(opportunity: ContentOpportunity): Promise<Genera
     'OUTPUT FORMAT (JSON only):\n' +
     '{"slug":"url-slug","title":"Title","metaDescription":"Description","excerpt":"Short excerpt","content":"Markdown content","tags":["tag1"],"category":"' + opportunity.category + '","readingTime":5,"seoKeywords":["kw1"],"relatedServices":["Rocket+"],"linkedinPost":"LinkedIn text [LINK]","twitterPost":"Tweet [LINK]"}'
 
-  const response = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 4000,
-    messages: [{ role: 'user', content: prompt }]
+  type RawPost = {
+    slug?: string
+    title?: string
+    metaDescription?: string
+    meta_description?: string
+    excerpt?: string
+    content?: string
+    tags?: string[]
+    category?: string
+    readingTime?: number
+    seoKeywords?: string[]
+    relatedServices?: string[]
+    linkedinPost?: string
+    twitterPost?: string
+  }
+  const { data: post } = await askAIForJson<RawPost>(prompt, {
+    maxTokens: 4000,
+    temperature: 0.7,
   })
+  if (!post || !post.title || !post.content) throw new Error('AI returned no/invalid JSON for blog post')
 
-  const resContent = response.content[0]
-  if (resContent.type !== 'text') throw new Error('Unexpected response type')
-
-  let jsonStr = resContent.text
-  const jsonMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/)
-  if (jsonMatch) jsonStr = jsonMatch[1]
-
-  const post = JSON.parse(jsonStr.trim())
   return {
     slug: post.slug || generateSlug(post.title),
     title: post.title,
-    metaDescription: post.metaDescription || post.meta_description,
-    excerpt: post.excerpt,
+    metaDescription: post.metaDescription || post.meta_description || '',
+    excerpt: post.excerpt || '',
     content: post.content,
     tags: post.tags || [],
     category: post.category || opportunity.category,

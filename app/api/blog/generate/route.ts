@@ -6,10 +6,8 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { askAIForJson } from '@/lib/ai-call'
 import { supabaseAdmin } from '@/lib/db/supabase'
-
-const anthropic = new Anthropic()
 
 // SEO configuration for optimal content
 const SEO_CONFIG = {
@@ -185,41 +183,18 @@ Primary keyword "${keywords[0]}" must appear:
 
 Return ONLY valid JSON, no additional text.`
 
-  const response = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 8192,
-    messages: [
-      { role: 'user', content: userPrompt }
-    ],
-    system: systemPrompt
-  })
+  const { data: parsed, source } = await askAIForJson<Partial<GeneratedPost>>(
+    `${systemPrompt}\n\n${userPrompt}`,
+    { maxTokens: 8192, temperature: 0.7 },
+  )
 
-  // Extract text content
-  const textContent = response.content.find(block => block.type === 'text')
-  if (!textContent || textContent.type !== 'text') {
-    throw new Error('No text content in AI response')
+  if (!parsed) {
+    throw new Error('AI returned no/invalid JSON for blog content')
   }
-
-  // Parse JSON response
-  let parsed: Partial<GeneratedPost>
-  try {
-    // Clean potential markdown code blocks
-    let jsonText = textContent.text.trim()
-    if (jsonText.startsWith('```json')) {
-      jsonText = jsonText.replace(/^```json\n?/, '').replace(/\n?```$/, '')
-    } else if (jsonText.startsWith('```')) {
-      jsonText = jsonText.replace(/^```\n?/, '').replace(/\n?```$/, '')
-    }
-    parsed = JSON.parse(jsonText)
-  } catch (e) {
-    console.error('Failed to parse AI response:', textContent.text.substring(0, 500))
-    throw new Error('Failed to parse AI-generated content')
-  }
-
-  // Validate required fields
   if (!parsed.title || !parsed.content) {
     throw new Error('Missing required fields in AI response')
   }
+  console.log(`[Blog Generator] AI source: ${source}`)
 
   return {
     title: parsed.title,

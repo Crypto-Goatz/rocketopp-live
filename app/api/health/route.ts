@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import Anthropic from '@anthropic-ai/sdk'
 
 interface HealthCheck {
   service: string
@@ -36,33 +35,37 @@ export async function GET() {
     checks.push({ service: 'Supabase', status: 'error', message: String(e) })
   }
 
-  // 2. Anthropic (Claude) Check
+  // 2. AI (Groq via canonical SOP) Check
   try {
-    const anthropicKey = process.env.ANTHROPIC_API_KEY
+    const groqKey = process.env.GROQ_API_KEY
 
-    if (!anthropicKey) {
-      checks.push({ service: 'Anthropic', status: 'missing', message: 'Missing ANTHROPIC_API_KEY' })
+    if (!groqKey) {
+      checks.push({ service: 'AI/Groq', status: 'missing', message: 'Missing GROQ_API_KEY' })
     } else {
       const start = Date.now()
-      const anthropic = new Anthropic({ apiKey: anthropicKey })
-
-      // Just verify the key works with a minimal request
-      await anthropic.messages.create({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 10,
-        messages: [{ role: 'user', content: 'Hi' }]
+      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${groqKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 10,
+          messages: [{ role: 'user', content: 'Hi' }],
+        }),
       })
       const latency = Date.now() - start
 
-      checks.push({ service: 'Anthropic', status: 'ok', message: 'Claude API working', latency })
+      if (r.ok) {
+        checks.push({ service: 'AI/Groq', status: 'ok', message: 'Groq API working', latency })
+      } else {
+        checks.push({ service: 'AI/Groq', status: 'error', message: `HTTP ${r.status}`, latency })
+      }
     }
   } catch (e: unknown) {
-    const error = e as { status?: number; message?: string }
-    if (error.status === 401) {
-      checks.push({ service: 'Anthropic', status: 'error', message: 'Invalid API key' })
-    } else {
-      checks.push({ service: 'Anthropic', status: 'error', message: error.message || String(e) })
-    }
+    const error = e as { message?: string }
+    checks.push({ service: 'AI/Groq', status: 'error', message: error.message || String(e) })
   }
 
   // 3. GHL Check

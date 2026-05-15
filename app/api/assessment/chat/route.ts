@@ -1,30 +1,17 @@
 // ============================================================
-// Assessment Chat API - Handles AI conversation
+// Assessment Chat API — handles AI conversation
 // ============================================================
-// Uses Claude AI to conduct the Rocket AI Assessment
+// Uses canonical lib/ai-call SOP: CRM Agent → Groq → heuristic
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { askAI } from '@/lib/ai-call'
 import { SYSTEM_INSTRUCTION } from '@/lib/assessment/constants'
 
 export async function POST(request: NextRequest) {
   console.log('[Assessment Chat] Processing chat request')
 
   try {
-    // Check for API key
-    if (!process.env.ANTHROPIC_API_KEY) {
-      console.error('[Assessment Chat] ANTHROPIC_API_KEY not configured')
-      return NextResponse.json(
-        { error: 'AI service not configured' },
-        { status: 500 }
-      )
-    }
-
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    })
-
     const { messages, context } = await request.json()
 
     if (!messages || !Array.isArray(messages)) {
@@ -34,52 +21,44 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Build the system prompt with any additional context
+    // Build the system prompt + serialized history into a single prompt.
+    // ai-call sends a single user message; we prepend the system instruction
+    // and any context, then replay the conversation as labeled turns.
     let systemPrompt = SYSTEM_INSTRUCTION
     if (context) {
       systemPrompt += `\n\n**User Context:**\n${JSON.stringify(context, null, 2)}`
     }
 
-    // Convert messages to Anthropic format
-    const anthropicMessages = messages.map((msg: { role: string; content: string }) => ({
-      role: msg.role as 'user' | 'assistant',
-      content: msg.content,
-    }))
+    const transcript = messages
+      .map((m: { role: string; content: string }) => `${m.role.toUpperCase()}: ${m.content}`)
+      .join('\n\n')
 
-    console.log('[Assessment Chat] Sending to Claude, messages:', anthropicMessages.length)
+    const prompt = `${systemPrompt}\n\n--- CONVERSATION ---\n${transcript}\n\nASSISTANT:`
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2048,
-      system: systemPrompt,
-      messages: anthropicMessages,
+    console.log('[Assessment Chat] Sending via ai-call SOP, turns:', messages.length)
+
+    const { text, source, degraded } = await askAI(prompt, {
+      maxTokens: 2048,
+      temperature: 0.4,
     })
 
-    // Extract text from response
-    const text = response.content
-      .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-      .map((block) => block.text)
-      .join('')
+    if (!text) {
+      return NextResponse.json(
+        { error: 'AI service unavailable' },
+        { status: 503 }
+      )
+    }
 
-    console.log('[Assessment Chat] Response received, length:', text.length)
+    console.log(`[Assessment Chat] Response received via ${source}, length:`, text.length, 'degraded:', degraded)
 
     return NextResponse.json({
       success: true,
       text,
-      usage: response.usage,
+      source,
+      degraded,
     })
   } catch (error) {
     console.error('[Assessment Chat] Error:', error)
-
-    // Check for specific Anthropic errors
-    if (error instanceof Anthropic.APIError) {
-      console.error('[Assessment Chat] Anthropic API error:', error.status, error.message)
-      return NextResponse.json(
-        { error: `AI service error: ${error.message}` },
-        { status: error.status || 500 }
-      )
-    }
-
     return NextResponse.json(
       { error: 'Failed to process chat request' },
       { status: 500 }

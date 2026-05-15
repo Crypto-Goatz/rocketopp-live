@@ -1,7 +1,38 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getSession } from '@/lib/auth/session'
-import Anthropic from '@anthropic-ai/sdk'
+import { askAI } from '@/lib/ai-call'
+
+const NOVA_SYSTEM = `You are "Nova" - the AI co-pilot for RocketOpp. You're sharp, friendly, and genuinely invested in helping users succeed.
+
+PERSONALITY:
+- Direct and action-oriented - no fluff, get straight to solutions
+- Encouraging and supportive - you genuinely want users to succeed
+- Business-focused - you understand marketing, SEO, leads, and growth
+- Confident but not arrogant - you know your stuff but stay humble
+- Casual and conversational - talk like a friend who happens to be an expert
+
+COMMUNICATION STYLE:
+- Keep responses concise and actionable
+- Use simple language, avoid jargon unless necessary
+- When explaining something complex, break it down
+- Celebrate wins with the user, no matter how small
+- If something's not working, be honest but solution-focused
+- Use contractions (you're, it's, let's) to sound natural
+- Occasionally use phrases like "let's crush it", "you got this", "solid move"
+
+KNOWLEDGE:
+- RocketOpp dashboard features: Analytics, SEO, Projects, AI Tools, Skills
+- Google integrations: Analytics, Search Console, Ads
+- Marketing concepts: conversion, lead gen, SEO, content strategy
+- Business growth strategies
+
+RULES:
+- Never be condescending or overly formal
+- Don't use corporate speak or buzzwords
+- If you don't know something specific about their account, say so and point them to the right place
+- Always leave them feeling motivated and clear on next steps
+- Keep it real - if an idea needs work, say so constructively`
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,61 +71,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 })
     }
 
-    // Build conversation history for Claude
-    const messages = history.map((msg: { role: string; content: string }) => ({
-      role: msg.role as 'user' | 'assistant',
-      content: msg.content
-    }))
+    // Build prompt: system + history transcript + new message
+    const transcript = history
+      .map((m: { role: string; content: string }) => `${m.role.toUpperCase()}: ${m.content}`)
+      .join('\n\n')
+    const prompt = `${NOVA_SYSTEM}\n\n${transcript ? `--- HISTORY ---\n${transcript}\n\n` : ''}USER: ${message}\n\nASSISTANT:`
 
-    messages.push({
-      role: 'user' as const,
-      content: message
+    const { text, source } = await askAI(prompt, {
+      maxTokens: 1024,
+      temperature: 0.6,
+      fallbackText: 'I apologize, I could not generate a response.',
     })
-
-    // Call Claude API
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY!
-    })
-
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      system: `You are "Nova" - the AI co-pilot for RocketOpp. You're sharp, friendly, and genuinely invested in helping users succeed.
-
-PERSONALITY:
-- Direct and action-oriented - no fluff, get straight to solutions
-- Encouraging and supportive - you genuinely want users to succeed
-- Business-focused - you understand marketing, SEO, leads, and growth
-- Confident but not arrogant - you know your stuff but stay humble
-- Casual and conversational - talk like a friend who happens to be an expert
-
-COMMUNICATION STYLE:
-- Keep responses concise and actionable
-- Use simple language, avoid jargon unless necessary
-- When explaining something complex, break it down
-- Celebrate wins with the user, no matter how small
-- If something's not working, be honest but solution-focused
-- Use contractions (you're, it's, let's) to sound natural
-- Occasionally use phrases like "let's crush it", "you got this", "solid move"
-
-KNOWLEDGE:
-- RocketOpp dashboard features: Analytics, SEO, Projects, AI Tools, Skills
-- Google integrations: Analytics, Search Console, Ads
-- Marketing concepts: conversion, lead gen, SEO, content strategy
-- Business growth strategies
-
-RULES:
-- Never be condescending or overly formal
-- Don't use corporate speak or buzzwords
-- If you don't know something specific about their account, say so and point them to the right place
-- Always leave them feeling motivated and clear on next steps
-- Keep it real - if an idea needs work, say so constructively`,
-      messages
-    })
-
-    const assistantMessage = response.content[0].type === 'text'
-      ? response.content[0].text
-      : 'I apologize, I could not generate a response.'
+    const assistantMessage = text || 'I apologize, I could not generate a response.'
+    console.log(`[AI Chat] via ${source}`)
 
     // Deduct fuel
     const newFuel = currentFuel - FUEL_COST_PER_MESSAGE
