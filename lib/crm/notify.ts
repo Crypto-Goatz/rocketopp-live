@@ -286,6 +286,94 @@ async function sendThankYou(sub: FormSubmission, leadContactId: string | null): 
 }
 
 /**
+ * Send a password-reset email to a user via the CRM /conversations/messages
+ * channel (same transport used for all transactional email on this site).
+ * The contact is upserted first so the message has a valid contactId.
+ * Returns true if the email was accepted by the CRM.
+ */
+export async function sendPasswordResetEmail(
+  email: string,
+  resetUrl: string,
+  name?: string
+): Promise<boolean> {
+  if (!LOCATION_PIT) {
+    console.error('[CRM Notify] password reset email skipped: no CRM PIT configured')
+    return false
+  }
+  const firstName = name?.split(' ')[0] || ''
+  const lastName = name?.split(' ').slice(1).join(' ') || ''
+  let contactId: string | null = null
+  try {
+    const res = await fetch(`${CRM_API_BASE}/contacts/upsert`, {
+      method: 'POST',
+      headers: crmHeaders(),
+      body: JSON.stringify({
+        locationId: LOCATION_ID,
+        email,
+        firstName,
+        lastName,
+        source: 'RocketOpp Password Reset',
+      }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      contactId = data?.contact?.id || data?.id || null
+    }
+  } catch (err) {
+    console.error('[CRM Notify] reset upsert error:', err)
+  }
+  if (!contactId) contactId = await findContactByEmail(email)
+  if (!contactId) {
+    console.error('[CRM Notify] password reset email skipped: no contact id')
+    return false
+  }
+
+  const subject = 'Reset your RocketOpp password'
+  const html = `
+<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:640px;margin:0 auto;background:#fff;color:#111;">
+  <div style="background:linear-gradient(90deg,#ff6b35,#ff3b00);padding:24px;color:#fff;">
+    <h1 style="margin:0;font-size:20px;font-weight:600;">Reset your password</h1>
+  </div>
+  <div style="padding:24px;">
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;">Hi${firstName ? ` ${firstName}` : ''},</p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;">We received a request to reset the password for your RocketOpp account. Click the button below to choose a new password. This link expires in 1 hour.</p>
+    <p style="margin:0 0 24px;text-align:center;">
+      <a href="${resetUrl}" style="display:inline-block;background:linear-gradient(90deg,#ff6b35,#ff3b00);color:#fff;text-decoration:none;font-weight:600;padding:12px 28px;border-radius:10px;font-size:15px;">Reset password</a>
+    </p>
+    <p style="margin:0 0 8px;font-size:13px;color:#666;line-height:1.6;">If the button doesn't work, copy and paste this link into your browser:</p>
+    <p style="margin:0 0 24px;font-size:13px;color:#ff6b35;word-break:break-all;">${resetUrl}</p>
+    <p style="margin:0;font-size:13px;color:#999;line-height:1.6;">If you didn't request this, you can safely ignore this email — your password won't change.</p>
+  </div>
+  <div style="padding:14px 24px;color:#999;font-size:12px;border-top:1px solid #eee;">rocketopp.com · RocketOpp LLC</div>
+</div>`
+  const text = `Reset your RocketOpp password\n\nWe received a request to reset your password. Open this link to choose a new password (expires in 1 hour):\n\n${resetUrl}\n\nIf you didn't request this, ignore this email.`
+
+  try {
+    const res = await fetch(`${CRM_API_BASE}/conversations/messages`, {
+      method: 'POST',
+      headers: crmHeaders(),
+      body: JSON.stringify({
+        type: 'Email',
+        contactId,
+        subject,
+        html,
+        text,
+        emailTo: email,
+        emailFrom: FROM_EMAIL,
+      }),
+    })
+    if (!res.ok) {
+      console.error('[CRM Notify] password reset email failed:', res.status, await res.text())
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[CRM Notify] password reset email error:', err)
+    return false
+  }
+}
+
+/**
  * One-call: upsert lead, fire webhook, email Mike, and thank the lead.
  * Upsert runs first to get the contact ID, then the remaining three run in
  * parallel. Partial failures are reported but never throw.

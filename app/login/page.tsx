@@ -11,7 +11,7 @@ const SSO_PRODUCTS: Record<string, string> = {
   'sxo': 'https://sxowebsite.com/api/auth/sso',
   'rocket-plus': 'https://rocketadd.com/api/auth/sso',
   'mcpfed': 'https://mcpfed.com/api/auth/sso',
-  'cro9': 'https://cro9.io/api/auth/sso',
+  'cro9': 'https://cro9.com/api/auth/sso',
 }
 
 function LoginContent() {
