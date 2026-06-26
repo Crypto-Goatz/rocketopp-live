@@ -152,6 +152,14 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        {/* CRO9 conversion tracking (agency: mike@rocketopp.com) */}
+        <script
+          src="https://www.cro9.com/cro9-tracker.js"
+          data-api-key="cro9_6b7b63c6bf189906887805bd64c4330ad76dc10dc2db229b"
+          data-endpoint="https://www.cro9.com/api/track/collect"
+          data-consent-mode="gdpr"
+          async
+        />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
