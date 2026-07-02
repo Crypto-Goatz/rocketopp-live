@@ -16,6 +16,7 @@ import {
   useCartItems,
   expandCart,
   getCartTotal,
+  getCartDiscountTotal,
 } from '@/lib/store/cart-store'
 
 function formatUsd(cents: number): string {
@@ -38,6 +39,7 @@ export function CartDrawer() {
 
   const expanded = expandCart(items)
   const subtotal = getCartTotal(items)
+  const discountTotal = getCartDiscountTotal(items)
 
   const handleCheckout = () => {
     close()
@@ -78,9 +80,9 @@ export function CartDrawer() {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-              {expanded.map(({ product, quantity }) => {
+              {expanded.map(({ product, quantity, discountPct, unitCents, grossUnitCents }) => {
                 const Icon = product.icon
-                const lineTotal = product.priceCents * quantity
+                const lineTotal = unitCents * quantity
                 return (
                   <div
                     key={product.slug}
@@ -100,9 +102,21 @@ export function CartDrawer() {
                             {product.name}
                           </Link>
                           <p className="text-xs text-muted-foreground mt-0.5">
-                            {product.priceLabel}
+                            {discountPct > 0 && (
+                              <span className="line-through mr-1 opacity-70">
+                                {product.priceLabel}
+                              </span>
+                            )}
+                            {discountPct > 0
+                              ? formatUsd(unitCents)
+                              : product.priceLabel}
                             {product.billing === 'subscription' &&
                               `/${product.interval}`}
+                            {discountPct > 0 && (
+                              <span className="ml-1 font-semibold text-primary">
+                                {discountPct}% off
+                              </span>
+                            )}
                           </p>
                         </div>
                         <button
@@ -150,6 +164,14 @@ export function CartDrawer() {
             </div>
 
             <div className="px-6 py-5 border-t border-border space-y-4 bg-card/50">
+              {discountTotal > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-primary font-medium">You save</span>
+                  <span className="font-semibold tabular-nums text-primary">
+                    −{formatUsd(discountTotal)}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
                 <span className="text-lg font-bold tabular-nums">

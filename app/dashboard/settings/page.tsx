@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import CrmConnectionCard from "./CrmConnectionCard"
 import {
   Settings, Link2, Unlink, Check, X, Loader2,
   BarChart3, Search, DollarSign, Calendar,
@@ -286,6 +287,9 @@ export default function SettingsPage() {
           </div>
         )}
       </div>
+
+      {/* CRM Connection */}
+      <CrmConnectionCard />
 
       {/* Other Settings Sections */}
       <div className="mt-8 p-6 rounded-2xl bg-zinc-900/50 border border-white/10">

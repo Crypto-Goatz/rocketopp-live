@@ -18,6 +18,8 @@ import {
   useCartStore,
   expandCart,
   getCartTotal,
+  getCartGrossTotal,
+  getCartDiscountTotal,
 } from '@/lib/store/cart-store'
 
 function formatUsd(cents: number): string {
@@ -36,6 +38,8 @@ export default function CheckoutPage() {
 
   const expanded = expandCart(items)
   const subtotal = getCartTotal(items)
+  const grossSubtotal = getCartGrossTotal(items)
+  const discountTotal = getCartDiscountTotal(items)
 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
@@ -66,7 +70,11 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((i) => ({ slug: i.slug, quantity: i.quantity })),
+          items: items.map((i) => ({
+            slug: i.slug,
+            quantity: i.quantity,
+            discountPct: i.discountPct,
+          })),
           email,
           name: name || undefined,
         }),
@@ -128,7 +136,7 @@ export default function CheckoutPage() {
                   </Link>
                 </div>
               ) : (
-                expanded.map(({ product, quantity }) => {
+                expanded.map(({ product, quantity, discountPct, unitCents, grossUnitCents }) => {
                   const Icon = product.icon
                   return (
                     <div
@@ -185,9 +193,19 @@ export default function CheckoutPage() {
                             </button>
                           </div>
                           <div className="text-right">
+                            {discountPct > 0 && (
+                              <div className="text-xs text-muted-foreground line-through tabular-nums">
+                                {formatUsd(grossUnitCents * quantity)}
+                              </div>
+                            )}
                             <div className="font-bold tabular-nums">
-                              {formatUsd(product.priceCents * quantity)}
+                              {formatUsd(unitCents * quantity)}
                             </div>
+                            {discountPct > 0 && (
+                              <div className="text-[11px] font-semibold text-primary">
+                                {discountPct}% off
+                              </div>
+                            )}
                             {product.billing === 'subscription' && (
                               <div className="text-xs text-muted-foreground">
                                 /{product.interval}
@@ -212,9 +230,19 @@ export default function CheckoutPage() {
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Subtotal</span>
                       <span className="font-semibold tabular-nums">
-                        {formatUsd(subtotal)}
+                        {formatUsd(grossSubtotal)}
                       </span>
                     </div>
+                    {discountTotal > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-primary font-medium">
+                          Recommended discount
+                        </span>
+                        <span className="font-semibold tabular-nums text-primary">
+                          −{formatUsd(discountTotal)}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Tax</span>
                       <span className="text-muted-foreground">

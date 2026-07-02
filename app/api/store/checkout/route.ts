@@ -18,12 +18,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { PRODUCTS } from '@/lib/store/products'
+import { clampDiscount } from '@/lib/store/pricing'
 
 export const runtime = 'nodejs'
 
 interface ItemIn {
   slug: string
   quantity?: number
+  discountPct?: number
 }
 
 export async function POST(req: NextRequest) {
@@ -40,11 +42,15 @@ export async function POST(req: NextRequest) {
     }
 
     // Re-derive product info from server-side source. Bail if any slug is unknown.
+    // discountPct is clamped to the public ceiling so a tampered cart can't
+    // beat the recommend offer.
     const expanded = items.map((i) => {
       const product = PRODUCTS.find((p) => p.slug === i.slug)
       if (!product) throw new Error(`Unknown product: ${i.slug}`)
       const quantity = Math.max(1, Math.min(i.quantity ?? 1, 50))
-      return { product, quantity }
+      const discountPct = clampDiscount(i.discountPct)
+      const unitAmount = Math.round(product.priceCents * (1 - discountPct / 100))
+      return { product, quantity, discountPct, unitAmount }
     })
 
     const hasSubscription = expanded.some(
@@ -69,19 +75,21 @@ export async function POST(req: NextRequest) {
     const baseUrl =
       process.env.NEXT_PUBLIC_APP_URL || 'https://rocketopp.com'
 
-    const lineItems = expanded.map(({ product, quantity }) => ({
+    const lineItems = expanded.map(({ product, quantity, discountPct, unitAmount }) => ({
       quantity,
       price_data: {
         currency: 'usd',
         product_data: {
-          name: product.name,
+          name:
+            discountPct > 0 ? `${product.name} (${discountPct}% off)` : product.name,
           description: product.tagline,
           metadata: {
             slug: product.slug,
             shipsIn: product.shipsIn,
+            discountPct: String(discountPct),
           },
         },
-        unit_amount: product.priceCents,
+        unit_amount: unitAmount,
         ...(product.billing === 'subscription'
           ? { recurring: { interval: product.interval ?? 'month' } }
           : {}),

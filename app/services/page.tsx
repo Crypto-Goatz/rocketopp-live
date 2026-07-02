@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Globe, Cpu, Search, Target, BarChart3, Terminal, ArrowRight, Clock, DollarSign } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Footer from "@/components/footer"
 import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
+import ServicesConversion from "./ServicesConversion"
 
 export const metadata: Metadata = {
   title: "Services & Pricing | RocketOpp - Transparent Digital Agency",
@@ -27,57 +28,6 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "https://rocketopp.com/services" },
 }
-
-const services = [
-  {
-    icon: Globe,
-    title: "Website Development",
-    description: "Custom websites built with AI. Mobile-first, SEO-optimized, conversion-focused.",
-    price: "From $2,497",
-    shipsIn: "2 weeks",
-    href: "/services/website-development",
-  },
-  {
-    icon: Cpu,
-    title: "AI Business Automation",
-    description: "Custom AI systems — customer service, lead qualification, content creation, workflow automation.",
-    price: "From $2,997",
-    shipsIn: "2 weeks",
-    href: "/services/ai-automation",
-  },
-  {
-    icon: Search,
-    title: "SXO (Search Experience Optimization)",
-    description: "SEO + UX + conversion optimization, powered by CRO9. Rankings that convert.",
-    price: "From $997/mo",
-    shipsIn: "Ongoing",
-    href: "/services/sxo",
-  },
-  {
-    icon: Target,
-    title: "CRM Automation",
-    description: "Full CRM deployment with pipelines, email sequences, booking, and lead scoring.",
-    price: "From $1,497",
-    shipsIn: "1 week",
-    href: "/services/crm-automation",
-  },
-  {
-    icon: BarChart3,
-    title: "PPC & Paid Ads",
-    description: "Google Ads, Meta Ads, LinkedIn Ads — managed by AI, optimized by CRO9.",
-    price: "From $797/mo",
-    shipsIn: "Ongoing",
-    href: "/services/ppc-management",
-  },
-  {
-    icon: Terminal,
-    title: "MCP Server Integration",
-    description: "Connect to 1,171+ AI tools across 54 services. One integration, unlimited automation.",
-    price: "From $1,997",
-    shipsIn: "1 week",
-    href: "/services/mcp-integration",
-  },
-]
 
 const faqs = [
   {
@@ -119,59 +69,8 @@ export default function ServicesPage() {
       />
 
       <main className="min-h-screen">
-        {/* Hero */}
-        <section className="pt-24 pb-16 md:pt-32 md:pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 grid-background opacity-20" />
-          <div className="absolute inset-0 grid-gradient" />
-          <div className="container relative z-10 px-4 md:px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6">
-                <DollarSign className="w-4 h-4" />
-                Transparent Pricing
-              </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Services & Pricing
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Six core services. Transparent pricing. No discovery calls required. Pick a service, see the price, and let&apos;s ship.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Services Grid */}
-        <section className="py-16 md:py-24">
-          <div className="container px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {services.map((svc) => {
-                const Icon = svc.icon
-                return (
-                  <Link key={svc.title} href={svc.href} className="group">
-                    <div className="card-lifted p-6 h-full space-y-4 group-hover:border-primary/40">
-                      <div className="flex items-center justify-between">
-                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary">
-                          <Icon className="w-6 h-6" />
-                        </div>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                          <Clock className="w-3 h-3" />
-                          {svc.shipsIn}
-                        </span>
-                      </div>
-                      <h2 className="text-xl font-bold group-hover:text-primary transition-colors">{svc.title}</h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{svc.description}</p>
-                      <div className="flex items-center justify-between pt-3 border-t border-border">
-                        <span className="text-lg font-bold text-primary">{svc.price}</span>
-                        <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
-                          See details <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        </section>
+        {/* Interactive, high-conversion hero + services grid (client) */}
+        <ServicesConversion />
 
         {/* FAQ */}
         <section className="py-16 md:py-24 bg-card/50">

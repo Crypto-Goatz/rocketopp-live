@@ -80,10 +80,88 @@ function crmHeaders() {
   }
 }
 
+// ── Custom fields ────────────────────────────────────────────────────────────
+// Contacts/upsert takes customFields as [{ id, field_value }] — it needs the
+// field's ID, not its name. We resolve names → ids once and cache them; if a
+// named field doesn't exist yet we create it (TEXT). Best-effort: any failure
+// just drops that field rather than blocking the submission.
+
+const customFieldIdCache = new Map<string, string>()
+
+async function resolveCustomFieldId(name: string): Promise<string | null> {
+  const key = name.trim().toLowerCase()
+  const cached = customFieldIdCache.get(key)
+  if (cached) return cached
+  if (!LOCATION_PIT) return null
+
+  try {
+    const listRes = await fetch(
+      `${CRM_API_BASE}/locations/${LOCATION_ID}/customFields`,
+      { headers: crmHeaders() },
+    )
+    if (listRes.ok) {
+      const data = await listRes.json()
+      const fields: Array<{ id?: string; name?: string }> =
+        data?.customFields || data?.customField || []
+      const match = fields.find((f) => (f.name || '').trim().toLowerCase() === key)
+      if (match?.id) {
+        customFieldIdCache.set(key, match.id)
+        return match.id
+      }
+    }
+
+    // Not found — create it as a TEXT field on the contact model.
+    const createRes = await fetch(
+      `${CRM_API_BASE}/locations/${LOCATION_ID}/customFields`,
+      {
+        method: 'POST',
+        headers: crmHeaders(),
+        body: JSON.stringify({ name, dataType: 'TEXT', model: 'contact' }),
+      },
+    )
+    if (createRes.ok) {
+      const data = await createRes.json()
+      const id: string | undefined = data?.customField?.id || data?.id
+      if (id) {
+        customFieldIdCache.set(key, id)
+        return id
+      }
+    } else {
+      console.error(
+        '[CRM Notify] create custom field failed:',
+        createRes.status,
+        await createRes.text(),
+      )
+    }
+  } catch (err) {
+    console.error('[CRM Notify] resolve custom field error:', err)
+  }
+  return null
+}
+
+/** Turn { "Service Interested in": "…" } into CRM [{ id, field_value }]. */
+async function buildContactCustomFields(
+  fields?: Record<string, string | number | boolean>,
+): Promise<Array<{ id: string; field_value: string }>> {
+  if (!fields) return []
+  const entries = Object.entries(fields)
+  const resolved = await Promise.all(
+    entries.map(async ([name, value]) => {
+      const id = await resolveCustomFieldId(name)
+      return id ? { id, field_value: String(value) } : null
+    }),
+  )
+  return resolved.filter((x): x is { id: string; field_value: string } => x !== null)
+}
+
 async function upsertLeadContact(sub: FormSubmission): Promise<string | null> {
   if (!LOCATION_PIT) return null
   const firstName = sub.firstName || sub.fullName?.split(' ')[0] || ''
   const lastName = sub.lastName || sub.fullName?.split(' ').slice(1).join(' ') || ''
+  // Resolve any named custom fields (e.g. "Service Interested in") to CRM ids
+  // so they're written onto the contact itself — the value overwrites on each
+  // submission, so the field always reflects the most recent interest.
+  const customFields = await buildContactCustomFields(sub.customFields)
   try {
     const res = await fetch(`${CRM_API_BASE}/contacts/upsert`, {
       method: 'POST',
@@ -97,6 +175,7 @@ async function upsertLeadContact(sub: FormSubmission): Promise<string | null> {
         companyName: sub.company || undefined,
         source: sub.formName || 'RocketOpp Website',
         tags: sub.tags || ['website-lead', sub.source],
+        ...(customFields.length ? { customFields } : {}),
       }),
     })
     if (!res.ok) {
