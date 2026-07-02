@@ -19,7 +19,11 @@ export default async function HQPage() {
             <h1 style={{ fontSize: 26, fontWeight: 700 }}>AI HQ <span style={{ fontSize: 12, color: "#8b93a7", fontWeight: 400 }}>· rocketopp.com</span></h1>
             <p style={{ marginTop: 4, fontSize: 13, color: "#8b93a7" }}>Signed in as {user.email}. Control the entire site&apos;s design from here — every change applies site-wide instantly.</p>
           </div>
-          <a href="/" style={{ fontSize: 13, color: "#8b93a7" }}>← Back to site</a>
+          <nav style={{ display: "flex", gap: 14, fontSize: 13 }}>
+            <a href="/hq" style={{ color: "#ff571a", fontWeight: 600 }}>Design</a>
+            <a href="/hq/pages" style={{ color: "#8b93a7" }}>Nova</a>
+            <a href="/" style={{ color: "#8b93a7" }}>← Site</a>
+          </nav>
         </div>
         <div style={{ marginTop: 22 }}>
           <RocketHQ initialTheme={theme} />
