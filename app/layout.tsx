@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import { Suspense } from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import HqThemeStyle from "@/components/hq/HqThemeStyle"
 import { LayoutWrapper } from "@/components/layout-wrapper"
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider"
 import { Cro9Tracker } from "@/components/cro9-tracker"
@@ -160,6 +161,8 @@ export default function RootLayout({
           data-consent-mode="gdpr"
           async
         />
+        {/* AI HQ — applies the saved global theme site-wide (no-op if unset) */}
+        <HqThemeStyle />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
