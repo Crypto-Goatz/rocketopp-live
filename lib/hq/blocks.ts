@@ -35,6 +35,22 @@ export const BLOCK_LIBRARY: BlockMeta[] = [
     sample: { title: "Meet the team", members: [{ name: "Alex Kim", role: "Founder" }] } },
   { type: "contact", name: "Contact Form", group: "Sales", icon: "Mail", description: "Lead capture form.",
     sample: { heading: "Get in touch", subhead: "We'll reply within one business day.", buttonLabel: "Send message" } },
+
+  // Layout & raw building blocks
+  { type: "text", name: "Text Block", group: "Layout", icon: "Type", description: "Blank heading + rich paragraph you fill in.",
+    sample: { heading: "", body: "Write anything here…", align: "left" } },
+  { type: "image", name: "Image", group: "Layout", icon: "Image", description: "A single image with optional caption.",
+    sample: { src: "", alt: "", caption: "", rounded: true } },
+  { type: "columns", name: "Columns", group: "Layout", icon: "Columns3", description: "Multi-column row of text / image / HTML cells (rearrangeable).",
+    sample: { cols: 2, cells: [{ kind: "text", body: "Left column" }, { kind: "text", body: "Right column" }] } },
+  { type: "spacer", name: "Spacer", group: "Layout", icon: "MoveVertical", description: "Vertical spacing.",
+    sample: { size: "md" } },
+
+  // Advanced — custom code + Nova-generated apps
+  { type: "html", name: "Custom HTML", group: "Advanced", icon: "Code", description: "Paste any HTML/CSS. Also how Nova inserts generated markup.",
+    sample: { html: "<div style='padding:40px;text-align:center'>Your custom HTML</div>" } },
+  { type: "embed", name: "Embed / App", group: "Advanced", icon: "AppWindow", description: "Embed an app or widget by URL (iframe). Nova uses this for generated apps.",
+    sample: { url: "", height: 480, title: "Embedded app" } },
 ];
 
 export const blockMeta = (type: string) => BLOCK_LIBRARY.find((b) => b.type === type) || null;
@@ -56,5 +72,16 @@ export const BLOCK_SCHEMA = `Block types and props (all rendered with shadcn/ui 
 - gallery     { title?, images:[{src, caption?}] }
 - team        { title?, members:[{name, role, avatar?}] }
 - contact     { heading?, subhead?, buttonLabel? }
+- text        { heading?, body, align?("left"|"center"|"right") }
+- image       { src, alt?, caption?, rounded? }
+- columns     { cols(2|3|4), cells:[{kind:"text"|"image"|"html", body?, src?, alt?, html?}] }
+- spacer      { size("sm"|"md"|"lg"|"xl") }
+- html        { html }                              // raw HTML/CSS; use for custom markup Nova generates
+- embed       { url, height?, title? }              // iframe embed for a generated app/widget
+
+EVERY block may also carry props.style = { bg?(hex), color?(hex), paddingY?("none"|"sm"|"md"|"lg"|"xl"), align?("left"|"center"|"right"), maxWidth?("sm"|"md"|"lg"|"full"), radius?("none"|"md"|"lg"|"xl") } to override its look.
+
 Each block: { id (keep existing; new = short like "b7"), type, props }. Icons are lucide-react names.
-NEVER invent prices, hours, phone numbers, or testimonials unless given.`;
+NEVER invent prices, hours, phone numbers, or testimonials unless given.
+
+CUSTOM / SOPHISTICATED REQUESTS: If asked for something interactive or custom (calculators, widgets, mini-apps, animations), build it as an "html" block (self-contained HTML/CSS/JS) or an "embed" block when a URL exists. If the request is genuinely beyond what you can produce inline, DO NOT fake it — instead return {"cantBuild":true,"spec":"<a detailed markdown build spec for Claude Code: goal, inputs/outputs, data, file layout, integration notes>","reply":"..."} so the operator can have it built and inserted.`;

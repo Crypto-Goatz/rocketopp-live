@@ -39,6 +39,17 @@ Rules: change only what's asked; keep other blocks/fields identical; preserve id
     });
     if (!res.ok) throw new Error(`groq ${res.status}`);
     const parsed = JSON.parse((await res.json())?.choices?.[0]?.message?.content?.trim() || "{}");
+
+    // Nova judged it can't build this inline → hand back a spec for Claude.
+    if (parsed.cantBuild && typeof parsed.spec === "string") {
+      return NextResponse.json({
+        ok: false,
+        reply: parsed.reply || "That's beyond a single block — I've written a build spec you can hand to Claude, then insert the result with “+ Code”.",
+        spec: parsed.spec,
+        blocks: page.blocks,
+      });
+    }
+
     const blocks = parsed.blocks as Block[];
     if (!Array.isArray(blocks) || !blocks.length) {
       return NextResponse.json({ ok: false, reply: "I couldn't apply that safely — try rephrasing.", blocks: page.blocks });

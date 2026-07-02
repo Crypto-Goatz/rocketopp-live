@@ -13,6 +13,26 @@ type Cta = { label?: string; href?: string };
 const S = (p: P, k: string) => (p[k] as string) || "";
 const cta = (c: unknown) => (c as Cta) || null;
 
+type Style = { bg?: string; color?: string; paddingY?: string; align?: string; maxWidth?: string; radius?: string };
+const PADY: Record<string, string> = { none: "0", sm: "24px", md: "0", lg: "80px", xl: "128px" };
+const MAXW: Record<string, string> = { sm: "42rem", md: "56rem", lg: "72rem", full: "100%" };
+const RAD: Record<string, string> = { none: "0", md: "12px", lg: "18px", xl: "28px" };
+
+// Applies per-block style overrides to any block's output.
+function Wrap({ style, children }: { style?: Style; children: React.ReactNode }) {
+  if (!style || Object.keys(style).length === 0) return <>{children}</>;
+  const css: React.CSSProperties = {};
+  if (style.bg) css.background = style.bg;
+  if (style.color) css.color = style.color;
+  if (style.paddingY && PADY[style.paddingY] !== undefined && style.paddingY !== "md") { css.paddingTop = PADY[style.paddingY]; css.paddingBottom = PADY[style.paddingY]; }
+  if (style.align) css.textAlign = style.align as React.CSSProperties["textAlign"];
+  if (style.radius && RAD[style.radius]) { css.borderRadius = RAD[style.radius]; css.overflow = "hidden"; }
+  const inner = style.maxWidth && MAXW[style.maxWidth]
+    ? <div style={{ maxWidth: MAXW[style.maxWidth], marginInline: "auto" }}>{children}</div>
+    : children;
+  return <div style={css}>{inner}</div>;
+}
+
 function Hero({ p }: { p: P }) {
   const primary = cta(p.primaryCta), secondary = cta(p.secondaryCta);
   const center = (p.align ?? "center") !== "left";
@@ -213,19 +233,78 @@ function Team({ p }: { p: P }) {
   );
 }
 
+function TextBlock({ p }: { p: P }) {
+  const align = (S(p, "align") || "left") as React.CSSProperties["textAlign"];
+  return (
+    <section className="mx-auto max-w-3xl px-6 py-12" style={{ textAlign: align }}>
+      {S(p, "heading") ? <h2 className="text-2xl font-semibold text-foreground">{S(p, "heading")}</h2> : null}
+      {S(p, "body") ? <p className="mt-3 whitespace-pre-line leading-relaxed text-muted-foreground">{S(p, "body")}</p> : null}
+    </section>
+  );
+}
+
+function ImageBlock({ p }: { p: P }) {
+  if (!S(p, "src")) return null;
+  return (
+    <section className="mx-auto max-w-5xl px-6 py-10">
+      <img src={S(p, "src")} alt={S(p, "alt")} className={`w-full object-cover ${p.rounded === false ? "" : "rounded-xl"}`} />
+      {S(p, "caption") ? <p className="mt-2 text-center text-sm text-muted-foreground">{S(p, "caption")}</p> : null}
+    </section>
+  );
+}
+
+function Spacer({ p }: { p: P }) {
+  const h: Record<string, string> = { sm: "24px", md: "48px", lg: "80px", xl: "128px" };
+  return <div style={{ height: h[S(p, "size") || "md"] || "48px" }} />;
+}
+
+function Cell({ c }: { c: { kind: string; body?: string; src?: string; alt?: string; html?: string } }) {
+  if (c.kind === "image" && c.src) return <img src={c.src} alt={c.alt || ""} className="w-full rounded-lg object-cover" />;
+  if (c.kind === "html" && c.html) return <div dangerouslySetInnerHTML={{ __html: c.html }} />;
+  return <div className="whitespace-pre-line text-muted-foreground">{c.body || ""}</div>;
+}
+
+function Columns({ p }: { p: P }) {
+  const cells = (p.cells as { kind: string; body?: string; src?: string; alt?: string; html?: string }[]) || [];
+  const cols = (p.cols as number) || 2;
+  const colClass = cols === 2 ? "md:grid-cols-2" : cols === 4 ? "md:grid-cols-4" : "md:grid-cols-3";
+  return (
+    <section className="mx-auto max-w-6xl px-6 py-12">
+      <div className={`grid gap-6 ${colClass}`}>{cells.map((c, i) => <Cell key={i} c={c} />)}</div>
+    </section>
+  );
+}
+
+function Html({ p }: { p: P }) {
+  return <section className="mx-auto max-w-6xl px-6 py-6" dangerouslySetInnerHTML={{ __html: S(p, "html") }} />;
+}
+
+function Embed({ p }: { p: P }) {
+  if (!S(p, "url")) return null;
+  return (
+    <section className="mx-auto max-w-6xl px-6 py-10">
+      <iframe src={S(p, "url")} title={S(p, "title") || "Embedded app"} className="w-full rounded-xl border" style={{ height: (p.height as number) || 480 }} loading="lazy" />
+    </section>
+  );
+}
+
 const REGISTRY: Record<string, (args: { p: P }) => React.ReactNode> = {
   hero: Hero, features: Features, stats: Stats, steps: Steps, pricing: Pricing,
   testimonials: Testimonials, logos: Logos, faq: Faq, cta: CtaBlock,
   richtext: RichText, gallery: Gallery, team: Team,
+  text: TextBlock, image: ImageBlock, columns: Columns, spacer: Spacer,
+  html: Html, embed: Embed,
 };
 
 export function BlockRegistry({ blocks, pageId }: { blocks: Block[]; pageId?: string }) {
   return (
     <>
       {(blocks || []).map((b) => {
-        if (b.type === "contact") return <ContactBlock key={b.id} p={b.props || {}} pageId={pageId} />;
-        const C = REGISTRY[b.type];
-        return C ? <div key={b.id}>{C({ p: b.props || {} })}</div> : null;
+        const style = (b.props?.style as Style) || undefined;
+        const node = b.type === "contact"
+          ? <ContactBlock p={b.props || {}} pageId={pageId} />
+          : REGISTRY[b.type] ? REGISTRY[b.type]({ p: b.props || {} }) : null;
+        return node ? <Wrap key={b.id} style={style}>{node}</Wrap> : null;
       })}
     </>
   );

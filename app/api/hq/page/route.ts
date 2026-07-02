@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
   if (b.blocks) patch.blocks = b.blocks;
   if (b.title) patch.title = b.title;
   if (b.status) patch.status = b.status;
+  if (b.seo) patch.seo = b.seo;
   const { error } = await supabaseAdmin.from("hq_pages").update(patch).eq("id", id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
