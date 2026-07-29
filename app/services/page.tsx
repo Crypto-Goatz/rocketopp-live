@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "Why is RocketOpp cheaper than other agencies?",
     answer:
-      "We build on 0nMCP — our AI orchestration platform with 1,171 pre-built tools across 54 services. Instead of building everything from scratch, we configure and connect proven systems. Our AI-native process eliminates the overhead that drives agency pricing up.",
+      "We build on 0nMCP — our AI orchestration platform with 1,640+ pre-built tools across 109 services. Instead of building everything from scratch, we configure and connect proven systems. Our AI-native process eliminates the overhead that drives agency pricing up.",
   },
   {
     question: "Are there any hidden fees?",

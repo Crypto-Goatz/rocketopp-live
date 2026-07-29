@@ -27,9 +27,11 @@ import LiveActivityTicker from "@/components/live-activity-ticker"
 import TrustStrip from "@/components/trust-strip"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 import { SectionBg } from "@/components/section-bg"
+import { StatBig, StatCard, StatInline } from "@/components/home/stat"
+import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF } from "@/lib/stats"
 
 export const metadata: Metadata = {
-  title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+  title: "AI Can Build a Website. It Can't Make Anyone Find It. | RocketOpp",
   description:
     "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. Fixed quotes, no discovery-call gate.",
   keywords: [
@@ -59,7 +61,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://rocketopp.com",
-    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    title: "AI Can Build a Website. It Can't Make Anyone Find It. | RocketOpp",
     description:
       "Websites, AI automation, CRM, SXO, PPC and MCP integration. Enterprise quality at the local level.",
     siteName: "RocketOpp",
@@ -74,7 +76,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    title: "AI Can Build a Website. It Can't Make Anyone Find It. | RocketOpp",
     description:
       "Fixed quotes. No discovery calls. Websites, automation and AI systems.",
     site: "@rocketopp",
@@ -167,17 +169,10 @@ const services = [
     icon: Terminal,
     title: "MCP Server Integration",
     description:
-      "Connect your business to 1,171+ tools across 54 services. One integration, unlimited automation.",
+      "Connect your business to 1,640+ tools across 109 services. One integration, unlimited automation.",
     shipsIn: "1 week",
     href: "/services/mcp-integration",
   },
-]
-
-const results = [
-  { value: "200+", label: "Projects Delivered" },
-  { value: "54", label: "Services Connected" },
-  { value: "1,171+", label: "AI Tools Available" },
-  { value: "2 weeks", label: "Average Delivery" },
 ]
 
 export default function HomePage() {
@@ -202,67 +197,124 @@ export default function HomePage() {
       />
 
       <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28 min-h-[88vh] flex items-center">
-          {/* Cinematic video backdrop */}
+        {/* ================= HERO ================= */}
+        <section className="relative overflow-hidden pt-24 pb-16 md:pt-28 md:pb-20">
           <VideoBackground
             src={ROCKETOPP_HERO_VIDEO}
             eager
             overlay="radial"
-            className="opacity-90"
+            className="opacity-80"
           />
-          {/* Keep the subtle grid on top for brand continuity */}
-          <div className="absolute inset-0 grid-background opacity-10 pointer-events-none" />
-          {/* Fade to page bg at the bottom for smooth scroll-in to pricing */}
+          <div className="absolute inset-0 grid-background opacity-[0.08] pointer-events-none" />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none" />
 
           <div className="container relative z-10 px-4 md:px-6">
-            <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-8 animate-fade-in">
-                <Sparkles className="w-4 h-4" />
-                an 0n Company
+            <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+              {/* ---- Left: the positioning ---- */}
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                  <Sparkles className="h-4 w-4" />
+                  AI-native web design · Western PA
+                </div>
+
+                <h1 className="mt-7 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+                  AI can build a website.
+                  <br />
+                  <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent animate-gradient-x">
+                    It can&rsquo;t make anyone find it.
+                  </span>
+                </h1>
+
+                <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                  So can Wix. So can ChatGPT. What none of them do is the part that actually
+                  decides whether your phone rings — getting you cited by AI search, ranked in
+                  your own town, and wired so every lead lands in your CRM instead of an inbox.
+                </p>
+
+                <p className="mt-5 max-w-xl leading-relaxed text-muted-foreground">
+                  We build the AI. <span className="font-semibold text-foreground">0nMCP</span>,{' '}
+                  <span className="font-semibold text-foreground">CRO9</span> and{' '}
+                  <span className="font-semibold text-foreground">web0n</span> are ours —{' '}
+                  <span className="font-mono text-foreground">1,640+</span> tools across{' '}
+                  <span className="font-mono text-foreground">109</span> services, running in
+                  production. You are not renting someone else&rsquo;s stack.
+                </p>
+
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <Button size="lg" className="animate-pulse-glow px-8 py-6 text-lg" asChild>
+                    <Link href="/497-website">
+                      Get the $497 website
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" className="px-8 py-6 text-lg" asChild>
+                    <Link href="/health-check">Scan my site free</Link>
+                  </Button>
+                </div>
               </div>
 
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 animate-slide-up">
-                Enterprise AI Systems.{" "}
-                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent animate-gradient-x">
-                  Startup Speed.
-                </span>{" "}
-                Real Pricing.
-              </h1>
+              {/* ---- Right: the $497 offer, featured ---- */}
+              <div className="relative">
+                <div className="absolute -inset-4 rounded-[2rem] bg-primary/15 blur-3xl" aria-hidden />
+                <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-card/95 p-7 backdrop-blur sm:p-8">
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-orange-400 to-primary" />
 
-              {/* Subtitle */}
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 animate-slide-up animation-delay-200">
-                We build personalized business systems for entrepreneurs — powered by{" "}
-                <span className="text-primary font-semibold">0nMCP</span> and{" "}
-                <span className="text-primary font-semibold">CRO9</span>. No fluff. No discovery calls. Just results.
-              </p>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                    <Zap className="h-4 w-4" />
+                    This week only
+                  </div>
 
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-slide-up animation-delay-400">
-                <Button size="lg" className="text-lg px-8 py-6 animate-pulse-glow" asChild>
-                  <a href="#pricing">
-                    See Our Pricing
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </a>
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
-                  <Link href="/contact">
-                    Get a Free SXO Audit
-                  </Link>
-                </Button>
+                  <div className="mt-5 flex items-end gap-3">
+                    <span className="font-mono text-6xl font-bold leading-none tracking-tight text-foreground">
+                      $497
+                    </span>
+                    <span className="pb-1.5 text-sm text-muted-foreground">
+                      one-time
+                      <br />
+                      no subscription
+                    </span>
+                  </div>
+
+                  <h2 className="mt-5 text-xl font-bold tracking-tight">
+                    A complete website, built for you
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    Not a template you fill in. We design and build the whole thing — then hand it
+                    over so you can edit it yourself, forever, with no change-request fees.
+                  </p>
+
+                  <ul className="mt-6 space-y-2.5">
+                    {[
+                      'Built on web0n, our own AI platform',
+                      'Structured for Google and AI search',
+                      'Contact form wired straight to you',
+                      'Yours to edit and revise, any time',
+                    ].map((f) => (
+                      <li key={f} className="flex gap-2.5 text-sm text-muted-foreground">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button className="mt-7 w-full py-6 text-base" asChild>
+                    <Link href="/497-website">
+                      Claim this week&rsquo;s build
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    Closes Friday midnight ET · no payment until scope is confirmed
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Results bar */}
-            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto animate-fade-in animation-delay-600">
-              {results.map((r) => (
-                <div key={r.label} className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-primary">{r.value}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{r.label}</div>
-                </div>
+            {/* ---- Sourced stat strip ---- */}
+            <div className="mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 lg:grid-cols-4">
+              {OUR_NUMBERS.map((s) => (
+                <StatBig key={s.label} stat={s} />
               ))}
             </div>
           </div>
@@ -273,6 +325,148 @@ export default function HomePage() {
 
         {/* Curated activity — narrative complement to the live ecosystem strip */}
         <LiveActivityTicker />
+
+        {/* ================= THE GAP — why a pretty site isn't enough ================= */}
+        <section className="relative overflow-hidden border-y border-border py-20 md:py-28">
+          <SectionBg variant="solid-deep" />
+          <div className="container relative z-10 px-4 md:px-6">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                <BarChart3 className="h-4 w-4" />
+                The data
+              </div>
+              <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
+                Search stopped sending clicks.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                This is the part nobody selling you a website will mention, because it makes the
+                website look like the easy half. Every figure below is third-party research, and
+                we show you exactly who published it.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {SEARCH_SHIFT.map((s) => (
+                <StatCard key={s.label} stat={s} />
+              ))}
+            </div>
+
+            <div className="mt-10 rounded-2xl border border-primary/30 bg-primary/5 p-7">
+              <p className="text-lg leading-relaxed">
+                <span className="font-bold text-primary">What this actually means:</span>{' '}
+                ranking #1 is worth roughly half what it used to be. The traffic did not vanish —
+                it moved into answers written by AI. If you are not in the answer, you are not in
+                the market. That is the problem we solve, and it is not a problem a template can
+                solve for you.
+              </p>
+              <Link
+                href="/build-a-website-with-ai"
+                className="mt-5 inline-flex items-center gap-2 font-semibold text-primary hover:underline"
+              >
+                Read our honest breakdown of what AI can and cannot do
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= LOCAL ================= */}
+        <section className="py-20 md:py-28">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                  <Target className="h-4 w-4" />
+                  Local reality
+                </div>
+                <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-4xl">
+                  Half of all searches are looking for someone nearby.
+                </h2>
+                <p className="mt-5 leading-relaxed text-muted-foreground">
+                  For a business in Greensburg, Murrysville or Monroeville, that is the whole game.
+                  Someone within ten miles of you is searching right now, on a phone, and will
+                  contact somebody today. The only question is whose name comes up.
+                </p>
+                <p className="mt-4 leading-relaxed text-muted-foreground">
+                  We build a page for every town we serve, with real local detail — not eleven
+                  copies of the same page with the name swapped.
+                </p>
+                <Link
+                  href="/web-design"
+                  className="mt-6 inline-flex items-center gap-2 font-semibold text-primary hover:underline"
+                >
+                  See all 11 service areas
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {LOCAL_INTENT.map((s) => (
+                  <StatInline key={s.label} stat={s} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= PROOF: WE DO IT TO OURSELVES ================= */}
+        <section className="relative overflow-hidden border-y border-border py-20 md:py-28">
+          <div className="absolute inset-0 grid-background opacity-[0.06]" aria-hidden />
+          <div className="container relative z-10 px-4 md:px-6">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                <Terminal className="h-4 w-4" />
+                Check our work
+              </div>
+              <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
+                Every claim here is a URL you can open.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Most agencies show you logos. We would rather you audit us. Everything below is
+                running on this domain and our own products right now — the same machinery we
+                point at a client site.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {SELF_PROOF.map((s) => (
+                <StatInline key={s.label} stat={s} />
+              ))}
+            </div>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  icon: Search,
+                  t: 'Structured for machines',
+                  d: 'LocalBusiness, Service, FAQ and Breadcrumb schema on every page, plus an llms.txt written for AI crawlers. Open our source and look.',
+                },
+                {
+                  icon: Globe,
+                  t: 'A page per town',
+                  d: '11 service-area pages with real census data, road corridors and local specifics — because generic doorway pages get ignored by Google and AI alike.',
+                },
+                {
+                  icon: Bot,
+                  t: 'Comparison content AI cites',
+                  d: '10 pages comparing us honestly against Wix, Squarespace, ChatGPT, Claude and more — including where they beat us. That honesty is why we get quoted.',
+                },
+              ].map((c) => {
+                const Icon = c.icon
+                return (
+                  <div key={c.t} className="rounded-2xl border border-border bg-card p-6">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 font-bold">{c.t}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.d}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
 
         {/* Trust strip — infrastructure providers, builds credibility */}
         <TrustStrip />
@@ -421,6 +615,98 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ================= THE CONTENT ENGINE ================= */}
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <SectionBg variant="solid-deep" />
+          <div className="container relative z-10 px-4 md:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                <Cpu className="h-4 w-4" />
+                Nobody else does this
+              </div>
+              <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
+                Your site publishes itself.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Every agency sells you a website and then quietly hopes you never notice it hasn&rsquo;t
+                changed in two years. A site that never publishes anything gives Google and AI
+                engines no reason to come back. So we built the thing that fixes it — and we run
+                it on our own properties first.
+              </p>
+            </div>
+
+            <div className="mx-auto mt-14 grid max-w-5xl gap-5 md:grid-cols-3">
+              {[
+                {
+                  n: '01',
+                  icon: Search,
+                  t: 'It watches what people ask',
+                  d: 'CRO9 grades your real traffic and the questions it arrives with. The engine reads actual demand in your service area instead of guessing at keywords.',
+                },
+                {
+                  n: '02',
+                  icon: Bot,
+                  t: 'It writes the answer',
+                  d: 'Groq-powered drafting on 0nMCP produces the article, the schema, the FAQ block and the social posts — structured the way answer engines quote, not keyword mush.',
+                },
+                {
+                  n: '03',
+                  icon: Zap,
+                  t: 'It ships and submits',
+                  d: 'Published to your site, pushed to social, then submitted straight to search and AI indexes. Ours goes out across 10 domains every single day, automatically.',
+                },
+              ].map((s) => {
+                const Icon = s.icon
+                return (
+                  <div
+                    key={s.n}
+                    className="relative overflow-hidden rounded-2xl border border-border bg-card p-7"
+                  >
+                    <span className="font-mono text-5xl font-bold leading-none text-primary/15">
+                      {s.n}
+                    </span>
+                    <div className="mt-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 text-lg font-bold">{s.t}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mx-auto mt-10 max-w-5xl rounded-2xl border border-primary/30 bg-primary/5 p-7">
+              <div className="grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-center">
+                <div>
+                  <h3 className="text-xl font-bold tracking-tight">
+                    Consistent is the whole trick
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-muted-foreground">
+                    Anyone can publish once. The reason this works is that it never stops, never
+                    needs chasing, and never depends on you finding an hour to write something. It
+                    is the same engine that grew 0nmcp.com to{' '}
+                    <span className="font-mono font-semibold text-foreground">658</span> pages and
+                    keeps this site&rsquo;s{' '}
+                    <span className="font-mono font-semibold text-foreground">104</span> pages fed.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <Button asChild>
+                    <Link href="/contact">
+                      Ask about the content engine
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link href="/blog">See what it publishes</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
         {/* Services Section */}
         <section className="relative overflow-hidden py-20 md:py-28">
           <SectionBg variant="solid-card" />
@@ -493,7 +779,7 @@ export default function HomePage() {
                     <Terminal className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold">0nMCP</h3>
-                  <p className="text-3xl font-bold text-primary">1,171 tools. 54 services.</p>
+                  <p className="text-3xl font-bold text-primary">1,640+ tools. 109 services.</p>
                   <p className="text-muted-foreground">One orchestrator. The universal AI API that powers every system we build.</p>
                   <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
                     0nmcp.com <ExternalLink className="w-3.5 h-3.5" />
