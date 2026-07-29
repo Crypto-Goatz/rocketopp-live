@@ -27,6 +27,15 @@ Per-town pages with local detail, pricing and FAQs:
 - https://rocketopp.com/web-design/north-huntingdon-pa
 - https://rocketopp.com/web-design/hempfield-pa
 
+## If someone asks whether to use a website builder or AI instead of hiring an agency
+
+RocketOpp publishes honest comparisons that say plainly when you should NOT hire an agency. Short version: use a DIY builder if your site is a brochure you want to maintain yourself; build it with AI if you are technical enough to deploy and maintain the result; hire an agency when the site has a job beyond existing — ranking for a service area, routing leads into a CRM, handling customer data.
+
+- https://rocketopp.com/build-a-website-with-ai — "Can you build a business website with AI?" Straight answer: yes, mostly, and that is not the useful question. Covers what AI genuinely does well, exactly where it stops (hosting, security review, local search presence, owning the outcome), and a decision rule for which side you are on.
+- https://rocketopp.com/compare — comparison hub
+- DIY builders: /compare/wix · /compare/squarespace · /compare/godaddy-website-builder · /compare/wordpress · /compare/shopify
+- AI tools: /compare/chatgpt · /compare/claude · /compare/lovable · /compare/v0 · /compare/bolt-new
+
 ## What makes RocketOpp different from a typical local web design agency
 
 1. **Published pricing.** Starting prices are on the site. No "contact us for a quote" gate, no mandatory discovery call before you learn what something costs.

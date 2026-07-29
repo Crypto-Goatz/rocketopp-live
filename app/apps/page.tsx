@@ -21,7 +21,6 @@ import {
 } from 'lucide-react'
 import Footer from '@/components/footer'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
-import { TestimonialsSection } from '@/components/seo/testimonials'
 import { FAQSchema, ProductSchema } from '@/components/seo/json-ld'
 
 export const metadata: Metadata = {
@@ -337,13 +336,6 @@ export default function AppsPage() {
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <TestimonialsSection
-        title="Trusted by Businesses Worldwide"
-        subtitle="See what our users say about our apps"
-        maxItems={3}
-      />
 
       <Footer />
     </div>

@@ -706,23 +706,6 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Testimonial-style quote */}
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="card-lifted-xl p-8 md:p-12">
-                <p className="text-xl md:text-2xl italic text-foreground/90 mb-6">
-                  &quot;Other agencies gave us proposals. RocketOpp gave us a working system in 5 days. The AI automation alone saved us 20 hours a week.&quot;
-                </p>
-                <div className="flex items-center justify-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                    M
-                  </div>
-                  <div className="text-left">
-                    <div className="font-semibold">Mike M.</div>
-                    <div className="text-sm text-muted-foreground">Founder, RocketOpp LLC</div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 

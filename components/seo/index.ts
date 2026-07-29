@@ -28,15 +28,12 @@ export {
   type BreadcrumbItem
 } from './breadcrumbs'
 
-// Testimonials & Reviews
-export {
-  TestimonialsSection,
-  TestimonialStrip,
-  AggregateRatingSchema,
-  testimonials,
-  calculateAggregateRating,
-  type Testimonial
-} from './testimonials'
+// Testimonials & Reviews — intentionally absent.
+// The previous testimonials module shipped placeholder quotes attributed to
+// invented people and emitted Review/AggregateRating JSON-LD for them. That
+// violates Google's review-snippet policy and destroys the site's credibility
+// with AI search engines, which weight verifiable sources. Reintroduce only
+// with real, attributable client reviews.
 
 // Social Sharing
 export {

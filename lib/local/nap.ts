@@ -13,20 +13,15 @@
  * `areaServed` instead. Emitting a fake or hidden street address is the single
  * fastest way to get a Business Profile suspended.
  *
- * ⚠️  TODO(mike): confirm BASE_LOCALITY and PHONE below before the Google
- *     Business Profile is created. These two values must match the GBP exactly.
+ * BASE_LOCALITY and PHONE below were confirmed by Mike on 2026-07-29. They must
+ * match the Google Business Profile exactly — change them here and nowhere else.
  */
 
 /** Legal entity name. Must match the GBP business name character-for-character. */
 export const BUSINESS_NAME = 'RocketOpp'
 export const LEGAL_NAME = 'RocketOpp LLC'
 
-/**
- * ⚠️ UNCONFIRMED — assumed base of operations.
- * Chosen as the geographic centre of the service area (Westmoreland county
- * seat). If RocketOpp actually operates out of a different town, change this
- * one constant and every schema block + page follows.
- */
+/** Base of operations — Greensburg, the Westmoreland county seat. Confirmed. */
 export const BASE_LOCALITY = 'Greensburg'
 export const BASE_REGION = 'PA'
 export const BASE_REGION_NAME = 'Pennsylvania'
@@ -34,9 +29,8 @@ export const BASE_POSTAL_CODE = '15601'
 export const BASE_COUNTRY = 'US'
 
 /**
- * ⚠️ Canonicalised on +1-878-888-1230 (used in app/layout.tsx, app/about,
- * app/request-app). app/pitch-idea previously carried +1-878-888-1238 — a
- * one-off that broke NAP consistency. Confirm which is the real published line.
+ * Confirmed published line. app/pitch-idea previously carried +1-878-888-1238,
+ * a one-off that broke NAP consistency; it has been corrected.
  */
 export const PHONE = '+1-878-888-1230'
 export const PHONE_DISPLAY = '(878) 888-1230'

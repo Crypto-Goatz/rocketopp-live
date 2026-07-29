@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LineChart, Search, BarChart2, Users, Edit3, ArrowRight, Play } from "lucide-react"
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
 import { VideoSchema, FAQSchema } from "@/components/seo/json-ld"
-import { TestimonialsSection } from "@/components/seo/testimonials"
 
 export const metadata: Metadata = {
   title: "Strategic Web Marketing Services | RocketOpp - SEO, PPC, Social Media",
@@ -162,14 +161,6 @@ export default function WebMarketingPage() {
             </div>
           </div>
         </section>
-
-        {/* Testimonials */}
-        <TestimonialsSection
-          title="Marketing Results That Speak"
-          subtitle="See how our clients have grown with our marketing strategies"
-          filterByService="Digital Marketing"
-          maxItems={3}
-        />
 
         <section className="py-12 md:py-16 bg-muted/50 dark:bg-muted/20">
           <div className="container text-center">

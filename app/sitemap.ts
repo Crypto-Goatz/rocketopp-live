@@ -7,6 +7,7 @@
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { AREAS } from '@/lib/local/areas'
+import { BUILDERS } from '@/lib/aeo/builders'
 
 // Re-render the sitemap every 60 seconds so newly published blog posts
 // + marketplace products show up without a redeploy.
@@ -56,6 +57,10 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
 
   // Tier 3b — local service-area hub (per-town pages appended below)
   { path: '/web-design',                                         priority: 0.95, freq: 'weekly' },
+
+  // Tier 3c — AEO cluster (per-builder comparisons appended below)
+  { path: '/build-a-website-with-ai',                            priority: 0.95, freq: 'monthly' },
+  { path: '/compare',                                            priority: 0.90, freq: 'monthly' },
 
   // Tier 4 — product + supporting
   { path: '/marketplace/lease-to-own',                           priority: 0.80, freq: 'weekly' },
@@ -148,11 +153,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.90,
   }))
 
+  // AEO comparison pages — one per builder in lib/aeo/builders.ts
+  const compareRoutes: MetadataRoute.Sitemap = BUILDERS.map((b) => ({
+    url: `${BASE}/compare/${b.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as Freq,
+    priority: 0.85,
+  }))
+
   const [products, categories, blog] = await Promise.all([
     dynamicProducts(),
     dynamicCategories(),
     dynamicBlog(),
   ])
 
-  return [...staticRoutes, ...localRoutes, ...products, ...categories, ...blog]
+  return [...staticRoutes, ...localRoutes, ...compareRoutes, ...products, ...categories, ...blog]
 }

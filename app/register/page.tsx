@@ -117,21 +117,6 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Testimonial */}
-          <div className="bg-white/5 backdrop-blur rounded-2xl p-6 border border-white/10">
-            <p className="text-zinc-300 italic mb-4">
-              &ldquo;RocketOpp transformed how we handle leads. The AI tools save us hours every single day.&rdquo;
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white font-bold text-sm">
-                JD
-              </div>
-              <div>
-                <p className="text-white font-medium text-sm">James Davidson</p>
-                <p className="text-zinc-500 text-xs">Growth Marketing Agency</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

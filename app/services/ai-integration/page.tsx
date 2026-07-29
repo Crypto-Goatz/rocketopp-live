@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import AiIntegrationClientPage from "./AiIntegrationClientPage"
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
-import { TestimonialsSection } from "@/components/seo/testimonials"
 import { FAQSchema } from "@/components/seo/json-ld"
 import Footer from "@/components/footer"
 
@@ -83,14 +82,6 @@ export default function AiIntegrationPage() {
       </div>
 
       <AiIntegrationClientPage />
-
-      {/* Testimonials filtered to AI services */}
-      <TestimonialsSection
-        title="AI Integration Success Stories"
-        subtitle="See how businesses are transforming with our AI solutions"
-        filterByService="AI Integration"
-        maxItems={4}
-      />
 
       <Footer />
     </>

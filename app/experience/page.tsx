@@ -2,15 +2,15 @@ import type { Metadata } from "next"
 import ExperiencePageClient from "./ExperiencePageClient"
 
 export const metadata: Metadata = {
-  title: "25+ Years of Digital Excellence | RocketOpp Experience & Testimonials",
+  title: "25+ Years of Digital Excellence | RocketOpp Experience",
   description:
-    "Discover why businesses trust RocketOpp with 25+ years of proven results. Read client testimonials, view our award-winning portfolio, and see the websites we've built.",
+    "RocketOpp has been building for the web since 1999. See our portfolio, the work we've shipped, and how we approach web design, development and AI systems.",
   keywords:
-    "web development testimonials, digital agency reviews, website design portfolio, award winning web agency, client success stories",
+    "web design portfolio, digital agency experience, website development portfolio, western pennsylvania web agency",
   openGraph: {
     title: "25+ Years of Digital Excellence | RocketOpp Experience",
     description:
-      "Trusted by hundreds of businesses. See our testimonials, awards, and portfolio of successful projects.",
+      "Building for the web since 1999. See our portfolio and how we work.",
     type: "website",
   },
 }

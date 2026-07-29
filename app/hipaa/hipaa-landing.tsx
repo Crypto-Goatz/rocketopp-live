@@ -7,7 +7,6 @@
  *   - Standalone product surface (no site navbar, no site footer)
  *   - BLUF hero with pricing visible
  *   - Table Trap pricing table near the top
- *   - Realistic testimonials with specific roles, numbers, outcomes
  *   - Trust badges + LinkedIn follow
  *   - 2026 NPRM urgency hook
  *   - Aggressive keyword coverage for organic search
@@ -117,67 +116,6 @@ const TIERS = [
   },
 ] as const
 
-// ---------------------------------------------------------------------------
-// Realistic testimonials — specific roles, dollar figures, time-to-value.
-// ---------------------------------------------------------------------------
-const TESTIMONIALS = [
-  {
-    quote: 'We paid $47K to a compliance consultant last year and the final deliverable was a PDF that barely mentioned our website. This $899 report named every gap, wrote the fix, and flagged two NPRM changes the consultant missed entirely.',
-    author: 'Dr. Rachel Okonkwo',
-    role: 'Chief Compliance Officer',
-    org: 'Sunset Valley Medical Group · 23 locations, AZ',
-    metric: { label: 'Consultant invoice avoided', value: '$47,000' },
-  },
-  {
-    quote: 'Our OCR audit prep went from "six more months of panic" to "we already know the gaps and who owns each one." The attestation checklist alone saved our security officer three full days.',
-    author: 'Marcus Chen',
-    role: 'HIPAA Security Officer',
-    org: 'Northbridge Behavioral Health',
-    metric: { label: 'Pre-audit prep time saved', value: '~3 days' },
-  },
-  {
-    quote: 'I handed the developer fix kit to my team on a Monday. By Friday, ten of the twelve findings were shipped. The verification commands are the move — I just ran them and closed the Jira tickets.',
-    author: 'Jennifer Park',
-    role: 'Director of IT',
-    org: 'Atlas Clinical Laboratories',
-    metric: { label: 'Findings remediated', value: '10 of 12 in 5 days' },
-  },
-  {
-    quote: 'A local firm quoted me $12,400 for the same report. I got this one in 15 minutes for $899 and it was more specific. I still cannot believe the price.',
-    author: 'Dr. Arthur Whitfield',
-    role: 'Solo Practice Owner',
-    org: 'Whitfield Dermatology, PLLC',
-    metric: { label: 'Quote from local consultant', value: '$12,400' },
-  },
-  {
-    quote: 'The NPRM overlay caught three things our existing HIPAA vendor had not even mentioned yet — including the encryption-at-rest change for backups. We fixed it before the deadline hits.',
-    author: 'Sarah Nguyen',
-    role: 'Practice Manager',
-    org: 'Riverfront Pediatric Associates · 4 offices',
-    metric: { label: 'NPRM gaps vendor missed', value: '3' },
-  },
-  {
-    quote: 'I run HIPAA compliance for 14 covered-entity clients. This is now the first thing I order when a new client signs on. The rule citations mean I stop arguing with engineers about whether something "counts."',
-    author: 'David Lieberman',
-    role: 'Compliance Lead',
-    org: 'HealthQuotient BPO · business associate',
-    metric: { label: 'Client audits run on this', value: '14 and counting' },
-  },
-  {
-    quote: 'Our engineering leads laughed when I said "fifteen minutes." They stopped laughing when the report hit the shared channel with pasteable fixes. Ten days later we had a clean rescan.',
-    author: 'Tanya Robbins',
-    role: 'CTO',
-    org: 'Pulsewell Telehealth, Inc.',
-    metric: { label: 'Time from report to clean rescan', value: '10 days' },
-  },
-  {
-    quote: 'Best $899 I have spent on the practice in years. I now keep a printed copy in the binder the OCR expects to see. That sentence sells itself.',
-    author: 'Dr. Emilio Torres',
-    role: 'Practicing Cardiologist',
-    org: 'Cardiology Associates of Tampa Bay',
-    metric: { label: 'Printed and filed', value: 'Yes' },
-  },
-] as const
 
 // ---------------------------------------------------------------------------
 // FAQ — 15+ covering every objection and high-intent search query.
@@ -629,54 +567,6 @@ export function HIPAALanding() {
         </div>
       </section>
 
-      {/* ============================= TESTIMONIALS ============================= */}
-      <section className="border-b border-white/10 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="text-xs font-bold uppercase tracking-widest text-emerald-300">Used by compliance officers, security officers, and CTOs</div>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
-              "Best $899 I've spent on the practice in years."
-            </h2>
-            <p className="mt-4 text-white/60">
-              Covered entities and business associates across the US — from solo practices to 23-location groups — use the same $899 report that replaces $15,000 consultancy engagements.
-            </p>
-          </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {TESTIMONIALS.map((t, i) => (
-              <figure
-                key={i}
-                className="flex flex-col justify-between rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-5"
-              >
-                <blockquote className="text-[14px] leading-relaxed text-white/85">
-                  "{t.quote}"
-                </blockquote>
-                <div className="mt-4">
-                  <div className="inline-flex items-center gap-2 rounded-md border border-emerald-500/20 bg-emerald-500/5 px-2 py-1 text-[11px] font-bold text-emerald-200">
-                    <TrendingUp className="h-3 w-3" />
-                    {t.metric.label}: <span className="text-white">{t.metric.value}</span>
-                  </div>
-                  <figcaption className="mt-3">
-                    <div className="text-sm font-bold text-white">{t.author}</div>
-                    <div className="text-xs text-white/60">{t.role}</div>
-                    <div className="text-xs text-white/40">{t.org}</div>
-                  </figcaption>
-                </div>
-              </figure>
-            ))}
-          </div>
-          <div className="mt-10 flex items-center justify-center">
-            <a
-              href="https://linkedin.com/company/rocketopp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
-            >
-              <Linkedin className="h-4 w-4" /> Follow RocketOpp on LinkedIn for weekly HIPAA teardowns
-              <ExternalLink className="h-3 w-3 text-white/50" />
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* ============================= NPRM DEEP DIVE ============================= */}
       <section className="border-b border-white/10 bg-gradient-to-b from-amber-500/[0.05] to-transparent py-16 sm:py-20">

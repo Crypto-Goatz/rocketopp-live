@@ -2,7 +2,6 @@ import Footer from "@/components/footer"
 import { Rocket, Zap, Clock, Brain } from "lucide-react"
 import type { Metadata } from "next"
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
-import { TestimonialsSection, TestimonialStrip } from "@/components/seo/testimonials"
 
 export const metadata: Metadata = {
   title: "About RocketOpp | AI-Powered Business Automation Company",
@@ -101,8 +100,6 @@ export default function AboutPage() {
               <p className="text-xl text-muted-foreground leading-relaxed mb-8">
                 That&apos;s not just a tagline. It&apos;s the entire point.
               </p>
-              {/* Trust Badge */}
-              <TestimonialStrip />
             </div>
           </div>
         </section>
@@ -215,12 +212,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <TestimonialsSection
-          title="What Our Clients Say"
-          subtitle="Real results from real businesses"
-          maxItems={6}
-        />
       </main>
       <Footer />
     </div>

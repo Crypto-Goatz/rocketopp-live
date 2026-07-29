@@ -76,26 +76,6 @@ const stats = [
   { value: "$50M+", label: "Client Revenue", icon: Zap },
 ]
 
-const testimonials = [
-  {
-    quote: "RocketOpp transformed our business idea into a fully functional app in just 12 weeks. The AI features they built have completely automated our customer service.",
-    author: "Sarah Mitchell",
-    role: "CEO, Pittsburgh Healthcare Solutions",
-    rating: 5,
-  },
-  {
-    quote: "As a Pittsburgh startup, finding a local team that understood AI was crucial. RocketOpp exceeded every expectation and delivered under budget.",
-    author: "James Wilson",
-    role: "Founder, SteelCity Tech",
-    rating: 5,
-  },
-  {
-    quote: "Our e-commerce app increased sales by 340% in the first year. The recommendation engine RocketOpp built is incredible.",
-    author: "Maria Garcia",
-    role: "Owner, Strip District Boutique",
-    rating: 5,
-  },
-]
 
 const portfolioImages = [
   { src: "/images/portfolio/app-dashboard-dark.jpg", alt: "Enterprise Dashboard App - Dark Mode Analytics Interface" },
@@ -440,43 +420,6 @@ export default function RequestAppClient() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="py-20">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Trusted by Pittsburgh Businesses
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                See what our clients say about working with RocketOpp.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-xl bg-card border border-border"
-                >
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <Star key={j} className="w-5 h-5 fill-yellow-500 text-yellow-500" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 italic">"{testimonial.quote}"</p>
-                  <div>
-                    <div className="font-bold">{testimonial.author}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Why Pittsburgh Section - Local SEO */}
         <section className="py-20 bg-muted/30">
