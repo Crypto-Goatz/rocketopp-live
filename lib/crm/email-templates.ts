@@ -12,6 +12,7 @@ export type FormKind =
   | 'request_app'
   | 'pitch_idea'
   | 'assessment'
+  | 'website_offer'
 
 export interface TemplateContent {
   subject: string
@@ -232,10 +233,72 @@ function tplAssessment(ctx: TemplateContext): TemplateContent {
   }
 }
 
+
+/**
+ * $497 website offer confirmation.
+ *
+ * This is the money email. Rather than "we'll be in touch", it gives the two
+ * actions that actually move the project forward: pay the $247 deposit to lock
+ * the build slot, and book the 15-minute kickoff on the calendar. Both live on
+ * one page so there is a single link to click.
+ */
+function tplWebsiteOffer(ctx: TemplateContext): TemplateContent {
+  const start = 'https://rocketopp.com/497-website/start'
+  const body = `
+    <p>${greeting(ctx.firstName)}</p>
+    <p>Got your application for the <strong>$497 website</strong> — you're in. Here's exactly what happens next, and you can do both parts right now.</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:22px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
+      <tr>
+        <td style="padding:18px 20px;">
+          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Step 1 &middot; Lock your build slot</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">A <strong>$247 deposit</strong> reserves your slot and starts the build. The remaining <strong>$250</strong> is due when the site goes live — total $497, nothing hidden.</p>
+        </td>
+      </tr>
+      <tr><td style="padding:0 20px;"><div style="height:1px;background:${BORDER};"></div></td></tr>
+      <tr>
+        <td style="padding:18px 20px;">
+          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Step 2 &middot; Book your kickoff</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">Pick a 15-minute slot on my calendar. We go through your services, your pages and your brand — then I build it.</p>
+        </td>
+      </tr>
+    </table>
+    <p>Both are on the same page. Deposit takes a minute, booking takes another.</p>
+    <p style="color:${MUTED};font-size:14px;">Not ready to pay yet? Book the call anyway and we'll confirm the scope first — I'd rather tell you $497 won't cover it than take the deposit and surprise you later.</p>
+  `
+  return {
+    subject: 'You\'re in — reserve your $497 build slot',
+    html: shell({
+      preheader: 'Two steps: $247 deposit to lock your slot, then book your 15-minute kickoff.',
+      heading: 'You\'re in — let\'s lock it in',
+      bodyHtml: body,
+      ctaHref: start,
+      ctaLabel: 'Pay deposit + book kickoff',
+    }),
+    text: `${greeting(ctx.firstName)}
+
+Got your application for the $497 website - you're in.
+
+STEP 1 - Lock your build slot
+A $247 deposit reserves your slot and starts the build. The remaining $250 is due when the site goes live. Total $497, nothing hidden.
+
+STEP 2 - Book your kickoff
+Pick a 15-minute slot on my calendar. We go through your services, pages and brand, then I build it.
+
+Do both here: ${start}
+
+Not ready to pay yet? Book the call anyway and we'll confirm scope first - I'd rather tell you $497 won't cover it than take the deposit and surprise you later.
+
+- Mike
+Founder, RocketOpp
+mike@rocketopp.com`,
+  }
+}
+
 const BUILDERS: Record<FormKind, (ctx: TemplateContext) => TemplateContent> = {
   contact: tplContact,
   support: tplSupport,
   general: tplGeneral,
+  website_offer: tplWebsiteOffer,
   request_app: tplRequestApp,
   pitch_idea: tplPitchIdea,
   assessment: tplAssessment,
@@ -250,6 +313,7 @@ export function renderTemplate(kind: FormKind, ctx: TemplateContext = {}): Templ
 export function formKindFromSource(source: string | undefined): FormKind {
   if (!source) return 'general'
   const s = source.toLowerCase()
+  if (s.includes('497') || s.includes('website-offer') || s.includes('website_offer')) return 'website_offer'
   if (s.includes('assessment')) return 'assessment'
   if (s.includes('support')) return 'support'
   if (s.includes('pitch')) return 'pitch_idea'
@@ -266,6 +330,7 @@ export const CRM_TEMPLATE_SLUGS: Record<FormKind, string> = {
   request_app: 'rocketopp-thankyou-request-app',
   pitch_idea: 'rocketopp-thankyou-pitch-idea',
   assessment: 'rocketopp-thankyou-assessment',
+  website_offer: 'rocketopp-thankyou-497-offer',
 }
 
 export const ALL_KINDS: FormKind[] = [
@@ -275,4 +340,5 @@ export const ALL_KINDS: FormKind[] = [
   'request_app',
   'pitch_idea',
   'assessment',
+  'website_offer',
 ]
