@@ -19,6 +19,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { waitUntil } from '@vercel/functions'
 import { createClient } from '@supabase/supabase-js'
+import { buildReportPdf, uploadPdfToCrm } from '@/lib/ai-readiness/pdf'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -170,6 +171,7 @@ async function tagAndStamp(
   scanId: string,
   report: GeneratedReport | null,
   pit: string,
+  pdfUrl?: string | null,
 ) {
   // Tags
   const grade =
@@ -208,6 +210,10 @@ async function tagAndStamp(
         { key: 'ai_readiness_domain', value: domain },
         { key: 'ai_readiness_scan_id', value: scanId },
         { key: 'ai_readiness_scan_date', value: new Date().toISOString() },
+        // Link to the PDF stored in the CRM media library. The CRM has no
+        // attach-file-to-contact endpoint, so the document lives in the media
+        // library and the contact carries its URL.
+        ...(pdfUrl ? [{ key: 'ai_readiness_report_pdf', value: pdfUrl }] : []),
       ],
     }),
   }).catch(() => {})
@@ -237,6 +243,7 @@ async function sendReportEmail(
   scanId: string,
   report: GeneratedReport | null,
   pit: string,
+  pdfUrl?: string | null,
 ) {
   if (!report) {
     // Fallback: barebones thank-you
@@ -289,6 +296,11 @@ async function sendReportEmail(
     `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0;">`,
     `  <tr><td style="background:#ff6b35;border-radius:10px;">`,
     `    <a href="${link}" style="display:inline-block;padding:14px 28px;color:#0a0a0f;font-weight:800;font-size:16px;text-decoration:none;letter-spacing:0.01em;">View the full report →</a>`,
+    // The PDF link only renders when the upload actually succeeded — never
+    // promise an attachment we do not have.
+    ...(pdfUrl
+      ? [`    <p style="margin:14px 0 0;font-size:14px;"><a href="${pdfUrl}" style="color:#ff8a35;">Download it as a PDF →</a></p>`]
+      : []),
     `  </td></tr>`,
     `</table>`,
     `<p style="font-size:14px;color:#a8a8b0;">Want help fixing any of this? Reply to this email or book a 30-minute kickoff at <a href="${ROCKETAPPOINTMENTS_URL}" style="color:#ff8a35;">RocketAppointments</a>. The first call is free.</p>`,
@@ -345,8 +357,35 @@ async function backgroundFulfill(
     .update({ crm_contact_id: contactId })
     .eq('id', scanId)
 
-  await tagAndStamp(contactId, domain, scanId, report, pit)
-  await sendReportEmail(contactId, domain, scanId, report, pit)
+  // ── PDF: generate → upload to the CRM media library → persist the URL ──
+  // Entirely best-effort. A PDF failure must never cost us the lead, the CRM
+  // record or the report email, so every step degrades to null and the sequence
+  // continues without it.
+  let pdfUrl: string | null = null
+  if (report) {
+    const pdf = buildReportPdf({ domain, report, scanId })
+    if (pdf) {
+      pdfUrl = await uploadPdfToCrm({
+        pdf,
+        filename: `ai-readiness-${domain.replace(/[^a-z0-9.-]/gi, '-')}-${scanId.slice(0, 8)}.pdf`,
+        locationId: ROCKETOPP_LOCATION_ID,
+        pit,
+      })
+      if (pdfUrl) {
+        await supabase
+          .from('ai_readiness_scans')
+          .update({ report_pdf_url: pdfUrl })
+          .eq('id', scanId)
+          .then(({ error }) => {
+            // Column may not exist yet — non-fatal, the CRM still has the file.
+            if (error) console.warn('[ai-readiness] report_pdf_url not stored:', error.message)
+          })
+      }
+    }
+  }
+
+  await tagAndStamp(contactId, domain, scanId, report, pit, pdfUrl)
+  await sendReportEmail(contactId, domain, scanId, report, pit, pdfUrl)
 }
 
 export async function POST(req: NextRequest) {
