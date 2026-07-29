@@ -17,6 +17,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { waitUntil } from '@vercel/functions'
 import { createClient } from '@supabase/supabase-js'
 
 export const runtime = 'nodejs'
@@ -389,10 +390,28 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Fire-and-forget the heavy work so we can redirect immediately.
-    backgroundFulfill(row.id as string, email, domain, supabase).catch((e) =>
-      console.error('[ai-readiness] background fulfill error', e),
-    )
+    // Hand the heavy work (Groq report, CRM upsert, email) to waitUntil so the
+    // response can go out immediately WITHOUT the platform freezing the function
+    // before that work finishes.
+    //
+    // This was previously a bare fire-and-forget promise. On Vercel, once the
+    // response is returned the instance can be suspended or torn down, so the
+    // report/CRM/email step silently never ran for some share of submissions —
+    // and because failures only hit console.error, it failed invisibly.
+    // waitUntil keeps the invocation alive until the work settles.
+    const fulfillment = backgroundFulfill(
+      row.id as string,
+      email,
+      domain,
+      supabase,
+    ).catch((e) => console.error('[ai-readiness] background fulfill error', e))
+
+    try {
+      waitUntil(fulfillment)
+    } catch {
+      // Outside a Vercel runtime (local dev / self-hosted) waitUntil is a no-op
+      // and the promise still runs on the long-lived process.
+    }
 
     return NextResponse.json({ scan_id: row.id })
   } catch (err) {
