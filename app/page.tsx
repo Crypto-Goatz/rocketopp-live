@@ -31,7 +31,7 @@ import { SectionBg } from "@/components/section-bg"
 export const metadata: Metadata = {
   title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
   description:
-    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Professional websites from $2,497. CRM automation from $1,497. AI systems from $2,997. No fluff. No discovery calls. Just results.",
+    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. Fixed quotes, no discovery-call gate.",
   keywords: [
     "website development pricing",
     "how much does a website cost",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     url: "https://rocketopp.com",
     title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
     description:
-      "Transparent pricing for websites, AI automation, CRM, SXO, PPC, and MCP integration. Enterprise quality at the local level.",
+      "Websites, AI automation, CRM, SXO, PPC and MCP integration. Enterprise quality at the local level.",
     siteName: "RocketOpp",
     images: [
       {
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
     description:
-      "Transparent pricing. No discovery calls. Websites from $2,497. AI systems from $2,997.",
+      "Fixed quotes. No discovery calls. Websites, automation and AI systems.",
     site: "@rocketopp",
     creator: "@rocketopp",
   },
@@ -94,75 +94,6 @@ export const metadata: Metadata = {
   category: "Technology",
   classification: "Business Software",
 }
-
-const pricingData = [
-  {
-    service: "Professional Website",
-    industryLow: "$5,000",
-    industryHigh: "$15,000",
-    rocketopp: "$2,497",
-    shipsIn: "2 weeks",
-    href: "/services/website-development",
-  },
-  {
-    service: "E-Commerce Store",
-    industryLow: "$10,000",
-    industryHigh: "$50,000",
-    rocketopp: "$4,997",
-    shipsIn: "3 weeks",
-    href: "/services/website-development",
-  },
-  {
-    service: "CRM Setup & Automation",
-    industryLow: "$3,000",
-    industryHigh: "$10,000",
-    rocketopp: "$1,497",
-    shipsIn: "1 week",
-    href: "/services/crm-automation",
-  },
-  {
-    service: "SXO / SEO Campaign",
-    industryLow: "$2,000",
-    industryHigh: "$5,000/mo",
-    rocketopp: "$997/mo",
-    shipsIn: "Ongoing",
-    href: "/services/sxo",
-    monthly: true,
-  },
-  {
-    service: "AI Business Automation",
-    industryLow: "$5,000",
-    industryHigh: "$25,000",
-    rocketopp: "$2,997",
-    shipsIn: "2 weeks",
-    href: "/services/ai-automation",
-  },
-  {
-    service: "PPC Management",
-    industryLow: "$1,500",
-    industryHigh: "$5,000/mo",
-    rocketopp: "$797/mo",
-    shipsIn: "Ongoing",
-    href: "/services/ppc-management",
-    monthly: true,
-  },
-  {
-    service: "Full Digital Presence",
-    industryLow: "$15,000",
-    industryHigh: "$50,000",
-    rocketopp: "$7,997",
-    shipsIn: "4 weeks",
-    href: "/services/website-development",
-  },
-  {
-    service: "MCP Server Integration",
-    industryLow: "$3,000",
-    industryHigh: "$10,000",
-    rocketopp: "$1,997",
-    shipsIn: "1 week",
-    href: "/services/mcp-integration",
-  },
-]
 
 const differentiators = [
   {
@@ -197,7 +128,6 @@ const services = [
     title: "Website Development",
     description:
       "Custom websites built with AI. Mobile-first, SEO-optimized, conversion-focused. Launches in 2 weeks, not 2 months.",
-    price: "$2,497",
     shipsIn: "2 weeks",
     href: "/services/website-development",
   },
@@ -206,7 +136,6 @@ const services = [
     title: "AI for Business",
     description:
       "Custom AI systems that automate your operations. From customer service to lead qualification to content creation.",
-    price: "$2,997",
     shipsIn: "2 weeks",
     href: "/services/ai-automation",
   },
@@ -215,7 +144,6 @@ const services = [
     title: "SXO (Search Experience Optimization)",
     description:
       "SEO is dead. SXO combines search optimization, user experience, and conversion — powered by CRO9.",
-    price: "$997/mo",
     shipsIn: "Ongoing",
     href: "/services/sxo",
   },
@@ -224,7 +152,6 @@ const services = [
     title: "CRM Automation",
     description:
       "Full CRM setup with automated pipelines, email sequences, appointment booking, and lead scoring.",
-    price: "$1,497",
     shipsIn: "1 week",
     href: "/services/crm-automation",
   },
@@ -233,7 +160,6 @@ const services = [
     title: "PPC & Paid Ads",
     description:
       "Google Ads, Meta Ads, LinkedIn Ads — managed by AI, optimized by CRO9. Real ROI, not vanity metrics.",
-    price: "$797/mo",
     shipsIn: "Ongoing",
     href: "/services/ppc-management",
   },
@@ -242,7 +168,6 @@ const services = [
     title: "MCP Server Integration",
     description:
       "Connect your business to 1,171+ tools across 54 services. One integration, unlimited automation.",
-    price: "$1,997",
     shipsIn: "1 week",
     href: "/services/mcp-integration",
   },
@@ -259,7 +184,7 @@ export default function HomePage() {
   return (
     <>
       <OrganizationSchema
-        description="Enterprise AI systems at startup speed. Transparent pricing for websites, automation, CRM, SXO, PPC, and MCP integration. Powered by 0nMCP and CRO9."
+        description="Enterprise AI systems at startup speed. Websites, automation, CRM, SXO, PPC and MCP integration. Powered by 0nMCP and CRO9."
         sameAs={[
           "https://twitter.com/rocketopp",
           "https://linkedin.com/company/rocketopp",
@@ -269,10 +194,10 @@ export default function HomePage() {
         ]}
       />
       <WebsiteSchema
-        description="Enterprise AI systems at startup speed. Transparent pricing, no discovery calls."
+        description="Enterprise AI systems at startup speed. Fixed quotes, no discovery calls."
       />
       <LocalBusinessSchema
-        description="AI-powered digital agency with transparent pricing. Websites from $2,497. CRM automation from $1,497. AI systems from $2,997."
+        description="Web design, development, local SEO and AI automation for businesses across Westmoreland and eastern Allegheny County, PA."
         priceRange="$$"
       />
 
@@ -352,117 +277,44 @@ export default function HomePage() {
         {/* Trust strip — infrastructure providers, builds credibility */}
         <TrustStrip />
 
-        {/* Transparent Pricing Section */}
+        {/* Talk to us — replaces the old public pricing table. Pricing is now
+            quoted per project after a short conversation; the one published
+            price is the $497 website offer. */}
         <section id="pricing" className="relative overflow-hidden py-20 md:py-28">
           <SectionBg variant="solid-deep" />
           <div className="container relative z-10 px-4 md:px-6">
-            <div className="text-center mb-16">
+            <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6">
                 <DollarSign className="w-4 h-4" />
-                Transparent Pricing
+                Straight answers, fast
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                See Exactly What You&apos;ll Pay
+              <h2 className="text-3xl md:text-5xl font-bold mb-5 tracking-tight">
+                Every project is different. So is every quote.
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                No hidden fees. No &quot;let&apos;s hop on a call.&quot; Real pricing, right here, right now.
+              <p className="text-lg text-muted-foreground mb-10">
+                Tell us what you are trying to do and we will give you a fixed price for it —
+                one conversation, no multi-stage sales funnel, no obligation. If a cheaper
+                option would serve you better, we will say so.
               </p>
-            </div>
-
-            {/* Pricing Table — Desktop */}
-            <div className="hidden lg:block max-w-5xl mx-auto">
-              <div className="rounded-2xl border border-border overflow-hidden">
-                {/* Header */}
-                <div className="grid grid-cols-5 bg-card border-b border-border">
-                  <div className="p-5 font-semibold text-sm uppercase tracking-wider text-muted-foreground">Service</div>
-                  <div className="p-5 font-semibold text-sm uppercase tracking-wider text-muted-foreground">Industry Average</div>
-                  <div className="p-5 font-semibold text-sm uppercase tracking-wider text-primary bg-primary/5">RocketOpp</div>
-                  <div className="p-5 font-semibold text-sm uppercase tracking-wider text-muted-foreground">Ships In</div>
-                  <div className="p-5" />
-                </div>
-                {/* Rows */}
-                {pricingData.map((row, i) => (
-                  <div
-                    key={row.service}
-                    className={`grid grid-cols-5 items-center transition-colors hover:bg-primary/[0.03] ${
-                      i < pricingData.length - 1 ? "border-b border-border" : ""
-                    }`}
-                  >
-                    <div className="p-5 font-medium">{row.service}</div>
-                    <div className="p-5 text-muted-foreground line-through decoration-red-500/50">
-                      {row.industryLow} – {row.industryHigh}
-                    </div>
-                    <div className="p-5 bg-primary/5">
-                      <span className="text-xl font-bold text-primary">{row.rocketopp}</span>
-                    </div>
-                    <div className="p-5">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                        <Clock className="w-3.5 h-3.5" />
-                        {row.shipsIn}
-                      </span>
-                    </div>
-                    <div className="p-5">
-                      <Button size="sm" variant="outline" className="border-primary/30 hover:bg-primary/10 hover:text-primary" asChild>
-                        <Link href={row.href}>
-                          Get Started
-                          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-7 py-4 text-lg font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+                >
+                  Get a quote <ArrowRight className="w-5 h-5" />
+                </Link>
+                <a
+                  href="tel:+1-878-888-1230"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border px-7 py-4 text-lg font-semibold transition-colors hover:border-primary/40"
+                >
+                  (878) 888-1230
+                </a>
               </div>
-              <p className="text-xs text-muted-foreground mt-4 text-center">
-                * Based on Clutch.co, Agency Analytics, and WebFX 2026 industry data
-              </p>
-
-              {/* 30-day guarantee — risk reversal under the table */}
-              <div className="mt-10 mx-auto max-w-3xl rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] via-card/40 to-transparent p-6 md:p-8">
-                <div className="flex flex-col items-center gap-4 md:flex-row md:gap-6 md:text-left">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-primary/15">
-                    <Shield className="h-7 w-7 text-primary" />
-                  </div>
-                  <div className="flex-1 text-center md:text-left">
-                    <div className="font-mono text-[10px] uppercase tracking-widest text-primary mb-1">
-                      30-day results guarantee
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground md:text-xl">
-                      Hit your KPI, or we keep working until you do.
-                    </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Every project ships with a measurable goal — score lift, conversion
-                      rate, MQLs, whatever you care about. If we miss it in 30 days, we
-                      keep building at no extra charge until we hit it.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing Cards — Mobile */}
-            <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-              {pricingData.map((row) => (
-                <div key={row.service} className="card-lifted p-5 space-y-3">
-                  <h3 className="font-semibold text-lg">{row.service}</h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-primary">{row.rocketopp}</span>
-                  </div>
-                  <div className="text-sm text-muted-foreground line-through">
-                    Industry: {row.industryLow} – {row.industryHigh}
-                  </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">
-                    <Clock className="w-3.5 h-3.5" />
-                    {row.shipsIn}
-                  </div>
-                  <Button size="sm" className="w-full mt-2" asChild>
-                    <Link href={row.href}>
-                      Get Started <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-                    </Link>
-                  </Button>
-                </div>
-              ))}
-              <p className="text-xs text-muted-foreground col-span-full text-center mt-2">
-                * Based on Clutch.co, Agency Analytics, and WebFX 2026 data
+              <p className="mt-8 text-sm text-muted-foreground">
+                Just need a website?{' '}
+                <Link href="/497-website" className="font-semibold text-primary hover:underline">
+                  See the $497 website offer
+                </Link>
               </p>
             </div>
           </div>
@@ -582,7 +434,7 @@ export default function HomePage() {
                 Services That Ship Results
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Six core services. Transparent pricing. Delivered fast.
+                Six core services. Fixed quotes. Delivered fast.
               </p>
             </div>
 
@@ -604,7 +456,7 @@ export default function HomePage() {
                       <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{svc.title}</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">{svc.description}</p>
                       <div className="flex items-center justify-between pt-2 border-t border-border">
-                        <span className="text-lg font-bold text-primary">{svc.price}</span>
+                        <span className="text-sm font-semibold text-primary">Get a quote</span>
                         <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
                           Learn more <ArrowRight className="w-3.5 h-3.5" />
                         </span>

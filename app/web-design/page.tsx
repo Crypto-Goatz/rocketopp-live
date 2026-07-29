@@ -12,7 +12,7 @@ const SITE = 'https://rocketopp.com'
 
 const TITLE = 'Web Design & Development Near Greensburg, Murrysville & Monroeville PA'
 const DESCRIPTION =
-  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Websites from $2,497. Transparent pricing.'
+  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Fixed quotes, no discovery calls.'
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: 'How much does a website cost in the Greensburg / Pittsburgh east suburbs?',
-    a: 'RocketOpp publishes starting prices instead of quoting privately: websites from $2,497, CRM automation from $1,497, and custom AI systems from $2,997. You get a fixed quote before any work starts, with no discovery-call gate.',
+    a: 'Every project is quoted individually, because page count, e-commerce, booking and how much you want automated all change the number. You get a fixed price before any work starts, from one short conversation rather than a sales funnel. For a straightforward business website there is a published $497 offer.',
   },
   {
     q: 'Is RocketOpp a web design agency or an AI company?',
@@ -85,8 +85,8 @@ export default function WebDesignHub() {
           Westmoreland and eastern Allegheny County, Pennsylvania — a combined{' '}
           {TOTAL_POPULATION.toLocaleString()} residents at the 2020 Census. We design and build the
           website, then wire up the systems behind it: local SEO, AI search visibility, CRM
-          automation and custom AI tools. Websites from $2,497, with a fixed quote before any work
-          begins and no discovery call required.
+          automation and custom AI tools. Every project gets a fixed quote before any work begins,
+          and no discovery call is required to get one.
         </p>
 
         <section className="mt-12">

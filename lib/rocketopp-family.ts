@@ -140,7 +140,7 @@ const ONMCP: FamilyMember = {
     { question: 'What kind of tools are in the catalog?', answer: 'Anything you would touch in a real business: CRM, email, payments, ops, analytics, social, content, dev. Specifically: HubSpot, Salesforce, Stripe, Slack, GitHub, Google Workspace, Shopify, Twilio, Calendly, AWS, Vercel, Supabase, MongoDB — plus 80+ more.' },
     { question: 'How does authentication work?', answer: 'Every credential lives in the 0nVault container — patent-pending AES-256-GCM + Argon2id encryption with full audit log and per-tool revocation. You hold the keys; we never see your tokens.' },
     { question: 'Is it really open source?', answer: 'Yes. npm install 0nmcp, source on GitHub. BSL 1.1 license — usage-restricted only against direct commercial competition with us, otherwise open. You can fork it, self-host it, run it on-prem.' },
-    { question: 'How do I get help integrating it?', answer: 'For self-serve: full docs at 0nmcp.com. For done-for-you: book an MCP integration engagement with us — $1,997 for the Connect tier, ships in a week.' },
+    { question: 'How do I get help integrating it?', answer: 'For self-serve: full docs at 0nmcp.com. For done-for-you: book an MCP integration engagement with us — quoted per project, typically ships in a week.' },
   ],
   related: ['0ncore', 'sxowebsite', 'rocketadd', 'verifiedsxo'],
 }

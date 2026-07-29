@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | RocketOpp"
   },
   description:
-    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites from $2,497. CRM automation from $1,497. AI systems from $2,997. No fluff. No discovery calls. Just results.",
+    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. No fluff. No discovery calls. Just results.",
   keywords:
     "RocketOpp, website development pricing, AI automation, CRM setup cost, SXO services, PPC management, MCP server integration, transparent pricing, 0nMCP, CRO9, business automation, digital agency",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
-    description: "Transparent pricing. No discovery calls. Websites from $2,497. AI systems from $2,997.",
+    description: "Fixed quotes. No discovery calls. Websites, automation and AI systems.",
     site: "@rocketopp",
     creator: "@rocketopp",
     images: [
@@ -102,7 +102,7 @@ const jsonLd = {
   name: "RocketOpp",
   url: "https://rocketopp.com",
   logo: "https://rocketopp.com/images/rocketopp-logo.png",
-  description: "Enterprise AI systems at startup speed. Transparent pricing for websites, automation, CRM, SXO, PPC, and MCP integration. Powered by 0nMCP and CRO9. An 0n Company.",
+  description: "Enterprise AI systems at startup speed. Websites, automation, CRM, SXO, PPC and MCP integration. Powered by 0nMCP and CRO9. An 0n Company.",
   address: {
     "@type": "PostalAddress",
     addressCountry: "US",

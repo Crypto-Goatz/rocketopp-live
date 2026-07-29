@@ -36,7 +36,7 @@ const FAQS = [
   },
   {
     q: 'Is it cheaper to use Wix or Squarespace than to hire an agency?',
-    a: `Up front, yes, and substantially. Builder plans run roughly $10–$52/mo as of ${PRICING_AS_OF}, against $2,497 to start with RocketOpp. The comparison changes over a few years: builder fees never stop, you cannot take the site elsewhere, and the work of ranking locally and following up on leads is still yours. For a brochure site the builder usually wins on cost. For a site meant to generate business, it usually does not.`,
+    a: `Up front, usually yes. Builder plans run roughly $10–$52/mo as of ${PRICING_AS_OF}; RocketOpp quotes each project as a one-time fixed price, and publishes a $497 website offer for businesses that just need a site. The comparison changes over a few years: builder fees never stop, you cannot take the site elsewhere, and the work of ranking locally and following up on leads is still yours. For a brochure site the builder often wins on cost. For a site meant to generate business, it usually does not.`,
   },
   {
     q: 'Why does a web design agency publish pages telling people not to hire it?',

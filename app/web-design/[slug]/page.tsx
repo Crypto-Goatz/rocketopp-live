@@ -31,7 +31,7 @@ function bluf(a: Area) {
     a.population === null
       ? `the ${a.name} area of ${a.county} County, Pennsylvania`
       : `${a.name}, ${a.county} County, Pennsylvania`
-  return `RocketOpp designs and builds websites for businesses in ${where}. We are a service-area agency working across Westmoreland and eastern Allegheny County — websites from $2,497, CRM automation from $1,497, and custom AI systems from $2,997, all quoted up front with no discovery-call gate.`
+  return `RocketOpp designs and builds websites for businesses in ${where}. We are a service-area agency working across Westmoreland and eastern Allegheny County, covering web design and development, local SEO, CRM automation and custom AI systems. Every project gets a fixed quote up front, with no discovery-call gate.`
 }
 
 function faqsFor(a: Area) {
@@ -43,7 +43,7 @@ function faqsFor(a: Area) {
     },
     {
       q: `How much does a website cost in ${a.name}, PA?`,
-      a: `RocketOpp publishes starting prices rather than quoting privately: websites start at $2,497, CRM automation at $1,497, and custom AI systems at $2,997. The final number depends on page count, whether you need e-commerce or booking, and how much of your operation you want automated. You get a fixed quote before any work begins.`,
+      a: `It depends on page count, whether you need e-commerce or booking, and how much of your operation you want automated — so RocketOpp quotes each project individually rather than pretending one number fits everyone. You get a fixed price before any work begins, from one short conversation. If you just need a straightforward business website, there is a published $497 offer.`,
     },
     {
       q: `What is the difference between a web designer and a web developer?`,
@@ -72,7 +72,7 @@ export async function generateMetadata({
   // NOTE: the root layout applies the template "%s | RocketOpp" — do not
   // append the brand here or it will be duplicated.
   const title = `Web Design & Development in ${a.name}, PA`
-  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Websites from $2,497, CRM automation from $1,497, AI systems from $2,997. Transparent pricing, no discovery calls.`
+  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Web design, local SEO, CRM automation and AI systems. Fixed quotes, no discovery calls.`
 
   return {
     title,
@@ -172,22 +172,22 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: 'Websites — from $2,497',
+                title: 'Websites & web development',
                 body: 'Custom design and build. Fast, mobile-first, and structured so Google and AI search engines can both read it.',
                 href: '/services/website-development',
               },
               {
-                title: 'Local SEO & AI search — from $1,497',
+                title: 'Local SEO & AI search',
                 body: 'Google Business Profile, local schema, service-area pages, and the answer-engine work that gets you cited by ChatGPT, Claude, Gemini and Perplexity.',
                 href: '/services/search-optimization',
               },
               {
-                title: 'CRM automation — from $1,497',
+                title: 'CRM automation',
                 body: 'Lead capture, automated follow-up, booking and intake wired into your CRM so enquiries stop falling through.',
                 href: '/services/crm-automation',
               },
               {
-                title: 'Custom AI systems — from $2,997',
+                title: 'Custom AI systems',
                 body: 'Internal tools, AI assistants and automation built on the 0n platform we develop in-house.',
                 href: '/services/ai-automation',
               },

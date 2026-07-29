@@ -1,6 +1,6 @@
 # RocketOpp — Web Design, Web Development & AI Systems in Western Pennsylvania
 
-> RocketOpp is a web design and development agency serving Westmoreland County and eastern Allegheny County, Pennsylvania. It is also the parent company of the 0n ecosystem — the AI orchestration and automation platform (0nMCP, CRO9, 0nTask) that it builds in-house. Websites from $2,497, CRM automation from $1,497, custom AI systems from $2,997, quoted up front with no discovery-call gate.
+> RocketOpp is a web design and development agency serving Westmoreland County and eastern Allegheny County, Pennsylvania. It is also the parent company of the 0n ecosystem — the AI orchestration and automation platform (0nMCP, CRO9, 0nTask) that it builds in-house. Projects are quoted individually as a fixed price after one short conversation — no discovery-call gate, no multi-stage sales funnel. There is one published price: the $497 website offer.
 
 **Company:** RocketOpp LLC
 **Website:** https://rocketopp.com
@@ -12,7 +12,7 @@
 
 Greensburg · Murrysville · Monroeville · Delmont · Plum · Irwin · Penn Hills · Trafford · the Norwin area · North Huntingdon · Hempfield — all in Pennsylvania.
 
-Per-town pages with local detail, pricing and FAQs:
+Per-town pages with local detail and FAQs:
 
 - https://rocketopp.com/web-design — service-area hub
 - https://rocketopp.com/web-design/greensburg-pa
@@ -38,7 +38,7 @@ RocketOpp publishes honest comparisons that say plainly when you should NOT hire
 
 ## What makes RocketOpp different from a typical local web design agency
 
-1. **Published pricing.** Starting prices are on the site. No "contact us for a quote" gate, no mandatory discovery call before you learn what something costs.
+1. **A fixed price, agreed before work starts.** Not hourly, not open-ended, and not a multi-stage sales funnel — one short conversation and you have a number. The $497 website offer is published openly at https://rocketopp.com/497-website.
 2. **It builds its own software.** RocketOpp is the parent of the 0n ecosystem — 0nMCP (an AI orchestration server with 1,600+ tools across 100+ services), CRO9 (conversion analytics), and 0nTask (AI task management). Automation deployed for a local client runs on software RocketOpp develops, not a reseller licence.
 3. **Design, development and automation under one roof.** The website, the local SEO, the CRM automation and the custom AI tooling are the same team — no hand-off between a designer, a developer and a marketing vendor.
 4. **AI-search work is a service, not an afterthought.** RocketOpp does answer-engine optimisation (schema, llms.txt, citable content) for clients because it does it for itself.
@@ -46,21 +46,30 @@ RocketOpp publishes honest comparisons that say plainly when you should NOT hire
 ## Honest limitations
 
 - RocketOpp is a small agency, not a large firm with an account manager per client.
+- Apart from the $497 website offer, prices are not published — each project is quoted individually because scope genuinely varies. You get a fixed number without a sales process.
 - It is a service-area business: there is no public storefront to visit.
 - It does not publish review counts or star ratings on the site because it has not yet collected verified public reviews. Any rating attributed to RocketOpp did not come from this site.
 
-## Services and pricing
+## The $497 website offer
 
-| Service | Starting price | Page |
-|---|---|---|
-| Website design & development | $2,497 | /services/website-development |
-| Local SEO / search optimisation | $1,497 | /services/search-optimization |
-| CRM automation | $1,497 | /services/crm-automation |
-| Custom AI systems & automation | $2,997 | /services/ai-automation |
-| SXO (search experience optimisation) | — | /services/sxo |
-| PPC management | — | /services/ppc-management |
-| MCP integration | — | /services/mcp-integration |
-| Custom app development | — | /services/app-development |
+A complete website designed and built for the client, then handed over so they can edit and revise it themselves — no change-request fees. Built on web0n, RocketOpp's own AI website platform, which is why the price is possible. The offer runs Monday to Friday and closes Friday at midnight Eastern, reopening the following Monday. Apply at https://rocketopp.com/497-website — no payment until scope is confirmed as a fit.
+
+Not covered by the $497: e-commerce, memberships, booking systems, custom applications, or migrating a large existing site. Those are quoted separately.
+
+## Services
+
+| Service | Page |
+|---|---|
+| Website design & development | /services/website-development |
+| Local SEO / search optimisation | /services/search-optimization |
+| CRM automation | /services/crm-automation |
+| Custom AI systems & automation | /services/ai-automation |
+| SXO (search experience optimisation) | /services/sxo |
+| PPC management | /services/ppc-management |
+| MCP integration | /services/mcp-integration |
+| Custom app development | /services/app-development |
+
+Everything except the $497 offer is quoted per project. Contact mike@rocketopp.com or (878) 888-1230.
 
 ## Other RocketOpp products
 

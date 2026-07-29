@@ -58,6 +58,9 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   // Tier 3b — local service-area hub (per-town pages appended below)
   { path: '/web-design',                                         priority: 0.95, freq: 'weekly' },
 
+  // Tier 2b — the one published offer
+  { path: '/497-website',                                        priority: 1.00, freq: 'weekly' },
+
   // Tier 3c — AEO cluster (per-builder comparisons appended below)
   { path: '/build-a-website-with-ai',                            priority: 0.95, freq: 'monthly' },
   { path: '/compare',                                            priority: 0.90, freq: 'monthly' },

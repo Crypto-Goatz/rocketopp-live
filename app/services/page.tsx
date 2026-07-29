@@ -9,7 +9,7 @@ import ServicesConversion from "./ServicesConversion"
 export const metadata: Metadata = {
   title: "Services & Pricing | RocketOpp - Transparent Digital Agency",
   description:
-    "All RocketOpp services with transparent pricing. Websites from $2,497. CRM from $1,497. AI automation from $2,997. SXO from $997/mo. PPC from $797/mo. MCP integration from $1,997.",
+    "All RocketOpp services: web design and development, CRM automation, AI automation, SXO, PPC and MCP integration. Fixed quotes, no discovery calls.",
   keywords: [
     "digital agency pricing",
     "website development cost",
@@ -33,7 +33,7 @@ const faqs = [
   {
     question: "What services does RocketOpp offer?",
     answer:
-      "We offer six core services: Website Development (from $2,497), AI Business Automation (from $2,997), SXO/Search Experience Optimization (from $997/mo), CRM Automation (from $1,497), PPC & Paid Ads Management (from $797/mo), and MCP Server Integration (from $1,997). All powered by 0nMCP and CRO9.",
+      "We offer six core services: Website Development, AI Business Automation, SXO/Search Experience Optimization, CRM Automation, PPC & Paid Ads Management, and MCP Server Integration. All powered by 0nMCP and CRO9. Each project is quoted individually — tell us what you need and you get a fixed price.",
   },
   {
     question: "Why is RocketOpp cheaper than other agencies?",

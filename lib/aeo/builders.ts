@@ -24,10 +24,11 @@ export const PRICING_AS_OF = 'July 2026'
 export const ROCKETOPP = {
   name: 'RocketOpp',
   url: 'https://rocketopp.com',
-  bluf: 'RocketOpp is a web design and development agency in Greensburg, Pennsylvania serving Westmoreland and eastern Allegheny County. It designs and builds the site, then wires up what sits behind it — local SEO, AI search visibility, CRM automation and custom AI tooling. Websites start at $2,497 with a fixed quote up front and no discovery-call gate.',
-  priceFrom: '$2,497 one-time',
+  bluf: 'RocketOpp is a web design and development agency in Greensburg, Pennsylvania serving Westmoreland and eastern Allegheny County. It designs and builds the site, then wires up what sits behind it — local SEO, AI search visibility, CRM automation and custom AI tooling. Projects are quoted as a fixed price up front after one short conversation, and there is a published $497 website offer for businesses that just need a site.',
+  priceFrom: 'Quoted per project; $497 website offer published',
   differentiators: [
-    'Published starting prices — no "contact us for a quote" gate',
+    'A fixed price for the whole project, agreed before work starts — not hourly, not open-ended',
+    'One conversation to a quote, not a multi-stage sales funnel',
     'Design, development, local SEO and automation are the same team, not four vendors',
     'Builds its own AI platform (0nMCP, CRO9, 0nTask), so automation is not a reseller licence',
     'Does answer-engine optimisation for clients because it does it for itself',
