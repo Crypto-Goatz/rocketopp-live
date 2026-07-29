@@ -5,6 +5,17 @@ import { Globe, Cpu, Search, Target, BarChart3, Terminal, ExternalLink, Rocket }
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
+  // Our Apps — mirrors the list that used to be the header mega menu.
+  const ourApps = [
+    { name: "SXO Website",     href: "/family/sxowebsite" },
+    { name: "VerifiedSXO",     href: "/family/verifiedsxo" },
+    { name: "Apex Assessment", href: "/apex" },
+    { name: "0nCore",          href: "/family/0ncore" },
+    { name: "Rocket+",         href: "/family/rocketadd" },
+    { name: "CRO9",            href: "/family/cro9" },
+    { name: "0nMCP",           href: "/family/0nmcp" },
+  ]
+
   const services = [
     { name: "Website Development", href: "/services/website-development", icon: Globe },
     { name: "AI Automation", href: "/services/ai-automation", icon: Cpu },
@@ -17,7 +28,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border py-12 md:py-16 bg-card">
       <div className="container px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
@@ -57,6 +68,26 @@ export function Footer() {
                     </li>
                   )
                 })}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Our Apps — the nav mega-menu was removed to simplify the header;
+              this simple list is the only place Our Apps now lives. */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold">Our Apps</h3>
+            <nav aria-label="Our Apps Navigation">
+              <ul className="space-y-2 text-sm">
+                {ourApps.map((app) => (
+                  <li key={app.name}>
+                    <Link
+                      href={app.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {app.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>
