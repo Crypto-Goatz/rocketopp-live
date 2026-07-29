@@ -79,12 +79,14 @@ const organizationJsonLd = {
   url: "https://rocketopp.com",
   logo: "https://rocketopp.com/images/rocketopp-logo.png",
   description: "AI-powered software development company that accepts and develops app ideas through partnerships and custom development.",
-  telephone: "+1-878-888-1238",
+  telephone: "+1-878-888-1230",
   email: "Mike@rocketopp.com",
+  // NAP must match lib/local/nap.ts and the Google Business Profile exactly.
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Pittsburgh",
+    addressLocality: "Greensburg",
     addressRegion: "PA",
+    postalCode: "15601",
     addressCountry: "US",
   },
   sameAs: [

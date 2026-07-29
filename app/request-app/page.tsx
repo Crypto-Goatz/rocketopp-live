@@ -63,22 +63,27 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://rocketopp.com",
-  name: "RocketOpp - Pittsburgh App Development",
-  description: "Custom mobile and web application development agency serving Pittsburgh, PA and businesses nationwide.",
+  // NAP must match lib/local/nap.ts and the Google Business Profile exactly —
+  // a second LocalBusiness entity claiming a different locality splits the
+  // local signal. Page-scoped @id so this does not collide with the canonical
+  // business entity at /#business.
+  "@id": "https://rocketopp.com/request-app#business",
+  name: "RocketOpp - App Development",
+  description: "Custom mobile and web application development agency serving Westmoreland and eastern Allegheny County, PA and businesses nationwide.",
   url: "https://rocketopp.com",
   telephone: "+1-878-888-1230",
   email: "Mike@rocketopp.com",
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Pittsburgh",
+    addressLocality: "Greensburg",
     addressRegion: "PA",
+    postalCode: "15601",
     addressCountry: "US",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 40.4406,
-    longitude: -79.9959,
+    latitude: 40.3015,
+    longitude: -79.5389,
   },
   areaServed: [
     {
@@ -130,13 +135,6 @@ const jsonLd = {
         },
       },
     ],
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "127",
-    bestRating: "5",
-    worstRating: "1",
   },
 }
 

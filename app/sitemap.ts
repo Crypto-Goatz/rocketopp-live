@@ -6,6 +6,7 @@
 
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/db/supabase'
+import { AREAS } from '@/lib/local/areas'
 
 // Re-render the sitemap every 60 seconds so newly published blog posts
 // + marketplace products show up without a redeploy.
@@ -52,6 +53,9 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/services/web-marketing/ppc',                         priority: 0.80, freq: 'monthly' },
   { path: '/services/web-marketing/content-marketing',           priority: 0.80, freq: 'monthly' },
   { path: '/services/web-marketing/social-media',                priority: 0.80, freq: 'monthly' },
+
+  // Tier 3b — local service-area hub (per-town pages appended below)
+  { path: '/web-design',                                         priority: 0.95, freq: 'weekly' },
 
   // Tier 4 — product + supporting
   { path: '/marketplace/lease-to-own',                           priority: 0.80, freq: 'weekly' },
@@ -136,11 +140,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: p.priority,
   }))
 
+  // Local service-area pages — one per town in lib/local/areas.ts
+  const localRoutes: MetadataRoute.Sitemap = AREAS.map((a) => ({
+    url: `${BASE}/web-design/${a.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as Freq,
+    priority: 0.90,
+  }))
+
   const [products, categories, blog] = await Promise.all([
     dynamicProducts(),
     dynamicCategories(),
     dynamicBlog(),
   ])
 
-  return [...staticRoutes, ...products, ...categories, ...blog]
+  return [...staticRoutes, ...localRoutes, ...products, ...categories, ...blog]
 }

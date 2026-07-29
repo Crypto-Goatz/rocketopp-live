@@ -133,7 +133,6 @@ const productJsonLd = [
     brand: { '@type': 'Organization', name: 'RocketOpp' },
     category: 'Healthcare compliance',
     offers: { '@type': 'Offer', price: '149.00', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://rocketopp.com/hipaa' },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '212' },
   },
   {
     '@context': 'https://schema.org',
@@ -143,7 +142,6 @@ const productJsonLd = [
     brand: { '@type': 'Organization', name: 'RocketOpp' },
     category: 'Healthcare compliance',
     offers: { '@type': 'Offer', price: '399.00', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://rocketopp.com/hipaa' },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '188' },
   },
   {
     '@context': 'https://schema.org',
@@ -153,7 +151,6 @@ const productJsonLd = [
     brand: { '@type': 'Organization', name: 'RocketOpp' },
     category: 'Healthcare compliance',
     offers: { '@type': 'Offer', price: '499.00', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://rocketopp.com/hipaa' },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '146' },
   },
   {
     '@context': 'https://schema.org',
@@ -169,7 +166,6 @@ const productJsonLd = [
       availability: 'https://schema.org/InStock',
       url: 'https://rocketopp.com/hipaa',
     },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '427' },
   },
 ]
 

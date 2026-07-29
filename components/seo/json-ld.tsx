@@ -1,5 +1,7 @@
 // SEO JSON-LD Schema Components
 
+import { AREA_NAMES } from "@/lib/local/areas"
+
 interface OrganizationSchemaProps {
   name?: string
   url?: string
@@ -504,13 +506,23 @@ export function LocalBusinessSchema({
   priceRange = "$$",
   openingHours = "Mo-Su 00:00-23:59"
 }: LocalBusinessSchemaProps) {
+  // ProfessionalService is a LocalBusiness subtype — it keeps every local-pack
+  // signal while being specific about what RocketOpp actually is.
+  //
+  // RocketOpp is a service-area business: no walk-in storefront, so no
+  // streetAddress is published (Google suspends SAB profiles that do). Coverage
+  // is expressed via areaServed instead. NAP below must stay byte-identical to
+  // lib/local/nap.ts and to the Google Business Profile.
   const schema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "ProfessionalService",
+    "@id": "https://rocketopp.com/#business",
     name,
+    legalName: "RocketOpp LLC",
     description,
     url: "https://rocketopp.com",
     logo: "https://rocketopp.com/images/rocketopp-logo.png",
+    image: "https://rocketopp.com/images/rocketopp-logo.png",
     telephone,
     email,
     priceRange,
@@ -520,10 +532,25 @@ export function LocalBusinessSchema({
       ...address
     } : {
       "@type": "PostalAddress",
+      addressLocality: "Greensburg",
+      addressRegion: "PA",
+      postalCode: "15601",
       addressCountry: "US"
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 40.3015,
+      longitude: -79.5389
+    },
+    areaServed: AREA_NAMES.map((n) => ({ "@type": "City", name: n.replace(/, PA$/, "") })),
+    serviceArea: {
+      "@type": "GeoCircle",
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: 40.3015, longitude: -79.5389 },
+      geoRadius: 40000
+    },
     sameAs: [
-      "https://twitter.com/rocketopp",
+      "https://www.0nmcp.com",
+      "https://www.cro9.com",
       "https://linkedin.com/company/rocketopp",
       "https://github.com/rocketopp"
     ]

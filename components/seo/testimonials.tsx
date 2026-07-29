@@ -220,7 +220,11 @@ interface TestimonialsSectionProps {
 export function TestimonialsSection({
   title = 'Trusted by Businesses Everywhere',
   subtitle = 'See what our clients have to say about working with RocketOpp',
-  showSchema = true,
+  // Default OFF: Review/AggregateRating markup must describe real, verifiable
+  // reviews. Emitting it for placeholder testimonials violates Google's
+  // review-snippet policy and undermines the site's credibility with AI search
+  // engines. Turn this on per-page only once the testimonials are genuine.
+  showSchema = false,
   maxItems = 6,
   filterByService
 }: TestimonialsSectionProps) {
