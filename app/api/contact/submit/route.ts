@@ -24,18 +24,22 @@ export async function POST(request: NextRequest) {
 
     const { data: lead, error: supabaseError } = await supabase
       .from("contact_submissions")
+      // NOTE: contact_submissions has form_name/page_url/raw/is_spam — it has
+      // no `status` or `metadata` column. Inserting those made every write here
+      // fail silently (the error is only console.logged), so contact-form
+      // submissions were reaching the CRM but never being recorded locally.
       .insert({
+        form_name: "Contact Form",
         name: data.name,
+        first_name: firstName,
+        last_name: lastName,
         email: data.email,
         phone: data.phone || null,
         company: data.company || null,
         message: data.message || null,
+        page_url: request.headers.get("referer") || "https://rocketopp.com/contact",
         source: "contact_form",
-        status: "new",
-        metadata: {
-          user_agent: request.headers.get("user-agent"),
-          referer: request.headers.get("referer"),
-        },
+        user_agent: request.headers.get("user-agent"),
       })
       .select()
       .single()

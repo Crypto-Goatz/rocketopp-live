@@ -58,22 +58,28 @@ export async function POST(request: NextRequest) {
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
       )
+      // Column names must match the real contact_submissions schema — it has
+      // form_name/page_url/raw/is_spam, NOT status/metadata. Getting this wrong
+      // fails the insert silently, which is exactly what /api/contact/submit
+      // had been doing.
       const { data: row, error } = await supabase
         .from('contact_submissions')
         .insert({
+          form_name: `${OFFER_PRICE_DISPLAY} Website Offer`,
           name,
+          first_name: firstName,
+          last_name: lastName,
           email,
           phone: phone || null,
           company: business || null,
           message: about || null,
+          page_url: request.headers.get('referer') || 'https://rocketopp.com/497-website',
           source: 'offer_497',
-          status: 'new',
-          metadata: {
+          user_agent: request.headers.get('user-agent'),
+          raw: {
             current_site: currentSite || null,
             offer: OFFER_PRICE_DISPLAY,
             deadline: nextDeadline().toISOString(),
-            user_agent: request.headers.get('user-agent'),
-            referer: request.headers.get('referer'),
           },
         })
         .select()
