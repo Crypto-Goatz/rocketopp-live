@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   Search,
   Code2,
@@ -50,22 +50,35 @@ export function AiScanSequence({ domain, onComplete }: ScanSequenceProps) {
   const [elapsed, setElapsed] = useState(0)
   const [done, setDone] = useState(false)
 
+  // Callers pass an inline arrow for onComplete, so its identity changes on
+  // every parent render. Depending on it directly tore the effect down and
+  // restarted the timer from zero mid-scan. Hold it in a ref and run the timer
+  // exactly once.
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
+
   useEffect(() => {
     const start = performance.now()
     let raf = 0
+    let fired = false
     const tick = () => {
       const e = performance.now() - start
       setElapsed(e)
       if (e >= TOTAL_MS) {
         setDone(true)
-        onComplete?.()
+        if (!fired) {
+          fired = true
+          onCompleteRef.current?.()
+        }
         return
       }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [onComplete])
+  }, [])
 
   const progressPct = Math.min(100, Math.round((elapsed / TOTAL_MS) * 100))
   const currentIdx = STEPS.findIndex((s) => elapsed < s.doneAt)

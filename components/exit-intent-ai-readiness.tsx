@@ -90,10 +90,23 @@ export function ExitIntentAiReadiness() {
   const [animationDone, setAnimationDone] = useState(false)
 
   // When BOTH the scan_id is back AND the animation has finished, redirect.
+  //
+  // This component is mounted in layout-wrapper, so it SURVIVES the client-side
+  // navigation. Pushing without also closing the modal left the fixed z-[200]
+  // overlay sitting on top of the thanks page forever, stuck on "Redirecting to
+  // your report…" — which is exactly what users were seeing. Tear the modal down
+  // as part of the redirect, and release the body scroll lock with it.
   useEffect(() => {
     if (!loading) return
     if (scanId && animationDone) {
-      router.push(`/ai-readiness/thanks?scanId=${scanId}`)
+      const target = `/ai-readiness/thanks?scanId=${scanId}`
+      setOpen(false)
+      setLoading(false)
+      setScanId(null)
+      setAnimationDone(false)
+      setEmail('')
+      setDomain('')
+      router.push(target)
     }
   }, [loading, scanId, animationDone, router])
 
