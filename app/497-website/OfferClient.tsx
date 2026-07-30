@@ -12,7 +12,6 @@ import {
 } from 'lucide-react'
 
 import PlainEnglishDemo from './PlainEnglishDemo'
-import SearchReality from './SearchReality'
 import {
   INCLUDED,
   NOT_INCLUDED,
@@ -247,7 +246,7 @@ function ApplicationForm() {
 
 /* ------------------------------------------------------------------- page -- */
 
-export default function OfferClient() {
+export default function OfferClient({ research }: { research?: React.ReactNode }) {
   return (
     <>
       {/* ---------------------------------------------------------- hero -- */}
@@ -313,7 +312,7 @@ export default function OfferClient() {
       <PlainEnglishDemo />
 
       {/* ---------------------------------------------- search research -- */}
-      <SearchReality />
+      {research}
 
       {/* ------------------------------------------------------- included -- */}
       <section className="container mx-auto max-w-5xl px-4 py-20">

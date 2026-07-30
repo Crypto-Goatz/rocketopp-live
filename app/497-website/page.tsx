@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import OfferClient from './OfferClient'
+import SearchReality from './SearchReality'
 import { INCLUDED, OFFER_PRICE, OFFER_PRICE_DISPLAY } from '@/lib/offer'
 import { breadcrumbSchema, faqSchema, localBusinessSchema } from '@/lib/local/schema'
 
@@ -82,7 +83,12 @@ export default function OfferPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <OfferClient />
+      {/* SearchReality is passed as a SERVER-rendered slot, not imported inside
+          OfferClient. OfferClient is 'use client', so importing it there pulled the
+          research into the client bundle and left it out of the initial HTML —
+          invisible to AI crawlers that do not execute JS. This is the most
+          citation-worthy content on the page, so it has to be server-rendered. */}
+      <OfferClient research={<SearchReality />} />
     </main>
   )
 }
