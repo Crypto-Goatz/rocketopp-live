@@ -155,7 +155,7 @@ export const INCLUDED = [
   'Mobile-first and fast on a phone, which is where most of your visitors are',
   'Contact form wired to reach you by email the moment someone fills it in',
   'Google-ready: page titles, descriptions and structured data set up correctly',
-  'You can edit and revise it yourself afterwards — no change-request fees, no waiting on us',
+  'Change it yourself afterwards by asking in plain English — our patent-pending tech makes the edit, usually within the hour',
   'After launch, $50/month keeps it hosted, running and on the platform',
 ]
 

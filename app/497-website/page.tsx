@@ -32,6 +32,10 @@ const FAQS = [
     a: `For a standard business website it is the total. We confirm the scope with you before anyone pays anything — if what you need genuinely goes beyond it (e-commerce, memberships, booking systems, custom applications), we will tell you what that would actually cost instead of taking the ${OFFER_PRICE_DISPLAY} and adding fees later.`,
   },
   {
+    q: 'How do I make changes to my website after it is built?',
+    a: 'You ask for them in plain English. Type something like "change the phone number on the contact page" or "add a new service called In-Home Consults and write the content for it", and our patent-pending technology makes the change on your live site — usually within the hour. Every request runs through automated code checks and a human review before it ships, so the site still works afterwards. There is no dashboard to learn, no support ticket, and no fee per change.',
+  },
+  {
     q: 'Can I edit the website myself afterwards?',
     a: 'Yes, and that is the point. The site is built on web0n, RocketOpp\'s own AI website platform, and it is handed over to you to edit and revise whenever you want. There are no change-request fees and no waiting on us to update a phone number or add a service.',
   },

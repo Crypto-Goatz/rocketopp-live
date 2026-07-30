@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 
+import PlainEnglishDemo from './PlainEnglishDemo'
 import {
   INCLUDED,
   NOT_INCLUDED,
@@ -306,6 +307,9 @@ export default function OfferClient() {
           </div>
         </div>
       </section>
+
+      {/* ------------------------------------------- plain-english demo -- */}
+      <PlainEnglishDemo />
 
       {/* ------------------------------------------------------- included -- */}
       <section className="container mx-auto max-w-5xl px-4 py-20">
