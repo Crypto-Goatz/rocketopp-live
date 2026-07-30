@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { checkBotId } from 'botid/server'
 
 import { stripe } from '@/lib/stripe'
-import { PRICING, quote } from '@/lib/offer'
+import { PRICING, STRIPE_PRICES, quote } from '@/lib/offer'
 
 /**
  * POST /api/offer/launch
@@ -26,10 +26,16 @@ import { PRICING, quote } from '@/lib/offer'
  * The recurring price is created inline via price_data, so there is no Stripe
  * product to pre-create and nothing to keep in sync with the code.
  *
- * NOTE ON BILLING OWNERSHIP: this makes Stripe the collector of the monthly. The
- * earlier plan had the CRM SaaS platform billing it. Run ONE of the two, never
- * both, or clients are double-charged. If the CRM is the collector, do not send
- * this link — use /api/offer/launch?balanceOnly=1, which omits the recurring item.
+ * BILLING OWNERSHIP — DECIDED: Stripe collects the monthly, and the CRM is
+ * connected to Stripe rather than billing separately. Do NOT arm a second
+ * subscription workflow in the CRM against these customers; one collector only,
+ * or they are charged twice.
+ *
+ * Both line items use REAL Stripe prices (lib/offer.ts STRIPE_PRICES), not inline
+ * price_data. That matters specifically because of the CRM link: inline price_data
+ * mints a new ad-hoc product on every checkout, so the CRM would see a different
+ * product each time and nothing would reconcile. Falls back to inline if an id is
+ * missing, so a bad env var degrades the reporting rather than the checkout.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -61,41 +67,48 @@ export async function POST(request: NextRequest) {
       process.env.NEXT_PUBLIC_SITE_URL ||
       'https://rocketopp.com'
 
+    const balancePrice = withWordPress ? STRIPE_PRICES.balance.wordpress : STRIPE_PRICES.balance.base
+    const monthlyPrice = withWordPress ? STRIPE_PRICES.monthly.wordpress : STRIPE_PRICES.monthly.base
+
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
-      {
-        quantity: 1,
-        price_data: {
-          currency: 'usd',
-          unit_amount: q.launchCents,
-          product_data: {
-            name: withWordPress
-              ? 'Website Build — Launch Balance (WordPress)'
-              : 'Website Build — Launch Balance',
-            description: `Final payment now your site is live. Build total ${q.buildTotal}${
-              balanceOnly ? '.' : `, then ${q.monthly}/month ongoing.`
-            }`,
+      balancePrice
+        ? { quantity: 1, price: balancePrice }
+        : {
+            quantity: 1,
+            price_data: {
+              currency: 'usd',
+              unit_amount: q.launchCents,
+              product_data: {
+                name: withWordPress
+                  ? 'Website Build — Launch Balance (WordPress)'
+                  : 'Website Build — Launch Balance',
+                description: `Final payment now your site is live. Build total ${q.buildTotal}.`,
+              },
+            },
           },
-        },
-      },
     ]
 
     if (!balanceOnly) {
-      lineItems.push({
-        quantity: 1,
-        price_data: {
-          currency: 'usd',
-          unit_amount: monthlyCents,
-          recurring: { interval: 'month' },
-          product_data: {
-            name: withWordPress
-              ? 'Website Hosting & AI Management (WordPress)'
-              : 'Website Hosting & Platform',
-            description: withWordPress
-              ? 'Managed WordPress hosting, updates, backups and AI management. Cancel any time.'
-              : 'Keeps your site hosted, running and on the platform. Cancel any time.',
-          },
-        },
-      })
+      lineItems.push(
+        monthlyPrice
+          ? { quantity: 1, price: monthlyPrice }
+          : {
+              quantity: 1,
+              price_data: {
+                currency: 'usd',
+                unit_amount: monthlyCents,
+                recurring: { interval: 'month' },
+                product_data: {
+                  name: withWordPress
+                    ? 'Website Hosting & AI Management (WordPress)'
+                    : 'Website Hosting & Platform',
+                  description: withWordPress
+                    ? 'Managed WordPress hosting, updates, backups and AI management. Cancel any time.'
+                    : 'Keeps your site hosted, running and on the platform. Cancel any time.',
+                },
+              },
+            },
+      )
     }
 
     const params: Stripe.Checkout.SessionCreateParams = {

@@ -188,3 +188,31 @@ export const STEPS = [
     d: 'Once you are happy it goes live on your domain. From there you can edit and revise it yourself whenever you want.',
   },
 ]
+
+/**
+ * Stripe price IDs for the $497 offer.
+ *
+ * WHY THESE EXIST AS REAL PRICES rather than inline price_data: Stripe is
+ * connected to the CRM, and the CRM can only map a subscription it can name. An
+ * inline price_data creates a brand-new ad-hoc product on every single checkout,
+ * so the CRM sees a different product each time and nothing reconciles.
+ *
+ * Created on acct_1PUJi5HThmAuKVQM (RocketOpp LLC, live) with stable lookup keys,
+ * so they can be re-resolved by key if an id is ever lost:
+ *   rocketopp_web_monthly_50 · rocketopp_wp_monthly_80
+ *   rocketopp_web_balance_247 · rocketopp_wp_balance_372
+ *
+ * Env overrides win, so a price can be swapped without a deploy. If an id is
+ * missing the endpoints fall back to inline price_data — the checkout still
+ * works, it just will not map cleanly in the CRM.
+ */
+export const STRIPE_PRICES = {
+  monthly: {
+    base: process.env.STRIPE_PRICE_MONTHLY_50 || 'price_1TyvdaHThmAuKVQMndNxweqV',
+    wordpress: process.env.STRIPE_PRICE_MONTHLY_80 || 'price_1TyvdaHThmAuKVQMvo8fJRMi',
+  },
+  balance: {
+    base: process.env.STRIPE_PRICE_BALANCE_247 || 'price_1TyvdbHThmAuKVQMln0409Du',
+    wordpress: process.env.STRIPE_PRICE_BALANCE_372 || 'price_1TyvdbHThmAuKVQMmEbhtM8M',
+  },
+} as const
