@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkBotId } from "botid/server"
 import { createClient } from "@supabase/supabase-js"
 import { notifyFormSubmission, FormSources } from "@/lib/crm/notify"
 
@@ -9,6 +10,12 @@ const supabase = createClient(
 
 export async function POST(request: NextRequest) {
   try {
+    // BotID: block automated submissions before touching the CRM or sending mail.
+    const bot = await checkBotId()
+    if (bot.isBot) {
+      return NextResponse.json({ success: false, error: "Access denied." }, { status: 403 })
+    }
+
     const data = await request.json()
 
     if (!data.name || !data.email) {

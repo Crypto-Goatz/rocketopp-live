@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { checkBotId } from 'botid/server'
 import Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe'
@@ -27,6 +28,13 @@ import { quote } from '@/lib/offer'
 
 export async function POST(request: NextRequest) {
   try {
+    // BotID: reject automated submissions before we create a record, charge a
+    // card, or email anyone. Must run first — the point is to spend nothing on a bot.
+    const bot = await checkBotId()
+    if (bot.isBot) {
+      return NextResponse.json({ error: 'Access denied.' }, { status: 403 })
+    }
+
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
         { error: 'Payments are not configured yet. Please call (878) 888-1230.' },

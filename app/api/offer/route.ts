@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { checkBotId } from 'botid/server'
 import { createClient } from '@supabase/supabase-js'
 
 import { FormSources, notifyFormSubmission } from '@/lib/crm/notify'
@@ -18,6 +19,13 @@ import { OFFER_PRICE_DISPLAY, nextDeadline } from '@/lib/offer'
  */
 export async function POST(request: NextRequest) {
   try {
+    // BotID: reject automated submissions before we create a record, charge a
+    // card, or email anyone. Must run first — the point is to spend nothing on a bot.
+    const bot = await checkBotId()
+    if (bot.isBot) {
+      return NextResponse.json({ error: 'Access denied.' }, { status: 403 })
+    }
+
     const data = await request.json()
 
     const name = String(data.name || '').trim()

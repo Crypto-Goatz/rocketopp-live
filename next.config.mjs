@@ -1,3 +1,12 @@
+import { withBotId } from 'botid/next/config'
+
+/**
+ * NOTE on the CSP below: withBotId adds same-origin proxy rewrites so the BotID
+ * client is served from this domain rather than a third-party host. That is why
+ * `script-src 'self'` and `connect-src 'self'` are sufficient and the CSP does not
+ * need a new allowlist entry. Do not "helpfully" add an external BotID host — the
+ * proxy exists precisely so ad-blockers cannot defeat it.
+ */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {
@@ -66,4 +75,4 @@ const nextConfig = {
   },
 }
 
-export default nextConfig
+export default withBotId(nextConfig)
