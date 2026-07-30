@@ -235,58 +235,174 @@ function tplAssessment(ctx: TemplateContext): TemplateContent {
 
 
 /**
- * $497 website offer confirmation.
+ * $497 website offer — CONFIRMATION (they just applied).
  *
- * This is the money email. Rather than "we'll be in touch", it gives the two
- * actions that actually move the project forward: pay the $247 deposit to lock
- * the build slot, and book the 15-minute kickoff on the calendar. Both live on
- * one page so there is a single link to click.
+ * Written specifically for someone who submitted the $497 website application,
+ * not a generic "thanks for your enquiry". It confirms what they signed up for in
+ * their own terms, states the money plainly, and gives the two actions that move
+ * the build forward. Both live on one page so there is a single link.
  */
 function tplWebsiteOffer(ctx: TemplateContext): TemplateContent {
   const start = 'https://rocketopp.com/497-website/start'
   const body = `
     <p>${greeting(ctx.firstName)}</p>
-    <p>Got your application for the <strong>$497 website</strong> — you're in. Here's exactly what happens next, and you can do both parts right now.</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:22px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
+    <p>You just applied for the <strong>$497 website</strong> &mdash; the one we design and build for you,
+    then hand over so you can edit it yourself. Application received, and you&rsquo;re in.</p>
+    <p>Quick recap of exactly what you signed up for, so nothing is a surprise:</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:20px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
       <tr>
-        <td style="padding:18px 20px;">
-          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Step 1 &middot; Lock your build slot</p>
-          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">A <strong>$247 deposit</strong> reserves your slot and starts the build. The remaining <strong>$250</strong> is due when the site goes live — total $497, nothing hidden.</p>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">What you get</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">A complete website &mdash; not a template you fill in. Built on web0n, our own AI platform. Structured so Google <em>and</em> AI search can read it. Contact form wired straight to you. Then it&rsquo;s yours to edit and revise whenever you want, with no change-request fees.</p>
         </td>
       </tr>
       <tr><td style="padding:0 20px;"><div style="height:1px;background:${BORDER};"></div></td></tr>
       <tr>
-        <td style="padding:18px 20px;">
-          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Step 2 &middot; Book your kickoff</p>
-          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">Pick a 15-minute slot on my calendar. We go through your services, your pages and your brand — then I build it.</p>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">What it costs</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;"><strong>$247 today</strong> to reserve your build slot and start the work. <strong>$250 when it goes live</strong> and you&rsquo;ve approved it. <strong>$497 total</strong> &mdash; nothing hidden, no subscription.</p>
+        </td>
+      </tr>
+      <tr><td style="padding:0 20px;"><div style="height:1px;background:${BORDER};"></div></td></tr>
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">What happens next</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">Pay the deposit and book a 15-minute kickoff &mdash; both on the same page. On the call we go through your services, your pages and your brand. Then I build it.</p>
         </td>
       </tr>
     </table>
-    <p>Both are on the same page. Deposit takes a minute, booking takes another.</p>
-    <p style="color:${MUTED};font-size:14px;">Not ready to pay yet? Book the call anyway and we'll confirm the scope first — I'd rather tell you $497 won't cover it than take the deposit and surprise you later.</p>
+    <p style="color:${MUTED};font-size:14px;">Not ready to pay yet? Book the call anyway and we&rsquo;ll confirm the scope first.
+    If $497 genuinely won&rsquo;t cover what you need, I&rsquo;ll tell you that before you spend anything &mdash;
+    I&rsquo;d rather lose the deposit than surprise you later.</p>
   `
   return {
-    subject: 'You\'re in — reserve your $497 build slot',
+    subject: 'Your $497 website — you\'re in. Here\'s step one.',
     html: shell({
-      preheader: 'Two steps: $247 deposit to lock your slot, then book your 15-minute kickoff.',
-      heading: 'You\'re in — let\'s lock it in',
+      preheader: '$247 reserves your build slot, $250 at launch. Deposit + kickoff booking inside.',
+      heading: 'Your $497 website is approved',
       bodyHtml: body,
       ctaHref: start,
-      ctaLabel: 'Pay deposit + book kickoff',
+      ctaLabel: 'Reserve my slot + book kickoff',
     }),
     text: `${greeting(ctx.firstName)}
 
-Got your application for the $497 website - you're in.
+You just applied for the $497 website - the one we design and build for you, then hand over so you can edit it yourself. Application received, and you're in.
 
-STEP 1 - Lock your build slot
-A $247 deposit reserves your slot and starts the build. The remaining $250 is due when the site goes live. Total $497, nothing hidden.
+WHAT YOU GET
+A complete website, not a template you fill in. Built on web0n, our own AI platform. Structured so Google and AI search can read it. Contact form wired straight to you. Then it's yours to edit and revise whenever you want, with no change-request fees.
 
-STEP 2 - Book your kickoff
-Pick a 15-minute slot on my calendar. We go through your services, pages and brand, then I build it.
+WHAT IT COSTS
+$247 today to reserve your build slot and start the work. $250 when it goes live and you've approved it. $497 total - nothing hidden, no subscription.
+
+WHAT HAPPENS NEXT
+Pay the deposit and book a 15-minute kickoff, both on the same page. On the call we go through your services, your pages and your brand. Then I build it.
 
 Do both here: ${start}
 
-Not ready to pay yet? Book the call anyway and we'll confirm scope first - I'd rather tell you $497 won't cover it than take the deposit and surprise you later.
+Not ready to pay yet? Book the call anyway and we'll confirm scope first. If $497 genuinely won't cover what you need, I'll tell you that before you spend anything.
+
+- Mike
+Founder, RocketOpp
+mike@rocketopp.com`,
+  }
+}
+
+/**
+ * $497 website offer — PROMOTIONAL / OUTBOUND.
+ *
+ * Copy is Mike's, lightly tightened for email. Not a FormKind: nobody submitted
+ * anything, so it has to earn attention on the story rather than confirm an action.
+ *
+ * Why this works and a generic promo does not: it opens by admitting AI does not
+ * do what it claims — from a company that builds AI. That is a costly admission,
+ * which is exactly why it is believable, and it reframes the $497 as access to a
+ * real build programme rather than a discount. The $2,500–$10,000+ anchor is doing
+ * the heavy lifting on price; state it before the $497, never after.
+ *
+ * The Friday deadline is real (lib/offer.ts nextDeadline() closes Friday 23:59:59
+ * ET and reopens Monday), so it holds whichever week this sends in.
+ */
+export function offerPromoEmail(ctx: TemplateContext = {}): TemplateContent {
+  const offer = 'https://rocketopp.com/497-website'
+  const body = `
+    <p>Hi${ctx.firstName ? ' ' + ctx.firstName : ''}, this is Mike with RocketOpp.</p>
+
+    <p>You may know me from LinkedIn, from connecting with one of our apps, or you may
+    already be a client. Either way &mdash; I hope I&rsquo;m catching you at a good time.</p>
+
+    <p><strong>Since 2003 &mdash; 23 years &mdash; we&rsquo;ve been building websites. Over 3,500 of them.</strong>
+    We&rsquo;ve been through a lot of ups and downs, but this AI craze is something entirely
+    different. It&rsquo;s next level. It&rsquo;s opening doors that shouldn&rsquo;t be opened and putting
+    half-built technology all over the internet.</p>
+
+    <p>If you don&rsquo;t know this by now: <strong>AI doesn&rsquo;t actually do what it says it&rsquo;s going to
+    do.</strong> Especially when it comes to websites and apps.</p>
+
+    <p>So we&rsquo;re here to help fix that problem. There&rsquo;s nothing wrong with AI &mdash; in fact
+    it&rsquo;s awesome when it&rsquo;s built correctly. So we went ahead and did that. We built an app
+    that will eventually build amazing websites for people&hellip; but not quite yet.</p>
+
+    <p>The truth is, <strong>AI still needs an expert to guide it.</strong> I&rsquo;m saying that after 36
+    months of developing this programming. It doesn&rsquo;t matter how much data we give it to
+    learn from &mdash; it simply can&rsquo;t beat a human touch.</p>
+
+    <p>So we decided to compromise, for now.</p>
+
+    <p>We&rsquo;re going to guide the AI, fill in the gaps, and help it learn <em>while we build</em>.
+    The only way to do that is to actually build thousands of websites &mdash; so rather than
+    waste all that time on practice runs, I made the choice to build them for real customers
+    instead. The sites come out quicker, and you get a top-tier product.</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:22px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
+      <tr>
+        <td style="padding:18px 20px;">
+          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${MUTED};">Normally</p>
+          <p style="margin:0 0 16px;color:${TEXT};font-size:16px;line-height:1.5;">These AI-built sites run <strong>$2,500 &ndash; $10,000+</strong>, depending on what you decide to build.</p>
+          <div style="height:1px;background:${BORDER};margin-bottom:16px;"></div>
+          <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Now through Friday</p>
+          <p style="margin:0;color:${TEXT};font-size:22px;font-weight:800;line-height:1.3;">$497 &mdash; complete website, built for you.</p>
+        </td>
+      </tr>
+    </table>
+
+    <p style="color:${MUTED};font-size:14px;">Once it&rsquo;s live it&rsquo;s yours to edit and revise yourself, any time,
+    with no change-request fees. E-commerce, memberships and custom apps aren&rsquo;t covered at this price &mdash;
+    those we&rsquo;ll quote you honestly. And nothing is charged until we&rsquo;ve confirmed $497 actually covers
+    what you need.</p>
+  `
+  return {
+    subject: "23 years, 3,500 websites — and the truth about AI",
+    html: shell({
+      preheader:
+        'AI does not do what it claims. We are guiding it while we build - $497 through Friday.',
+      heading: 'A real website. $497. Through Friday.',
+      bodyHtml: body,
+      ctaHref: offer,
+      ctaLabel: 'Claim Your Website',
+    }),
+    text: `Hi${ctx.firstName ? ' ' + ctx.firstName : ''}, this is Mike with RocketOpp.
+
+You may know me from LinkedIn, from connecting with one of our apps, or you may already be a client. Either way - I hope I'm catching you at a good time.
+
+Since 2003 - 23 years - we've been building websites. Over 3,500 of them. We've been through a lot of ups and downs, but this AI craze is something entirely different. It's next level. It's opening doors that shouldn't be opened and putting half-built technology all over the internet.
+
+If you don't know this by now: AI doesn't actually do what it says it's going to do. Especially when it comes to websites and apps.
+
+So we're here to help fix that problem. There's nothing wrong with AI - in fact it's awesome when it's built correctly. So we went ahead and did that. We built an app that will eventually build amazing websites for people... but not quite yet.
+
+The truth is, AI still needs an expert to guide it. I'm saying that after 36 months of developing this programming. It doesn't matter how much data we give it to learn from - it simply can't beat a human touch.
+
+So we decided to compromise, for now.
+
+We're going to guide the AI, fill in the gaps, and help it learn while we build. The only way to do that is to actually build thousands of websites - so rather than waste all that time on practice runs, I made the choice to build them for real customers instead. The sites come out quicker, and you get a top-tier product.
+
+NORMALLY: these AI-built sites run $2,500 - $10,000+, depending on what you decide to build.
+
+NOW THROUGH FRIDAY: $497 - complete website, built for you.
+
+Claim your website: ${offer}
+
+Once it's live it's yours to edit and revise yourself, any time, with no change-request fees. E-commerce, memberships and custom apps aren't covered at this price - those we'll quote you honestly. And nothing is charged until we've confirmed $497 actually covers what you need.
 
 - Mike
 Founder, RocketOpp
