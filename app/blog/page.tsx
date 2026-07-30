@@ -214,15 +214,17 @@ export default async function BlogPage() {
                   <p className="text-xs text-zinc-500">Articles</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                  <Eye className="w-5 h-5 text-purple-400" />
+              {totalViews > 0 && (
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                    <Eye className="w-5 h-5 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-white">{formatViews(totalViews)}</p>
+                    <p className="text-xs text-zinc-500">Total Views</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold text-white">{formatViews(totalViews)}</p>
-                  <p className="text-xs text-zinc-500">Total Views</p>
-                </div>
-              </div>
+              )}
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                   <Flame className="w-5 h-5 text-red-400" />
@@ -309,10 +311,15 @@ export default async function BlogPage() {
                           <Calendar className="w-4 h-4" />
                           {formatDate(featuredPost.published_at)}
                         </span>
-                        <span className="flex items-center gap-1.5">
-                          <Eye className="w-4 h-4" />
-                          {formatViews(featuredPost.views || 0)} views
-                        </span>
+                        {/* A zero view count reads worse than no count at all —
+                            coded articles have no counter, and a brand-new post
+                            legitimately has none yet. */}
+                        {(featuredPost.views || 0) > 0 && (
+                          <span className="flex items-center gap-1.5">
+                            <Eye className="w-4 h-4" />
+                            {formatViews(featuredPost.views)} views
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-2 text-orange-400 font-medium group-hover:gap-3 transition-all">
@@ -441,10 +448,12 @@ export default async function BlogPage() {
                             <Clock className="w-3 h-3" />
                             {post.reading_time} min
                           </span>
-                          <span className="flex items-center gap-1">
-                            <Eye className="w-3 h-3" />
-                            {formatViews(post.views || 0)}
-                          </span>
+                          {(post.views || 0) > 0 && (
+                            <span className="flex items-center gap-1">
+                              <Eye className="w-3 h-3" />
+                              {formatViews(post.views)}
+                            </span>
+                          )}
                           <span className="ml-auto">{formatDate(post.published_at)}</span>
                         </div>
 

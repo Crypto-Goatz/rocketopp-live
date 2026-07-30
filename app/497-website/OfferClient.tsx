@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
   ArrowRight,
@@ -105,28 +105,6 @@ function ApplicationForm() {
   const [error, setError] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
 
-  /**
-   * Prefill from the URL. Traffic here arrives from CRM email campaigns, so the
-   * link is built with merge fields:
-   *
-   *   https://rocketopp.com/497-website?email={{contact.email}}&name={{contact.first_name}}&business={{contact.company_name}}
-   *
-   * Not asking someone to retype an address we already have is the single cheapest
-   * conversion win on the page. Several key spellings are accepted because campaign
-   * links get hand-built and `e=` / `em=` happen.
-   */
-  const params = useSearchParams()
-  const pre = (keys: string[]) => {
-    for (const k of keys) {
-      const v = params.get(k)
-      if (v && v.trim() && !v.includes('{{')) return v.trim()
-    }
-    return ''
-  }
-  const preEmail = pre(['email', 'e', 'em', 'contact_email'])
-  const preName = pre(['name', 'first_name', 'firstname', 'fname'])
-  const preBusiness = pre(['business', 'company', 'company_name', 'org'])
-  const prePhone = pre(['phone', 'tel', 'phone_number'])
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -183,6 +161,10 @@ function ApplicationForm() {
 
   return (
     <form ref={formRef} onSubmit={onSubmit} className="space-y-4" noValidate>
+      {/* Own Suspense boundary — see the UrlPrefill docblock. */}
+      <Suspense fallback={null}>
+        <UrlPrefill formRef={formRef} />
+      </Suspense>
       {/* Honeypot — visually hidden, not display:none, so bots still fill it. */}
       <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden>
         <label htmlFor="website">Website</label>
@@ -194,13 +176,13 @@ function ApplicationForm() {
           <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
             Your name <span className="text-primary">*</span>
           </label>
-          <input id="name" name="name" required autoComplete="name" defaultValue={preName} className={field} />
+          <input id="name" name="name" required autoComplete="name" className={field} />
         </div>
         <div>
           <label htmlFor="business" className="mb-1.5 block text-sm font-medium">
             Business name
           </label>
-          <input id="business" name="business" autoComplete="organization" defaultValue={preBusiness} className={field} />
+          <input id="business" name="business" autoComplete="organization" className={field} />
         </div>
       </div>
 
@@ -209,13 +191,13 @@ function ApplicationForm() {
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
             Email <span className="text-primary">*</span>
           </label>
-          <input id="email" name="email" type="email" required autoComplete="email" defaultValue={preEmail} className={field} />
+          <input id="email" name="email" type="email" required autoComplete="email" className={field} />
         </div>
         <div>
           <label htmlFor="phone" className="mb-1.5 block text-sm font-medium">
             Phone
           </label>
-          <input id="phone" name="phone" type="tel" autoComplete="tel" defaultValue={prePhone} className={field} />
+          <input id="phone" name="phone" type="tel" autoComplete="tel" className={field} />
         </div>
       </div>
 
@@ -477,4 +459,58 @@ export default function OfferClient({ research }: { research?: React.ReactNode }
       </section>
     </>
   )
+}
+
+/**
+ * Prefills the form from the URL. Traffic here arrives from CRM email campaigns,
+ * so links are built with merge fields:
+ *
+ *   /497-website?email={{contact.email}}&name={{contact.first_name}}&business={{contact.company_name}}
+ *
+ * Not asking someone to retype an address we already have is the cheapest
+ * conversion win on the page. Several key spellings are accepted because campaign
+ * links get hand-built and `e=` / `em=` happen. Anything still containing "{{" is
+ * ignored, so an unrendered merge field never lands in a box.
+ *
+ * WHY IT IS A SEPARATE LEAF COMPONENT — do not inline this back into OfferClient:
+ * useSearchParams() makes the nearest Suspense boundary bail out of server
+ * rendering. With the hook in OfferClient, the boundary in page.tsx contained the
+ * whole offer page, so /497-website served 32 characters of body to crawlers — the
+ * sourced research, the schema and the copy all invisible to GPTBot and ClaudeBot.
+ * Keeping the hook in a leaf that renders null confines the bailout to itself.
+ *
+ * It writes into the DOM rather than into React state so the inputs stay
+ * uncontrolled (form.reset() after a successful submit keeps working), and it only
+ * fills a field the visitor has not already typed into.
+ */
+function UrlPrefill({ formRef }: { formRef: React.RefObject<HTMLFormElement | null> }) {
+  const params = useSearchParams()
+
+  useEffect(() => {
+    const form = formRef.current
+    if (!form) return
+
+    const pick = (keys: string[]) => {
+      for (const k of keys) {
+        const v = params.get(k)
+        if (v && v.trim() && !v.includes('{{')) return v.trim()
+      }
+      return ''
+    }
+
+    const values: Array<[string, string]> = [
+      ['name', pick(['name', 'first_name', 'firstname', 'fname'])],
+      ['business', pick(['business', 'company', 'company_name', 'org'])],
+      ['email', pick(['email', 'e', 'em', 'contact_email'])],
+      ['phone', pick(['phone', 'tel', 'phone_number'])],
+    ]
+
+    for (const [field, value] of values) {
+      if (!value) continue
+      const el = form.elements.namedItem(field) as HTMLInputElement | null
+      if (el && !el.value) el.value = value
+    }
+  }, [params, formRef])
+
+  return null
 }

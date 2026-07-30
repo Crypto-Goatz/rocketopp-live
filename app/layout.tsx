@@ -166,20 +166,36 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
-          <Suspense fallback={null}>
-            <AnalyticsProvider
-              ga4Id={GA4_ID}
-              gtmId={GTM_ID}
-              fbPixelId={FB_PIXEL_ID}
-              clarityId={CLARITY_ID}
-            >
-              <LayoutWrapper>{children}</LayoutWrapper>
-              <CookieConsent />
-              {/* CRO9 tracker — pageview + UTM capture across every route */}
+          {/*
+            SUSPENSE PLACEMENT IS LOAD-BEARING — do not hoist these boundaries.
+
+            useSearchParams() makes the NEAREST Suspense boundary bail out of server
+            rendering (BAILOUT_TO_CLIENT_SIDE_RENDERING). There used to be a single
+            boundary here wrapping {children}, so every page on the site shipped an
+            empty <body> and rendered client-side only. Google runs JS and indexed it
+            anyway; GPTBot, ClaudeBot and PerplexityBot largely do not — so the whole
+            AEO effort was invisible to the crawlers it was written for.
+
+            Each search-params consumer now gets its own boundary, and children sit
+            outside all of them. Never wrap {children} in a boundary shared with a
+            component that reads search params.
+          */}
+          <AnalyticsProvider
+            ga4Id={GA4_ID}
+            gtmId={GTM_ID}
+            fbPixelId={FB_PIXEL_ID}
+            clarityId={CLARITY_ID}
+          >
+            <LayoutWrapper>{children}</LayoutWrapper>
+            <CookieConsent />
+            {/* CRO9 tracker — pageview + UTM capture across every route */}
+            <Suspense fallback={null}>
               <Cro9Tracker siteId="site_rocketopp" />
+            </Suspense>
+            <Suspense fallback={null}>
               <AffiliateTracker />
-            </AnalyticsProvider>
-          </Suspense>
+            </Suspense>
+          </AnalyticsProvider>
         </ThemeProvider>
       </body>
     </html>

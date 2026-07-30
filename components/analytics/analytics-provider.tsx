@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { GoogleAnalytics } from './google-analytics'
 import { GoogleTagManager, GoogleTagManagerNoScript } from './google-tag-manager'
@@ -23,13 +23,27 @@ interface AnalyticsProviderProps {
   clarityId?: string
 }
 
-export function AnalyticsProvider({
-  children,
-  ga4Id,
-  gtmId,
-  fbPixelId,
-  clarityId,
-}: AnalyticsProviderProps) {
+/**
+ * The pageview/session tracking effects, isolated from `children`.
+ *
+ * WHY THIS IS ITS OWN COMPONENT — this is a load-bearing detail, do not merge it
+ * back into the provider:
+ *
+ * useSearchParams() forces the nearest Suspense boundary to bail out of server
+ * rendering entirely (Next emits BAILOUT_TO_CLIENT_SIDE_RENDERING). When the hook
+ * lived in a component that also rendered {children}, the boundary in the root
+ * layout contained the whole page — so every route on the site shipped an empty
+ * <body> and rendered client-side only.
+ *
+ * Google executes JS and still indexed it, but GPTBot, ClaudeBot and PerplexityBot
+ * largely do not — which silently nullified the entire AEO effort: the schema, the
+ * sourced copy, the llms.txt, all of it invisible to the crawlers it was written
+ * for.
+ *
+ * Keeping the hook in a leaf component with NO children means the bailout is scoped
+ * to this component alone. Page content renders on the server as normal.
+ */
+function AnalyticsTracking({ clarityId }: { clarityId?: string }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -59,6 +73,16 @@ export function AnalyticsProvider({
     })
   }, [pathname, searchParams])
 
+  return null
+}
+
+export function AnalyticsProvider({
+  children,
+  ga4Id,
+  gtmId,
+  fbPixelId,
+  clarityId,
+}: AnalyticsProviderProps) {
   return (
     <>
       {/* Google Tag Manager - Should be first for tag management */}
@@ -75,6 +99,11 @@ export function AnalyticsProvider({
 
       {/* GTM noscript fallback */}
       {gtmId && <GoogleTagManagerNoScript containerId={gtmId} />}
+
+      {/* The useSearchParams bailout is confined to this boundary, never children. */}
+      <Suspense fallback={null}>
+        <AnalyticsTracking clarityId={clarityId} />
+      </Suspense>
 
       {children}
     </>
