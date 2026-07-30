@@ -110,7 +110,7 @@ export const OUR_NUMBERS: Stat[] = [
     detail: '0nMCP, 0nCore, 0nTask, CRO9, web0n, SXO, VerifiedSXO, Marketplace.',
   },
   {
-    value: '1999',
+    value: '2003',
     label: 'the year we started building for the web',
     source: 'RocketOpp LLC',
   },

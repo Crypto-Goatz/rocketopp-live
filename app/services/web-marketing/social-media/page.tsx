@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Users, ThumbsUp, MessageSquare, TrendingUp, Target, BarChart3, Sparkles, Globe, Shield } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Social Media Marketing Services | 25+ Years Experience | RocketOpp",
+  title: "Social Media Marketing Services | 23 Years Experience | RocketOpp",
   description:
     "Expert social media marketing services from RocketOpp. Drive engagement, build brand loyalty, and convert followers into customers across Facebook, Instagram, LinkedIn, TikTok, and more. Proven strategies since 2000.",
   keywords:
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Social Media Marketing Services | RocketOpp",
     description:
-      "Transform your social presence with data-driven strategies. Expert social media marketing with 25+ years of proven results.",
+      "Transform your social presence with data-driven strategies. Expert social media marketing with 23 years of proven results.",
     type: "website",
   },
 }
@@ -183,7 +183,7 @@ const faqItems = [
   {
     question: "What makes your social media marketing different?",
     answer:
-      "With 25+ years of digital marketing experience, we combine proven strategies with cutting-edge AI technology. We don't just post content—we build comprehensive systems that integrate social media with your entire marketing ecosystem, using data-driven insights to continuously optimize performance and maximize ROI.",
+      "With 23 years of digital marketing experience, we combine proven strategies with cutting-edge AI technology. We don't just post content—we build comprehensive systems that integrate social media with your entire marketing ecosystem, using data-driven insights to continuously optimize performance and maximize ROI.",
   },
 ]
 
@@ -204,7 +204,7 @@ export default function SocialMediaPage() {
           <div className="container text-center relative z-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
               <Shield className="h-4 w-4 text-primary" />
-              <span className="text-sm font-semibold text-primary">25+ Years Digital Marketing Experience</span>
+              <span className="text-sm font-semibold text-primary">23 Years Digital Marketing Experience</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-6">
               Social Media Marketing That Drives Real Results
@@ -384,7 +384,7 @@ export default function SocialMediaPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Your Social Presence?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
               Stop posting into the void. Start building a social media presence that drives real business growth with
-              strategies proven over 25 years.
+              strategies proven over 23 years.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="secondary" className="text-lg">

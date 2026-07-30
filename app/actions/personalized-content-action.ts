@@ -29,7 +29,7 @@ export async function generatePersonalizedContent(input: PersonalizedContentInpu
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
-  const prompt = `You are an award-winning CRO (Conversion Rate Optimization) expert and marketing guru with 25 years of experience helping businesses grow through AI and technology. Your job is to create highly personalized, conversion-focused content for a visitor to RocketOpp's website.
+  const prompt = `You are an award-winning CRO (Conversion Rate Optimization) expert and marketing guru with 23 years of experience helping businesses grow through AI and technology. Your job is to create highly personalized, conversion-focused content for a visitor to RocketOpp's website.
 
 VISITOR INFORMATION:
 - First Name: ${input.firstName}

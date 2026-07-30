@@ -11,7 +11,7 @@ import { VideoSchema, FAQSchema } from "@/components/seo/json-ld"
 export const metadata: Metadata = {
   title: "Strategic Web Marketing Services | RocketOpp - SEO, PPC, Social Media",
   description:
-    "Drive growth with RocketOpp's data-driven web marketing: SEO, PPC, Social Media, and Content Marketing strategies tailored for your success. 25+ years of marketing expertise.",
+    "Drive growth with RocketOpp's data-driven web marketing: SEO, PPC, Social Media, and Content Marketing strategies tailored for your success. 23 years of marketing expertise.",
   keywords: [
     "web marketing",
     "digital marketing",
@@ -84,8 +84,8 @@ export default function WebMarketingPage() {
       {/* Schema */}
       <FAQSchema items={marketingFAQs} />
       <VideoSchema
-        name="25 Years of Marketing Trends: What Actually Works"
-        description="A comprehensive look at how marketing has evolved over 25 years and the strategies that drive results today."
+        name="23 Years of Marketing Trends: What Actually Works"
+        description="A comprehensive look at how marketing has evolved over 23 years and the strategies that drive results today."
         thumbnailUrl="https://img.youtube.com/vi/90N8kne60Os/maxresdefault.jpg"
         uploadDate="2024-01-01"
         duration="PT10M"
@@ -141,7 +141,7 @@ export default function WebMarketingPage() {
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4">25 Years of Marketing Evolution</h2>
+                <h2 className="text-3xl font-bold mb-4">23 Years of Marketing Evolution</h2>
                 <p className="text-lg text-muted-foreground">
                   See how marketing has transformed and what strategies are driving results today.
                 </p>
@@ -151,7 +151,7 @@ export default function WebMarketingPage() {
               <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-border/50 shadow-xl">
                 <iframe
                   src="https://www.youtube.com/embed/90N8kne60Os"
-                  title="25 Years of Marketing Trends"
+                  title="23 Years of Marketing Trends"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                   className="absolute inset-0 w-full h-full"

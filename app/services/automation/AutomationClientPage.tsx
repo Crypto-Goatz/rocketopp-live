@@ -147,7 +147,7 @@ export default function AutomationClientPage() {
         </div>
       </section>
 
-      {/* 25 Years of Experience */}
+      {/* 23 Years of Experience */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <motion.div
@@ -157,7 +157,7 @@ export default function AutomationClientPage() {
             className="text-center space-y-6"
           >
             <div className="inline-block px-6 py-2 bg-primary/10 rounded-full">
-              <p className="text-primary font-semibold">25 Years of Proven Results</p>
+              <p className="text-primary font-semibold">23 Years of Proven Results</p>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold">
               Mastering Business Growth Through
@@ -307,7 +307,7 @@ export default function AutomationClientPage() {
             <div className="text-center space-y-4">
               <h2 className="text-3xl md:text-5xl font-bold">Our Proven Automation Framework</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Built from 25 years of scaling businesses, refined for the AI era.
+                Built from 23 years of scaling businesses, refined for the AI era.
               </p>
             </div>
 

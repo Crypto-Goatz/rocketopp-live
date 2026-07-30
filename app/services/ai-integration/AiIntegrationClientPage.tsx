@@ -283,7 +283,7 @@ export default function AiIntegrationClientPage() {
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Proven AI Integration Process</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                25+ years of experience distilled into a battle-tested methodology. We've refined this process across
+                23 years of experience distilled into a battle-tested methodology. We've refined this process across
                 500+ implementations to minimize risk and maximize ROI.
               </p>
             </div>

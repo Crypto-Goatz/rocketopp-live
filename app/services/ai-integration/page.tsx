@@ -7,7 +7,7 @@ import Footer from "@/components/footer"
 export const metadata: Metadata = {
   title: "AI for Business | AI Integration Services | Enterprise AI Solutions | RocketOpp",
   description:
-    "Transform your business with AI integration services from RocketOpp. 25+ years experience implementing AI for business automation, chatbots, machine learning, and intelligent workflows. Trusted by Fortune 500 companies. Get your free AI assessment today.",
+    "Transform your business with AI integration services from RocketOpp. 23 years experience implementing AI for business automation, chatbots, machine learning, and intelligent workflows. Trusted by Fortune 500 companies. Get your free AI assessment today.",
   keywords: [
     "AI for business",
     "AI integration for business",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI for Business | Enterprise AI Integration Services | RocketOpp",
     description:
-      "Transform your business operations with AI. 25+ years of experience integrating OpenAI, Slack, Microsoft, and custom AI solutions. 500+ successful implementations. Free AI readiness assessment.",
+      "Transform your business operations with AI. 23 years of experience integrating OpenAI, Slack, Microsoft, and custom AI solutions. 500+ successful implementations. Free AI readiness assessment.",
     type: "website",
     url: "https://rocketopp.com/services/ai-integration",
     images: [

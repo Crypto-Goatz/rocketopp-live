@@ -123,7 +123,7 @@ const faqs = [
   {
     question: "What makes RocketOpp's website design different from competitors?",
     answer:
-      "We combine 25 years of experience with cutting-edge technology like Next.js 16 and React 19. Our websites aren't just beautiful—they're built for speed, security, and conversion optimization with AI-powered personalization.",
+      "We combine 23 years of experience with cutting-edge technology like Next.js 16 and React 19. Our websites aren't just beautiful—they're built for speed, security, and conversion optimization with AI-powered personalization.",
   },
   {
     question: "Do you provide ongoing maintenance and support after launch?",
@@ -215,7 +215,7 @@ export default function WebsiteDesignClientPage() {
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-8 animate-slide-up animation-delay-200">
                 <ShimmerHighlight active={shimmerActive} delay={0.2}>
-                  Custom websites built with 25 years of expertise. We create high-performance digital experiences that
+                  Custom websites built with 23 years of expertise. We create high-performance digital experiences that
                   drive results for businesses
                   {industryDisplayName !== "Your Industry" ? ` in the ${industryDisplayName} industry` : ""}.
                 </ShimmerHighlight>
@@ -234,7 +234,7 @@ export default function WebsiteDesignClientPage() {
               <div className="flex flex-wrap gap-6 justify-center text-sm text-muted-foreground animate-slide-up animation-delay-600">
                 <div className="flex items-center gap-2">
                   <Award className="h-4 w-4 text-primary" />
-                  <span>25+ Years Experience</span>
+                  <span>23 Years Experience</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
@@ -320,7 +320,7 @@ export default function WebsiteDesignClientPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Battle-Tested Website Design Process</h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Refined over 25 years and 500+ projects, our proven process delivers exceptional results every time
+                Refined over 23 years and 500+ projects, our proven process delivers exceptional results every time
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -397,7 +397,7 @@ export default function WebsiteDesignClientPage() {
                 <Award className="h-16 w-16 text-primary mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Leading Businesses Choose RocketOpp</h2>
                 <p className="text-lg text-muted-foreground">
-                  25 years of experience. 500+ successful projects. Zero compromises on quality.
+                  23 years of experience. 500+ successful projects. Zero compromises on quality.
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-6 mb-8">

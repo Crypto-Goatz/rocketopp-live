@@ -42,13 +42,13 @@ export default function ExperiencePageClient() {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
               <Clock className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-primary">25+ Years of Excellence</span>
+              <span className="text-sm font-medium text-primary">23 Years of Excellence</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent">
               Trusted by Businesses That Demand Results
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Since 1999, we've been building for the web — websites, automation, and the AI systems
+              Since 2003, we've been building for the web — websites, automation, and the AI systems
               behind them. Design, development and automation under one roof.
             </p>
           </motion.div>
@@ -61,7 +61,7 @@ export default function ExperiencePageClient() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { value: "500+", label: "Projects Delivered" },
-              { value: "25+", label: "Years Experience" },
+              { value: "23", label: "Years Experience" },
               { value: "98%", label: "Client Retention" },
               { value: "$2.1B+", label: "Client Revenue Generated" },
             ].map((stat, index) => (
@@ -178,7 +178,7 @@ export default function ExperiencePageClient() {
         </div>
       </section>
 
-      {/* 25+ Years Section */}
+      {/* 23 Years Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5" />
         <div className="container mx-auto px-4 relative z-10">
@@ -195,7 +195,7 @@ export default function ExperiencePageClient() {
               <h2 className="text-3xl md:text-4xl font-bold mb-6">A Quarter Century of Digital Innovation</h2>
               <div className="prose prose-lg dark:prose-invert mx-auto text-muted-foreground">
                 <p className="text-lg leading-relaxed mb-6">
-                  Since 1999, RocketOpp has been at the forefront of every major digital transformation. We built
+                  Since 2003, RocketOpp has been at the forefront of every major digital transformation. We built
                   websites before Google existed. We embraced mobile when smartphones were science fiction. We
                   integrated AI before it became a buzzword.
                 </p>
@@ -205,7 +205,7 @@ export default function ExperiencePageClient() {
                   every storm by staying ahead of the curve and never compromising on quality.
                 </p>
                 <p className="text-lg leading-relaxed mb-8">
-                  Today, we're taking 25 years of enterprise-level expertise and making it accessible to businesses of
+                  Today, we're taking 23 years of enterprise-level expertise and making it accessible to businesses of
                   all sizes. The same technology that powers Fortune 500 companies is now available to your business, at
                   a fraction of the traditional cost. This isn't just leveling the playing field—it's disrupting
                   industries.

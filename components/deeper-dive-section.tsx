@@ -146,7 +146,7 @@ const deeperDiveData = {
         id: "automation",
         title: "Business Process Automation",
         details:
-          "Automated workflows with human oversight - the key to successful SOPs. We build systems that handle repetitive tasks while keeping your team in control. 25 years of experience scaling businesses through intelligent automation.",
+          "Automated workflows with human oversight - the key to successful SOPs. We build systems that handle repetitive tasks while keeping your team in control. 23 years of experience scaling businesses through intelligent automation.",
         icon: <Zap className="h-5 w-5 text-primary mr-2" />,
         link: "/services/automation",
       },
