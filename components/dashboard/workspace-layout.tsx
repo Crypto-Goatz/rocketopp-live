@@ -30,10 +30,11 @@ interface WorkspaceLayoutProps {
 }
 
 const mainNavItems = [
-  { name: "Overview", href: "/dashboard", icon: Home },
-  { name: "My Business", href: "/dashboard/company", icon: Building2 },
-  { name: "Profile", href: "/dashboard/profile", icon: User },
-  { name: "Account & Billing", href: "/dashboard/account", icon: CreditCard },
+  // The rest of the dashboard was removed as unused. Only these two surfaces remain
+  // because customers and affiliates hold links to them.
+  { name: "My HIPAA Reports", href: "/dashboard/hipaa", icon: FileText },
+  { name: "Affiliate", href: "/dashboard/affiliate", icon: CreditCard },
+
 ]
 
 const clientNavItems = [

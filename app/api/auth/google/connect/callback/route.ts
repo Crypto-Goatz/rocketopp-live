@@ -22,13 +22,13 @@ export async function GET(request: NextRequest) {
   if (error) {
     console.error('Google OAuth error:', error)
     return NextResponse.redirect(
-      new URL('/dashboard/settings?error=oauth_denied', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/?google=error=oauth_denied', process.env.NEXT_PUBLIC_APP_URL!)
     )
   }
 
   if (!code || !state) {
     return NextResponse.redirect(
-      new URL('/dashboard/settings?error=missing_params', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/?google=error=missing_params', process.env.NEXT_PUBLIC_APP_URL!)
     )
   }
 
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.redirect(
-        new URL('/dashboard/settings?error=invalid_state', process.env.NEXT_PUBLIC_APP_URL!)
+        new URL('/?google=error=invalid_state', process.env.NEXT_PUBLIC_APP_URL!)
       )
     }
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       const err = await tokenRes.text()
       console.error('Token exchange failed:', err)
       return NextResponse.redirect(
-        new URL('/dashboard/settings?error=token_exchange', process.env.NEXT_PUBLIC_APP_URL!)
+        new URL('/?google=error=token_exchange', process.env.NEXT_PUBLIC_APP_URL!)
       )
     }
 
@@ -88,18 +88,18 @@ export async function GET(request: NextRequest) {
     if (upsertError) {
       console.error('Failed to save connection:', upsertError)
       return NextResponse.redirect(
-        new URL('/dashboard/settings?error=save_failed', process.env.NEXT_PUBLIC_APP_URL!)
+        new URL('/?google=error=save_failed', process.env.NEXT_PUBLIC_APP_URL!)
       )
     }
 
     // Success - redirect to settings
     return NextResponse.redirect(
-      new URL('/dashboard/settings?connected=true', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/?google=connected=true', process.env.NEXT_PUBLIC_APP_URL!)
     )
   } catch (err) {
     console.error('Google connect error:', err)
     return NextResponse.redirect(
-      new URL('/dashboard/settings?error=unknown', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/?google=error=unknown', process.env.NEXT_PUBLIC_APP_URL!)
     )
   }
 }

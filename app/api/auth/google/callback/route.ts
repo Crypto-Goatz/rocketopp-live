@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
 
     // Redirect to dashboard
     return NextResponse.redirect(
-      new URL('/dashboard', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/', process.env.NEXT_PUBLIC_APP_URL!)
     )
   } catch (err) {
     console.error('Google OAuth error:', err)

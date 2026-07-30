@@ -574,3 +574,93 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* MODERN MOTION LAYER                                                        */
+/* Every effect here is gated behind prefers-reduced-motion at the bottom of   */
+/* this block — motion is an enhancement, never the only way information is    */
+/* conveyed.                                                                  */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* Slow-drifting aurora field. Two offset radial blooms on independent timings
+   so the movement never reads as a loop. Sits behind content at low opacity. */
+@keyframes aurora-drift-a {
+  0%,100% { transform: translate3d(-8%, -4%, 0) scale(1.05); }
+  50%     { transform: translate3d(6%, 5%, 0) scale(1.18); }
+}
+@keyframes aurora-drift-b {
+  0%,100% { transform: translate3d(7%, 6%, 0) scale(1.12); }
+  50%     { transform: translate3d(-5%, -6%, 0) scale(1); }
+}
+
+.aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.aurora::before,
+.aurora::after {
+  content: '';
+  position: absolute;
+  width: 60vw; height: 60vw;
+  min-width: 520px; min-height: 520px;
+  border-radius: 9999px;
+  filter: blur(90px);
+  will-change: transform;
+}
+.aurora::before {
+  top: -22%; left: -12%;
+  background: radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.34), transparent 68%);
+  animation: aurora-drift-a 22s ease-in-out infinite;
+}
+.aurora::after {
+  bottom: -28%; right: -14%;
+  background: radial-gradient(circle at 50% 50%, hsl(28 100% 55% / 0.22), transparent 70%);
+  animation: aurora-drift-b 28s ease-in-out infinite;
+}
+
+/* Fine grid, masked so it fades rather than ending on a hard line. */
+.grid-fade {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
+  opacity: .5;
+}
+
+/* Scroll reveal. The JS observer adds .in-view; without JS the content is
+   already visible because the base state is applied only when JS marks it. */
+.reveal { opacity: 0; transform: translateY(18px); }
+.reveal.in-view {
+  opacity: 1; transform: none;
+  transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+}
+.reveal-d1.in-view { transition-delay: .08s }
+.reveal-d2.in-view { transition-delay: .16s }
+.reveal-d3.in-view { transition-delay: .24s }
+
+/* Conic sheen border for hero-weight cards. */
+@keyframes border-spin { to { transform: rotate(1turn); } }
+.sheen-border { position: relative; isolation: isolate; overflow: hidden; }
+.sheen-border::before {
+  content: '';
+  position: absolute;
+  inset: -140%;
+  z-index: -1;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, hsl(var(--primary) / 0.55) 28deg, transparent 72deg,
+    transparent 180deg, hsl(28 100% 60% / 0.35) 208deg, transparent 250deg);
+  animation: border-spin 9s linear infinite;
+}
+.sheen-border::after {
+  content: '';
+  position: absolute; inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: hsl(var(--card));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before, .aurora::after { animation: none; }
+  .sheen-border::before { animation: none; opacity: .5; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

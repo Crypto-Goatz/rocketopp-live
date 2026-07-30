@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
   const session = await getSession()
   if (!session) {
     return NextResponse.redirect(
-      new URL('/login?redirect=/dashboard/settings', process.env.NEXT_PUBLIC_APP_URL!)
+      new URL('/login?redirect=/', process.env.NEXT_PUBLIC_APP_URL!)
     )
   }
 

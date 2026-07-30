@@ -2,6 +2,7 @@ import { AlertTriangle, ArrowRight, Check, TrendingUp, X } from 'lucide-react'
 import Link from 'next/link'
 
 import { AI_GAP, MYTH_VS_REALITY, SEARCH_SHIFT, STATS_VERIFIED } from '@/lib/stats'
+import SearchChart from '@/components/charts/SearchChart'
 
 /**
  * "Why a website alone stopped working" — the research section on the $497 page.
@@ -37,7 +38,7 @@ export default function SearchReality() {
         </div>
 
         {/* ---- The correction. Myth first, then the sourced reality. ---- */}
-        <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-2xl border border-border bg-card">
+        <div className="reveal mx-auto mt-12 max-w-3xl overflow-hidden rounded-2xl border border-border bg-card">
           <div className="flex items-start gap-3 border-b border-border bg-muted/20 p-6">
             <X className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
             <div>
@@ -69,7 +70,7 @@ export default function SearchReality() {
         <h3 className="mt-14 text-center text-xl font-bold tracking-tight md:text-2xl">
           Search didn&rsquo;t shrink. The click did.
         </h3>
-        <div className="mt-7 grid gap-4 sm:grid-cols-2">
+        <div className="reveal mt-7 grid gap-4 sm:grid-cols-2">
           {SEARCH_SHIFT.map((s) => (
             <div
               key={s.label}
@@ -88,6 +89,11 @@ export default function SearchReality() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* ---- The interactive chart: same data, explorable ---- */}
+        <div className="reveal mt-12">
+          <SearchChart />
         </div>
 
         {/* ---- The opportunity ---- */}

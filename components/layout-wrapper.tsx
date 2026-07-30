@@ -5,6 +5,7 @@ import Navbar from "./navbar"
 import { SpaceBackground } from "./space-background"
 import { CartDrawer } from "./cart/cart-drawer"
 import { ExitIntentAiReadiness } from "./exit-intent-ai-readiness"
+import Reveal from "./reveal"
 
 const HIDDEN_ROUTES = [
   "/dashboard",
@@ -30,6 +31,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <main className="pt-16">{children}</main>
       <CartDrawer />
       <ExitIntentAiReadiness />
+      <Reveal />
     </>
   )
 }

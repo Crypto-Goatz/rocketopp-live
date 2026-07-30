@@ -188,7 +188,7 @@ export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
                 Browse more
               </Link>
               <Link
-                href="/dashboard"
+                href="/"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground hover:scale-[1.02] transition-transform"
               >
                 Go to dashboard

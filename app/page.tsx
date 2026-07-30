@@ -205,7 +205,8 @@ export default function HomePage() {
             overlay="radial"
             className="opacity-80"
           />
-          <div className="absolute inset-0 grid-background opacity-[0.08] pointer-events-none" />
+          <div className="aurora" aria-hidden />
+          <div className="grid-fade" aria-hidden />
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none" />
 
           <div className="container relative z-10 px-4 md:px-6">
@@ -255,9 +256,8 @@ export default function HomePage() {
 
               {/* ---- Right: the $497 offer, featured ---- */}
               <div className="relative">
-                <div className="absolute -inset-4 rounded-[2rem] bg-primary/15 blur-3xl" aria-hidden />
-                <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-card/95 p-7 backdrop-blur sm:p-8">
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-orange-400 to-primary" />
+                <div className="absolute -inset-6 rounded-[2.5rem] bg-primary/20 blur-[70px]" aria-hidden />
+                <div className="sheen-border relative rounded-3xl p-7 sm:p-8">
 
                   <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
                     <Zap className="h-4 w-4" />
@@ -314,7 +314,7 @@ export default function HomePage() {
             </div>
 
             {/* ---- Sourced stat strip ---- */}
-            <div className="mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 lg:grid-cols-4">
+            <div className="reveal mt-20 grid grid-cols-2 gap-8 border-t border-border pt-10 lg:grid-cols-4">
               {OUR_NUMBERS.map((s) => (
                 <StatBig key={s.label} stat={s} />
               ))}
@@ -355,7 +355,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="reveal mt-12 grid gap-5 md:grid-cols-2">
               {SEARCH_SHIFT.map((s) => (
                 <StatCard key={s.label} stat={s} />
               ))}
@@ -438,7 +438,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="reveal mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {SELF_PROOF.map((s) => (
                 <StatInline key={s.label} stat={s} />
               ))}
@@ -645,7 +645,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="mx-auto mt-14 grid max-w-5xl gap-5 md:grid-cols-3">
+            <div className="reveal mx-auto mt-14 grid max-w-5xl gap-5 md:grid-cols-3">
               {[
                 {
                   n: '01',

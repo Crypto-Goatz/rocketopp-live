@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
 import OfferClient from './OfferClient'
 import SearchReality from './SearchReality'
@@ -88,7 +89,12 @@ export default function OfferPage() {
           research into the client bundle and left it out of the initial HTML —
           invisible to AI crawlers that do not execute JS. This is the most
           citation-worthy content on the page, so it has to be server-rendered. */}
-      <OfferClient research={<SearchReality />} />
+      {/* Suspense is required: OfferClient calls useSearchParams to prefill the
+          form from CRM merge-field links. Without a boundary Next bails the whole
+          route out of static rendering. */}
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <OfferClient research={<SearchReality />} />
+      </Suspense>
     </main>
   )
 }

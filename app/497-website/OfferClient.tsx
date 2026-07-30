@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   ArrowRight,
   Check,
@@ -104,6 +105,29 @@ function ApplicationForm() {
   const [error, setError] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
 
+  /**
+   * Prefill from the URL. Traffic here arrives from CRM email campaigns, so the
+   * link is built with merge fields:
+   *
+   *   https://rocketopp.com/497-website?email={{contact.email}}&name={{contact.first_name}}&business={{contact.company_name}}
+   *
+   * Not asking someone to retype an address we already have is the single cheapest
+   * conversion win on the page. Several key spellings are accepted because campaign
+   * links get hand-built and `e=` / `em=` happen.
+   */
+  const params = useSearchParams()
+  const pre = (keys: string[]) => {
+    for (const k of keys) {
+      const v = params.get(k)
+      if (v && v.trim() && !v.includes('{{')) return v.trim()
+    }
+    return ''
+  }
+  const preEmail = pre(['email', 'e', 'em', 'contact_email'])
+  const preName = pre(['name', 'first_name', 'firstname', 'fname'])
+  const preBusiness = pre(['business', 'company', 'company_name', 'org'])
+  const prePhone = pre(['phone', 'tel', 'phone_number'])
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (status === 'sending') return
@@ -170,13 +194,13 @@ function ApplicationForm() {
           <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
             Your name <span className="text-primary">*</span>
           </label>
-          <input id="name" name="name" required autoComplete="name" className={field} />
+          <input id="name" name="name" required autoComplete="name" defaultValue={preName} className={field} />
         </div>
         <div>
           <label htmlFor="business" className="mb-1.5 block text-sm font-medium">
             Business name
           </label>
-          <input id="business" name="business" autoComplete="organization" className={field} />
+          <input id="business" name="business" autoComplete="organization" defaultValue={preBusiness} className={field} />
         </div>
       </div>
 
@@ -185,13 +209,13 @@ function ApplicationForm() {
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
             Email <span className="text-primary">*</span>
           </label>
-          <input id="email" name="email" type="email" required autoComplete="email" className={field} />
+          <input id="email" name="email" type="email" required autoComplete="email" defaultValue={preEmail} className={field} />
         </div>
         <div>
           <label htmlFor="phone" className="mb-1.5 block text-sm font-medium">
             Phone
           </label>
-          <input id="phone" name="phone" type="tel" autoComplete="tel" className={field} />
+          <input id="phone" name="phone" type="tel" autoComplete="tel" defaultValue={prePhone} className={field} />
         </div>
       </div>
 
