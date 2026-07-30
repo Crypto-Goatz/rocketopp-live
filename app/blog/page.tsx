@@ -23,7 +23,7 @@ import {
 } from 'lucide-react'
 
 export const metadata = {
-  title: 'Insights & Intelligence | RocketOpp Blog',
+  title: 'Insights & Intelligence — Blog',
   description: 'Deep dives into AI, automation, and digital transformation. Expert analysis and actionable strategies to accelerate your business growth.',
 }
 

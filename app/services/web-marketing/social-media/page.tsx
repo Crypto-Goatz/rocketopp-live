@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Users, ThumbsUp, MessageSquare, TrendingUp, Target, BarChart3, Sparkles, Globe, Shield } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Social Media Marketing Services | 23 Years Experience | RocketOpp",
+  title: "Social Media Marketing Services | 23 Years Experience",
   description:
     "Expert social media marketing services from RocketOpp. Drive engagement, build brand loyalty, and convert followers into customers across Facebook, Instagram, LinkedIn, TikTok, and more. Proven strategies since 2000.",
   keywords:

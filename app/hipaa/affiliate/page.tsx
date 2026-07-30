@@ -4,7 +4,7 @@ import { AffiliateLanding } from './affiliate-landing'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'HIPAA Partner Program — Earn 30% on Every Report | RocketOpp',
+  title: 'HIPAA Partner Program — Earn 30% on Every Report',
   description:
     'Refer healthcare clients and earn 30% on every HIPAA report tier ($149 to $4,800+). Auto-signup, instant dashboard, referral link + downloads. Payouts via ACH or PayPal through RocketOpp.',
   alternates: { canonical: 'https://rocketopp.com/hipaa/affiliate' },

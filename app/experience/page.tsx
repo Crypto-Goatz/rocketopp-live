@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import ExperiencePageClient from "./ExperiencePageClient"
 
 export const metadata: Metadata = {
-  title: "23 Years of Digital Excellence | RocketOpp Experience",
+  title: "23 Years of Digital Excellence",
   description:
     "RocketOpp has been building for the web since 2003. See our portfolio, the work we've shipped, and how we approach web design, development and AI systems.",
   keywords:

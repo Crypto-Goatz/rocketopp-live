@@ -3,7 +3,7 @@ import { ContactForm } from "./contact-form"
 import { Mail, Phone, Zap, Clock, Shield, Star } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Contact Us - Get Started with RocketOpp",
+  title: "Contact Us — Get Started",
   description:
     "Ready to transform your business with AI? Get in touch and we'll respond within 24 hours.",
 }

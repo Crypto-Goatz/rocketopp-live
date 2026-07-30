@@ -6,7 +6,7 @@ import PrivacyPolicyTemplate from "@/components/privacy-policy-template"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | RocketOpp",
+  title: "Privacy Policy",
   description: "Our commitment to protecting your privacy and securing your data at RocketOpp.",
 }
 

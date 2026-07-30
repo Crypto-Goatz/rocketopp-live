@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | RocketOpp",
+  title: "Terms of Service",
   description:
     "The terms and conditions governing your use of RocketOpp's website, products, and services.",
 }

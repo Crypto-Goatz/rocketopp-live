@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
 
 export const metadata: Metadata = {
-  title: "About RocketOpp | AI-Powered Business Automation Company",
+  title: "About Us — AI-Powered Business Automation Company",
   description: "RocketOpp builds AI-powered tools that work while you sleep. We're a team of automation experts who ship fast and eliminate busywork. Learn about our mission to transform how businesses operate.",
   keywords: [
     "about RocketOpp",

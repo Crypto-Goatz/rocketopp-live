@@ -3,7 +3,7 @@ import { getSession } from '@/lib/auth/session'
 import { ContentPipelineManager } from './content-manager'
 
 export const metadata = {
-  title: 'Content Pipeline | RocketOpp',
+  title: 'Content Pipeline',
   description: 'Manage automated content generation',
 }
 

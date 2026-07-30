@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import ConversionOptimizationClientPage from "./ConversionOptimizationClientPage"
 
 export const metadata: Metadata = {
-  title: "Conversion Rate Optimization (CRO) | AI-Powered Self-Optimizing Websites | RocketOpp",
+  title: "Conversion Rate Optimization (CRO) | AI-Powered Self-Optimizing Websites",
   description:
     "Transform visitors into customers with our AI-powered conversion optimization. Self-optimizing websites that track visitor behavior, automatically adjust content, colors, and layouts for maximum conversions.",
   keywords:

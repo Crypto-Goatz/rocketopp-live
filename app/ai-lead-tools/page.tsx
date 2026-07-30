@@ -8,7 +8,7 @@ import { LEAD_TOOLS, type LeadTool } from '@/lib/lead-tools/catalog'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'AI Lead Tools — Free Scans, Audits & Assessments | RocketOpp',
+  title: 'AI Lead Tools — Free Scans, Audits & Assessments',
   description: 'A library of AI-powered lead-gen tools — HIPAA scans, AI readiness audits, SXO scans, lead magnet builders, and white-label assessments. Run them in minutes. Free + paid tiers. Powered by 0nMCP.',
   alternates: { canonical: 'https://rocketopp.com/ai-lead-tools' },
   openGraph: {

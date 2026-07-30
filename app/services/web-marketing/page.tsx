@@ -9,7 +9,7 @@ import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
 import { VideoSchema, FAQSchema } from "@/components/seo/json-ld"
 
 export const metadata: Metadata = {
-  title: "Strategic Web Marketing Services | RocketOpp - SEO, PPC, Social Media",
+  title: "Strategic Web Marketing — SEO, PPC & Social Media",
   description:
     "Drive growth with RocketOpp's data-driven web marketing: SEO, PPC, Social Media, and Content Marketing strategies tailored for your success. 23 years of marketing expertise.",
   keywords: [

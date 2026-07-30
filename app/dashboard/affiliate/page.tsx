@@ -4,7 +4,7 @@ import { AffiliateDashboard } from './affiliate-dashboard'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'HIPAA Partner Dashboard — RocketOpp',
+  title: 'HIPAA Partner Dashboard',
   description: 'Your referral link, clicks, conversions, payouts, and download kit.',
 }
 

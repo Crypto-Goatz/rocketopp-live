@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import AutomationClientPage from "./AutomationClientPage"
 
 export const metadata: Metadata = {
-  title: "AI-Powered Automation Services | Workflow Optimization | RocketOpp",
+  title: "AI-Powered Automation Services | Workflow Optimization",
   description:
     "Transform your business with intelligent automation. 23 years of experience scaling businesses through AI-powered workflows with human operators. Automated processes that actually work.",
   keywords:

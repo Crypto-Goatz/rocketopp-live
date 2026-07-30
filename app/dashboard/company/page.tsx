@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { CompanyForm } from "./CompanyForm"
 
 export const metadata: Metadata = {
-  title: "Company Profile | RocketOpp",
+  title: "Company Profile",
   description: "Manage your company profile",
 }
 

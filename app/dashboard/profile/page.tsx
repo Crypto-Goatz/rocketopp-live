@@ -3,7 +3,7 @@ import { ProfileForm } from "./ProfileForm"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "User Profile | RocketOpp",
+  title: "User Profile",
   description: "Manage your personal profile",
 }
 

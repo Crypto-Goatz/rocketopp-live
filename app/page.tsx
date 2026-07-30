@@ -31,7 +31,7 @@ import { StatBig, StatCard, StatInline } from "@/components/home/stat"
 import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF } from "@/lib/stats"
 
 export const metadata: Metadata = {
-  title: "AI Can Build a Website. It Can't Make Anyone Find It. | RocketOpp",
+  title: "AI Can Build a Website. It Can't Make Anyone Find It.",
   description:
     "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. Fixed quotes, no discovery-call gate.",
   keywords: [

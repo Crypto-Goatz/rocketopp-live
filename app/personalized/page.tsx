@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import PersonalizedPageClient from "./PersonalizedPageClient"
 
 export const metadata: Metadata = {
-  title: "Your Personalized RocketOpp Experience",
+  title: "Your Personalized Experience",
   description: "A custom page generated just for you based on your industry and business needs.",
   robots: { index: false, follow: false },
 }

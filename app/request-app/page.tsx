@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import RequestAppClient from "./RequestAppClient"
 
 export const metadata: Metadata = {
-  title: "Request a Custom App | Pittsburgh App Development | RocketOpp",
+  title: "Request a Custom App | Pittsburgh App Development",
   description: "Request a custom mobile or web application from Pittsburgh's leading AI-powered app development agency. Get a free consultation for your iOS, Android, or web app project. Serving Pittsburgh, PA and beyond.",
   keywords: [
     "app development Pittsburgh",

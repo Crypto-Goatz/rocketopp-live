@@ -5,7 +5,7 @@ import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: '0nAI Analytics | RocketOpp',
+  title: '0nAI Analytics',
   description: 'Live traffic, campaign attribution, and funnel analytics powered by the CRO9 / 0nAI engine.',
 }
 

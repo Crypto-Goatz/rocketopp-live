@@ -15,7 +15,7 @@ import Footer from "@/components/footer"
 import { SectionBg } from "@/components/section-bg"
 
 export const metadata: Metadata = {
-  title: "AI Lead-Tool Apps — RocketOpp",
+  title: "AI Lead-Tool Apps",
   description:
     "Three free / freemium AI tools that turn website visitors into qualified leads. SXO scans, marketing-claim verification, and 5-minute AI assessments. Drop on any site.",
   alternates: { canonical: "https://rocketopp.com/services/lead-tool-apps" },

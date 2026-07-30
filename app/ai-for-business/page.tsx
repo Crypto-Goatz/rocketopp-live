@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "AI for Business - Transform Operations & Save Time | RocketOpp",
+  title: "AI for Business - Transform Operations & Save Time",
   description:
     "Discover how AI can revolutionize your business beyond content generation. Learn about intelligent automation, data analysis, workflow optimization, and more.",
 }

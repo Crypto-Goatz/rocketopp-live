@@ -6,7 +6,7 @@ import Link from "next/link"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "SEO Services | Search Engine Optimization | Get Found First | RocketOpp",
+  title: "SEO Services | Search Engine Optimization | Get Found First",
   description: "Dominate search results with expert SEO services. Technical optimization, local SEO, content strategy, and analytics that drive organic traffic and conversions.",
   keywords: "SEO services, search engine optimization, technical SEO, local SEO, SEO audit, keyword research, link building, organic traffic, Google ranking, RocketOpp",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],

@@ -5,7 +5,7 @@ import { FAQSchema } from "@/components/seo/json-ld"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "AI for Business | AI Integration Services | Enterprise AI Solutions | RocketOpp",
+  title: "AI for Business | AI Integration Services | Enterprise AI Solutions",
   description:
     "Transform your business with AI integration services from RocketOpp. 23 years experience implementing AI for business automation, chatbots, machine learning, and intelligent workflows. Trusted by Fortune 500 companies. Get your free AI assessment today.",
   keywords: [

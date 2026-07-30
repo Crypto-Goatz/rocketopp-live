@@ -6,7 +6,7 @@ import Link from "next/link"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "SOP Automation | Standard Operating Procedures | Systems That Scale | RocketOpp",
+  title: "SOP Automation | Standard Operating Procedures | Systems That Scale",
   description: "Transform chaotic processes into streamlined systems. We document, automate, and train your team on SOPs that actually work. AI-powered workflow automation that scales your business.",
   keywords: "SOP automation, standard operating procedures, business process automation, workflow automation, process documentation, team training, AI automation, business systems, operational efficiency, RocketOpp",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],

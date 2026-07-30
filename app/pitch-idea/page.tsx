@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import PitchIdeaClient from "./PitchIdeaClient"
 
 export const metadata: Metadata = {
-  title: "Submit Your App Idea | Pitch Software Ideas to Developers | RocketOpp",
+  title: "Submit Your App Idea | Pitch Software Ideas to Developers",
   description: "Have an app idea? Submit your software concept to RocketOpp's development team. We review every submission, sign NDAs before discussions, and actively seek partnership opportunities. Specializing in AI applications.",
   keywords: [
     "submit app idea",

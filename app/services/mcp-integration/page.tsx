@@ -11,7 +11,7 @@ import RelatedServices from "@/components/sxo/related-services"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
-  title: "MCP Server Integration — From $1,997 | Connect Your Business to 1,500+ Tools | RocketOpp",
+  title: "MCP Server Integration — From $1,997 | Connect Your Business to 1,500+ Tools",
   description:
     "Plug your business into 0nMCP — the largest interconnected MCP server. 1,554 tools across 96 services accessible to any AI agent in your stack. From $1,997. Ships in 1 week.",
   keywords: [

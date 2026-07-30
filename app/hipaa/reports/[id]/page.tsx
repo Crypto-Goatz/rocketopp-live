@@ -6,7 +6,7 @@ import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'HIPAA Readiness Report | RocketOpp',
+  title: 'HIPAA Readiness Report',
   description: 'Your personalised HIPAA compliance report — delivered by the 0nCore AI engine.',
 }
 

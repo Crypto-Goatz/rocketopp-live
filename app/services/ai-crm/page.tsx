@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import AiCrmClientPage from "./AiCrmClientPage"
 
 export const metadata: Metadata = {
-  title: "AI-Powered CRM | Enterprise Technology for Small Business | RocketOpp",
+  title: "AI-Powered CRM | Enterprise Technology for Small Business",
   description:
     "Custom AI-powered CRM solutions starting at $5,000. Enterprise-level technology at 90% less than industry standard. Fully customized applications with built-in AI for businesses of all sizes.",
   keywords:

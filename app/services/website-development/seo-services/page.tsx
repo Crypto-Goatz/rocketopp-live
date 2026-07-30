@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import SeoServicesClientPage from "./SeoServicesClientPage"
 
 export const metadata: Metadata = {
-  title: "Professional SEO Services | Search Engine Optimization | RocketOpp",
+  title: "Professional SEO Services | Search Engine Optimization",
   description:
     "Expert SEO services that drive organic traffic, improve search rankings, and grow your business. Technical SEO, content optimization, and proven strategies for sustainable growth.",
   keywords: [

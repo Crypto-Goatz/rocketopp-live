@@ -8,7 +8,7 @@ import { PRODUCTS, CATEGORY_LABELS, productsByCategory, type ShopProduct, type P
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Shop — RocketOpp · AI builds, HIPAA, web, marketing',
+  title: 'Shop — AI builds, HIPAA, web, marketing',
   description: 'The full RocketOpp catalog. Free Apex Assessment, HIPAA compliance scans, custom AI builds, SaaS platforms, and recurring marketing. Lock in advertised prices through guided AI onboarding.',
   alternates: { canonical: 'https://rocketopp.com/shop' },
   openGraph: {

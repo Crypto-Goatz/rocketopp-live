@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Video, CheckCircle2, Clock, Zap, ArrowRight, Calendar, MessageSquare } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Book a Consultation - Free Discovery Call | RocketOpp",
+  title: "Book a Consultation - Free Discovery Call",
   description:
     "Schedule a free 30-minute discovery call with the RocketOpp team. Discuss your AI and automation needs and get expert guidance.",
 }

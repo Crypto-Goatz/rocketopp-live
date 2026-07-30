@@ -7,7 +7,7 @@ import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import ServicesConversion from "./ServicesConversion"
 
 export const metadata: Metadata = {
-  title: "Services & Pricing | RocketOpp - Transparent Digital Agency",
+  title: "Services — Web Design, AI Automation, CRM & SEO",
   description:
     "All RocketOpp services: web design and development, CRM automation, AI automation, SXO, PPC and MCP integration. Fixed quotes, no discovery calls.",
   keywords: [

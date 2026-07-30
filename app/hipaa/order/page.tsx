@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { OrderForm } from './order-form'
 
 export const metadata: Metadata = {
-  title: 'Order your HIPAA readiness report | RocketOpp',
+  title: 'Order your HIPAA readiness report',
   description: 'Get the full 51-point HIPAA readiness report with prioritised remediation plan — delivered to your inbox within 60 minutes.',
 }
 

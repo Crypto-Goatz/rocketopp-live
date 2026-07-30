@@ -4,7 +4,7 @@ import { WorkspaceLayout } from '@/components/dashboard/workspace-layout'
 import { FeedbackPageContent } from './content'
 
 export const metadata = {
-  title: 'Feedback | RocketOpp',
+  title: 'Feedback',
   description: 'Share your ideas and vote on features',
 }
 

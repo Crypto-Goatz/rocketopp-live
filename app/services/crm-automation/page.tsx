@@ -11,7 +11,7 @@ import RelatedServices from "@/components/sxo/related-services"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
-  title: "CRM Setup & Automation — From $1,497 | Pipelines, Lead Scoring, Sequences | RocketOpp",
+  title: "CRM Setup & Automation — From $1,497 | Pipelines, Lead Scoring, Sequences",
   description:
     "Full CRM setup with automated pipelines, AI lead scoring, email + SMS sequences, appointment booking, and revenue reporting. Ships in 1 week. From $1,497.",
   keywords: [

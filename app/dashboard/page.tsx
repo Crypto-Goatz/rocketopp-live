@@ -10,7 +10,7 @@ import {
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Dashboard | RocketOpp",
+  title: "Dashboard",
   description: "Your RocketOpp workspace",
 }
 

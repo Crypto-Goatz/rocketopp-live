@@ -6,7 +6,7 @@ import { ServiceOfferSchema, FAQSchema, BreadcrumbSchema } from "@/components/se
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Website Development - Pricing & What's Included | RocketOpp",
+  title: "Website Development - Pricing & What's Included",
   description:
     "Professional website development from $2,497. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See pricing and what's included.",
   keywords: [

@@ -8,7 +8,7 @@ import { QuotePanel } from "@/components/order/quote-panel"
 import { OrderSeed } from "./seed"
 
 export const metadata: Metadata = {
-  title: "Get a custom quote — RocketOpp",
+  title: "Get a custom quote",
   description:
     "Build your project quote in 60 seconds. Pick what you need, scope each one, get an AI-generated brief, and lock it in with a $50 refundable deposit.",
   alternates: { canonical: "https://rocketopp.com/order" },

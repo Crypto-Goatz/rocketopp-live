@@ -24,7 +24,7 @@ import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 import { FAQSchema, ProductSchema } from '@/components/seo/json-ld'
 
 export const metadata: Metadata = {
-  title: 'Our Apps | RocketOpp - AI-Powered Business Software',
+  title: 'Our Apps — AI-Powered Business Software',
   description: 'Explore RocketOpp\'s suite of AI-powered applications: Rocket+ for CRM automation, MCPFED for AI agent management, and BotCoaches for personalized AI coaching. Built to work while you sleep.',
   keywords: [
     'RocketOpp apps',

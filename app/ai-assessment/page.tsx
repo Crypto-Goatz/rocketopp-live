@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export const metadata = {
-  title: "Free AI Business Assessment | RocketOpp",
+  title: "Free AI Business Assessment",
   description: "Get a comprehensive AI-powered assessment of your business growth opportunities.",
 }
 

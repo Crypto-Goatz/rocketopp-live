@@ -9,7 +9,7 @@ import { NotifyForm } from './NotifyForm'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Notify me — RocketOpp AI Lead Tools',
+  title: 'Notify me — AI Lead Tools',
   description: 'Get notified when this AI lead tool launches. Email-only signup; you also get a 25% launch coupon.',
   robots: { index: false, follow: false },
 }

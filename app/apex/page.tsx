@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { ApexClient } from './ApexClient'
 
 export const metadata: Metadata = {
-  title: 'APEX AI Business Assessment — Free | RocketOpp',
+  title: 'APEX AI Business Assessment — Free',
   description: 'A 5-minute conversational business assessment. The APEX AI analyzes your website, surfaces competitive threats, and ships a strategic blueprint to your inbox. Free.',
   alternates: { canonical: 'https://rocketopp.com/apex' },
   openGraph: {

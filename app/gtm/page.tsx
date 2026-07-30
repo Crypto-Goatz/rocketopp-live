@@ -4,7 +4,7 @@ import { GtmLanding } from './gtm-landing'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'GTM Reality Check + AI Pre-Brief | 30-Min Session | From $49 | RocketOpp',
+  title: 'GTM Reality Check + AI Pre-Brief | 30-Min Session | From $49',
   description:
     'Complete a 5-question AI assessment, pay $49, and book your 30-minute GTM Reality Check with Mike. We find the leak in your go-to-market and give you 3 fixes you can run today.',
   robots: { index: true, follow: true },

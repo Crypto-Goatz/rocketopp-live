@@ -11,7 +11,7 @@ import RelatedServices from "@/components/sxo/related-services"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
-  title: "PPC Management — From $797/mo | AI-Optimized Google + Meta + LinkedIn Ads | RocketOpp",
+  title: "PPC Management — From $797/mo | AI-Optimized Google + Meta + LinkedIn Ads",
   description:
     "Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, X, TikTok — one team, transparent pricing, real ROI. From $797/mo. No long-term contracts.",
   keywords: [

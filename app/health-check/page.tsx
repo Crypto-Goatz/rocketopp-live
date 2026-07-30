@@ -3,7 +3,7 @@ import { HealthCheckWizard } from './wizard'
 import Footer from '@/components/footer'
 
 export const metadata: Metadata = {
-  title: 'Free Stack Health Audit | RocketOpp',
+  title: 'Free Stack Health Audit',
   description:
     'Run the CRO9 Stack Health Audit on your live website. Deep infrastructure, TLS, headers, framework, and security-path checks. Letter grade + remediation roadmap emailed in minutes.',
   openGraph: {

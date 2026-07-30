@@ -19,7 +19,7 @@ import { GtmBookingClient } from './booking-client'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Book Your GTM Reality Check | RocketOpp',
+  title: 'Book Your GTM Reality Check',
   robots: { index: false, follow: false },
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import SerpDashboardClient from './SerpDashboardClient'
 
 export const metadata: Metadata = {
-  title: 'SERP Rank Tracker — RocketOpp Family',
+  title: 'SERP Rank Tracker',
   robots: { index: false, follow: false },
 }
 
