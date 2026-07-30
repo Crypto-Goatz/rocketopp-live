@@ -11,9 +11,9 @@ import RelatedServices from "@/components/sxo/related-services"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
-  title: "PPC Management — From $797/mo | AI-Optimized Google + Meta + LinkedIn Ads",
+  title: "PPC Management — AI-Optimized Google, Meta & LinkedIn Ads",
   description:
-    "Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, X, TikTok — one team, transparent pricing, real ROI. From $797/mo. No long-term contracts.",
+    "Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, X, TikTok — one team, real ROI, no long-term contracts.",
   keywords: [
     "PPC management cost",
     "Google Ads management pricing",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "PPC Management — AI-Optimized | RocketOpp",
-    description: "From $797/mo. Google + Meta + LinkedIn + TikTok, one team, transparent pricing.",
+    description: "Google + Meta + LinkedIn + TikTok, managed by one team with AI in the loop.",
     url: "https://rocketopp.com/services/ppc-management",
     type: "website",
   },

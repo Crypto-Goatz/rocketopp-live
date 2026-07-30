@@ -32,7 +32,7 @@ import RelatedServices from "@/components/sxo/related-services"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
-  title: "AI Business Automation — From $2,997 | Workflow + Agents + Ops Automation",
+  title: "AI Business Automation — Workflows, Agents & Ops Automation",
   description:
     "Custom AI automation systems built on 0nMCP. Replace 5-10 manual workflows with AI agents that run 24/7 — from lead qualification to customer support to content production. From $2,997. Ships in 2 weeks.",
   keywords: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     "build an AI agent",
   ],
   openGraph: {
-    title: "AI Business Automation — Custom AI Systems from $2,997 | RocketOpp",
+    title: "AI Business Automation — Custom AI Systems | RocketOpp",
     description: "AI agents that actually execute. 5-10 workflows automated. Powered by 0nMCP and 1,500+ tools.",
     url: "https://rocketopp.com/services/ai-automation",
     type: "website",

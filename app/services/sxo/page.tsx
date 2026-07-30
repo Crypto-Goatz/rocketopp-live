@@ -36,9 +36,9 @@ import UcpLiveStrip from "@/components/ucp-live-strip"
 
 export const metadata: Metadata = {
   title:
-    "SXO (Search Experience Optimization) — Pricing, Process, Results | RocketOpp",
+    "SXO (Search Experience Optimization) — Process, Results & AI Search Visibility",
   description:
-    "SXO replaces SEO for the AI era. Combine search optimization, UX, and conversion in one strategy — powered by CRO9 and the 0n ecosystem. Pricing from $997/mo. First customer: 82 → 92 score in under 30 days.",
+    "SXO replaces SEO for the AI era. Combine search optimization, UX, and conversion in one strategy — powered by CRO9 and the 0n ecosystem. First customer: 82 → 92 score in under 30 days.",
   keywords: [
     "SXO pricing",
     "search experience optimization",

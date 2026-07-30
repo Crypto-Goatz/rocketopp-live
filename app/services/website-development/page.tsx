@@ -6,7 +6,7 @@ import { ServiceOfferSchema, FAQSchema, BreadcrumbSchema } from "@/components/se
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Website Development - Pricing & What's Included",
+  title: "Website Development — What's Included & How We Build",
   description:
     "Professional website development from $2,497. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See pricing and what's included.",
   keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "website development agency",
   ],
   openGraph: {
-    title: "Website Development - Pricing & What's Included | RocketOpp",
+    title: "Website Development — What's Included | RocketOpp",
     description: "Professional websites from $2,497. Launched in 2 weeks. See exactly what's included.",
     url: "https://rocketopp.com/services/website-development",
   },
