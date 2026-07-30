@@ -83,10 +83,10 @@ const faqs = [
 
 const relatedLinks = [
   { label: "AI Business Automation", href: "/services/ai-automation", hint: "$2,997 — replace 5-10 workflows with AI agents" },
-  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,500+ tools" },
+  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,640+ tools" },
   { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "$797/mo — feed the CRM with qualified leads" },
   { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — drive organic leads to the CRM" },
-  { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,554 tools, 96 services", external: true },
+  { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,640+ tools, 111 services", external: true },
   { label: "Read the CRM playbook", href: "/blog", hint: "How we ship CRMs that actually get used" },
 ]
 
@@ -102,7 +102,7 @@ export default function CrmAutomationPage() {
         <BlufBlock
           badge="Pipelines + AI scoring + sequences in 7 days"
           bottomLine="Get a fully-automated CRM in 7 days. Pipelines, AI lead scoring, email + SMS sequences, calendar booking, data hygiene agent, and live revenue reporting — all running by next Friday."
-          context="Built on 0nMCP so your CRM connects to 1,500+ tools day one. Platform-agnostic — we work with HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap, or our own stack. From $1,497 (Starter) to $9,997+ (Enterprise multi-location)."
+          context="Built on 0nMCP so your CRM connects to 1,640+ tools day one. Platform-agnostic — we work with HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap, or our own stack. From $1,497 (Starter) to $9,997+ (Enterprise multi-location)."
           stats={[
             { label: "Time to working pipeline", value: "7 days" },
             { label: "Sequences shipped day 1", value: "5-12" },

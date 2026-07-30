@@ -674,7 +674,7 @@ export function HIPAALanding() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-500">
                   <Server className="h-5 w-5 text-white" />
                 </div>
-                <div className="text-sm font-bold uppercase tracking-wider text-white/60">96 services, 1 config</div>
+                <div className="text-sm font-bold uppercase tracking-wider text-white/60">111 services, 1 config</div>
               </div>
               <h3 className="mt-4 text-xl font-bold text-white">Stripe + Resend + Supabase + Spectra Assure</h3>
               <p className="mt-2 text-sm leading-relaxed text-white/70">

@@ -155,6 +155,16 @@ export function Footer() {
             <nav aria-label="Company Navigation">
               <ul className="space-y-2 text-sm">
                 <li>
+                  <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/book" className="text-muted-foreground hover:text-foreground transition-colors">
+                    Book a call
+                  </Link>
+                </li>
+                <li>
                   <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                     About
                   </Link>

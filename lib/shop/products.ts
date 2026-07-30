@@ -345,7 +345,7 @@ export const PRODUCTS: ShopProduct[] = [
     imageUrl: 'https://cdn.gamma.app/zhtpwppn6k9cid3/generated-images/ZXzDjbQ3_fsdwSte8sIR1.png',
     badge: 'New',
     features: [
-      'Custom agent on 0nMCP (1,554 tools)',
+      'Custom agent on 0nMCP (1,640+ tools)',
       'Multi-step workflows + decision trees',
       'Daily Slack / email digest',
       'Human-in-the-loop approval gates',

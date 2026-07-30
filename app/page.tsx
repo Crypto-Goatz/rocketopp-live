@@ -29,6 +29,7 @@ import UcpLiveStrip from "@/components/ucp-live-strip"
 import { SectionBg } from "@/components/section-bg"
 import { StatBig, StatCard, StatInline } from "@/components/home/stat"
 import RocketShieldVideo from "@/components/home/rocket-shield-video"
+import OfferVideoCta from "@/components/home/offer-video-cta"
 import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF, MYTH_VS_REALITY, STATS_VERIFIED } from "@/lib/stats"
 
 export const metadata: Metadata = {
@@ -216,25 +217,29 @@ export default function HomePage() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
                   <Sparkles className="h-4 w-4" />
-                  AI-native web design · Western PA
+                  AI-ready websites · Western PA
                 </div>
 
                 <h1 className="mt-7 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-                  AI can build a website.
+                  Two thirds of searches
+                  <br />
+                  never reach a website.
                   <br />
                   <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent animate-gradient-x">
-                    It can&rsquo;t make anyone find it.
+                    We build the ones AI still quotes.
                   </span>
                 </h1>
 
                 <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
-                  So can Wix. So can ChatGPT. What none of them do is the part that actually
-                  decides whether your phone rings — getting you cited by AI search, ranked in
-                  your own town, and wired so every lead lands in your CRM instead of an inbox.
+                  Search didn&rsquo;t shrink — the click did. Google now answers on its own page,
+                  and ChatGPT answers on its own. The site that wins is the one the answer is
+                  built from. That is what an{' '}
+                  <span className="font-semibold text-foreground">AI-ready website</span> is, and
+                  it is the only kind we build.
                 </p>
 
                 <p className="mt-5 max-w-xl leading-relaxed text-muted-foreground">
-                  We build the AI. <span className="font-semibold text-foreground">0nMCP</span>,{' '}
+                  We build the AI too. <span className="font-semibold text-foreground">0nMCP</span>,{' '}
                   <span className="font-semibold text-foreground">CRO9</span> and{' '}
                   <span className="font-semibold text-foreground">web0n</span> are ours —{' '}
                   <span className="font-mono text-foreground">1,640+</span> tools across{' '}
@@ -244,72 +249,89 @@ export default function HomePage() {
 
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                   <Button size="lg" className="animate-pulse-glow px-8 py-6 text-lg" asChild>
-                    <Link href="/497-website">
-                      Get the $497 website
+                    <Link href="/health-check">
+                      Check if AI can read my site
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" className="px-8 py-6 text-lg" asChild>
-                    <Link href="/health-check">Scan my site free</Link>
+                    <Link href="/services/website-design">How we build them</Link>
                   </Button>
                 </div>
+
+                <p className="mt-5 text-sm text-muted-foreground">
+                  Free, no account, no card. You get the findings whether or not you hire us.
+                </p>
               </div>
 
-              {/* ---- Right: the $497 offer, featured ---- */}
+              {/* ---- Right: what "AI-ready" actually means ----
+                   This slot used to hold a giant $497 card. The price now lives in
+                   its own section further down (components/home/offer-video-cta),
+                   so the hero can sell the category rather than the discount — a
+                   visitor who does not yet know what an AI-ready website IS cannot
+                   be moved by its price. Each row is a real, checkable property of
+                   what we ship, and the free scan tests the same list. ---- */}
               <div className="relative">
                 <div className="absolute -inset-6 rounded-[2.5rem] bg-primary/20 blur-[70px]" aria-hidden />
                 <div className="sheen-border relative rounded-3xl p-7 sm:p-8">
-
                   <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-                    <Zap className="h-4 w-4" />
-                    This week only
+                    <Bot className="h-4 w-4" />
+                    What &ldquo;AI-ready&rdquo; means
                   </div>
 
-                  <div className="mt-5 flex items-end gap-3">
-                    <span className="font-mono text-6xl font-bold leading-none tracking-tight text-foreground">
-                      $497
-                    </span>
-                    <span className="pb-1.5 text-sm text-muted-foreground">
-                      to build
-                      <br />
-                      then $50/mo
-                    </span>
-                  </div>
-
-                  <h2 className="mt-5 text-xl font-bold tracking-tight">
-                    A complete website, built for you
+                  <h2 className="mt-5 text-xl font-bold leading-snug tracking-tight">
+                    Six things that decide whether an AI engine can quote you
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Not a template you fill in. We design and build the whole thing — then hand it
-                    over so you can edit it yourself, forever, with no change-request fees.
+                    Most sites fail three or more. Every site we build ships with all six, and the
+                    free scan checks yours against the same list.
                   </p>
 
-                  <ul className="mt-6 space-y-2.5">
+                  <ul className="mt-6 space-y-3.5">
                     {[
-                      'Built on web0n, our own AI platform',
-                      'Structured for Google and AI search',
-                      'Contact form wired straight to you',
-                      'Yours to edit and revise, any time',
+                      {
+                        t: 'Crawlers are actually allowed in',
+                        d: 'GPTBot, ClaudeBot and PerplexityBot allowlisted on purpose. Most sites block them by accident.',
+                      },
+                      {
+                        t: 'The answer is in the HTML',
+                        d: 'Not assembled by JavaScript after load. AI crawlers largely do not run JS — if it is not in the source, it does not exist.',
+                      },
+                      {
+                        t: 'Every page leads with the answer',
+                        d: 'A definitional first sentence a model can lift whole, before the marketing copy starts.',
+                      },
+                      {
+                        t: 'Schema that says what you are',
+                        d: 'Entity markup for retrieval, not just star ratings for Google.',
+                      },
+                      {
+                        t: 'One consistent story everywhere',
+                        d: 'Same hours, same services, same claims across every source. Contradictions make a model cite someone else.',
+                      },
+                      {
+                        t: 'An llms.txt written for machines',
+                        d: 'A plain map of what the site covers, for the engines that look for one.',
+                      },
                     ].map((f) => (
-                      <li key={f} className="flex gap-2.5 text-sm text-muted-foreground">
+                      <li key={f.t} className="flex gap-3">
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        {f}
+                        <span>
+                          <span className="block text-sm font-semibold leading-snug">{f.t}</span>
+                          <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
+                            {f.d}
+                          </span>
+                        </span>
                       </li>
                     ))}
                   </ul>
 
                   <Button className="mt-7 w-full py-6 text-base" asChild>
-                    <Link href="/497-website">
-                      Claim this week&rsquo;s build
+                    <Link href="/health-check">
+                      Scan my site against these
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
-
-                  <p className="mt-3 text-center text-xs text-muted-foreground">
-                    $250 to start · $247 at launch · then $50/mo hosting
-                    <br />
-                    Closes Friday midnight ET · nothing charged until scope is confirmed
-                  </p>
                 </div>
               </div>
             </div>
@@ -478,6 +500,14 @@ export default function HomePage() {
           </div>
         </section>
 
+
+        {/* The $497 offer, carried by the ad video.
+            Placed here on purpose: the hero sells what an AI-ready website IS, the
+            three sections above make the argument and show our own numbers, and a
+            reader arriving at this point is ready for a price. It used to be a
+            giant card in the hero, which asked for the sale before the case was
+            made. */}
+        <OfferVideoCta />
 
         {/* Trust strip — infrastructure providers, builds credibility */}
         <TrustStrip />

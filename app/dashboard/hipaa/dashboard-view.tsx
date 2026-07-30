@@ -234,7 +234,7 @@ export function DashboardView() {
               This dashboard was built in 2 hours with 0nMCP.
             </div>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Patent-pending AI orchestration. 1,554 tools, 96 services, one workflow language.
+              Patent-pending AI orchestration. 1,640+ tools, 111 services, one workflow language.
               See what's possible when you describe outcomes instead of writing code.
             </p>
           </div>

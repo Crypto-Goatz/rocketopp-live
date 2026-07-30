@@ -92,8 +92,8 @@ const services = [
     icon: Code2,
     color: "from-cyan-500 to-blue-500",
     features: [
-      { name: "54 Services", href: "/services/mcp-integration", icon: Globe },
-      { name: "1,171 Tools", href: "/services/mcp-integration#pricing", icon: Zap },
+      { name: "111 Services", href: "/services/mcp-integration", icon: Globe },
+      { name: "1,640+ Tools", href: "/services/mcp-integration#pricing", icon: Zap },
       { name: "Vault Security", href: "/services/mcp-integration#pricing", icon: Sparkles },
     ]
   },
@@ -155,7 +155,7 @@ const ourApps = [
   { name: "CRO9",              tagline: "Self-optimizing landing pages",          href: "/family/cro9",        icon: TrendingUp, color: "from-cyan-500 to-blue-500",   external: false, status: "Live" },
 
   // Section 3 — 0nMCP (the hero)
-  { name: "0nMCP",             tagline: "The world's largest interconnected MCP server · 1,554 tools, 96 services", href: "/family/0nmcp", icon: Cpu, color: "from-orange-500 to-red-500", external: false, status: "Live", hero: true },
+  { name: "0nMCP",             tagline: "The world's largest interconnected MCP server · 1,640+ tools, 111 services", href: "/family/0nmcp", icon: Cpu, color: "from-orange-500 to-red-500", external: false, status: "Live", hero: true },
 ]
 
 // Sister 0n family links — shown below the three sections in the dropdown.
@@ -362,6 +362,12 @@ export function Navbar() {
 
 
               <Link
+                href="/blog"
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
+              >
+                Blog
+              </Link>
+              <Link
                 href="/about"
                 className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
               >
@@ -464,6 +470,13 @@ export function Navbar() {
                 </div>
 
 
+                <Link
+                  href="/blog"
+                  className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-2 py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
                 <Link
                   href="/about"
                   className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors px-2 py-2"

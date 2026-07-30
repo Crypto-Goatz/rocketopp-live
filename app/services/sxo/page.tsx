@@ -251,7 +251,7 @@ const faqs = [
   {
     question: "How does SXO connect to the rest of the 0n ecosystem?",
     answer:
-      "Every SXO engagement plugs into 0nMCP (the orchestrator powering 1,500+ tools and 96 services), the 0nCore command center, and the Universal Capability Protocol (UCP) at 0ncore.com. That means content generation, CRM sync, email automation, social distribution, and analytics all share one source of truth. It's also why our content engine ships 4–12 SXO-perfect articles a month at the price most agencies charge for one.",
+      "Every SXO engagement plugs into 0nMCP (the orchestrator powering 1,640+ tools and 111 services), the 0nCore command center, and the Universal Capability Protocol (UCP) at 0ncore.com. That means content generation, CRM sync, email automation, social distribution, and analytics all share one source of truth. It's also why our content engine ships 4–12 SXO-perfect articles a month at the price most agencies charge for one.",
   },
   {
     question: "What's included in the monthly reports?",
@@ -279,7 +279,7 @@ const relatedLinks = [
   {
     label: "MCP Server Integration",
     href: "/services/mcp-integration",
-    hint: "$1,997 — one integration, 1,500+ tools",
+    hint: "$1,997 — one integration, 1,640+ tools",
   },
   {
     label: "PPC & Paid Ads",

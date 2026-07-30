@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "AI Business Automation — Custom AI Systems | RocketOpp",
-    description: "AI agents that actually execute. 5-10 workflows automated. Powered by 0nMCP and 1,500+ tools.",
+    description: "AI agents that actually execute. 5-10 workflows automated. Powered by 0nMCP and 1,640+ tools.",
     url: "https://rocketopp.com/services/ai-automation",
     type: "website",
   },
@@ -93,10 +93,10 @@ const processSteps = [
 
 const faqs = [
   { question: "What is AI business automation, exactly?", answer: "It's the practice of replacing repetitive manual workflows — lead qualification, customer support replies, invoice reconciliation, content production, social posting — with AI agents that have access to your real business tools (CRM, email, calendar, billing). Unlike RPA or Zapier, AI agents reason about each task instead of following a fixed script. They can handle ambiguity, escalate when unsure, and improve as they learn your patterns." },
-  { question: "How much does an AI automation project cost in 2026?", answer: "Industry average for a custom AI automation project ranges $15,000-$50,000 because most firms charge for custom integration work on every tool the agent needs to use. RocketOpp builds on 0nMCP, which gives every agent access to 1,500+ tools across 96 services on day one — so we skip the integration tax. Our Starter is $2,997 (1-2 workflows), Growth is $7,997 (5-7 workflows), Enterprise starts at $24,997 (unlimited, with compliance + custom MCP)." },
+  { question: "How much does an AI automation project cost in 2026?", answer: "Industry average for a custom AI automation project ranges $15,000-$50,000 because most firms charge for custom integration work on every tool the agent needs to use. RocketOpp builds on 0nMCP, which gives every agent access to 1,640+ tools across 111 services on day one — so we skip the integration tax. Our Starter is $2,997 (1-2 workflows), Growth is $7,997 (5-7 workflows), Enterprise starts at $24,997 (unlimited, with compliance + custom MCP)." },
   { question: "What can an AI agent actually do for my business?", answer: "Common starting points: qualify inbound leads (read the form, enrich the contact, score it, route to the right rep), reply to common customer support tickets, produce drafts for blog posts and social content, reconcile invoices against contracts, schedule meetings end-to-end, run weekly reports and post the summary to Slack, follow up on cold email no-replies, summarize sales calls and update the CRM. Anything that's: (a) repetitive, (b) judgment-light, (c) involves 2+ tools." },
   { question: "How is this different from Zapier, Make, or RPA tools?", answer: "Zapier and Make are if-this-then-that. They break the moment data doesn't fit the schema. RPA (UiPath etc.) is brittle screen automation. AI agents reason about each task — they read the inputs, decide what to do, call the right tools, and escalate if confused. They're orders of magnitude more flexible, recover from edge cases automatically, and learn from your corrections. The trade-off used to be cost; with 0nMCP that gap is closed." },
-  { question: "What's 0nMCP and why does it matter for my project?", answer: "0nMCP is our orchestrator (Model Context Protocol server) that gives any AI agent immediate access to 1,500+ tools across 96 services — CRM, email, Slack, Stripe, GitHub, Google Workspace, Shopify, you name it. Without it, every new agent capability is a custom integration build. With it, agents start with the keys to the entire ecosystem and you only pay for the orchestration on top. It's the entire reason our pricing is one-tenth of the industry." },
+  { question: "What's 0nMCP and why does it matter for my project?", answer: "0nMCP is our orchestrator (Model Context Protocol server) that gives any AI agent immediate access to 1,640+ tools across 111 services — CRM, email, Slack, Stripe, GitHub, Google Workspace, Shopify, you name it. Without it, every new agent capability is a custom integration build. With it, agents start with the keys to the entire ecosystem and you only pay for the orchestration on top. It's the entire reason our pricing is one-tenth of the industry." },
   { question: "How fast can you actually ship?", answer: "Starter: 2 weeks from kickoff to first working agent in your environment. Growth: 4 weeks for the full 5-7 agent crew. Enterprise: 6-10 weeks depending on compliance scope. We hit these timelines by reusing the 0nMCP foundation across every project — your engagement is mostly about defining the problem, designing the agent, and pressure-testing in your real data, not custom infra." },
   { question: "What if the AI agent makes a mistake?", answer: "Every agent ships with: a defined goal, hard guardrails (e.g. never delete a contact, never charge a card without confirmation), an escalation path (route to a human when confidence is low), a complete audit log of every action, and a one-click rollback for actions that need it. The dashboard shows you every decision the agent made and why. If something's wrong, you see it before it compounds." },
   { question: "Do I need a developer on my team to maintain this?", answer: "No. We deliver every agent with a non-technical operator playbook — the agent's goal in plain English, the dashboard view, when to intervene, how to retrain. If your team can use a CRM, they can manage AI agents. For Enterprise we also offer a managed service add-on where we handle all maintenance." },
@@ -104,11 +104,11 @@ const faqs = [
 ]
 
 const relatedLinks = [
-  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,500+ tools" },
+  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,640+ tools" },
   { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "$1,497 — pipelines, lead scoring, sequences" },
   { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — get cited by AI engines" },
   { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "$797/mo — AI-optimized Google + Meta + LinkedIn" },
-  { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,554 tools, 96 services, one protocol", external: true },
+  { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,640+ tools, 111 services, one protocol", external: true },
   { label: "Read the AI automation playbook", href: "/blog", hint: "Real builds, real numbers, real failures" },
 ]
 
@@ -122,9 +122,9 @@ export default function AiAutomationPage() {
 
       <main className="min-h-screen">
         <BlufBlock
-          badge="Powered by 0nMCP — 1,500+ tools, day 1"
+          badge="Powered by 0nMCP — 1,640+ tools, day 1"
           bottomLine="Replace 5-10 manual workflows with AI agents that run 24/7. From lead qualification to customer support to content production — your operation, automated, observable, and improving every week."
-          context="We build on 0nMCP so every agent we ship has immediate access to 1,500+ tools across 96 services. No integration tax. No 8-week procurement cycle. From Starter at $2,997 (1-2 workflows in 2 weeks) to Enterprise (unlimited workflows, custom MCP, compliance work)."
+          context="We build on 0nMCP so every agent we ship has immediate access to 1,640+ tools across 111 services. No integration tax. No 8-week procurement cycle. From Starter at $2,997 (1-2 workflows in 2 weeks) to Enterprise (unlimited workflows, custom MCP, compliance work)."
           stats={[
             { label: "Tools your AI can use", value: "1,500+" },
             { label: "Time to first agent", value: "2 weeks" },

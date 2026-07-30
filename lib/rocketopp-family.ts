@@ -83,7 +83,7 @@ export interface FamilyMember {
 const ONMCP: FamilyMember = {
   slug: '0nmcp',
   name: '0nMCP',
-  tagline: 'The world\'s largest interconnected MCP server. 1,554 tools across 96 services.',
+  tagline: 'The world\'s largest interconnected MCP server. 1,640+ tools across 111 services.',
   bucket: '0nmcp',
   url: 'https://0nmcp.com',
   accent: '#ff6b00',
@@ -99,10 +99,10 @@ const ONMCP: FamilyMember = {
     { query: 'AI tool orchestrator', volume: 2200 },
     { query: 'agentic AI infrastructure', volume: 900 },
   ],
-  bluf: 'The orchestrator behind every AI workflow we ship. 1,554 tools across 96 services, available to any AI host that speaks MCP — Claude Desktop, Cursor, Windsurf, Cline, Continue, Gemini, custom. Open source, BSL 1.1 licensed, npm install away.',
+  bluf: 'The orchestrator behind every AI workflow we ship. 1,640+ tools across 111 services, available to any AI host that speaks MCP — Claude Desktop, Cursor, Windsurf, Cline, Continue, Gemini, custom. Open source, BSL 1.1 licensed, npm install away.',
   context: 'When Anthropic published the Model Context Protocol in 2024, every AI vendor scrambled to ship a half-built server. 0nMCP went the other way — we built the deepest one. Today it powers RocketOpp\'s entire service catalog, drives all the family sites, and is the single biggest reason we can offer enterprise-grade AI work at one-tenth the industry price.',
   stats: [
-    { label: 'Tools available', value: '1,554' },
+    { label: 'Tools available', value: '1,640+' },
     { label: 'Services covered', value: '96' },
     { label: 'AI hosts supported', value: '7+' },
     { label: 'License', value: 'BSL 1.1' },
@@ -110,7 +110,7 @@ const ONMCP: FamilyMember = {
   buildStory: [
     'We started building 0nMCP in late 2024 because every AI agent we shipped for clients needed the same dozen integrations — CRM, email, Slack, Stripe, GitHub, Google Workspace. Each one was a 2-week task. The math didn\'t work for small businesses.',
     'Instead of charging the integration tax on every project, we paid it once. 0nMCP became the universal connector — every tool the team builds gets added to the catalog. Every project after gets it for free.',
-    'By Q2 2026 we\'d crossed 1,000 tools across 50+ services. By May 2026 we hit 1,554 / 96. We open-sourced the core under BSL 1.1 because the more developers extend it, the more leverage every RocketOpp client gets.',
+    'By Q2 2026 we\'d crossed 1,000 tools across 50+ services. By May 2026 we hit 1,640+ / 96. We open-sourced the core under BSL 1.1 because the more developers extend it, the more leverage every RocketOpp client gets.',
   ],
   mcpStory: [
     '0nMCP IS the orchestrator. Every other RocketOpp service ships on top of it.',
@@ -119,8 +119,8 @@ const ONMCP: FamilyMember = {
     'It\'s not just leverage for us. It\'s leverage for any developer who builds on it. The same catalog that powers RocketOpp powers your stack the moment we plug you in.',
   ],
   capabilities: [
-    { title: '1,554 tools', body: 'Every tool you would touch in a real business — CRM, email, payments, ops, analytics, social, content, dev — already integrated and credential-managed.', icon: 'Globe' },
-    { title: '96 services', body: 'HubSpot, Salesforce, Stripe, Slack, GitHub, Google Workspace, Microsoft 365, Shopify, Twilio, Calendly, AWS, Vercel, Supabase — and 80+ more.', icon: 'Workflow' },
+    { title: '1,640+ tools', body: 'Every tool you would touch in a real business — CRM, email, payments, ops, analytics, social, content, dev — already integrated and credential-managed.', icon: 'Globe' },
+    { title: '111 services', body: 'HubSpot, Salesforce, Stripe, Slack, GitHub, Google Workspace, Microsoft 365, Shopify, Twilio, Calendly, AWS, Vercel, Supabase — and 80+ more.', icon: 'Workflow' },
     { title: '7+ AI hosts', body: 'Claude Desktop, Cursor, Windsurf, Cline, Continue, Gemini, Claude Code — your team uses the AI tooling they already prefer.', icon: 'Cpu' },
     { title: '0nVault credentials', body: 'Patent-pending credential vault (US #63/990,046). AES-256-GCM + Argon2id + audit log. Per-tool revocation in one click.', icon: 'Lock' },
     { title: 'CrewAI orchestration', body: 'Multi-agent crews built in. Supervisor + workers + hand-off + retry — all wired so complex tasks compose cleanly.', icon: 'Bot' },
@@ -135,7 +135,7 @@ const ONMCP: FamilyMember = {
     'Open source — fork it, self-host it, contribute back',
   ],
   faqs: [
-    { question: 'What is 0nMCP, exactly?', answer: '0nMCP is a Model Context Protocol server (npm: 0nmcp) that exposes 1,554 tools across 96 services to any compliant AI host. It is currently the largest interconnected MCP server publicly available. Open-source under BSL 1.1.' },
+    { question: 'What is 0nMCP, exactly?', answer: '0nMCP is a Model Context Protocol server (npm: 0nmcp) that exposes 1,640+ tools across 111 services to any compliant AI host. It is currently the largest interconnected MCP server publicly available. Open-source under BSL 1.1.' },
     { question: 'Why does this matter for my business?', answer: 'Every AI agent or assistant that speaks MCP can use the entire catalog through one connection. No custom integrations per tool, no per-vendor auth wiring. The same agent that runs in Claude Desktop on your laptop can run in your production app.' },
     { question: 'What kind of tools are in the catalog?', answer: 'Anything you would touch in a real business: CRM, email, payments, ops, analytics, social, content, dev. Specifically: HubSpot, Salesforce, Stripe, Slack, GitHub, Google Workspace, Shopify, Twilio, Calendly, AWS, Vercel, Supabase, MongoDB — plus 80+ more.' },
     { question: 'How does authentication work?', answer: 'Every credential lives in the 0nVault container — patent-pending AES-256-GCM + Argon2id encryption with full audit log and per-tool revocation. You hold the keys; we never see your tokens.' },
