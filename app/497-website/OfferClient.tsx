@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 
 import PlainEnglishDemo from './PlainEnglishDemo'
+import SearchReality from './SearchReality'
 import {
   INCLUDED,
   NOT_INCLUDED,
@@ -310,6 +311,9 @@ export default function OfferClient() {
 
       {/* ------------------------------------------- plain-english demo -- */}
       <PlainEnglishDemo />
+
+      {/* ---------------------------------------------- search research -- */}
+      <SearchReality />
 
       {/* ------------------------------------------------------- included -- */}
       <section className="container mx-auto max-w-5xl px-4 py-20">

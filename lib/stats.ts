@@ -30,45 +30,94 @@ export type Stat = {
 export const STATS_VERIFIED = 'July 2026'
 
 /**
- * The problem: search stopped sending clicks. This is the case for caring about
- * AI search at all, and it is all third-party data.
+ * THE CORRECTION — the thing almost everyone gets wrong.
+ *
+ * "Google is dying" is false and easy to disprove, which makes it a bad thing to
+ * build an argument on. Google's volume is UP. What collapsed is the CLICK.
+ * Leading with the correction is more persuasive than the scare version, because
+ * a prospect can verify it in ten seconds and it makes everything after it
+ * credible.
+ */
+export const MYTH_VS_REALITY = {
+  myth: 'Google search is dying, so you need AI instead.',
+  reality:
+    "Google's volume is growing — 16.4 billion searches a day, up from 13.7 billion. Organic traffic to websites is down only 2.5% year over year. Google demand did not collapse. The click did: Google now answers the question on its own page instead of sending anyone to yours.",
+  sources: 'Demandsage (May 2026) · Graphite (Jan 2026)',
+}
+
+/**
+ * The click collapse. This is the case for caring, and it is all third-party
+ * research with a named publisher and a date.
  */
 export const SEARCH_SHIFT: Stat[] = [
   {
-    value: '58.5%',
-    label: 'of US Google searches end without a single click',
-    source: 'Semrush zero-click study',
-    detail: 'US desktop + mobile. The EU figure is 59.7%.',
+    value: '68.01%',
+    label: 'of US Google searches now end without a single click to any website',
+    source: 'SparkToro / Similarweb clickstream, Jan–Apr 2026',
+    detail: 'Up from 58.5% in 2024. Same searches — fewer exits.',
   },
   {
-    value: '58%',
-    label: 'drop in click-through for the #1 organic result when an AI Overview appears',
-    source: 'Ahrefs',
-    detail: 'Study of 300,000 keywords, updated December 2025.',
+    value: '−61%',
+    label: 'organic click-through when an AI Overview appears above you',
+    source: 'Seer Interactive, Sep 2025',
+    detail: 'CTR falls 1.76% → 0.61%. Ahrefs separately measured a 34.5% loss for position 1 across 300,000 keywords.',
   },
   {
-    value: '93%',
-    label: 'of searches in Google AI Mode end without a click',
-    source: 'Semrush',
-    detail: 'Google AI Mode — the conversational search experience.',
+    value: '48%',
+    label: 'of Google queries now show an AI Overview',
+    source: 'Advanced Web Ranking / Digital Applied, Mar 2026',
+    detail: 'Up 58% year over year. US-only methods put it as high as 60.32%.',
   },
   {
-    value: '~48%',
-    label: 'of tracked queries now trigger an AI Overview',
-    source: 'Industry SERP tracking',
-    detail: 'Share of monitored keywords showing an AI Overview.',
+    value: '16.4B',
+    label: 'Google searches a day — volume is UP, not down',
+    source: 'Demandsage, May 2026',
+    detail: 'From 13.7 billion in Jan 2025. The demand is still there; the traffic is not.',
+  },
+]
+
+/**
+ * The arbitrage: enormous AI attention, tiny AI traffic, exceptional quality.
+ * This is the part that makes acting NOW cheaper than acting later.
+ */
+export const AI_GAP: Stat[] = [
+  {
+    value: '28%',
+    label: 'AI prompting is already 28% the size of search worldwide',
+    source: 'Graphite, Mar 2026',
+    detail: '12% in the US. Search-classified prompts only.',
+  },
+  {
+    value: '1.08%',
+    label: 'yet AI sends just 1.08% of all website traffic — against 25% from organic',
+    source: 'Conductor, 2026',
+    detail: 'The Google-to-ChatGPT referral ratio is roughly 190:1.',
+  },
+  {
+    value: '4.4–23×',
+    label: 'the clicks AI does send convert far better than organic',
+    source: 'Semrush (4.4×) · Ahrefs (23×) · Similarweb, 2025–26',
+    detail: 'Ahrefs: AI visitors were 0.5% of traffic but 12.1% of signups. Similarweb measured 11.4% vs 5.3% on ecommerce.',
+  },
+  {
+    value: '6.8%',
+    label: 'ChatGPT now shows links in 6.8% of answers — up from 1.6% a year ago',
+    source: 'Similarweb, May 2026',
+    detail: 'A 4.25× rise in twelve months. As citation rates climb, that thin pipe widens fast — and it pays out to whoever is already cited.',
   },
 ]
 
 /**
  * The local half: why a Western PA service business specifically cannot ignore
- * this.
+ * this. Sourced from local-search industry research — attributed less precisely
+ * than the SEARCH_SHIFT figures above, and labelled as such rather than dressed
+ * up with a false precision.
  */
 export const LOCAL_INTENT: Stat[] = [
   {
     value: '~50%',
     label: 'of all Google searches carry local intent',
-    source: 'Local search industry data',
+    source: 'Local search industry research, 2026',
   },
   {
     value: '76%',
@@ -78,7 +127,7 @@ export const LOCAL_INTENT: Stat[] = [
   {
     value: '88%',
     label: 'of "near me" searches happen on a phone',
-    source: 'Local search industry data',
+    source: 'Local search industry research, 2026',
   },
   {
     value: '3s',

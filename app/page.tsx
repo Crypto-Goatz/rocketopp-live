@@ -28,7 +28,7 @@ import TrustStrip from "@/components/trust-strip"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 import { SectionBg } from "@/components/section-bg"
 import { StatBig, StatCard, StatInline } from "@/components/home/stat"
-import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF } from "@/lib/stats"
+import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF, MYTH_VS_REALITY, STATS_VERIFIED } from "@/lib/stats"
 
 export const metadata: Metadata = {
   title: "AI Can Build a Website. It Can't Make Anyone Find It.",
@@ -338,12 +338,20 @@ export default function HomePage() {
                 The data
               </div>
               <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
-                Search stopped sending clicks.
+                Search didn&rsquo;t shrink. The click did.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-                This is the part nobody selling you a website will mention, because it makes the
-                website look like the easy half. Every figure below is third-party research, and
-                we show you exactly who published it.
+                You&rsquo;ve been told Google is dying. It isn&rsquo;t —{' '}
+                <span className="font-semibold text-foreground">
+                  16.4 billion searches a day, up from 13.7 billion
+                </span>
+                , and organic traffic to sites is down only 2.5% year over year. What collapsed is
+                the click: Google now answers the question on its own page instead of sending
+                anyone to yours.
+              </p>
+              <p className="mt-4 text-sm text-muted-foreground/70">
+                Every figure below names its publisher and date. Verified {STATS_VERIFIED} ·{' '}
+                {MYTH_VS_REALITY.sources}
               </p>
             </div>
 
@@ -355,11 +363,11 @@ export default function HomePage() {
 
             <div className="mt-10 rounded-2xl border border-primary/30 bg-primary/5 p-7">
               <p className="text-lg leading-relaxed">
-                <span className="font-bold text-primary">What this actually means:</span>{' '}
-                ranking #1 is worth roughly half what it used to be. The traffic did not vanish —
-                it moved into answers written by AI. If you are not in the answer, you are not in
-                the market. That is the problem we solve, and it is not a problem a template can
-                solve for you.
+                <span className="font-bold text-primary">What this actually means:</span> when an
+                AI Overview sits above you, organic click-through falls about 61% — and 48% of
+                queries now show one. The demand did not vanish; it stopped leaving Google. If you
+                are not the source the answer cites, you are not in the market. That is the problem
+                we solve, and it is not one a template solves for you.
               </p>
               <Link
                 href="/build-a-website-with-ai"
