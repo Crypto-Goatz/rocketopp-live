@@ -336,22 +336,22 @@ export function offerPromoEmail(ctx: TemplateContext = {}): TemplateContent {
     half-built technology all over the internet.</p>
 
     <p>If you don&rsquo;t know this by now: <strong>AI doesn&rsquo;t actually do what it says it&rsquo;s going to
-    do.</strong> Especially when it comes to websites and apps.</p>
+    do</strong> &mdash; especially when it comes to websites and apps.</p>
 
-    <p>So we&rsquo;re here to help fix that problem. There&rsquo;s nothing wrong with AI &mdash; in fact
-    it&rsquo;s awesome when it&rsquo;s built correctly. So we went ahead and did that. We built an app
-    that will eventually build amazing websites for people&hellip; but not quite yet.</p>
+    <p>So we&rsquo;re here to fix that. There&rsquo;s nothing wrong with AI &mdash; in fact it&rsquo;s
+    remarkable when it&rsquo;s built correctly. So that&rsquo;s what we built: an app that will
+    eventually build outstanding websites on its own &mdash; though it isn&rsquo;t there yet.</p>
 
     <p>The truth is, <strong>AI still needs an expert to guide it.</strong> I&rsquo;m saying that after 36
-    months of developing this programming. It doesn&rsquo;t matter how much data we give it to
+    months of building this technology. It doesn&rsquo;t matter how much data we give it to
     learn from &mdash; it simply can&rsquo;t beat a human touch.</p>
 
     <p>So we decided to compromise, for now.</p>
 
     <p>We&rsquo;re going to guide the AI, fill in the gaps, and help it learn <em>while we build</em>.
-    The only way to do that is to actually build thousands of websites &mdash; so rather than
-    waste all that time on practice runs, I made the choice to build them for real customers
-    instead. The sites come out quicker, and you get a top-tier product.</p>
+    The only way to do that is to build thousands of websites &mdash; so instead of spending
+    that time on practice runs, I decided to build them for real customers. The sites come out
+    faster, and you get a top-tier product.</p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:22px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
       <tr>
@@ -365,9 +365,9 @@ export function offerPromoEmail(ctx: TemplateContext = {}): TemplateContent {
       </tr>
     </table>
 
-    <p style="color:${MUTED};font-size:14px;">Once it&rsquo;s live it&rsquo;s yours to edit and revise yourself, any time,
+    <p style="color:${MUTED};font-size:14px;">Once it&rsquo;s live, it&rsquo;s yours to edit and revise yourself at any time,
     with no change-request fees. E-commerce, memberships and custom apps aren&rsquo;t covered at this price &mdash;
-    those we&rsquo;ll quote you honestly. And nothing is charged until we&rsquo;ve confirmed $497 actually covers
+    we&rsquo;ll quote those separately and honestly. And nothing is charged until we&rsquo;ve confirmed $497 actually covers
     what you need.</p>
   `
   return {
@@ -386,15 +386,15 @@ You may know me from LinkedIn, from connecting with one of our apps, or you may 
 
 Since 2003 - 23 years - we've been building websites. Over 3,500 of them. We've been through a lot of ups and downs, but this AI craze is something entirely different. It's next level. It's opening doors that shouldn't be opened and putting half-built technology all over the internet.
 
-If you don't know this by now: AI doesn't actually do what it says it's going to do. Especially when it comes to websites and apps.
+If you don't know this by now: AI doesn't actually do what it says it's going to do - especially when it comes to websites and apps.
 
-So we're here to help fix that problem. There's nothing wrong with AI - in fact it's awesome when it's built correctly. So we went ahead and did that. We built an app that will eventually build amazing websites for people... but not quite yet.
+So we're here to fix that. There's nothing wrong with AI - in fact it's remarkable when it's built correctly. So that's what we built: an app that will eventually build outstanding websites on its own - though it isn't there yet.
 
-The truth is, AI still needs an expert to guide it. I'm saying that after 36 months of developing this programming. It doesn't matter how much data we give it to learn from - it simply can't beat a human touch.
+The truth is, AI still needs an expert to guide it. I'm saying that after 36 months of building this technology. It doesn't matter how much data we give it to learn from - it simply can't beat a human touch.
 
 So we decided to compromise, for now.
 
-We're going to guide the AI, fill in the gaps, and help it learn while we build. The only way to do that is to actually build thousands of websites - so rather than waste all that time on practice runs, I made the choice to build them for real customers instead. The sites come out quicker, and you get a top-tier product.
+We're going to guide the AI, fill in the gaps, and help it learn while we build. The only way to do that is to build thousands of websites - so instead of spending that time on practice runs, I decided to build them for real customers. The sites come out faster, and you get a top-tier product.
 
 NORMALLY: these AI-built sites run $2,500 - $10,000+, depending on what you decide to build.
 
@@ -402,7 +402,7 @@ NOW THROUGH FRIDAY: $497 - complete website, built for you.
 
 Claim your website: ${offer}
 
-Once it's live it's yours to edit and revise yourself, any time, with no change-request fees. E-commerce, memberships and custom apps aren't covered at this price - those we'll quote you honestly. And nothing is charged until we've confirmed $497 actually covers what you need.
+Once it's live, it's yours to edit and revise yourself at any time, with no change-request fees. E-commerce, memberships and custom apps aren't covered at this price - we'll quote those separately and honestly. And nothing is charged until we've confirmed $497 actually covers what you need.
 
 - Mike
 Founder, RocketOpp
