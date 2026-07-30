@@ -8,13 +8,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { notifyFormSubmission, FormSources } from '@/lib/crm/notify'
 
-interface Competitor {
-  name: string
-  rating: number
-  userRatingsTotal: number
-  isPlayer: boolean
-}
-
 export async function POST(request: NextRequest) {
   console.log('[Assessment Submit] Received submission request')
 
@@ -31,7 +24,6 @@ export async function POST(request: NextRequest) {
       assessmentSummary,
       insights,
       conversationHistory,
-      competitors,
     } = body
 
     console.log('[Assessment Submit] Processing lead:', { name, email, companyName })
@@ -55,12 +47,6 @@ export async function POST(request: NextRequest) {
     const socialPresence = summary['Social Media Presence'] || ''
     const nextSteps = summary['Strategic Next Steps'] || ''
 
-    // Format competitors list
-    const competitorList = (competitors || [])
-      .filter((c: Competitor) => !c.isPlayer)
-      .map((c: Competitor) => `${c.name} (${c.rating}★, ${c.userRatingsTotal} reviews)`)
-      .join(', ')
-
     const result = await notifyFormSubmission({
       email,
       fullName: name || '',
@@ -81,7 +67,6 @@ export async function POST(request: NextRequest) {
         competitive_threats: threats,
         social_media_presence: socialPresence,
         strategic_next_steps: nextSteps,
-        competitors_analyzed: competitorList || 'None identified',
         conversation_history: (conversationHistory || '').slice(0, 4000),
       },
       customFields: {

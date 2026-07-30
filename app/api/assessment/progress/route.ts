@@ -7,10 +7,10 @@ import { supabaseAdmin } from '@/lib/db/supabase'
  *
  * Saves a PARTIAL assessment as the visitor works through it.
  *
- * WHY THIS EXISTS: the assessment asks for name, company, ZIP, industry, website,
- * their competitors and then a full AI conversation — and only asks for an email at
- * the very END. Before this route, abandoning at any point threw all of it away.
- * There was no record that the person had ever been on the page.
+ * WHY THIS EXISTS: the assessment asks for name, company, ZIP, industry and website,
+ * then runs a full AI conversation — and only asks for an email at the very END.
+ * Before this route, abandoning at any point threw all of it away, leaving no record
+ * that the person had ever been on the page.
  *
  * A CRM contact still cannot be created without an email or phone (the API needs an
  * identifier), so partials land in Supabase `contact_submissions` instead, and the
@@ -58,7 +58,6 @@ export async function POST(request: NextRequest) {
         stage: String(body.stage || 'unknown').slice(0, 60),
         personalization: p,
         answerCount: answers.length,
-        competitors: Array.isArray(body.competitors) ? body.competitors.slice(0, 10) : [],
         completed: body.completed === true,
         updatedAt: new Date().toISOString(),
       },

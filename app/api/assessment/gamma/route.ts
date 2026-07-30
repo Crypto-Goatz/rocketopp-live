@@ -195,18 +195,6 @@ function buildDeckContent(
     }
   }
 
-  // Competitive Landscape
-  const competitiveInsight = insights.find((i) => i.type === 'competitive_analysis')
-  if (competitiveInsight && competitiveInsight.type === 'competitive_analysis') {
-    sections.push('## Competitive Landscape')
-    for (const competitor of competitiveInsight.competitors) {
-      if (!competitor.isPlayer) {
-        sections.push(`- **${competitor.name}**: ${competitor.rating} stars (${competitor.userRatingsTotal} reviews)`)
-      }
-    }
-    sections.push('')
-  }
-
   // Closing
   sections.push('## Next Steps')
   sections.push('A RocketOpp expert will contact you to discuss this blueprint and create your custom implementation plan.')

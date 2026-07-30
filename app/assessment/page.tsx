@@ -11,8 +11,6 @@ import {
   type Insight,
   type AssessmentData,
   type CollectedData,
-  type Competitor,
-  type CompetitiveAnalysisInsight,
 } from '@/lib/assessment/types'
 import { INDUSTRY_INSIGHTS, TOTAL_ASSESSMENT_STEPS, HIGHLIGHT_ANIMATION } from '@/lib/assessment/constants'
 import SparkLogo from './components/SparkLogo'
@@ -182,131 +180,6 @@ const LeadCapture: React.FC<{
   )
 }
 
-// Competitor Selection Component
-/**
- * Competitor step.
- *
- * `manual` is set when the API could not source REAL competitor data. In that case
- * the visitor types their own competitors instead of being shown a list — the route
- * used to invent names and ratings here, which put fabricated businesses in front of
- * a prospect and into the CRM. See app/api/assessment/competitors/route.ts.
- *
- * Typed names are genuinely better input anyway: the owner knows their market better
- * than a text search of their ZIP code does.
- */
-const CompetitorSelection: React.FC<{
-  competitors: Competitor[]
-  manual?: boolean
-  onSubmit: (selected: Competitor[]) => void
-}> = ({ competitors, manual = false, onSubmit }) => {
-  const [selected, setSelected] = useState<Set<string>>(new Set())
-  const [typed, setTyped] = useState('')
-
-  const toggleCompetitor = (name: string) => {
-    const newSelected = new Set(selected)
-    if (newSelected.has(name)) {
-      newSelected.delete(name)
-    } else {
-      newSelected.add(name)
-    }
-    setSelected(newSelected)
-  }
-
-  const handleSubmit = () => {
-    if (manual) {
-      // One per line or comma separated — people do both.
-      const names = typed
-        .split(/[\n,]/)
-        .map((n) => n.trim())
-        .filter(Boolean)
-        .slice(0, 8)
-      const player = competitors.find((c) => c.isPlayer)
-      onSubmit([
-        ...(player ? [player] : []),
-        // rating 0 means "not rated by us" — the UI hides the stars entirely, so no
-        // number is ever shown that we did not measure.
-        ...names.map((name) => ({ name, rating: 0, userRatingsTotal: 0, isPlayer: false })),
-      ])
-      return
-    }
-    const selectedCompetitors = competitors.filter((c) => c.isPlayer || selected.has(c.name))
-    onSubmit(selectedCompetitors)
-  }
-
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full bg-zinc-900/80 backdrop-blur-lg rounded-2xl p-8 border border-zinc-800">
-        <SparkLogo className="mx-auto mb-6" />
-        <h1 className="text-2xl font-bold text-center mb-2">Your Competitive Landscape</h1>
-        <p className="text-zinc-400 text-center mb-6">
-          {manual
-            ? 'Who do you actually lose business to? Name a few — one per line.'
-            : 'Select the businesses you consider direct competitors'}
-        </p>
-
-        {manual && (
-          <textarea
-            value={typed}
-            onChange={(e) => setTyped(e.target.value)}
-            rows={5}
-            autoFocus
-            placeholder={'Acme Plumbing\nSmith & Sons\nThe other guys down the road'}
-            className="w-full mb-6 rounded-lg bg-zinc-800/50 border border-zinc-700 p-4 text-white
-                       placeholder:text-zinc-600 focus:border-orange-500 focus:outline-none resize-none"
-          />
-        )}
-
-        <div className={`space-y-3 mb-6 ${manual ? 'hidden' : ''}`}>
-          {competitors.map((competitor) => (
-            <div
-              key={competitor.name}
-              onClick={() => !competitor.isPlayer && toggleCompetitor(competitor.name)}
-              className={`flex items-center justify-between p-4 rounded-lg border transition-all cursor-pointer
-                ${competitor.isPlayer
-                  ? 'bg-orange-500/10 border-orange-500/50'
-                  : selected.has(competitor.name)
-                    ? 'bg-zinc-800 border-orange-500'
-                    : 'bg-zinc-800/50 border-zinc-700 hover:border-zinc-600'
-                }`}
-            >
-              <div className="flex items-center gap-3">
-                {competitor.isPlayer ? (
-                  <span className="px-2 py-1 bg-orange-500 text-xs rounded font-bold">YOU</span>
-                ) : (
-                  <input
-                    type="checkbox"
-                    checked={selected.has(competitor.name)}
-                    onChange={() => {}}
-                    className="w-5 h-5 accent-orange-500"
-                  />
-                )}
-                <span className="font-medium">{competitor.name}</span>
-              </div>
-              {!competitor.isPlayer && competitor.rating > 0 && (
-                <div className="flex items-center gap-1 text-sm text-zinc-400">
-                  <span className="text-yellow-500">★</span>
-                  <span>{competitor.rating}</span>
-                  <span className="text-zinc-500">({competitor.userRatingsTotal})</span>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <button
-          onClick={handleSubmit}
-          className="w-full py-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg text-white font-bold
-                     hover:opacity-90 transition-opacity"
-        >
-          {manual
-            ? 'Continue'
-            : `Confirm ${selected.size} Competitors & Continue`}
-        </button>
-      </div>
-    </div>
-  )
-}
-
 // Generating Blueprint Component
 const GeneratingBlueprint: React.FC<{ companyName: string }> = ({ companyName }) => {
   const [message, setMessage] = useState('Analyzing responses...')
@@ -451,28 +324,6 @@ const InsightCard: React.FC<{ insight: Insight }> = ({ insight }) => {
     )
   }
 
-  if (insight.type === 'competitive_analysis') {
-    return (
-      <div className="bg-zinc-800/50 p-4 rounded-lg border border-zinc-700 animate-fade-in">
-        <h3 className="text-lg font-semibold text-orange-400 mb-4">{insight.title}</h3>
-        <div className="space-y-2">
-          {insight.competitors.map((comp, i) => (
-            <div key={i} className="flex justify-between items-center">
-              <span className={comp.isPlayer ? 'text-orange-400 font-bold' : 'text-zinc-300'}>
-                {comp.isPlayer && '★ '}{comp.name}
-              </span>
-              {comp.rating > 0 && (
-                <span className="text-sm text-zinc-400">
-                  {comp.rating} ★ ({comp.userRatingsTotal})
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return null
 }
 
@@ -536,7 +387,7 @@ export default function AssessmentPage() {
    *
    * The email is only asked for on the LAST screen, so before this existed an
    * abandoned assessment left no trace at all — name, company, website, ZIP,
-   * industry, competitors and the entire conversation were discarded. A CRM contact
+   * industry and the entire conversation were discarded. A CRM contact
    * still cannot be created without an identifier, so partials go to Supabase and
    * the final submit is what promotes a completed one into the CRM.
    *
@@ -554,9 +405,6 @@ export default function AssessmentPage() {
   const saveProgressRef = useRef<(stage: string, extra?: Record<string, unknown>) => void>(() => {})
   const [insights, setInsights] = useState<Insight[]>([])
   const [conversationHistory, setConversationHistory] = useState<HistoryItem[]>([])
-  const [potentialCompetitors, setPotentialCompetitors] = useState<Competitor[]>([])
-  // True when the API had no REAL competitor data, so the visitor types their own.
-  const [competitorsManual, setCompetitorsManual] = useState(false)
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null)
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([])
@@ -744,38 +592,11 @@ export default function AssessmentPage() {
             setFadeState('in')
             break
           case 'website':
-            const updatedPersonalization = { ...personalization, website: trimmedAnswer }
-            setPersonalization(updatedPersonalization)
-            setLoading(true)
-
-            // Fetch competitors
-            try {
-              const res = await fetch('/api/assessment/competitors', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  company: updatedPersonalization.company,
-                  zipCode: updatedPersonalization.zipCode,
-                  industry: updatedPersonalization.industry,
-                }),
-              })
-              const data = await res.json()
-              if (data.competitors) {
-                setPotentialCompetitors(data.competitors)
-                setCompetitorsManual(Boolean(data.needsManualEntry))
-                setAppState('selectingCompetitors')
-              }
-            } catch {
-              // Skip competitor selection on error
-              handleCompetitorsSelected([{
-                name: updatedPersonalization.company,
-                rating: 0,
-                userRatingsTotal: 0,
-                isPlayer: true,
-              }])
-            } finally {
-              setLoading(false)
-            }
+            // Last of the info steps — straight into the AI conversation. There used
+            // to be a competitor-selection screen here; it has been removed along
+            // with the lookup that fed it.
+            setPersonalization({ ...personalization, website: trimmedAnswer })
+            await startConversation({ ...personalization, website: trimmedAnswer })
             break
         }
       } else if (appState === 'interacting') {
@@ -791,21 +612,18 @@ export default function AssessmentPage() {
     }, 300)
   }
 
-  // Handle competitor selection
-  const handleCompetitorsSelected = async (selected: Competitor[]) => {
-    const competitorInsight: CompetitiveAnalysisInsight = {
-      type: 'competitive_analysis',
-      title: 'Your Competitive Landscape',
-      competitors: selected,
-    }
-    setInsights((prev) => [...prev, competitorInsight])
-
-    const competitorNames = selected.filter((c) => !c.isPlayer).map((c) => c.name).join(', ')
-    const firstPrompt = `My name is ${personalization.name}, company is ${personalization.company}, industry: ${personalization.industry}, website is ${personalization.website}. My competitors are: ${competitorNames || 'None identified'}. Begin the assessment with your first strategic question.`
+  /**
+   * Opens the AI conversation once the info steps are done.
+   *
+   * Takes the personalization explicitly rather than reading state: the website
+   * answer is set in the same tick, so the closure's copy is still one field behind.
+   */
+  const startConversation = async (p: Personalization) => {
+    const firstPrompt = `My name is ${p.name}, company is ${p.company}, industry: ${p.industry}, website is ${p.website}. Begin the assessment with your first strategic question.`
 
     setAppState('interacting')
     // Everything they typed before the conversation is now safe even if they leave.
-    saveProgressRef.current('personalization-complete', { competitors: selected })
+    saveProgressRef.current('personalization-complete')
     await sendToAI(firstPrompt)
   }
 
@@ -828,7 +646,6 @@ export default function AssessmentPage() {
           assessmentSummary: assessmentData,
           insights: insights,
           conversationHistory: collectedData.map((d) => `Q: ${d.question}\nA: ${d.answer}`).join('\n\n'),
-          competitors: insights.find(i => i.type === 'competitive_analysis')?.competitors || [],
         }),
       })
 
@@ -861,16 +678,6 @@ export default function AssessmentPage() {
 
   if (appState === 'consent') {
     return <ConsentModal onConsent={handleConsent} />
-  }
-
-  if (appState === 'selectingCompetitors') {
-    return (
-      <CompetitorSelection
-        competitors={potentialCompetitors}
-        manual={competitorsManual}
-        onSubmit={handleCompetitorsSelected}
-      />
-    )
   }
 
   if (appState === 'capturing') {

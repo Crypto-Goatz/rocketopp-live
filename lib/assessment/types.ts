@@ -33,19 +33,6 @@ export interface RedesignInsight {
   }>
 }
 
-export interface Competitor {
-  name: string
-  rating: number
-  userRatingsTotal: number
-  isPlayer: boolean
-}
-
-export interface CompetitiveAnalysisInsight {
-  type: 'competitive_analysis'
-  title: string
-  competitors: Competitor[]
-}
-
 export interface SocialMediaPlatformAnalysis {
   platform: 'Instagram' | 'Facebook' | 'LinkedIn' | 'X (Twitter)' | 'TikTok' | 'Other'
   analysis: string
@@ -58,7 +45,7 @@ export interface SocialMediaInsight {
   platforms: SocialMediaPlatformAnalysis[]
 }
 
-export type Insight = StandardInsight | RedesignInsight | CompetitiveAnalysisInsight | SocialMediaInsight
+export type Insight = StandardInsight | RedesignInsight | SocialMediaInsight
 
 export interface ConversationTurn {
   question: string
@@ -89,7 +76,6 @@ export type AppState =
   | 'intro'
   | 'consent'
   | 'collectingInfo'
-  | 'selectingCompetitors'
   | 'interacting'
   | 'capturing'
   | 'generating'
