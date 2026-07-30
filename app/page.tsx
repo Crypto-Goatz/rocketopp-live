@@ -169,7 +169,7 @@ const services = [
     icon: Terminal,
     title: "MCP Server Integration",
     description:
-      "Connect your business to 1,640+ tools across 109 services. One integration, unlimited automation.",
+      "Connect your business to 1,640+ tools across 111 services. One integration, unlimited automation.",
     shipsIn: "1 week",
     href: "/services/mcp-integration",
   },
@@ -236,7 +236,7 @@ export default function HomePage() {
                   <span className="font-semibold text-foreground">CRO9</span> and{' '}
                   <span className="font-semibold text-foreground">web0n</span> are ours —{' '}
                   <span className="font-mono text-foreground">1,640+</span> tools across{' '}
-                  <span className="font-mono text-foreground">109</span> services, running in
+                  <span className="font-mono text-foreground">111</span> services, running in
                   production. You are not renting someone else&rsquo;s stack.
                 </p>
 
@@ -781,7 +781,7 @@ export default function HomePage() {
                     <Terminal className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold">0nMCP</h3>
-                  <p className="text-3xl font-bold text-primary">1,640+ tools. 109 services.</p>
+                  <p className="text-3xl font-bold text-primary">1,640+ tools. 111 services.</p>
                   <p className="text-muted-foreground">One orchestrator. The universal AI API that powers every system we build.</p>
                   <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
                     0nmcp.com <ExternalLink className="w-3.5 h-3.5" />

@@ -106,7 +106,7 @@ const SERVICES: Service[] = [
   {
     slug: 'mcp-integration',
     name: 'MCP Server Integration',
-    description: 'Connect your business to 1,640+ tools across 109 services. One integration, unlimited automation.',
+    description: 'Connect your business to 1,640+ tools across 111 services. One integration, unlimited automation.',
     price: 'Get a quote',
     shipsIn: '1 week',
     href: '/services/mcp-integration',

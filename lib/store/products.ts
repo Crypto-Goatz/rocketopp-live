@@ -106,10 +106,10 @@ export const PRODUCTS: Product[] = [
     name: 'AI for Business',
     tagline: 'AI systems that automate your operations end-to-end.',
     description:
-      'A custom AI brain wired into your business — handles customer service, lead qualification, content creation, and ops automation. Built on 0nMCP (1,640+ tools, 109 services) so it can actually do the work, not just chat about it.',
+      'A custom AI brain wired into your business — handles customer service, lead qualification, content creation, and ops automation. Built on 0nMCP (1,640+ tools, 111 services) so it can actually do the work, not just chat about it.',
     features: [
       'Custom 0nMCP brain trained on your business',
-      'Connected to 109+ services (CRM, Stripe, Slack, etc.)',
+      'Connected to 111+ services (CRM, Stripe, Slack, etc.)',
       'Multi-AI council: Groq + Anthropic + OpenAI',
       '24/7 lead qualification & routing',
       'Auto-generated proposals + quotes',
@@ -278,12 +278,12 @@ export const PRODUCTS: Product[] = [
   {
     slug: 'mcp-integration',
     name: 'MCP Server Integration',
-    tagline: 'Connect your business to 1,640+ tools across 109 services.',
+    tagline: 'Connect your business to 1,640+ tools across 111 services.',
     description:
       '0nMCP is the universal AI orchestrator — one server, every API. We integrate it into your existing stack so any AI (Claude, ChatGPT, Cursor, Windsurf) can run real workflows against your real services.',
     features: [
       '0nMCP install + configuration',
-      'Auth setup for 109+ services',
+      'Auth setup for 111+ services',
       'Custom workflow templates',
       'Claude Desktop / Cursor / Windsurf wiring',
       'OAuth flow for marketplace apps',
@@ -301,7 +301,7 @@ export const PRODUCTS: Product[] = [
         a: "No. We handle the technical setup; you describe what you want done in plain English and the AI runs it.",
       },
       {
-        q: 'What if a service I use isn\'t in the 109?',
+        q: 'What if a service I use isn\'t in the 111?',
         a: 'We add it. The catalog is open and Mike maintains it directly.',
       },
       {

@@ -219,7 +219,7 @@ export const SERVICES: CatalogService[] = [
     slug: 'mcp-integration',
     name: 'MCP Server Integration',
     category: 'ai_systems',
-    shortPitch: 'Connect your stack to 1,640+ tools across 109 services via 0nMCP.',
+    shortPitch: 'Connect your stack to 1,640+ tools across 111 services via 0nMCP.',
     billing: 'flat',
     basePriceCents: 199700,
     basePriceLabel: '$1,997',

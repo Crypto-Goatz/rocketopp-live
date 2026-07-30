@@ -96,10 +96,10 @@ export const OUR_NUMBERS: Stat[] = [
     value: '1,640+',
     label: 'AI tools we can wire into a business',
     source: '0nMCP v4.10.0 on npm',
-    detail: 'Across 109 services in 22 categories. Public package: npmjs.com/package/0nmcp',
+    detail: 'Across 111 services in 22 categories. Public package: npmjs.com/package/0nmcp',
   },
   {
-    value: '109',
+    value: '111',
     label: 'services connected — CRM, Stripe, Google, Slack, Shopify and more',
     source: '0nMCP service catalog',
   },
