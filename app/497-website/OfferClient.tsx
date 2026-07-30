@@ -16,6 +16,8 @@ import {
   NOT_INCLUDED,
   OFFER_PRICE_DISPLAY,
   STEPS,
+  WORDPRESS_OFFER,
+  BASE_QUOTE,
   isBetweenWindows,
   nextDeadline,
 } from '@/lib/offer'
@@ -271,6 +273,14 @@ export default function OfferClient() {
             your business — and when it&rsquo;s done, you can edit and revise it yourself, any time,
             without paying us to change a word.
           </p>
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground">
+            {BASE_QUOTE.signup} to start, {BASE_QUOTE.launch} when it goes live
+            ({BASE_QUOTE.buildTotal} to build), then{' '}
+            <span className="font-semibold text-foreground">
+              {BASE_QUOTE.monthly}/month
+            </span>{' '}
+            to keep it hosted and running. Stated up front, not in the small print.
+          </p>
 
           <div className="mt-10 flex justify-center">
             <Countdown />
@@ -324,6 +334,29 @@ export default function OfferClient() {
                 <li key={i} className="flex gap-3">
                   <Minus className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
                   <span className="text-sm leading-relaxed text-muted-foreground">{i}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------- wordpress -- */}
+      <section className="container mx-auto max-w-5xl px-4 pb-4">
+        <div className="rounded-2xl border border-border bg-muted/10 p-7">
+          <div className="grid gap-5 md:grid-cols-[1.3fr_1fr] md:items-center">
+            <div>
+              <h2 className="text-xl font-bold tracking-tight">
+                {WORDPRESS_OFFER.hook}{' '}
+                <span className="text-primary">{WORDPRESS_OFFER.addOnBuild}</span>
+              </h2>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{WORDPRESS_OFFER.pitch}</p>
+            </div>
+            <ul className="space-y-2">
+              {WORDPRESS_OFFER.includes.map((i) => (
+                <li key={i} className="flex gap-2.5 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  {i}
                 </li>
               ))}
             </ul>

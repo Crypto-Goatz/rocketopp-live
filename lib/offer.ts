@@ -14,6 +14,87 @@
 export const OFFER_PRICE = 497
 export const OFFER_PRICE_DISPLAY = '$497'
 
+/**
+ * PRICING — single source of truth. Every page, checkout line item and email
+ * reads from here so no surface can quote a number the others contradict.
+ *
+ * BASE — the $497 offer (site built on the CRM/GHL SaaS platform)
+ *   $250 at signup  +  $247 at launch  =  $497 build
+ *   then $50/month once the site is live
+ *
+ * Why $247 and not $250 at launch: Mike specified a "$250 one-time fee" up front
+ * AND that the public headline stays $497. $250 + $250 is $500, which would make
+ * the advertised "$497 total, nothing hidden" false. Taking the $3 off the LAUNCH
+ * payment satisfies both — the up-front is exactly $250, the total exactly $497.
+ * To move to a $500 build, change launchCents to 25000 and the headline constants
+ * above must change with it.
+ *
+ * WORDPRESS — a SECONDARY product, added ON TOP of the $497 (never instead of it)
+ *   +$125 at signup  +  $125 at launch  =  +$250  →  $747 build total
+ *   monthly RISES TO $80 (hosting + AI management). It does NOT stack on the $50:
+ *   $80 is the whole monthly, CRM SaaS platform access included.
+ *
+ * The monthlies are billed through the CRM's SaaS billing, NOT Stripe. Stripe here
+ * only ever collects the one-time build payments — do not add a Stripe
+ * subscription for these or clients get billed twice.
+ */
+export const PRICING = {
+  base: {
+    signupCents: 25000,      // $250 — collected now
+    launchCents: 24700,      // $247 — collected when the site goes live
+    monthlyCents: 5000,      // $50/mo — starts at launch, billed via CRM SaaS
+  },
+  wordpress: {
+    signupCents: 12500,      // +$125 at signup
+    launchCents: 12500,      // +$125 at launch
+    monthlyCents: 8000,      // $80/mo TOTAL — replaces the $50, not added to it
+  },
+} as const
+
+const usd = (cents: number) =>
+  cents % 100 === 0 ? `$${cents / 100}` : `$${(cents / 100).toFixed(2)}`
+
+/** Totals for a given selection, so no page has to do the arithmetic itself. */
+export function quote(withWordPress: boolean) {
+  const b = PRICING.base
+  const w = PRICING.wordpress
+  const signup = b.signupCents + (withWordPress ? w.signupCents : 0)
+  const launch = b.launchCents + (withWordPress ? w.launchCents : 0)
+  // Monthly is a REPLACEMENT for the WordPress tier, not an addition.
+  const monthly = withWordPress ? w.monthlyCents : b.monthlyCents
+  return {
+    signupCents: signup,
+    launchCents: launch,
+    monthlyCents: monthly,
+    buildTotalCents: signup + launch,
+    signup: usd(signup),
+    launch: usd(launch),
+    monthly: usd(monthly),
+    buildTotal: usd(signup + launch),
+  }
+}
+
+export const BASE_QUOTE = quote(false)
+export const WP_QUOTE = quote(true)
+
+/**
+ * The WordPress upsell, in Mike's framing. Presented as a secondary product on
+ * top of the $497 — never as an alternative tier, because it is not one.
+ */
+export const WORDPRESS_OFFER = {
+  hook: 'Love WordPress?',
+  pitch:
+    'We can build your site directly in WordPress for an additional $250 — $125 up front and $125 at launch. The monthly goes up to $80 for hosting and AI management.',
+  addOnBuild: '+$250',
+  includes: [
+    'Your site built directly in WordPress — you own the install',
+    'Managed hosting, updates and backups',
+    'The web0n WordPress plugin (beta) so our AI can edit the site directly',
+    'AI management included in the monthly',
+    'CRM platform access included — it is not billed on top',
+  ],
+}
+
 /** New York offset in hours: EDT (-4) roughly Mar–Nov, EST (-5) otherwise. */
 function nyOffsetHours(d: Date): number {
   // Determine the US Eastern offset by asking Intl what hour it is there.
@@ -75,9 +156,11 @@ export const INCLUDED = [
   'Contact form wired to reach you by email the moment someone fills it in',
   'Google-ready: page titles, descriptions and structured data set up correctly',
   'You can edit and revise it yourself afterwards — no change-request fees, no waiting on us',
+  'After launch, $50/month keeps it hosted, running and on the platform',
 ]
 
 export const NOT_INCLUDED = [
+  'The $50/month after launch is not optional — it covers hosting and the platform the site runs on',
   'E-commerce, memberships, booking systems and custom applications — those are separate projects',
   'Ongoing marketing, ads or content writing beyond your initial pages',
   'Migration of a large existing site with hundreds of pages',

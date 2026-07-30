@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CalendarCheck, Check, CreditCard, Loader2, Phone, ShieldCheck } from 'lucide-react'
 
+import { WORDPRESS_OFFER, quote } from '@/lib/offer'
+
 const PHONE_DISPLAY = '(878) 888-1230'
 const PHONE_HREF = 'tel:+1-878-888-1230'
 
@@ -22,6 +24,11 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
 
   const [email, setEmail] = useState('')
   const [business, setBusiness] = useState('')
+  const [wordpress, setWordpress] = useState(false)
+
+  // All figures come from lib/offer.ts so the page can never quote a number the
+  // checkout and emails contradict.
+  const q = quote(wordpress)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -33,7 +40,7 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
       const res = await fetch('/api/offer/deposit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, business }),
+        body: JSON.stringify({ email, business, wordpress }),
       })
       const json = await res.json()
       if (!res.ok || !json.url) {
@@ -82,10 +89,13 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
           Lock your build slot
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-          A <span className="font-semibold text-foreground">$247 deposit</span> reserves your slot
-          and starts the build. The remaining{' '}
-          <span className="font-semibold text-foreground">$250</span> is due when your site goes
-          live — <span className="font-semibold text-foreground">$497 total</span>, nothing hidden.
+          <span className="font-semibold text-foreground">{q.signup} today</span> reserves your slot
+          and starts the build.{' '}
+          <span className="font-semibold text-foreground">{q.launch}</span> is due when your site
+          goes live — <span className="font-semibold text-foreground">{q.buildTotal} to build</span>.
+          After launch it&rsquo;s{' '}
+          <span className="font-semibold text-foreground">{q.monthly}/month</span> to run. Nothing
+          hidden.
         </p>
       </div>
 
@@ -100,19 +110,63 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
           </div>
 
           <div className="mt-6 flex items-end gap-3">
-            <span className="font-mono text-5xl font-bold leading-none tracking-tight">$247</span>
-            <span className="pb-1 text-sm text-muted-foreground">
-              today
-              <br />
-              $250 on launch
+            <span className="font-mono text-5xl font-bold leading-none tracking-tight">
+              {q.signup}
             </span>
+            <span className="pb-1 text-sm text-muted-foreground">today</span>
           </div>
 
-          <ul className="mt-6 space-y-2.5">
+          {/* Full schedule, stated once, in order. Nothing about the monthly is
+              left to the small print. */}
+          <dl className="mt-5 divide-y divide-border rounded-xl border border-border">
+            <div className="flex items-center justify-between px-4 py-2.5">
+              <dt className="text-sm text-muted-foreground">Today</dt>
+              <dd className="font-mono text-sm font-semibold">{q.signup}</dd>
+            </div>
+            <div className="flex items-center justify-between px-4 py-2.5">
+              <dt className="text-sm text-muted-foreground">When your site goes live</dt>
+              <dd className="font-mono text-sm font-semibold">{q.launch}</dd>
+            </div>
+            <div className="flex items-center justify-between px-4 py-2.5 bg-muted/20">
+              <dt className="text-sm font-medium">Total to build</dt>
+              <dd className="font-mono text-sm font-bold">{q.buildTotal}</dd>
+            </div>
+            <div className="flex items-center justify-between px-4 py-2.5">
+              <dt className="text-sm text-muted-foreground">
+                Monthly after launch
+                <span className="block text-xs text-muted-foreground/70">
+                  {wordpress ? 'Hosting + AI management' : 'Platform + hosting'}
+                </span>
+              </dt>
+              <dd className="font-mono text-sm font-semibold">{q.monthly}/mo</dd>
+            </div>
+          </dl>
+
+          {/* WordPress — a secondary product on top of the $497, not a tier. */}
+          <label className="mt-5 flex cursor-pointer gap-3 rounded-xl border border-border bg-muted/10 p-4 transition-colors hover:border-primary/40">
+            <input
+              type="checkbox"
+              checked={wordpress}
+              onChange={(e) => setWordpress(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-current text-primary"
+            />
+            <span>
+              <span className="block text-sm font-semibold">
+                {WORDPRESS_OFFER.hook} Build it in WordPress instead{' '}
+                <span className="text-primary">{WORDPRESS_OFFER.addOnBuild}</span>
+              </span>
+              <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                {WORDPRESS_OFFER.pitch}
+              </span>
+            </span>
+          </label>
+
+          <ul className="mt-5 space-y-2.5">
             {[
               'Reserves your slot in this week&rsquo;s build queue',
               'Work starts as soon as the kickoff call is done',
-              'Balance only due once the site is live and you approve it',
+              'Launch payment only due once the site is live and you approve it',
+              'Monthly starts at launch, never before',
               'Secure checkout via Stripe — we never see your card',
             ].map((f) => (
               <li key={f} className="flex gap-2.5 text-sm text-muted-foreground">
@@ -158,7 +212,7 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
               </>
             ) : (
               <>
-                <CreditCard className="h-5 w-5" /> Pay $247 deposit
+                <CreditCard className="h-5 w-5" /> Pay {q.signup} today
                 <ArrowRight className="h-4 w-4" />
               </>
             )}

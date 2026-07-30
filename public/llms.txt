@@ -52,9 +52,15 @@ RocketOpp publishes honest comparisons that say plainly when you should NOT hire
 
 ## The $497 website offer
 
-A complete website designed and built for the client, then handed over so they can edit and revise it themselves — no change-request fees. Built on web0n, RocketOpp's own AI website platform, which is why the price is possible. The offer runs Monday to Friday and closes Friday at midnight Eastern, reopening the following Monday. Apply at https://rocketopp.com/497-website — no payment until scope is confirmed as a fit.
+A complete website designed and built for the client, then handed over so they can edit and revise it themselves — no change-request fees. Built on web0n, RocketOpp's own AI website platform, which is why the price is possible. Apply at https://rocketopp.com/497-website — nothing is charged until scope is confirmed as a fit.
 
-Not covered by the $497: e-commerce, memberships, booking systems, custom applications, or migrating a large existing site. Those are quoted separately.
+**Full cost, stated plainly:** $250 at signup + $247 when the site goes live = **$497 to build**. After launch it is **$50/month** for hosting and platform access. The monthly is not optional and starts only at launch.
+
+**WordPress option (secondary product, added on top):** built directly in WordPress for an **additional $250** — $125 up front, $125 at launch, so $747 to build. The monthly rises to **$80** covering hosting and AI management, and it replaces the $50 rather than adding to it. Includes the WordPress back-end and the web0n WordPress plugin (currently in beta).
+
+The offer runs Monday to Friday and closes Friday at midnight Eastern, reopening the following Monday.
+
+Not covered at these prices: e-commerce, memberships, booking systems, custom applications, or migrating a large existing site. Those are quoted separately.
 
 ## Services
 

@@ -260,7 +260,8 @@ function tplWebsiteOffer(ctx: TemplateContext): TemplateContent {
       <tr>
         <td style="padding:16px 20px;">
           <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">What it costs</p>
-          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;"><strong>$247 today</strong> to reserve your build slot and start the work. <strong>$250 when it goes live</strong> and you&rsquo;ve approved it. <strong>$497 total</strong> &mdash; nothing hidden, no subscription.</p>
+          <p style="margin:0 0 8px;color:${TEXT};font-size:15px;line-height:1.6;"><strong>$250 today</strong> to reserve your build slot and start the work. <strong>$247 when it goes live</strong> and you&rsquo;ve approved it &mdash; <strong>$497 to build</strong>.</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;">After launch it&rsquo;s <strong>$50/month</strong> to keep the site hosted, running and on the platform. That starts when your site goes live, never before.</p>
         </td>
       </tr>
       <tr><td style="padding:0 20px;"><div style="height:1px;background:${BORDER};"></div></td></tr>
@@ -271,6 +272,8 @@ function tplWebsiteOffer(ctx: TemplateContext): TemplateContent {
         </td>
       </tr>
     </table>
+    <p style="margin:0 0 14px;"><strong>Love WordPress?</strong> We can build it directly in WordPress instead for an additional $250
+    ($125 up front, $125 at launch), and the monthly goes to $80 for hosting and AI management. Just tick the box on the next page.</p>
     <p style="color:${MUTED};font-size:14px;">Not ready to pay yet? Book the call anyway and we&rsquo;ll confirm the scope first.
     If $497 genuinely won&rsquo;t cover what you need, I&rsquo;ll tell you that before you spend anything &mdash;
     I&rsquo;d rather lose the deposit than surprise you later.</p>
@@ -292,12 +295,16 @@ WHAT YOU GET
 A complete website, not a template you fill in. Built on web0n, our own AI platform. Structured so Google and AI search can read it. Contact form wired straight to you. Then it's yours to edit and revise whenever you want, with no change-request fees.
 
 WHAT IT COSTS
-$247 today to reserve your build slot and start the work. $250 when it goes live and you've approved it. $497 total - nothing hidden, no subscription.
+$250 today to reserve your build slot and start the work. $247 when it goes live and you've approved it - $497 to build.
+
+After launch it's $50/month to keep the site hosted, running and on the platform. That starts when your site goes live, never before.
 
 WHAT HAPPENS NEXT
 Pay the deposit and book a 15-minute kickoff, both on the same page. On the call we go through your services, your pages and your brand. Then I build it.
 
 Do both here: ${start}
+
+LOVE WORDPRESS? We can build it directly in WordPress instead for an additional $250 ($125 up front, $125 at launch), and the monthly goes to $80 for hosting and AI management. Tick the box on the next page.
 
 Not ready to pay yet? Book the call anyway and we'll confirm scope first. If $497 genuinely won't cover what you need, I'll tell you that before you spend anything.
 
@@ -360,11 +367,13 @@ export function offerPromoEmail(ctx: TemplateContext = {}): TemplateContent {
           <p style="margin:0 0 16px;color:${TEXT};font-size:16px;line-height:1.5;">These AI-built sites run <strong>$2,500 &ndash; $10,000+</strong>, depending on what you decide to build.</p>
           <div style="height:1px;background:${BORDER};margin-bottom:16px;"></div>
           <p style="margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Now through Friday</p>
-          <p style="margin:0;color:${TEXT};font-size:22px;font-weight:800;line-height:1.3;">$497 &mdash; complete website, built for you.</p>
+          <p style="margin:0 0 8px;color:${TEXT};font-size:22px;font-weight:800;line-height:1.3;">$497 &mdash; complete website, built for you.</p>
+          <p style="margin:0;color:${MUTED};font-size:14px;line-height:1.5;">$250 to start, $247 when it goes live. Then $50/month once it&rsquo;s live, for hosting and the platform &mdash; that&rsquo;s the whole cost, stated up front.</p>
         </td>
       </tr>
     </table>
 
+    <p style="margin:0 0 14px;"><strong>Prefer WordPress?</strong> We can build it there instead for an additional $250, with the monthly at $80 for hosting and AI management.</p>
     <p style="color:${MUTED};font-size:14px;">Once it&rsquo;s live, it&rsquo;s yours to edit and revise yourself at any time,
     with no change-request fees. E-commerce, memberships and custom apps aren&rsquo;t covered at this price &mdash;
     we&rsquo;ll quote those separately and honestly. And nothing is charged until we&rsquo;ve confirmed $497 actually covers
@@ -399,6 +408,9 @@ We're going to guide the AI, fill in the gaps, and help it learn while we build.
 NORMALLY: these AI-built sites run $2,500 - $10,000+, depending on what you decide to build.
 
 NOW THROUGH FRIDAY: $497 - complete website, built for you.
+$250 to start, $247 when it goes live. Then $50/month once it's live, for hosting and the platform. That's the whole cost, stated up front.
+
+Prefer WordPress? We can build it there instead for an additional $250, with the monthly at $80 for hosting and AI management.
 
 Claim your website: ${offer}
 

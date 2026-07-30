@@ -269,9 +269,9 @@ export default function HomePage() {
                       $497
                     </span>
                     <span className="pb-1.5 text-sm text-muted-foreground">
-                      one-time
+                      to build
                       <br />
-                      no subscription
+                      then $50/mo
                     </span>
                   </div>
 
@@ -305,7 +305,9 @@ export default function HomePage() {
                   </Button>
 
                   <p className="mt-3 text-center text-xs text-muted-foreground">
-                    Closes Friday midnight ET · no payment until scope is confirmed
+                    $250 to start · $247 at launch · then $50/mo hosting
+                    <br />
+                    Closes Friday midnight ET · nothing charged until scope is confirmed
                   </p>
                 </div>
               </div>
