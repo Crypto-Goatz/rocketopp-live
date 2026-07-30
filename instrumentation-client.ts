@@ -26,6 +26,10 @@ initBotId({
     // ── The $497 offer funnel — the highest-value path on the site ──
     { path: '/api/offer', method: 'POST' },
     { path: '/api/offer/deposit', method: 'POST' },
+    { path: '/api/offer/launch', method: 'POST' },
+
+    // ── Booking (components/calendar/booking-calendar.tsx) ──
+    { path: '/api/calendar/book', method: 'POST' },
 
     // ── Lead capture ──
     { path: '/api/contact/submit', method: 'POST' },

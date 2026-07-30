@@ -7,6 +7,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { supabaseAdmin } from '@/lib/db/supabase'
+import { FEATURED_ARTICLES } from '@/lib/blog-featured'
 import {
   ArrowRight,
   Clock,
@@ -52,10 +53,27 @@ async function getBlogPosts(): Promise<BlogPost[]> {
 
   if (error) {
     console.error('Error fetching blog posts:', error)
-    return []
   }
 
-  return data || []
+  // Hand-built articles live as routes, not rows (see lib/blog-featured.ts). They
+  // are shaped into the same record here so every card, sort and count downstream
+  // treats them identically — a folder route beats [slug], so /blog/<slug> resolves
+  // to the coded page on its own.
+  const coded: BlogPost[] = FEATURED_ARTICLES.map((a) => ({
+    id: `featured-${a.slug}`,
+    slug: a.slug,
+    title: a.title,
+    excerpt: a.excerpt,
+    category: a.category,
+    tags: a.tags,
+    reading_time: a.readingTime,
+    published_at: a.publishedAt,
+    views: 0,
+  }))
+
+  return [...coded, ...(data || [])].sort(
+    (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
+  )
 }
 
 function formatDate(dateString: string): string {

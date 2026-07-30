@@ -6,6 +6,7 @@
 
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/db/supabase'
+import { FEATURED_ARTICLES } from '@/lib/blog-featured'
 import { AREAS } from '@/lib/local/areas'
 import { BUILDERS } from '@/lib/aeo/builders'
 
@@ -73,6 +74,7 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
 
   // Tier 5 — company / trust pages
   { path: '/about',                                              priority: 0.80, freq: 'monthly' },
+  { path: '/book',                                               priority: 0.90, freq: 'weekly' },
   { path: '/contact',                                            priority: 0.85, freq: 'monthly' },
   { path: '/consultation',                                       priority: 0.75, freq: 'monthly' },
   { path: '/experience',                                         priority: 0.65, freq: 'monthly' },
@@ -123,19 +125,32 @@ async function dynamicCategories(): Promise<MetadataRoute.Sitemap> {
 }
 
 async function dynamicBlog(): Promise<MetadataRoute.Sitemap> {
+  // Coded articles are routes rather than blog_posts rows (lib/blog-featured.ts),
+  // so they are emitted unconditionally — a Supabase outage must not drop them from
+  // the sitemap. Higher priority than a written post: these are the citable ones.
+  const coded: MetadataRoute.Sitemap = FEATURED_ARTICLES.map((a) => ({
+    url: `${BASE}/blog/${a.slug}`,
+    lastModified: new Date(a.publishedAt),
+    changeFrequency: 'monthly' as Freq,
+    priority: 0.80,
+  }))
+
   try {
     const { data } = await supabaseAdmin
       .from('blog_posts')
       .select('slug, updated_at, published_at, status')
       .eq('status', 'published')
-    if (!data) return []
-    return data.map((p) => ({
-      url: `${BASE}/blog/${p.slug}`,
-      lastModified: new Date(p.updated_at || p.published_at || Date.now()),
-      changeFrequency: 'weekly' as Freq,
-      priority: 0.75,
-    }))
-  } catch { return [] }
+    if (!data) return coded
+    return [
+      ...coded,
+      ...data.map((p) => ({
+        url: `${BASE}/blog/${p.slug}`,
+        lastModified: new Date(p.updated_at || p.published_at || Date.now()),
+        changeFrequency: 'weekly' as Freq,
+        priority: 0.75,
+      })),
+    ]
+  } catch { return coded }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

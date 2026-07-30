@@ -20,8 +20,9 @@ const BOOKING_URL =
   'https://links.rocketclients.com/widget/booking/p4EEMwP9hLoGQ1eF7pv0'
 
 const TITLE = 'Lock Your $497 Build Slot — Deposit & Kickoff'
+// Amounts match lib/offer.ts PRICING: $250 at signup, $247 at launch, then $50/mo.
 const DESCRIPTION =
-  'Pay the $247 deposit to reserve your $497 website build slot and book your 15-minute kickoff call. Remaining $250 due at launch.'
+  'Pay the $250 signup to reserve your $497 website build slot and book your 15-minute kickoff call. The remaining $247 is due when your site goes live.'
 
 export const metadata: Metadata = {
   title: TITLE,

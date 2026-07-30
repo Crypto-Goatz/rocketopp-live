@@ -30,8 +30,14 @@ type Hover = { i: number; px: number } | null
 
 const PAD = { t: 26, r: 58, b: 38, l: 50 }
 
-export default function SearchChart() {
-  const [tab, setTab] = useState(0)
+/**
+ * `only` locks the component to a single chart id and hides the tab row — used by
+ * the blog data report, which interleaves each chart with its own commentary
+ * instead of stacking all four behind tabs. Omit it for the tabbed explorer.
+ */
+export default function SearchChart({ only }: { only?: string } = {}) {
+  const lockedIndex = only ? CHARTS.findIndex((c) => c.id === only) : -1
+  const [tab, setTab] = useState(lockedIndex >= 0 ? lockedIndex : 0)
   const [showTable, setShowTable] = useState(false)
   const [hidden, setHidden] = useState<Set<string>>(new Set())
   const [hover, setHover] = useState<Hover>(null)
@@ -140,8 +146,12 @@ export default function SearchChart() {
 
   return (
     <div ref={wrapRef} className="rounded-3xl border border-border bg-card p-5 sm:p-7">
-      {/* ── Tabs: one row above the chart ── */}
-      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Choose a dataset">
+      {/* ── Tabs: one row above the chart. Hidden in single-chart mode. ── */}
+      <div
+        className={`flex flex-wrap gap-2 ${lockedIndex >= 0 ? 'hidden' : ''}`}
+        role="tablist"
+        aria-label="Choose a dataset"
+      >
         {CHARTS.map((c, i) => (
           <button
             key={c.id}
@@ -159,7 +169,11 @@ export default function SearchChart() {
         ))}
       </div>
 
-      <div className="mt-6 flex flex-wrap items-start justify-between gap-3">
+      <div
+        className={`flex flex-wrap items-start justify-between gap-3 ${
+          lockedIndex >= 0 ? '' : 'mt-6'
+        }`}
+      >
         <div>
           <h3 className="text-lg font-bold tracking-tight sm:text-xl">{chart.title}</h3>
           <span

@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CalendarCheck, Check, CreditCard, Loader2, Phone, ShieldCheck } from 'lucide-react'
 
 import { WORDPRESS_OFFER, quote } from '@/lib/offer'
+import BookingCalendar from '@/components/calendar/booking-calendar'
 
 const PHONE_DISPLAY = '(878) 888-1230'
 const PHONE_HREF = 'tel:+1-878-888-1230'
@@ -12,10 +13,13 @@ const PHONE_HREF = 'tel:+1-878-888-1230'
 /**
  * Deposit + booking page reached from the $497 confirmation email.
  *
- * Two actions, one page: pay the $247 deposit to lock the build slot, and book
- * the kickoff on the CRM calendar. The balance ($250) is stated on the page, in
- * the Stripe line item, and in the email — a deposit page that hides the
- * remainder is a bait-and-switch.
+ * Two actions, one page: pay the signup amount to lock the build slot, and book
+ * the kickoff. The balance is stated on the page, in the Stripe line item, and in
+ * the email — a deposit page that hides the remainder is a bait-and-switch.
+ *
+ * The calendar is our own (components/calendar/booking-calendar.tsx) writing into
+ * the CRM via /api/calendar/book, not the CRM's booking iframe. `bookingUrl` is
+ * still accepted as the fallback link shown if a visitor cannot use the widget.
  */
 export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
   const params = useSearchParams()
@@ -236,28 +240,39 @@ export default function StartClient({ bookingUrl }: { bookingUrl: string }) {
             build it. Pick any slot that works.
           </p>
 
-          <div className="mt-6 overflow-hidden rounded-xl border border-border bg-background">
-            <iframe
-              src={bookingUrl}
-              title="Book your $497 website kickoff call"
-              className="h-[620px] w-full"
-              scrolling="no"
-              loading="lazy"
+          <div className="mt-6">
+            <BookingCalendar
+              calendar="website"
+              purpose="$497 website kickoff"
+              heading="Pick your kickoff slot"
+              blurb="15 minutes. We go through your services, the pages you need and your brand — then I build it."
+              defaultEmail={email}
+              notesLabel="Your website address, or what the business does (optional)"
             />
           </div>
 
-          <div className="mt-5 flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/20 p-4">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-muted/20 p-4">
             <span className="flex items-center gap-2 text-sm text-muted-foreground">
               <CalendarCheck className="h-4 w-4 text-primary" />
-              Calendar not loading?
+              Rather not use the calendar?
             </span>
-            <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-            >
-              <Phone className="h-3.5 w-3.5" />
-              {PHONE_DISPLAY}
-            </a>
+            <span className="flex items-center gap-4">
+              <a
+                href={bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                Open the standard booking page
+              </a>
+              <a
+                href={PHONE_HREF}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+              >
+                <Phone className="h-3.5 w-3.5" />
+                {PHONE_DISPLAY}
+              </a>
+            </span>
           </div>
         </section>
       </div>

@@ -664,3 +664,10 @@
   .sheen-border::before { animation: none; opacity: .5; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ── Reading progress bar (components/blog/reading-progress.tsx) ──
+   The width comes from --progress, written on the node by the scroll handler, so
+   the bar updates without a React re-render on every frame. */
+.reading-progress-fill {
+  width: var(--progress, 0%);
+}

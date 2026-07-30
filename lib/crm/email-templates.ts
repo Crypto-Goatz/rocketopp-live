@@ -281,7 +281,7 @@ function tplWebsiteOffer(ctx: TemplateContext): TemplateContent {
   return {
     subject: 'Your $497 website — you\'re in. Here\'s step one.',
     html: shell({
-      preheader: '$247 reserves your build slot, $250 at launch. Deposit + kickoff booking inside.',
+      preheader: '$250 reserves your build slot, $247 when it goes live. Deposit + kickoff booking inside.',
       heading: 'Your $497 website is approved',
       bodyHtml: body,
       ctaHref: start,
@@ -307,6 +307,94 @@ Do both here: ${start}
 LOVE WORDPRESS? We can build it directly in WordPress instead for an additional $250 ($125 up front, $125 at launch), and the monthly goes to $80 for hosting and AI management. Tick the box on the next page.
 
 Not ready to pay yet? Book the call anyway and we'll confirm scope first. If $497 genuinely won't cover what you need, I'll tell you that before you spend anything.
+
+- Mike
+Founder, RocketOpp
+mike@rocketopp.com`,
+  }
+}
+
+/**
+ * $497 website offer — LAUNCH PAYMENT (their site is live).
+ *
+ * The second and final money email. It is a short one on purpose: they have already
+ * bought, they have already seen the site, and the only job left is one link.
+ *
+ * TWO THINGS IT MUST DO, both for the same reason — nobody should be surprised by a
+ * charge:
+ *   1. Restate that the monthly starts NOW, not at signup. That was promised in the
+ *      confirmation email, so it has to be honoured out loud here.
+ *   2. Say the monthly is cancellable in plain words, before they click.
+ *
+ * Amounts are the WordPress-inclusive alternates in brackets, because one template
+ * serves both plans — /497-website/launch reads ?plan=wordpress and shows the right
+ * totals. Send the plain link for a platform build, `?plan=wordpress` for a
+ * WordPress build.
+ */
+export function offerLaunchEmail(
+  ctx: TemplateContext & { wordpress?: boolean; siteUrl?: string } = {},
+): TemplateContent {
+  const wp = ctx.wordpress === true
+  const link = `https://rocketopp.com/497-website/launch${wp ? '?plan=wordpress' : ''}`
+  const balance = wp ? '$372' : '$247'
+  const monthly = wp ? '$80' : '$50'
+  const total = wp ? '$747' : '$497'
+  const site = ctx.siteUrl ? ctx.siteUrl.replace(/^https?:\/\//, '') : null
+
+  const body = `
+    <p>${greeting(ctx.firstName)}</p>
+    <p><strong>Your site is live.</strong>${
+      site
+        ? ` You can see it at <a href="https://${site}" style="color:${ORANGE};text-decoration:none;font-weight:600;">${site}</a>.`
+        : ''
+    }</p>
+    <p>That means one last step, exactly as we said at the start:</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:20px 0;border:1px solid ${BORDER};border-radius:10px;background:${BG_SOFT};">
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Due now</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;"><strong>${balance}</strong> &mdash; the balance of your ${total} build. Nothing more on the build, ever.</p>
+        </td>
+      </tr>
+      <tr><td style="padding:0 20px;"><div style="height:1px;background:${BORDER};"></div></td></tr>
+      <tr>
+        <td style="padding:16px 20px;">
+          <p style="margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${ORANGE};">Starting now</p>
+          <p style="margin:0;color:${TEXT};font-size:15px;line-height:1.6;"><strong>${monthly}/month</strong> to keep the site hosted and running. It starts today because today is when the site went live &mdash; not a day earlier. <strong>Cancel any time by asking me</strong>; no form, no notice period.</p>
+        </td>
+      </tr>
+    </table>
+    <p>One link handles both &mdash; the balance and setting up the monthly, in a single checkout:</p>
+    <p style="color:${MUTED};font-size:14px;">From here, changes are as simple as telling us what you want in plain English.
+    &ldquo;Change the phone number on the contact page to&hellip;&rdquo; &mdash; and we do it. No dashboard to learn,
+    no change-request fees.</p>
+  `
+
+  return {
+    subject: `Your site is live — final step (${balance})`,
+    html: shell({
+      preheader: `${balance} balance and ${monthly}/month starts today. One link, cancel any time.`,
+      heading: 'Your site is live',
+      bodyHtml: body,
+      ctaHref: link,
+      ctaLabel: `Pay ${balance} & start ${monthly}/mo`,
+    }),
+    text: `${greeting(ctx.firstName)}
+
+YOUR SITE IS LIVE.${site ? ` You can see it at https://${site}` : ''}
+
+That means one last step, exactly as we said at the start:
+
+DUE NOW
+${balance} - the balance of your ${total} build. Nothing more on the build, ever.
+
+STARTING NOW
+${monthly}/month to keep the site hosted and running. It starts today because today is when the site went live, not a day earlier. Cancel any time by asking me - no form, no notice period.
+
+One link handles both, the balance and the monthly, in a single checkout:
+${link}
+
+From here, changes are as simple as telling us what you want in plain English. "Change the phone number on the contact page to..." - and we do it. No dashboard to learn, no change-request fees.
 
 - Mike
 Founder, RocketOpp

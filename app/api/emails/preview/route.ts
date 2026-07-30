@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { offerPromoEmail, renderTemplate } from '@/lib/crm/email-templates'
+import { offerLaunchEmail, offerPromoEmail, renderTemplate } from '@/lib/crm/email-templates'
 
 /**
  * GET /api/emails/preview?kind=promo|confirmation[&format=source|text][&name=Mike]
@@ -11,6 +11,8 @@ import { offerPromoEmail, renderTemplate } from '@/lib/crm/email-templates'
  *
  *   ?kind=promo                  the outbound promo ("Claim Your Website")
  *   ?kind=confirmation           the post-application thank-you
+ *   ?kind=launch                 the site-is-live final payment (&wordpress=1 for
+ *                                the WordPress totals, &site=example.com to name it)
  *   &format=source               HTML as plain text, ready to copy into the CRM
  *   &format=text                 the plain-text part
  *   &name=Mike                   preview with a first name merged in
@@ -25,7 +27,13 @@ export async function GET(req: NextRequest) {
   const tpl =
     kind === 'confirmation' || kind === 'thankyou' || kind === 'thank-you'
       ? renderTemplate('website_offer', { firstName })
-      : offerPromoEmail({ firstName })
+      : kind === 'launch'
+        ? offerLaunchEmail({
+            firstName,
+            wordpress: req.nextUrl.searchParams.get('wordpress') === '1',
+            siteUrl: req.nextUrl.searchParams.get('site') || undefined,
+          })
+        : offerPromoEmail({ firstName })
 
   if (format === 'text') {
     return new NextResponse(`Subject: ${tpl.subject}\n\n${tpl.text}\n`, {
