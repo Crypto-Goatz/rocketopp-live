@@ -28,6 +28,7 @@ import TrustStrip from "@/components/trust-strip"
 import UcpLiveStrip from "@/components/ucp-live-strip"
 import { SectionBg } from "@/components/section-bg"
 import { StatBig, StatCard, StatInline } from "@/components/home/stat"
+import RocketShieldVideo from "@/components/home/rocket-shield-video"
 import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF, MYTH_VS_REALITY, STATS_VERIFIED } from "@/lib/stats"
 
 export const metadata: Metadata = {
@@ -523,6 +524,11 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Rocket Shield explainer — traffic quality / paid-spend waste.
+            Sits directly before the free-audit CTA: the video ends on "check your
+            traffic", and the next section is the button that does it. */}
+        <RocketShieldVideo />
 
         {/* Free Stack Health Audit CTA */}
         <section className="relative overflow-hidden py-20 md:py-28 border-y border-border">

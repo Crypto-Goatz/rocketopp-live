@@ -1,133 +1,175 @@
 // ============================================================
-// Competitors API - Search for local competitors
+// Competitors API — finds the user's real local competitors
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server'
 import type { Competitor } from '@/lib/assessment/types'
 
-// Industry-specific competitor pools for demo/fallback
-const INDUSTRY_COMPETITORS: Record<string, string[]> = {
-  'Restaurant': [
-    'The Local Bistro', 'Downtown Eats', 'Corner Cafe', 'Fresh Kitchen Co',
-    'Urban Plates', 'The Hungry Fork', 'Main Street Grill', 'Flavor Town'
-  ],
-  'Home Services': [
-    'Pro Home Solutions', 'Quality First Services', 'Hometown Handyman',
-    'Elite Home Care', 'Trusted Repairs Inc', 'All-Pro Maintenance', 'Local Fix-It'
-  ],
-  'Retail': [
-    'City Goods', 'Main Street Mercantile', 'Local Luxe', 'The Corner Store',
-    'Urban Outfitters Local', 'Boutique Central', 'Quality Goods Co'
-  ],
-  'Automotive': [
-    'Peak Performance Auto', 'Precision Motors', 'Quick Lube Express',
-    'Elite Auto Care', 'Hometown Garage', 'Pro Auto Service', 'Speed Shop'
-  ],
-  'Professional Services': [
-    'Premier Consulting Group', 'Elite Advisory', 'Strategic Partners LLC',
-    'Local Experts Inc', 'Professional Solutions', 'Business First Advisors'
-  ],
-}
+/**
+ * WHAT CHANGED AND WHY — read before touching this file.
+ *
+ * This route used to invent competitors. With no working data source it returned a
+ * hard-coded pool ("Elite Advisory", "Strategic Partners LLC", "Local Experts Inc")
+ * with randomised star ratings and review counts, and the UI presented them to the
+ * prospect as "Your Competitive Landscape". Those fake names then went into the CRM
+ * as `competitors_analyzed`, and into the AI conversation as fact.
+ *
+ * It was firing on every single assessment, because the Google Places key on this
+ * project has HTTP-referer restrictions — Google answers a server-side call with
+ * "API keys with referer restrictions cannot be used with this API", the try/catch
+ * swallowed it, and the mock path ran. Verified against production's own key.
+ *
+ * NOTHING IS INVENTED NOW. Either we have real data or we say we do not, and the UI
+ * asks the visitor to name their own competitors — which is better input for the
+ * assessment anyway, because they know their market better than a text search does.
+ *
+ * TO TURN REAL LOOKUPS BACK ON, either:
+ *   - add a Google Maps key with NO referer restriction (restrict by IP instead) as
+ *     GOOGLE_PLACES_SERVER_KEY — a browser-restricted key can never work here; or
+ *   - top up the SerpAPI account (SERP_API_KEY exists but is out of searches).
+ * Both paths below are live and will be used the moment either credential works.
+ */
+
+type Source = 'places' | 'serpapi' | 'unavailable'
 
 export async function POST(request: NextRequest) {
   try {
     const { company, zipCode, industry } = await request.json()
+    const name = String(company || '').trim()
+    const zip = String(zipCode || '').trim()
+    const trade = String(industry || '').trim()
 
-    // Check if we have Google Places API key
-    const googleApiKey = process.env.GOOGLE_PLACES_API_KEY
+    const self: Competitor = { name: name || 'Your business', rating: 0, userRatingsTotal: 0, isPlayer: true }
 
-    if (googleApiKey) {
-      // Real Google Places API call
-      try {
-        const competitors = await searchGooglePlaces(company, zipCode, industry, googleApiKey)
-        return NextResponse.json({ success: true, competitors })
-      } catch (error) {
-        console.error('Google Places API error:', error)
-        // Fall through to mock data
-      }
+    // ── 1. Google Places, if a server-usable key exists ──
+    const placesKey = process.env.GOOGLE_PLACES_SERVER_KEY || process.env.GOOGLE_PLACES_API_KEY
+    if (placesKey && trade && zip) {
+      const found = await searchGooglePlaces(name, zip, trade, placesKey)
+      if (found.length) return json(self, found, 'places')
     }
 
-    // Fallback: Generate mock competitors
-    const competitors = generateMockCompetitors(company, industry)
+    // ── 2. SerpAPI Google Maps, if the account has searches left ──
+    if (process.env.SERP_API_KEY && trade && zip) {
+      const found = await searchSerpApi(name, zip, trade, process.env.SERP_API_KEY)
+      if (found.length) return json(self, found, 'serpapi')
+    }
 
+    // ── 3. No real data. Say so; do not invent any. ──
     return NextResponse.json({
       success: true,
-      competitors,
-      source: 'mock',
+      competitors: [self],
+      source: 'unavailable' satisfies Source,
+      // The client uses this to switch the step to "type your competitors" instead
+      // of showing an empty list or, worse, made-up ones.
+      needsManualEntry: true,
     })
   } catch (error) {
-    console.error('Competitors API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to search competitors' },
-      { status: 500 }
-    )
+    console.error('[Assessment Competitors] error:', error)
+    return NextResponse.json({ error: 'Failed to search competitors' }, { status: 500 })
   }
 }
 
+function json(self: Competitor, found: Competitor[], source: Source) {
+  const hasSelf = found.some((c) => c.isPlayer)
+  return NextResponse.json({
+    success: true,
+    competitors: hasSelf ? found : [self, ...found],
+    source,
+    needsManualEntry: false,
+  })
+}
+
+/**
+ * Places API (New). The legacy textsearch endpoint is deprecated, and this one
+ * returns ratings and review counts in a single field mask.
+ *
+ * Returns [] on any failure — a thrown error here used to become fabricated data,
+ * so the contract is now "real results or none".
+ */
 async function searchGooglePlaces(
   company: string,
   zipCode: string,
   industry: string,
-  apiKey: string
+  apiKey: string,
 ): Promise<Competitor[]> {
-  const query = encodeURIComponent(`${industry} near ${zipCode}`)
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${apiKey}`
-
-  const response = await fetch(url)
-  const data = await response.json()
-
-  if (data.status !== 'OK' || !data.results) {
-    throw new Error('Google Places API returned no results')
-  }
-
-  const competitors: Competitor[] = data.results.slice(0, 6).map((place: {
-    name: string
-    rating?: number
-    user_ratings_total?: number
-  }) => ({
-    name: place.name,
-    rating: place.rating || 0,
-    userRatingsTotal: place.user_ratings_total || 0,
-    isPlayer: place.name.toLowerCase().includes(company.toLowerCase()),
-  }))
-
-  // Ensure the user's company is included
-  const hasPlayer = competitors.some((c) => c.isPlayer)
-  if (!hasPlayer) {
-    competitors.unshift({
-      name: company,
-      rating: 0,
-      userRatingsTotal: 0,
-      isPlayer: true,
+  try {
+    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'places.displayName,places.rating,places.userRatingCount',
+      },
+      body: JSON.stringify({ textQuery: `${industry} near ${zipCode}`, maxResultCount: 8 }),
+      cache: 'no-store',
     })
-  }
 
-  return competitors
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      console.error('[Assessment Competitors] Places denied:', res.status, text.slice(0, 200))
+      return []
+    }
+
+    const data = (await res.json()) as {
+      places?: Array<{
+        displayName?: { text?: string }
+        rating?: number
+        userRatingCount?: number
+      }>
+    }
+
+    const lower = company.toLowerCase()
+    return (data.places || [])
+      .map((p) => ({
+        name: p.displayName?.text || '',
+        rating: p.rating || 0,
+        userRatingsTotal: p.userRatingCount || 0,
+        isPlayer: Boolean(company) && (p.displayName?.text || '').toLowerCase().includes(lower),
+      }))
+      .filter((c) => c.name)
+      .slice(0, 6)
+  } catch (err) {
+    console.error('[Assessment Competitors] Places threw:', err)
+    return []
+  }
 }
 
-function generateMockCompetitors(company: string, industry: string): Competitor[] {
-  const pool = INDUSTRY_COMPETITORS[industry] || INDUSTRY_COMPETITORS['Professional Services']
+/** SerpAPI Google Maps fallback. Same contract: real results or none. */
+async function searchSerpApi(
+  company: string,
+  zipCode: string,
+  industry: string,
+  apiKey: string,
+): Promise<Competitor[]> {
+  try {
+    const qs = new URLSearchParams({
+      engine: 'google_maps',
+      q: `${industry} near ${zipCode}`,
+      type: 'search',
+      api_key: apiKey,
+    })
+    const res = await fetch(`https://serpapi.com/search.json?${qs}`, { cache: 'no-store' })
+    const data = (await res.json()) as {
+      error?: string
+      local_results?: Array<{ title?: string; rating?: number; reviews?: number }>
+    }
+    if (data.error) {
+      console.error('[Assessment Competitors] SerpAPI:', data.error)
+      return []
+    }
 
-  // Shuffle and pick 4-6 competitors
-  const shuffled = [...pool].sort(() => Math.random() - 0.5)
-  const selected = shuffled.slice(0, Math.floor(Math.random() * 3) + 4)
-
-  const competitors: Competitor[] = [
-    // User's company first
-    {
-      name: company,
-      rating: 0,
-      userRatingsTotal: 0,
-      isPlayer: true,
-    },
-    // Mock competitors with realistic ratings
-    ...selected.map((name) => ({
-      name,
-      rating: Math.round((3.2 + Math.random() * 1.7) * 10) / 10, // 3.2 - 4.9
-      userRatingsTotal: Math.floor(50 + Math.random() * 400),
-      isPlayer: false,
-    })),
-  ]
-
-  return competitors
+    const lower = company.toLowerCase()
+    return (data.local_results || [])
+      .map((r) => ({
+        name: r.title || '',
+        rating: r.rating || 0,
+        userRatingsTotal: r.reviews || 0,
+        isPlayer: Boolean(company) && (r.title || '').toLowerCase().includes(lower),
+      }))
+      .filter((c) => c.name)
+      .slice(0, 6)
+  } catch (err) {
+    console.error('[Assessment Competitors] SerpAPI threw:', err)
+    return []
+  }
 }

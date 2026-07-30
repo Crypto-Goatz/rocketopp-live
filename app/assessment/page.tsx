@@ -183,11 +183,24 @@ const LeadCapture: React.FC<{
 }
 
 // Competitor Selection Component
+/**
+ * Competitor step.
+ *
+ * `manual` is set when the API could not source REAL competitor data. In that case
+ * the visitor types their own competitors instead of being shown a list — the route
+ * used to invent names and ratings here, which put fabricated businesses in front of
+ * a prospect and into the CRM. See app/api/assessment/competitors/route.ts.
+ *
+ * Typed names are genuinely better input anyway: the owner knows their market better
+ * than a text search of their ZIP code does.
+ */
 const CompetitorSelection: React.FC<{
   competitors: Competitor[]
+  manual?: boolean
   onSubmit: (selected: Competitor[]) => void
-}> = ({ competitors, onSubmit }) => {
+}> = ({ competitors, manual = false, onSubmit }) => {
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [typed, setTyped] = useState('')
 
   const toggleCompetitor = (name: string) => {
     const newSelected = new Set(selected)
@@ -200,6 +213,22 @@ const CompetitorSelection: React.FC<{
   }
 
   const handleSubmit = () => {
+    if (manual) {
+      // One per line or comma separated — people do both.
+      const names = typed
+        .split(/[\n,]/)
+        .map((n) => n.trim())
+        .filter(Boolean)
+        .slice(0, 8)
+      const player = competitors.find((c) => c.isPlayer)
+      onSubmit([
+        ...(player ? [player] : []),
+        // rating 0 means "not rated by us" — the UI hides the stars entirely, so no
+        // number is ever shown that we did not measure.
+        ...names.map((name) => ({ name, rating: 0, userRatingsTotal: 0, isPlayer: false })),
+      ])
+      return
+    }
     const selectedCompetitors = competitors.filter((c) => c.isPlayer || selected.has(c.name))
     onSubmit(selectedCompetitors)
   }
@@ -210,10 +239,24 @@ const CompetitorSelection: React.FC<{
         <SparkLogo className="mx-auto mb-6" />
         <h1 className="text-2xl font-bold text-center mb-2">Your Competitive Landscape</h1>
         <p className="text-zinc-400 text-center mb-6">
-          Select the businesses you consider direct competitors
+          {manual
+            ? 'Who do you actually lose business to? Name a few — one per line.'
+            : 'Select the businesses you consider direct competitors'}
         </p>
 
-        <div className="space-y-3 mb-6">
+        {manual && (
+          <textarea
+            value={typed}
+            onChange={(e) => setTyped(e.target.value)}
+            rows={5}
+            autoFocus
+            placeholder={'Acme Plumbing\nSmith & Sons\nThe other guys down the road'}
+            className="w-full mb-6 rounded-lg bg-zinc-800/50 border border-zinc-700 p-4 text-white
+                       placeholder:text-zinc-600 focus:border-orange-500 focus:outline-none resize-none"
+          />
+        )}
+
+        <div className={`space-y-3 mb-6 ${manual ? 'hidden' : ''}`}>
           {competitors.map((competitor) => (
             <div
               key={competitor.name}
@@ -255,7 +298,9 @@ const CompetitorSelection: React.FC<{
           className="w-full py-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg text-white font-bold
                      hover:opacity-90 transition-opacity"
         >
-          Confirm {selected.size} Competitors & Continue
+          {manual
+            ? 'Continue'
+            : `Confirm ${selected.size} Competitors & Continue`}
         </button>
       </div>
     </div>
@@ -485,9 +530,33 @@ export default function AssessmentPage() {
     name: '', company: '', website: '', zipCode: '', industry: ''
   })
   const [collectedData, setCollectedData] = useState<CollectedData[]>([])
+
+  /**
+   * Progress saving.
+   *
+   * The email is only asked for on the LAST screen, so before this existed an
+   * abandoned assessment left no trace at all — name, company, website, ZIP,
+   * industry, competitors and the entire conversation were discarded. A CRM contact
+   * still cannot be created without an identifier, so partials go to Supabase and
+   * the final submit is what promotes a completed one into the CRM.
+   *
+   * One row per session, updated in place. Never awaited and never surfaced: a
+   * failed background save must not interrupt someone mid-assessment.
+   */
+  const sessionIdRef = useRef<string>('')
+  if (!sessionIdRef.current) {
+    sessionIdRef.current =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `s-${Date.now()}-${Math.random().toString(36).slice(2)}`
+  }
+
+  const saveProgressRef = useRef<(stage: string, extra?: Record<string, unknown>) => void>(() => {})
   const [insights, setInsights] = useState<Insight[]>([])
   const [conversationHistory, setConversationHistory] = useState<HistoryItem[]>([])
   const [potentialCompetitors, setPotentialCompetitors] = useState<Competitor[]>([])
+  // True when the API had no REAL competitor data, so the visitor types their own.
+  const [competitorsManual, setCompetitorsManual] = useState(false)
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null)
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null)
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([])
@@ -509,6 +578,21 @@ export default function AssessmentPage() {
   }, [])
 
   // Handle consent
+  saveProgressRef.current = (stage: string, extra: Record<string, unknown> = {}) => {
+    void fetch('/api/assessment/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        sessionId: sessionIdRef.current,
+        stage,
+        personalization,
+        collectedData,
+        ...extra,
+      }),
+    }).catch(() => {})
+  }
+
   const handleConsent = () => {
     setAppState('collectingInfo')
     setCurrentTurn({ question: "Welcome! I'm Spark. To start, what's your **name**?" })
@@ -608,7 +692,13 @@ export default function AssessmentPage() {
     // Record the answer
     if (currentTurn) {
       const question = currentTurn.question.replace(/\*\*(.*?)\*\*/g, '$1')
-      setCollectedData((prev) => [...prev, { question, answer: trimmedAnswer }])
+      setCollectedData((prev) => {
+        const next = [...prev, { question, answer: trimmedAnswer }]
+        // Pass `next` explicitly — state has not committed yet, so the closure's
+        // collectedData is still one answer behind.
+        saveProgressRef.current('conversation', { collectedData: next })
+        return next
+      })
     }
 
     setTimeout(async () => {
@@ -672,6 +762,7 @@ export default function AssessmentPage() {
               const data = await res.json()
               if (data.competitors) {
                 setPotentialCompetitors(data.competitors)
+                setCompetitorsManual(Boolean(data.needsManualEntry))
                 setAppState('selectingCompetitors')
               }
             } catch {
@@ -713,6 +804,8 @@ export default function AssessmentPage() {
     const firstPrompt = `My name is ${personalization.name}, company is ${personalization.company}, industry: ${personalization.industry}, website is ${personalization.website}. My competitors are: ${competitorNames || 'None identified'}. Begin the assessment with your first strategic question.`
 
     setAppState('interacting')
+    // Everything they typed before the conversation is now safe even if they leave.
+    saveProgressRef.current('personalization-complete', { competitors: selected })
     await sendToAI(firstPrompt)
   }
 
@@ -739,6 +832,14 @@ export default function AssessmentPage() {
         }),
       })
 
+      // Now the email exists, stamp it onto the partial row too and mark it done —
+      // so an abandoned assessment and a finished one are distinguishable.
+      saveProgressRef.current('completed', {
+        completed: true,
+        email: info.email,
+        phone: info.phone,
+      })
+
       setTimeout(() => setAppState('outro'), 2000)
     } catch (error) {
       console.error('Submission error:', error)
@@ -763,7 +864,13 @@ export default function AssessmentPage() {
   }
 
   if (appState === 'selectingCompetitors') {
-    return <CompetitorSelection competitors={potentialCompetitors} onSubmit={handleCompetitorsSelected} />
+    return (
+      <CompetitorSelection
+        competitors={potentialCompetitors}
+        manual={competitorsManual}
+        onSubmit={handleCompetitorsSelected}
+      />
+    )
   }
 
   if (appState === 'capturing') {
