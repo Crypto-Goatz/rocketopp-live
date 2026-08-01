@@ -47,6 +47,8 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/services/mcp-integration',                           priority: 0.90, freq: 'monthly' },
   { path: '/services/sop-automation',                            priority: 0.80, freq: 'monthly' },
   { path: '/services/app-development',                           priority: 0.80, freq: 'monthly' },
+  { path: '/services/agentic-ai-apps',                           priority: 0.90, freq: 'monthly' },
+  { path: '/services/lead-tool-apps',                            priority: 0.85, freq: 'monthly' },
   { path: '/services/ppc-management',                            priority: 0.90, freq: 'monthly' },
   { path: '/services/online-marketing',                          priority: 0.80, freq: 'monthly' },
   { path: '/services/search-optimization',                       priority: 0.85, freq: 'monthly' },
