@@ -130,14 +130,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: post.meta_description || post.excerpt,
     keywords: post.seo_keywords,
     authors: [{ name: 'RocketOpp', url: 'https://rocketopp.com' }],
+    alternates: { canonical: `https://rocketopp.com/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.meta_description || post.excerpt,
       type: 'article',
       publishedTime: post.published_at,
-      tags: post.tags,
+      modifiedTime: post.updated_at || post.published_at,
       url: `https://rocketopp.com/blog/${post.slug}`,
-      images: post.featured_image ? [{ url: post.featured_image }] : [],
+      siteName: 'RocketOpp',
+      // NO `images` key here on purpose. Setting it wins over the file
+      // convention, and it used to point at the .svg hero — which no link
+      // unfurler renders. Leaving it off lets opengraph-image.tsx supply a real
+      // PNG card carrying this post's title and category.
     },
     twitter: {
       card: 'summary_large_image',
