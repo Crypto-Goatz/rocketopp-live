@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { FEATURED_ARTICLES } from '@/lib/blog-featured'
+import BlogHeroGraphic from '@/components/blog/blog-hero-graphic'
 import {
   ArrowRight,
   Clock,
@@ -134,56 +135,13 @@ export default async function BlogPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[128px]" />
       </div>
 
-      {/* Header */}
-      <header className="relative border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-              </div>
-              <div>
-                <span className="font-bold text-white text-lg">RocketOpp</span>
-                <span className="hidden sm:inline text-zinc-500 text-sm ml-2">/ Intelligence</span>
-              </div>
-            </Link>
-
-            <nav className="flex items-center gap-1">
-              <Link
-                href="/services"
-                className="px-4 py-2 text-zinc-400 hover:text-white text-sm font-medium transition-colors rounded-lg hover:bg-white/5"
-              >
-                Services
-              </Link>
-              <Link
-                href="/blog"
-                className="px-4 py-2 text-white text-sm font-medium bg-white/5 rounded-lg"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/contact"
-                className="px-4 py-2 text-zinc-400 hover:text-white text-sm font-medium transition-colors rounded-lg hover:bg-white/5"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/contact"
-                className="ml-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity hidden sm:block"
-              >
-                Get Started
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      {/* NO local header here. The global <Navbar /> comes from LayoutWrapper
+          (components/layout-wrapper.tsx). This page used to render its own
+          sticky nav on top of it, so /blog showed two headers stacked. */}
 
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-6">
+        <div className="relative max-w-7xl mx-auto px-6 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div className="max-w-3xl">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6">
@@ -235,6 +193,11 @@ export default async function BlogPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* The thesis, drawn: one sourced article, cited by every answer engine. */}
+          <div className="mx-auto w-full max-w-[420px] lg:max-w-none">
+            <BlogHeroGraphic />
           </div>
         </div>
       </section>

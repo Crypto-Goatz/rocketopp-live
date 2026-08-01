@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 import {
   ArrowUpRight, ArrowLeft, Lock, Check, Sparkles, FileText,
 } from 'lucide-react'
-import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { getProduct, PRODUCTS } from '@/lib/shop/products'
 
@@ -41,7 +40,6 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-5xl">

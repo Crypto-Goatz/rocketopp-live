@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowUpRight, Sparkles, Lock, Zap } from 'lucide-react'
-import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { LEAD_TOOLS, type LeadTool } from '@/lib/lead-tools/catalog'
 
@@ -30,7 +29,6 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
 
       <main className="pt-24 pb-20">
         {/* Hero */}

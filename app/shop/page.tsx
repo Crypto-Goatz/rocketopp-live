@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowUpRight, Lock, Sparkles } from 'lucide-react'
-import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { PRODUCTS, CATEGORY_LABELS, productsByCategory, type ShopProduct, type ProductCategory } from '@/lib/shop/products'
 
@@ -27,7 +26,6 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
 
       <main className="pt-24 pb-20">
         {/* Hero */}

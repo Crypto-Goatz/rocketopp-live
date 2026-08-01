@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { getLeadTool } from '@/lib/lead-tools/catalog'
 import { NotifyForm } from './NotifyForm'
@@ -21,7 +20,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ t
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4 max-w-xl">
           <Link href="/ai-lead-tools" className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground mb-8">

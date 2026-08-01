@@ -234,8 +234,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="absolute bottom-0 right-1/3 w-[600px] h-[600px] bg-purple-500/3 rounded-full blur-[150px]" />
         </div>
 
-        {/* Header */}
-        <header className="relative border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-xl sticky top-0 z-50">
+        {/* Article utility bar — NOT a site header. The global <Navbar /> is
+            fixed at top-0/z-50 from LayoutWrapper, so this parks directly
+            beneath it (top-16) at a lower z-index instead of stacking a second
+            header over it. */}
+        <div className="relative border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-xl sticky top-16 z-40">
           <div className="max-w-4xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <Link
@@ -275,7 +278,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Article Hero */}
         <section className="relative pt-12 pb-8">
