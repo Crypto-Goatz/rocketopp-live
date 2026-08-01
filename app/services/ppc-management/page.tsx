@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     "CRO9 ads",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=PPC%20Management%20%E2%80%94%20AI-Optimized&eyebrow=Services', width: 1200, height: 630, alt: "PPC Management — AI-Optimized" }],
     title: "PPC Management — AI-Optimized | RocketOpp",
     description: "Google + Meta + LinkedIn + TikTok, managed by one team with AI in the loop.",
     url: "https://rocketopp.com/services/ppc-management",

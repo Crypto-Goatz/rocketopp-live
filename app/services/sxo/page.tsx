@@ -58,6 +58,7 @@ export const metadata: Metadata = {
     "0nMCP",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=SXO%20%E2%80%94%20The%20SEO%20Replacement%20for%20the%20AI%20Era&eyebrow=Services', width: 1200, height: 630, alt: "SXO — The SEO Replacement for the AI Era" }],
     title: "SXO — The SEO Replacement for the AI Era | RocketOpp",
     description:
       "SXO from $997/mo. Search + UX + Conversion + AI engine readiness in one protocol. Powered by CRO9.",

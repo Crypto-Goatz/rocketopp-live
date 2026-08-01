@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     "Model Context Protocol",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Agentic%20AI%20Apps%20%E2%80%94%20AI%20That%20Actually%20Does%20the%20Work&eyebrow=Services', width: 1200, height: 630, alt: "Agentic AI Apps — AI That Actually Does the Work" }],
     title: "Agentic AI Apps — AI That Actually Does the Work | RocketOpp",
     description:
       "Agents that act across 111 services and 1,640 tools. From $4,997, live in 3 weeks, and you own the code.",

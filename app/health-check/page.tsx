@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description:
     'Run the CRO9 Stack Health Audit on your live website. Deep infrastructure, TLS, headers, framework, and security-path checks. Letter grade + remediation roadmap emailed in minutes.',
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Free%20Stack%20Health%20Audit&eyebrow=RocketOpp', width: 1200, height: 630, alt: "Free Stack Health Audit" }],
     title: 'Free Stack Health Audit | RocketOpp',
     description: 'Deep website audit. Infrastructure, TLS, headers, frameworks, exposed paths. Letter grade in minutes.',
     url: 'https://rocketopp.com/health-check',

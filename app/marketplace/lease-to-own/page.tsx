@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   description: 'Own powerful AI software through affordable monthly payments. No credit checks, no long-term contracts. Make payments and earn ownership - industry first!',
   keywords: 'lease to own software, AI software financing, affordable AI tools, software ownership, AI app payments',
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Lease-to-Own%20AI%20Software&eyebrow=Marketplace', width: 1200, height: 630, alt: "Lease-to-Own AI Software" }],
     title: 'Lease-to-Own AI Software | RocketOpp',
     description: 'Own powerful AI software through affordable monthly payments. Industry-first ownership model.',
     type: 'website',

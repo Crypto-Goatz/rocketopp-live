@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     'business software'
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Our%20Apps&eyebrow=RocketOpp', width: 1200, height: 630, alt: "Our Apps" }],
     title: 'Our Apps | RocketOpp',
     description: 'AI-powered business applications that work while you sleep.',
     url: 'https://rocketopp.com/apps',

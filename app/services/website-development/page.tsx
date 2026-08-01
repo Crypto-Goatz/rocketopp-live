@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     "website development agency",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Website%20Development%20%E2%80%94%20What%27s%20Included&eyebrow=Services', width: 1200, height: 630, alt: "Website Development — What's Included" }],
     title: "Website Development — What's Included | RocketOpp",
     description: "Professional websites from $2,497. Launched in 2 weeks. See exactly what's included.",
     url: "https://rocketopp.com/services/website-development",

@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     "affordable digital services",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Services%20%26%20Pricing&eyebrow=Services', width: 1200, height: 630, alt: "Services & Pricing" }],
     title: "Services & Pricing | RocketOpp",
     description: "Transparent pricing for all services. No hidden fees. No discovery calls.",
     url: "https://rocketopp.com/services",

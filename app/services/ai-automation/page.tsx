@@ -54,6 +54,7 @@ export const metadata: Metadata = {
     "build an AI agent",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=AI%20Business%20Automation%20%E2%80%94%20Custom%20AI%20Systems&eyebrow=Services', width: 1200, height: 630, alt: "AI Business Automation — Custom AI Systems" }],
     title: "AI Business Automation — Custom AI Systems | RocketOpp",
     description: "AI agents that actually execute. 5-10 workflows automated. Powered by 0nMCP and 1,640+ tools.",
     url: "https://rocketopp.com/services/ai-automation",

@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     "Rocket Clients is a complete CRM, email marketing, funnel building, AI chatbot, and automation platform. Replace 10+ tools with one powerful solution. Built for agencies and growing businesses.",
   keywords: "CRM, marketing automation, sales automation, email marketing, AI chatbots, funnel builder, appointment scheduling, business automation",
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Rocket%20Clients%20%7C%20All-In-One%20Marketing%20%26%20Sales%20Platform&eyebrow=RocketOpp', width: 1200, height: 630, alt: "Rocket Clients | All-In-One Marketing & Sales Platform" }],
     title: "Rocket Clients | All-In-One Marketing & Sales Platform",
     description: "Replace 10+ tools with one powerful platform. CRM, email, funnels, chatbots, and more.",
     type: "website",

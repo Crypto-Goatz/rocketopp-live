@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     "marketing agency"
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Strategic%20Web%20Marketing%20Services&eyebrow=Services', width: 1200, height: 630, alt: "Strategic Web Marketing Services" }],
     title: "Strategic Web Marketing Services | RocketOpp",
     description: "Data-driven marketing strategies that deliver measurable results.",
     url: "https://rocketopp.com/services/web-marketing",

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description: "Browse and purchase AI-powered applications, automation tools, and business solutions. Buy, subscribe, or lease-to-own complete AI apps.",
   keywords: "AI marketplace, automation tools, AI apps, business software, lease to own software, AI agents",
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=RocketOpp%20Marketplace%20-%20AI%20Apps%20%26%20Automation%20Tools&eyebrow=Marketplace', width: 1200, height: 630, alt: "RocketOpp Marketplace - AI Apps & Automation Tools" }],
     title: "RocketOpp Marketplace - AI Apps & Automation Tools",
     description: "Browse and purchase AI-powered applications, automation tools, and business solutions.",
     type: "website",

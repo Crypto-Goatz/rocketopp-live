@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   keywords:
     "social media marketing, social media management, Instagram marketing, Facebook advertising, TikTok marketing, LinkedIn marketing, social media strategy, content creation, influencer marketing, social commerce",
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Social%20Media%20Marketing%20Services&eyebrow=Services', width: 1200, height: 630, alt: "Social Media Marketing Services" }],
     title: "Social Media Marketing Services | RocketOpp",
     description:
       "Transform your social presence with data-driven strategies. Expert social media marketing with 23 years of proven results.",

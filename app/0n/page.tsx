@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     "RocketOpp products",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=The%200n%20Network%20%E2%80%94%20Every%20Product%2C%20One%20Orchestration%20Layer&eyebrow=RocketOpp', width: 1200, height: 630, alt: "The 0n Network — Every Product, One Orchestration Layer" }],
     title: "The 0n Network — Every Product, One Orchestration Layer",
     description:
       "Six live products on one orchestration layer. 1,640 tools, 111 services, all in production.",

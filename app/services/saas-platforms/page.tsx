@@ -46,6 +46,7 @@ export const metadata: Metadata = {
     "SaaS development cost",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=SaaS%20Platform%20Development%20%E2%80%94%20Multi-Tenant%2C%20Billed%2C%20Yours&eyebrow=Services', width: 1200, height: 630, alt: "SaaS Platform Development — Multi-Tenant, Billed, Yours" }],
     title: "SaaS Platform Development — Multi-Tenant, Billed, Yours | RocketOpp",
     description:
       "Multi-tenant auth, subscription billing, and admin dashboards. From $12,500, live in 6 weeks, and you own the code.",

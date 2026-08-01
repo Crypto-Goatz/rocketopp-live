@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     "digital transformation agency"
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=About%20RocketOpp%20%7C%20We%20Build.%20You%20Sleep.&eyebrow=RocketOpp', width: 1200, height: 630, alt: "About RocketOpp | We Build. You Sleep." }],
     title: "About RocketOpp | We Build. You Sleep.",
     description: "We're a team that hates busywork as much as you do. Learn how we're transforming businesses with AI-powered automation.",
     url: "https://rocketopp.com/about",

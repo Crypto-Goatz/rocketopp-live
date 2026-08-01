@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     "RocketOpp CRM",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=CRM%20Setup%20%26%20Automation&eyebrow=Services', width: 1200, height: 630, alt: "CRM Setup & Automation" }],
     title: "CRM Setup & Automation | RocketOpp",
     description: "Full CRM with AI lead scoring, automated sequences, and appointment booking. Ships in 1 week.",
     url: "https://rocketopp.com/services/crm-automation",

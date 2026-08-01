@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     "SEO strategy",
   ].join(", "),
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=Professional%20SEO%20Services&eyebrow=Services', width: 1200, height: 630, alt: "Professional SEO Services" }],
     title: "Professional SEO Services | RocketOpp",
     description: "Drive organic traffic and improve search rankings with expert SEO strategies.",
     type: "website",

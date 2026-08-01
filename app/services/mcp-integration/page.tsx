@@ -31,6 +31,7 @@ export const metadata: Metadata = {
     "RocketOpp MCP",
   ],
   openGraph: {
+      images: [{ url: 'https://rocketopp.com/api/og?title=MCP%20Server%20Integration&eyebrow=Services', width: 1200, height: 630, alt: "MCP Server Integration" }],
     title: "MCP Server Integration | RocketOpp",
     description: "Plug your business into 1,640+ tools across 111 services. Ships in 1 week. From $1,997.",
     url: "https://rocketopp.com/services/mcp-integration",
