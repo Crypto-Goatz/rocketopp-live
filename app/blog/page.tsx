@@ -44,10 +44,31 @@ interface BlogPost {
   featured_image?: string
 }
 
+/**
+ * blog_posts has NO `category`, `tags`, `views` or `featured_image` column — the
+ * real ones are `category_slug` and `hero_image`. This select used to name the
+ * phantom four, so PostgREST rejected the whole query, `data` came back null,
+ * and the index silently rendered ONLY the hand-built article from
+ * FEATURED_ARTICLES. Nineteen published posts were invisible on /blog while
+ * still being reachable by direct URL and listed in the sitemap.
+ *
+ * Select real columns, then normalise to the BlogPost shape the cards expect.
+ */
+const CATEGORY_NAMES: Record<string, string> = {
+  'agency-growth': 'Agency Growth',
+  'ai-automation': 'AI & Automation',
+  'saas-building': 'Building SaaS',
+  'crm-strategy': 'CRM Strategy',
+  'hipaa-compliance': 'HIPAA & Compliance',
+  'mcp-ecosystem': 'MCP & Integrations',
+  'product-updates': 'Product Updates',
+  'seo-sxo': 'SEO & SXO',
+}
+
 async function getBlogPosts(): Promise<BlogPost[]> {
   const { data, error } = await supabaseAdmin
     .from('blog_posts')
-    .select('id, slug, title, excerpt, category, tags, reading_time, published_at, views, featured_image')
+    .select('id, slug, title, excerpt, category_slug, reading_time, published_at, hero_image')
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .limit(30)
@@ -55,6 +76,19 @@ async function getBlogPosts(): Promise<BlogPost[]> {
   if (error) {
     console.error('Error fetching blog posts:', error)
   }
+
+  const rows: BlogPost[] = (data || []).map((r) => ({
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    excerpt: r.excerpt,
+    category: CATEGORY_NAMES[r.category_slug] || 'Insights',
+    tags: [],
+    reading_time: r.reading_time,
+    published_at: r.published_at,
+    views: 0,
+    featured_image: r.hero_image || undefined,
+  }))
 
   // Hand-built articles live as routes, not rows (see lib/blog-featured.ts). They
   // are shaped into the same record here so every card, sort and count downstream
@@ -70,9 +104,10 @@ async function getBlogPosts(): Promise<BlogPost[]> {
     reading_time: a.readingTime,
     published_at: a.publishedAt,
     views: 0,
+    featured_image: a.heroImage,
   }))
 
-  return [...coded, ...(data || [])].sort(
+  return [...coded, ...rows].sort(
     (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
   )
 }

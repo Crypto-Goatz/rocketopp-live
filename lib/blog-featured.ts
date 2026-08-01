@@ -26,6 +26,8 @@ export type FeaturedArticle = {
   publishedAt: string
   /** Shown on the index card in place of a view count. */
   kicker: string
+  /** Card + hero art. Same /brand/blog/*.svg set the DB posts use. */
+  heroImage: string
 }
 
 export const FEATURED_ARTICLES: FeaturedArticle[] = [
@@ -39,6 +41,7 @@ export const FEATURED_ARTICLES: FeaturedArticle[] = [
     readingTime: 8,
     publishedAt: '2026-07-29T12:00:00.000Z',
     kicker: 'Data Report',
+    heroImage: '/brand/blog/seo-sxo.svg',
   },
 ]
 

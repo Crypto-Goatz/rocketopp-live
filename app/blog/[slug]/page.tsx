@@ -47,6 +47,34 @@ interface BlogPost {
   featured_image?: string
 }
 
+/**
+ * The blog_posts table stores `category_slug` and `hero_image`. It has no
+ * `category`, `tags`, `featured_image` or `views` column. This file assumed all
+ * four, which meant: the hero image never rendered, the OG image and
+ * Article JSON-LD shipped undefined, the view counter wrote to nothing, and the
+ * related-posts query named phantom columns so it always returned empty.
+ */
+const CATEGORY_NAMES: Record<string, string> = {
+  'agency-growth': 'Agency Growth',
+  'ai-automation': 'AI & Automation',
+  'saas-building': 'Building SaaS',
+  'crm-strategy': 'CRM Strategy',
+  'hipaa-compliance': 'HIPAA & Compliance',
+  'mcp-ecosystem': 'MCP & Integrations',
+  'product-updates': 'Product Updates',
+  'seo-sxo': 'SEO & SXO',
+}
+
+/** Map a raw blog_posts row onto the shape this page renders. */
+function normalise(r: Record<string, unknown>): BlogPost {
+  return {
+    ...(r as unknown as BlogPost),
+    category: CATEGORY_NAMES[(r.category_slug as string) ?? ''] || 'Insights',
+    featured_image: (r.hero_image as string) || undefined,
+    views: 0,
+  }
+}
+
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const { data, error } = await supabaseAdmin
     .from('blog_posts')
@@ -59,27 +87,33 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
     return null
   }
 
-  // Increment views (non-blocking)
-  supabaseAdmin
-    .from('blog_posts')
-    .update({ views: (data.views || 0) + 1 })
-    .eq('id', data.id)
-    .then(() => {})
-
-  return data
+  return normalise(data)
 }
 
-async function getRelatedPosts(currentSlug: string, category: string, tags: string[]): Promise<BlogPost[]> {
-  const { data } = await supabaseAdmin
+async function getRelatedPosts(currentSlug: string, categorySlug: string): Promise<BlogPost[]> {
+  let { data } = await supabaseAdmin
     .from('blog_posts')
-    .select('id, slug, title, excerpt, category, reading_time, published_at, views, featured_image')
+    .select('id, slug, title, excerpt, category_slug, reading_time, published_at, hero_image')
     .eq('status', 'published')
+    .eq('category_slug', categorySlug)
     .neq('slug', currentSlug)
-    .or(`category.eq.${category}`)
     .order('published_at', { ascending: false })
     .limit(3)
 
-  return data || []
+  // Same-category is the ideal, but a thin category should not leave the rail
+  // empty — fall back to most recent from anywhere.
+  if (!data || data.length === 0) {
+    const fallback = await supabaseAdmin
+      .from('blog_posts')
+      .select('id, slug, title, excerpt, category_slug, reading_time, published_at, hero_image')
+      .eq('status', 'published')
+      .neq('slug', currentSlug)
+      .order('published_at', { ascending: false })
+      .limit(3)
+    data = fallback.data
+  }
+
+  return (data || []).map(normalise)
 }
 
 // Generate metadata
@@ -187,7 +221,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound()
   }
 
-  const relatedPosts = await getRelatedPosts(post.slug, post.category, post.tags)
+  const relatedPosts = await getRelatedPosts(
+    post.slug,
+    (post as unknown as { category_slug?: string }).category_slug || '',
+  )
   const shareUrl = `https://rocketopp.com/blog/${post.slug}`
   const categoryStyle = getCategoryStyle(post.category)
 
