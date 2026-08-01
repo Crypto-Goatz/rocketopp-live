@@ -4,10 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
-  Rocket, Home, Building2, User, CreditCard,
-  Settings, LogOut, HelpCircle, ChevronRight, ChevronLeft,
-  Star, BarChart3, FileText, Users, Shield,
-  Briefcase, Calendar, MessageSquare, FolderOpen, Lightbulb, Sparkles, Puzzle
+  Rocket, CreditCard, LogOut, HelpCircle, ChevronRight, ChevronLeft,
+  Star, FileText, Briefcase
 } from "lucide-react"
 import { useState } from "react"
 import { AIChat } from "./ai-chat"
@@ -37,30 +35,17 @@ const mainNavItems = [
 
 ]
 
-const clientNavItems = [
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "Skills", href: "/dashboard/skills", icon: Puzzle },
-  { name: "Leads", href: "/dashboard/leads", icon: Users },
-  { name: "Projects", href: "/dashboard/projects", icon: FolderOpen },
-  { name: "Documents", href: "/dashboard/documents", icon: FileText },
-  { name: "Calendar", href: "/dashboard/calendar", icon: Calendar },
-  { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { name: "Feedback", href: "/dashboard/feedback", icon: Lightbulb },
-]
-
+// The Services, Admin, and Settings groups used to live here. Their pages were
+// removed as unused (see mainNavItems above) but the nav entries were left
+// behind, so the sidebar linked to 13 routes that 404'd. Support now points at
+// the real public /contact page; the rest are gone until the pages come back.
 const bottomNavItems = [
-  { name: "Support", href: "/dashboard/support", icon: HelpCircle },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  { name: "Support", href: "/contact", icon: HelpCircle },
 ]
-
-const adminNavItem = { name: "Admin", href: "/dashboard/admin", icon: Shield }
-const contentNavItem = { name: "Content", href: "/dashboard/content", icon: Sparkles }
 
 export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLayoutProps) {
   const pathname = usePathname()
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-
-  const isAdmin = user.is_admin || user.role === 'admin' || user.role === 'superadmin'
 
   return (
     <div className="min-h-screen bg-black flex">
@@ -164,38 +149,6 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </ul>
           </div>
 
-          {/* Client Services */}
-          <div className={sidebarCollapsed ? 'px-2' : 'px-3'}>
-            {!sidebarCollapsed && (
-              <p className="text-[10px] font-semibold text-white/30 uppercase tracking-wider mb-2 px-2">
-                Services
-              </p>
-            )}
-            <ul className="space-y-1">
-              {clientNavItems.map((item) => {
-                const isActive = pathname.startsWith(item.href)
-                return (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                        isActive
-                          ? 'bg-white/10 text-white'
-                          : 'text-white/50 hover:text-white hover:bg-white/5'
-                      } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
-                      title={sidebarCollapsed ? item.name : undefined}
-                    >
-                      <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-primary' : 'group-hover:text-primary/70'}`} />
-                      {!sidebarCollapsed && (
-                        <span className="text-sm font-medium">{item.name}</span>
-                      )}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-
           {/* Contact Card */}
           {!sidebarCollapsed && (
             <div className="px-3">
@@ -208,7 +161,7 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
                   Need help? Your dedicated support is just a click away.
                 </p>
                 <Link
-                  href="/dashboard/support"
+                  href="/contact"
                   className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 font-medium"
                 >
                   Contact Support
@@ -218,51 +171,6 @@ export function WorkspaceLayout({ children, user, companyProfile }: WorkspaceLay
             </div>
           )}
         </nav>
-
-        {/* Admin Section (only for admins) */}
-        {isAdmin && (
-          <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>
-            {!sidebarCollapsed && (
-              <p className="text-[10px] font-semibold text-white/30 uppercase tracking-wider mb-2 px-2">
-                Admin
-              </p>
-            )}
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href={contentNavItem.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                    pathname.startsWith('/dashboard/content')
-                      ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30'
-                      : 'text-purple-400/80 hover:text-purple-400 hover:bg-purple-500/10'
-                  } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
-                  title={sidebarCollapsed ? contentNavItem.name : undefined}
-                >
-                  <contentNavItem.icon className="w-4 h-4 flex-shrink-0" />
-                  {!sidebarCollapsed && (
-                    <span className="text-sm font-medium">{contentNavItem.name}</span>
-                  )}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={adminNavItem.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                    pathname.startsWith('/dashboard/admin')
-                      ? 'bg-gradient-to-r from-primary/20 to-red-500/20 text-white border border-primary/30'
-                      : 'text-primary/80 hover:text-primary hover:bg-primary/10'
-                  } ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
-                  title={sidebarCollapsed ? adminNavItem.name : undefined}
-                >
-                  <adminNavItem.icon className="w-4 h-4 flex-shrink-0" />
-                  {!sidebarCollapsed && (
-                    <span className="text-sm font-medium">{adminNavItem.name}</span>
-                  )}
-                </Link>
-              </li>
-            </ul>
-          </div>
-        )}
 
         {/* Bottom Navigation */}
         <div className={`border-t border-white/5 py-4 ${sidebarCollapsed ? 'px-2' : 'px-3'}`}>

@@ -225,8 +225,8 @@ export default async function MarketplacePage({
             Build AI apps that plug into the RocketOpp ecosystem. Reach thousands of businesses looking for automation solutions.
           </p>
           <Button variant="outline" size="lg" asChild>
-            <Link href="/sellers">
-              Become a Seller
+            <Link href="/pitch-idea">
+              Pitch Your App
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </Button>

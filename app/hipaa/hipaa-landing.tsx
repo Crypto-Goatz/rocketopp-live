@@ -741,47 +741,47 @@ export function HIPAALanding() {
           </div>
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {/* New HIPAA case-study posts */}
-            <a href="/blog/how-we-built-hipaa-scanner-in-4-weeks-with-0nmcp" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
-              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Case Study</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">How We Built a HIPAA Compliance Scanner in 4 Weeks Using 0nMCP</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">The full build log: 63 checks, four pricing tiers, $149-$899, magic-link delivery — and the architecture decisions that made it ship in a month.</p>
-              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the build log <ArrowRight className="h-3 w-3" /></div>
-            </a>
-
-            <a href="/blog/hipaa-2026-nprm-17-new-requirements-healthcare-websites" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+            {/* HIPAA + compliance posts */}
+            <a href="/blog/hipaa-2026-nprm-what-changes-and-when" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
               <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Compliance</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">HIPAA 2026 NPRM: 17 New Security Rule Requirements</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Mandatory MFA, encryption at rest, immutable audit logs, 72-hour DR testing — every new requirement cited to 45 CFR with website-level remediation.</p>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">HIPAA 2026 NPRM: What Changes and When You Need to Comply</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">The 2026 HIPAA Security Rule eliminates addressable safeguards. MFA, encryption, and scans all become mandatory — timeline, penalties, and how to prepare.</p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the breakdown <ArrowRight className="h-3 w-3" /></div>
             </a>
 
-            <a href="/blog/inside-engine-how-0nmcp-generates-hipaa-reports-60-seconds" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
-              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Engineering</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">Inside the Engine: How 0nMCP Generates HIPAA Reports in 60 Seconds</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Tool registration, citation locking, parallel Radial Burst generation, stack-aware fix routing, and three-tier provider failover.</p>
+            <a href="/blog/google-analytics-on-healthcare-sites-the-baa-problem" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Analytics</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">Google Analytics on Healthcare Sites: The BAA Problem Nobody Talks About</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Google Analytics on healthcare sites transmits PHI without authorization. OCR guidance, what constitutes a violation, and HIPAA-compliant alternatives.</p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the deep dive <ArrowRight className="h-3 w-3" /></div>
             </a>
 
+            <a href="/blog/two-mcp-packages-one-safe-one-isnt" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-orange-500/40 hover:bg-white/[0.07]">
+              <div className="text-xs font-bold uppercase tracking-widest text-orange-300">Security</div>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-orange-200">Two MCP Packages Launched the Same Day. One Is Safe. One Isn&rsquo;t.</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">An independent security audit comparing two MCP packages — embedded credentials, key enumeration, and how to check any package before you install it.</p>
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-orange-300 group-hover:gap-2 transition-all">Read the audit <ArrowRight className="h-3 w-3" /></div>
+            </a>
+
             {/* Foundational 0nMCP posts */}
-            <a href="/blog/what-is-mcp-model-context-protocol-explained" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+            <a href="/blog/the-mcp-revolution-why-every-ai-tool-will-speak-one-protocol" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
               <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Fundamentals</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">What is MCP? The Model Context Protocol Explained</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">A primer on Model Context Protocol — the standard underlying everything in this product, from tool registration to provider routing.</p>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">The MCP Revolution: Why Every AI Tool Will Speak One Protocol</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Model Context Protocol standardizes how AI connects to tools — the standard underlying everything in this product, from tool registration to provider routing.</p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">Learn the protocol <ArrowRight className="h-3 w-3" /></div>
             </a>
 
-            <a href="/blog/build-ai-employee-using-mcp-and-claude" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+            <a href="/blog/building-ai-agents-that-actually-execute" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
               <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Tutorial</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">How to Build an AI Employee Using MCP and Claude</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Same orchestration patterns we used here, generalized: stand up an autonomous AI worker that runs scheduled tasks across your tooling.</p>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">Building AI Agents That Actually Execute — Not Just Chat</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">How to build agents that do real work — create contacts, send emails, trigger workflows — using the same orchestration patterns behind this product.</p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">Build the pattern <ArrowRight className="h-3 w-3" /></div>
             </a>
 
-            <a href="/blog/setting-up-automated-crm-workflows-with-0nmcp-in-under-15-minutes" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
+            <a href="/blog/why-your-crm-needs-ai-orchestration-not-just-automation" className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-violet-500/40 hover:bg-white/[0.07]">
               <div className="text-xs font-bold uppercase tracking-widest text-violet-300">Workflow</div>
-              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">Setting Up Automated CRM Workflows with 0nMCP in Under 15 Minutes</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">The same MCP tool-registration pattern that drives HIPAA report generation — applied to CRM workflow automation.</p>
+              <h3 className="mt-3 text-lg font-bold leading-tight text-white group-hover:text-violet-200">Why Your CRM Needs AI Orchestration, Not Just Automation</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">Automation executes tasks. Orchestration understands context and adapts — the same tool-registration pattern that drives report generation, applied to your CRM.</p>
               <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-300 group-hover:gap-2 transition-all">15-min walkthrough <ArrowRight className="h-3 w-3" /></div>
             </a>
           </div>
