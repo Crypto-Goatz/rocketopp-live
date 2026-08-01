@@ -25,12 +25,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.seo_title || `${product.name} - ${product.tagline}`,
     description: product.seo_description || product.description,
+    alternates: { canonical: `https://rocketopp.com/marketplace/${slug}` },
     openGraph: {
       title: product.name,
       description: product.description,
       type: "website",
       url: `https://rocketopp.com/marketplace/${slug}`,
-      images: product.images?.[0] ? [product.images[0]] : undefined,
+      // Spread, don't assign `undefined`. Setting the key at all — even to
+      // undefined — suppresses the file-convention card in
+      // opengraph-image.tsx, which is why these product pages shipped no
+      // og:image whenever a product had no image of its own.
+      ...(product.images?.[0] ? { images: [product.images[0]] } : {}),
     },
   }
 }

@@ -38,7 +38,7 @@ export const FEATURED_ARTICLES: FeaturedArticle[] = [
       'Google’s search volume is up, not down. What collapsed is the click. A sourced, dated data report on the shift — with every interpolation labelled as an interpolation.',
     category: 'Marketing',
     tags: ['AI Search', 'AEO', 'SEO', 'Data Report'],
-    readingTime: 8,
+    readingTime: 15,
     publishedAt: '2026-07-29T12:00:00.000Z',
     kicker: 'Data Report',
     heroImage: '/brand/blog/seo-sxo.svg',

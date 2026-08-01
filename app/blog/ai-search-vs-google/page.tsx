@@ -15,6 +15,7 @@ import {
 import SearchChart from '@/components/charts/SearchChart'
 import ReadingProgress from '@/components/blog/reading-progress'
 import { METHODOLOGY, REPORT_ACTIONS, REPORT_KPIS } from '@/lib/report-kpis'
+import { REPORT_FAQS, REPORT_TERMS } from '@/lib/report-faq'
 import { findFeatured } from '@/lib/blog-featured'
 
 /**
@@ -82,7 +83,9 @@ const JSON_LD = {
       datePublished: ARTICLE.publishedAt,
       dateModified: ARTICLE.publishedAt,
       inLanguage: 'en-US',
-      wordCount: 1900,
+      // ~1,900 of narrative + ~1,900 of Q&A and definitions. Keep this honest;
+      // an inflated wordCount is the kind of small lie that costs trust cheaply.
+      wordCount: 3800,
       timeRequired: `PT${ARTICLE.readingTime}M`,
       keywords: ARTICLE.tags.join(', '),
       articleSection: 'Marketing',
@@ -117,6 +120,40 @@ const JSON_LD = {
         { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://rocketopp.com/blog' },
         { '@type': 'ListItem', position: 3, name: ARTICLE.title, item: URL },
       ],
+    },
+    /**
+     * FAQPage + DefinedTermSet.
+     *
+     * The prose answers already read well to a human. These nodes are what make
+     * the same content machine-liftable: an engine resolving "what is a
+     * zero-click search" or "does blocking AI crawlers protect content" gets a
+     * structured question/answer pair with our URL attached, instead of having
+     * to infer the boundaries of the answer out of running text.
+     *
+     * Both mirror the rendered sections one-to-one. If you edit lib/report-faq.ts
+     * these follow automatically — never let the schema and the page diverge,
+     * because a FAQPage that does not match visible content is a manual action
+     * risk, not a clever trick.
+     */
+    {
+      '@type': 'FAQPage',
+      '@id': `${URL}#faq`,
+      mainEntity: REPORT_FAQS.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    },
+    {
+      '@type': 'DefinedTermSet',
+      '@id': `${URL}#terms`,
+      name: 'AI search and answer-engine terminology',
+      hasDefinedTerm: REPORT_TERMS.map((t) => ({
+        '@type': 'DefinedTerm',
+        name: t.term,
+        description: t.definition,
+        inDefinedTermSet: `${URL}#terms`,
+      })),
     },
   ],
 }
@@ -406,6 +443,48 @@ export default function ArticlePage() {
               </p>
             </div>
           </details>
+
+          {/* ─────────────── Definitions ───────────────
+              Short, liftable, sourced. An engine answering "what is a zero-click
+              search" should be able to take one of these verbatim. */}
+          <div className="reveal mt-16">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              The terms, defined
+            </h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Plain definitions with the number attached, so nothing here has to
+              be taken on trust.
+            </p>
+            <dl className="mt-7 space-y-4">
+              {REPORT_TERMS.map((t) => (
+                <div key={t.term} className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+                  <dt className="font-semibold leading-snug">{t.term}</dt>
+                  <dd className="mt-2 leading-relaxed text-muted-foreground">{t.definition}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* ─────────────── Questions ───────────────
+              Every answer opens with the answer and names its source inline, so
+              it survives being quoted on its own. Mirrors the FAQPage node in
+              the JSON-LD graph one-to-one. */}
+          <div className="reveal mt-16">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Questions people are actually asking
+            </h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              {REPORT_FAQS.length} answers, each one sourced and dated.
+            </p>
+            <div className="mt-8 space-y-8">
+              {REPORT_FAQS.map((f) => (
+                <div key={f.question} className="border-l-2 border-primary/40 pl-5">
+                  <h3 className="text-lg font-bold leading-snug tracking-tight">{f.question}</h3>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">{f.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* ─────────────── The offer, stated once ─────────────── */}
           <div className="reveal mb-16 mt-14 rounded-3xl border border-primary/30 bg-primary/5 p-7 sm:p-9">
