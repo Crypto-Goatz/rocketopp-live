@@ -163,6 +163,27 @@ export default function RootLayout({
         />
         {/* AI HQ — applies the saved global theme site-wide (no-op if unset) */}
         <HqThemeStyle />
+        {/*
+          Scroll-reveal gate. Runs before first paint so .reveal sections start
+          hidden without a flash. Two guarantees this buys us:
+
+          1. No JS (or this script blocked) => html.js-reveal is never set, the
+             hidden base state in globals.css never applies, content is visible.
+          2. JS present but the React observer never boots (hydration failure),
+             so nothing would ever add .in-view => the failsafe below strips the
+             class after 4s and the page un-hides itself. components/reveal.tsx
+             clears the timer as soon as it takes over.
+
+          Before this, .reveal hid unconditionally and only an IntersectionObserver
+          could undo it — one hydration error blanked entire sections.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var d=document.documentElement;d.classList.add('js-reveal');" +
+              "window.__revealFailsafe=setTimeout(function(){d.classList.remove('js-reveal')},4000)})()",
+          }}
+        />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>

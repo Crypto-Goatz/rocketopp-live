@@ -627,9 +627,13 @@
   opacity: .5;
 }
 
-/* Scroll reveal. The JS observer adds .in-view; without JS the content is
-   already visible because the base state is applied only when JS marks it. */
-.reveal { opacity: 0; transform: translateY(18px); }
+/* Scroll reveal. The JS observer (components/reveal.tsx) adds .in-view.
+   The hidden base state is gated on html.js-reveal, which the inline script in
+   app/layout.tsx sets before first paint — so this comment is now true: with JS
+   off, or if that script never runs, the content is simply visible. It used to
+   hide unconditionally, which meant a JS failure left whole sections blank and
+   gave JS-rendering crawlers an opacity:0 page. */
+html.js-reveal .reveal { opacity: 0; transform: translateY(18px); }
 .reveal.in-view {
   opacity: 1; transform: none;
   transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
@@ -662,7 +666,7 @@
 @media (prefers-reduced-motion: reduce) {
   .aurora::before, .aurora::after { animation: none; }
   .sheen-border::before { animation: none; opacity: .5; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  html.js-reveal .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 /* ── Reading progress bar (components/blog/reading-progress.tsx) ──
