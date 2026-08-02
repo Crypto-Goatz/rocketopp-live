@@ -135,23 +135,50 @@ function formatViews(views: number): string {
   return views.toString()
 }
 
-// Category colors for visual distinction
+/**
+ * One colour per category, matching components/blog/blog-sidebar.tsx exactly so
+ * a reader builds a single association per topic across the index, the cards and
+ * the article rail.
+ *
+ * These keys used to be display names that no longer exist — 'Digital
+ * Transformation', 'Marketing', 'Technology', 'Business Strategy', 'Case
+ * Studies'. Only 'AI & Automation' still matched a real category, so seven of
+ * the eight pills fell through to the default orange and every card looked the
+ * same. Keys are the live names from blog_categories.
+ */
 const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
-  'AI & Automation': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
-  'Digital Transformation': { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
-  'Marketing': { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20' },
-  'Technology': { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/20' },
-  'Business Strategy': { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
-  'Case Studies': { bg: 'bg-pink-500/10', text: 'text-pink-400', border: 'border-pink-500/20' },
-  default: { bg: 'bg-orange-500/10', text: 'text-orange-400', border: 'border-orange-500/20' },
+  'AI & Automation':    { bg: 'bg-purple-500/10',  text: 'text-purple-300',  border: 'border-purple-500/25' },
+  'MCP & Integrations': { bg: 'bg-fuchsia-500/10', text: 'text-fuchsia-300', border: 'border-fuchsia-500/25' },
+  'SEO & SXO':          { bg: 'bg-amber-500/10',   text: 'text-amber-300',   border: 'border-amber-500/25' },
+  'Building SaaS':      { bg: 'bg-rose-500/10',    text: 'text-rose-300',    border: 'border-rose-500/25' },
+  'CRM Strategy':       { bg: 'bg-sky-500/10',     text: 'text-sky-300',     border: 'border-sky-500/25' },
+  'HIPAA & Compliance': { bg: 'bg-emerald-500/10', text: 'text-emerald-300', border: 'border-emerald-500/25' },
+  'Agency Growth':      { bg: 'bg-cyan-500/10',    text: 'text-cyan-300',    border: 'border-cyan-500/25' },
+  'Product Updates':    { bg: 'bg-orange-500/10',  text: 'text-orange-300',  border: 'border-orange-500/25' },
+  'Marketing':          { bg: 'bg-amber-500/10',   text: 'text-amber-300',   border: 'border-amber-500/25' },
+  default:              { bg: 'bg-zinc-500/10',    text: 'text-zinc-300',    border: 'border-zinc-500/25' },
 }
 
 function getCategoryStyle(category: string) {
   return categoryColors[category] || categoryColors.default
 }
 
-export default async function BlogPage() {
-  const posts = await getBlogPosts()
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>
+}) {
+  const { category: activeSlug } = await searchParams
+  const all = await getBlogPosts()
+
+  // The sidebar rail on every article links here with ?category=<slug>. Without
+  // this the index ignored the param and returned all 20 posts, so those were
+  // eight links that changed nothing.
+  const active = activeSlug && CATEGORY_NAMES[activeSlug] ? activeSlug : undefined
+  const posts = active
+    ? all.filter((p) => p.category === CATEGORY_NAMES[active])
+    : all
+
   const featuredPost = posts[0]
   const recentPosts = posts.slice(1, 4)
   const remainingPosts = posts.slice(4)
@@ -241,18 +268,30 @@ export default async function BlogPage() {
       {categories.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 pb-8">
           <div className="flex flex-wrap gap-2">
-            <button className="px-4 py-2 rounded-full text-sm font-medium bg-white text-black transition-all">
+            <Link
+              href="/blog"
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                active ? 'bg-white/5 text-zinc-400 hover:text-white' : 'bg-white text-black'
+              }`}
+            >
               All Posts
-            </button>
-            {categories.map(category => {
-              const style = getCategoryStyle(category)
+            </Link>
+            {Object.entries(CATEGORY_NAMES).map(([slug, name]) => {
+              const style = getCategoryStyle(name)
+              const on = slug === active
               return (
-                <button
-                  key={category}
-                  className={`px-4 py-2 rounded-full text-sm font-medium ${style.bg} ${style.text} border ${style.border} hover:bg-white/10 transition-all`}
+                <Link
+                  key={slug}
+                  href={`/blog?category=${slug}`}
+                  aria-current={on ? 'true' : undefined}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
+                    on
+                      ? `${style.bg} ${style.text} ${style.border} ring-1 ring-inset ring-current`
+                      : `${style.bg} ${style.text} ${style.border} hover:bg-white/10`
+                  }`}
                 >
-                  {category}
-                </button>
+                  {name}
+                </Link>
               )
             })}
           </div>
