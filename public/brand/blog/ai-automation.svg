@@ -1,15 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="AI & Automation — RocketOpp">
 <defs>
-<linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b35" stop-opacity=".9"/><stop offset="1" stop-color="#a78bfa" stop-opacity=".2"/></linearGradient>
-<linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b35"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
-<radialGradient id="glow" cx=".5" cy=".5"><stop offset="0" stop-color="#a78bfa" stop-opacity=".22"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
-<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.035)" stroke-width="1"/></pattern>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#a78bfa"/><stop offset=".55" stop-color="#6d28d9"/><stop offset="1" stop-color="#1b1023"/>
+</linearGradient>
+<radialGradient id="warm" cx=".18" cy=".12" r=".9">
+  <stop offset="0" stop-color="#ff6b35" stop-opacity=".55"/><stop offset="1" stop-color="#ff6b35" stop-opacity="0"/>
+</radialGradient>
+<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+  <path d="M48 0H0V48" fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="1"/>
+</pattern>
 </defs>
-<rect width="1200" height="630" fill="#0A0A0A"/>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<rect width="1200" height="630" fill="url(#warm)"/>
 <rect width="1200" height="630" fill="url(#grid)"/>
-<circle cx="600" cy="300" r="300" fill="url(#glow)"/>
-<circle cx="600" cy="300" r="118" fill="none" stroke="rgba(255,255,255,.10)" stroke-dasharray="4 9"/><line x1="600" y1="300" x2="600.0" y2="182.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="600.0" cy="182.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><line x1="600" y1="300" x2="702.2" y2="241.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="702.2" cy="241.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><line x1="600" y1="300" x2="702.2" y2="359.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="702.2" cy="359.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><line x1="600" y1="300" x2="600.0" y2="418.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="600.0" cy="418.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><line x1="600" y1="300" x2="497.8" y2="359.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="497.8" cy="359.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><line x1="600" y1="300" x2="497.8" y2="241.0" stroke="url(#lg)" stroke-width="1.5"/><circle cx="497.8" cy="241.0" r="16" fill="#12121a" stroke="#a78bfa" stroke-opacity=".55" stroke-width="1.5"/><circle cx="600" cy="300" r="54" fill="#0d0d13" stroke="url(#core)" stroke-width="2.5"/><path d="M583 310 l11 -13 8 8 15 -19" fill="none" stroke="#ff6b35" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="600" y="512" text-anchor="middle" fill="#ffffff" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700" letter-spacing="-.5">AI & Automation</text>
-<text x="600" y="552" text-anchor="middle" fill="#a78bfa" font-family="Inter,system-ui,sans-serif" font-size="17" font-weight="600" letter-spacing="4">R O C K E T O P P</text>
-<rect x="0" y="624" width="1200" height="6" fill="url(#core)"/>
+<circle cx="600" cy="292" r="118" fill="none" stroke="#fff" stroke-opacity=".22" stroke-dasharray="4 9"/><line x1="600" y1="292" x2="600.0" y2="174.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="600.0" cy="174.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><line x1="600" y1="292" x2="702.2" y2="233.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="702.2" cy="233.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><line x1="600" y1="292" x2="702.2" y2="351.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="702.2" cy="351.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><line x1="600" y1="292" x2="600.0" y2="410.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="600.0" cy="410.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><line x1="600" y1="292" x2="497.8" y2="351.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="497.8" cy="351.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><line x1="600" y1="292" x2="497.8" y2="233.0" stroke="#fff" stroke-opacity=".38" stroke-width="1.6"/><circle cx="497.8" cy="233.0" r="17" fill="#0b0b12" fill-opacity=".55" stroke="#fff" stroke-opacity=".7" stroke-width="1.8"/><circle cx="600" cy="292" r="56" fill="#0b0b12" fill-opacity=".6" stroke="#fff" stroke-width="3"/><path d="M582 302 l12 -14 9 9 16 -20" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="600" y="500" text-anchor="middle" fill="#fff" font-family="Inter,system-ui,sans-serif" font-size="46" font-weight="800" letter-spacing="-.6">AI & Automation</text>
+<text x="600" y="542" text-anchor="middle" fill="#fff" fill-opacity=".8" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="700" letter-spacing="5">R O C K E T O P P</text>
+<rect x="0" y="622" width="1200" height="8" fill="#ff6b35"/>
 </svg>
