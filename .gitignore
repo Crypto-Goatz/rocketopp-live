@@ -51,3 +51,5 @@ google-service-account.json
 supabase/.temp/
 .apex-reference
 .dispatch-cache/
+
+# (auto-deploy verification 2026-08-02)
