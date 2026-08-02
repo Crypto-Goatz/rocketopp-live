@@ -27,6 +27,7 @@ import {
   Heart
 } from 'lucide-react'
 import { Metadata } from 'next'
+import BlogSidebar from '@/components/blog/blog-sidebar'
 
 export const revalidate = 60
 
@@ -43,6 +44,7 @@ interface BlogPost {
   seo_keywords: string[]
   related_services: string[]
   published_at: string
+  updated_at?: string
   views: number
   featured_image?: string
 }
@@ -54,6 +56,18 @@ interface BlogPost {
  * Article JSON-LD shipped undefined, the view counter wrote to nothing, and the
  * related-posts query named phantom columns so it always returned empty.
  */
+/** Category rail for the sidebar — same order and colours as the index. */
+const SIDEBAR_CATEGORIES = [
+  { slug: 'ai-automation', name: 'AI & Automation' },
+  { slug: 'mcp-ecosystem', name: 'MCP & Integrations' },
+  { slug: 'seo-sxo', name: 'SEO & SXO' },
+  { slug: 'saas-building', name: 'Building SaaS' },
+  { slug: 'crm-strategy', name: 'CRM Strategy' },
+  { slug: 'hipaa-compliance', name: 'HIPAA & Compliance' },
+  { slug: 'agency-growth', name: 'Agency Growth' },
+  { slug: 'product-updates', name: 'Product Updates' },
+]
+
 const CATEGORY_NAMES: Record<string, string> = {
   'agency-growth': 'Agency Growth',
   'ai-automation': 'AI & Automation',
@@ -371,23 +385,33 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </section>
 
-        {/* Featured Image */}
+        {/* Featured Image
+            `unoptimized` for SVG: /_next/image returns 400 on any SVG source
+            unless dangerouslyAllowSVG is enabled, so every hero on the blog was
+            in the markup and failing to load. These are our own first-party
+            files in /public — serving them directly is both correct and cheaper
+            than turning the optimizer loose on arbitrary SVG. */}
         {post.featured_image && (
-          <section className="max-w-5xl mx-auto px-6 mb-12">
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/5">
+          <section className="mx-auto mb-12 max-w-6xl px-6">
+            <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/5 bg-zinc-900">
               <Image
                 src={post.featured_image}
                 alt={post.title}
                 fill
                 className="object-cover"
                 priority
+                unoptimized={post.featured_image.endsWith('.svg')}
               />
             </div>
           </section>
         )}
 
-        {/* Article Content */}
-        <article className="relative max-w-4xl mx-auto px-6 pb-16">
+        {/* Article body + sidebar.
+            Widened from max-w-4xl to a 6xl two-column grid so the sidebar has
+            somewhere to live without squeezing the measure of the prose — the
+            article column still lands near 70ch, which is where it was. */}
+        <div className="mx-auto max-w-6xl px-6 pb-16 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-12">
+        <article className="relative">
           {/* Main Content */}
           <div
             className="prose-custom"
@@ -473,6 +497,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           </div>
         </article>
+
+          {/* Coloured category rail + the $497 offer. */}
+          <div className="mt-12 lg:mt-0">
+            <BlogSidebar
+              categories={SIDEBAR_CATEGORIES}
+              activeSlug={(post as unknown as { category_slug?: string }).category_slug}
+            />
+          </div>
+        </div>
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (

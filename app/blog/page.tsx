@@ -332,6 +332,10 @@ export default async function BlogPage() {
                       <div className="relative w-full aspect-video rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden">
                         {featuredPost.featured_image ? (
                           <Image
+                            // /_next/image 400s on SVG unless dangerouslyAllowSVG
+                            // is on. These are our own files in /public, so skip
+                            // the optimizer rather than open it to arbitrary SVG.
+                            unoptimized={featuredPost.featured_image.endsWith('.svg')}
                             src={featuredPost.featured_image}
                             alt={featuredPost.title}
                             fill
