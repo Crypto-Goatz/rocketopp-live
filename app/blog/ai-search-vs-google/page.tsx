@@ -17,6 +17,20 @@ import ReadingProgress from '@/components/blog/reading-progress'
 import { METHODOLOGY, REPORT_ACTIONS, REPORT_KPIS } from '@/lib/report-kpis'
 import { REPORT_FAQS, REPORT_TERMS } from '@/lib/report-faq'
 import { findFeatured } from '@/lib/blog-featured'
+import BlogSidebar from '@/components/blog/blog-sidebar'
+import Image from 'next/image'
+
+/** Same rail as app/blog/[slug]. */
+const SIDEBAR_CATEGORIES = [
+  { slug: 'ai-automation', name: 'AI & Automation' },
+  { slug: 'mcp-ecosystem', name: 'MCP & Integrations' },
+  { slug: 'seo-sxo', name: 'SEO & SXO' },
+  { slug: 'saas-building', name: 'Building SaaS' },
+  { slug: 'crm-strategy', name: 'CRM Strategy' },
+  { slug: 'hipaa-compliance', name: 'HIPAA & Compliance' },
+  { slug: 'agency-growth', name: 'Agency Growth' },
+  { slug: 'product-updates', name: 'Product Updates' },
+]
 
 /**
  * "AI search vs Google" — the flagship data report.
@@ -198,7 +212,10 @@ export default function ArticlePage() {
       <article id="report-body" className="bg-background pb-4">
         {/* ─────────────── Masthead ─────────────── */}
         <header className="border-b border-border">
-          <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+          {/* 6xl to line up with the hero and the body grid below — at 3xl the
+              masthead sat visibly narrower than everything under it. The text
+              inside keeps its own measure. */}
+          <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16">
             <Link
               href="/blog"
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -210,11 +227,11 @@ export default function ArticlePage() {
             <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
               SXO Intelligence · Data Report
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
+            <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
               AI search vs Google: where the queries went —{' '}
               <span className="text-muted-foreground">and where the clicks didn&rsquo;t</span>
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
               Every number below is sourced and dated. Where a monthly series was never published,
               the chart says so instead of drawing a smooth line through a guess.
             </p>
@@ -234,7 +251,29 @@ export default function ArticlePage() {
           </div>
         </header>
 
-        <div className="container mx-auto max-w-3xl px-4">
+        {/* Hero image.
+            This is a folder route, so it beats app/blog/[slug] in the matcher and
+            inherits none of that template — it was the one article on the blog
+            with no hero, no category rail and no offer, which is what made it
+            read as unfinished next to the others. `unoptimized` because
+            /_next/image 400s on SVG. */}
+        <div className="container mx-auto mb-12 max-w-6xl px-4">
+          <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card">
+            <Image
+              src={ARTICLE.heroImage}
+              alt={ARTICLE.title}
+              fill
+              priority
+              unoptimized={ARTICLE.heroImage.endsWith('.svg')}
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Two-column shell matching app/blog/[slug]: the prose column keeps its
+            ~70ch measure, the rail sits alongside it. */}
+        <div className="container mx-auto max-w-6xl px-4 lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-12">
+        <div className="min-w-0">
           {/* ─────────────── The correction ─────────────── */}
           <div className="reveal mt-12 overflow-hidden rounded-2xl border border-primary/30 bg-primary/5">
             <div className="border-b border-primary/20 px-6 py-4">
@@ -512,6 +551,12 @@ export default function ArticlePage() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
+          </div>
+        </div>
+
+          {/* Same rail every other article carries. */}
+          <div className="mt-12 lg:mt-0">
+            <BlogSidebar categories={SIDEBAR_CATEGORIES} activeSlug="seo-sxo" />
           </div>
         </div>
       </article>
