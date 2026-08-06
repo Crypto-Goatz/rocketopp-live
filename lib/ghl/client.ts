@@ -17,7 +17,13 @@ const GHL_API_VERSION = '2021-07-28'
 // Get credentials from env
 function getCredentials() {
   return {
-    locationId: process.env.GHL_LOCATION_ID!,
+    // Default to the canonical rocketopp.com sub-location, matching notify.ts,
+    // so a missing env var can never silently send leads to the wrong place —
+    // or nowhere. Resolution order mirrors notify.ts exactly.
+    locationId:
+      process.env.CRM_LOCATION_ID ||
+      process.env.GHL_LOCATION_ID ||
+      '6MSqx0trfxgLxeHBJE1k',
     locationPit: process.env.GHL_LOCATION_PIT!,
     agencyPit: process.env.GHL_AGENCY_PIT!,
     companyId: process.env.GHL_COMPANY_ID!,
