@@ -14,6 +14,8 @@ interface LeadForm {
   pageUrl?: string
   tags?: string[]
   customFields?: Record<string, string>
+  honeypot?: string
+  company_website?: string
 }
 
 export async function POST(request: NextRequest) {
