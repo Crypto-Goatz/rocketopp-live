@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       company: body.company,
       service: body.service,
       project: body.project,
+      honeypot: body.honeypot ?? body.company_website,
       source: body.source || FormSources.GENERAL,
       formName: body.formName || "General Inquiry",
       pageUrl: body.pageUrl || "https://rocketopp.com",

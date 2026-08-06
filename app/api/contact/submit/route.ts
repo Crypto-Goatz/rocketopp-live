@@ -63,6 +63,7 @@ export async function POST(request: NextRequest) {
       phone: data.phone,
       company: data.company,
       message: data.message,
+      honeypot: data.company_website,
       source: FormSources.CONTACT_FORM,
       formName: "Contact Form",
       pageUrl: request.headers.get("referer") || "https://rocketopp.com/contact",

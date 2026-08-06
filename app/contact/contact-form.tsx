@@ -10,6 +10,8 @@ export function ContactForm() {
     phone: "",
     company: "",
     message: "",
+    // Honeypot — hidden from humans, bots fill it. Never shown, never required.
+    company_website: "",
   })
   const [focused, setFocused] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -68,6 +70,18 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="p-8 md:p-10 rounded-3xl bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm">
+      {/* Honeypot: off-screen (not display:none, which some bots skip), removed
+          from tab order and a11y tree, autofill disabled. A filled value = bot. */}
+      <input
+        type="text"
+        name="company_website"
+        value={formData.company_website}
+        onChange={handleChange}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-px w-px overflow-hidden opacity-0"
+      />
       <h2 className="text-2xl font-bold mb-2">Get in Touch</h2>
       <p className="text-zinc-500 mb-8">Fill out the form and we'll be in touch soon.</p>
 
