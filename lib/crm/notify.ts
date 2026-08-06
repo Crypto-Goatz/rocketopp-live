@@ -10,6 +10,7 @@
 // ============================================================
 
 import { renderTemplate, formKindFromSource, type TemplateContext } from './email-templates'
+import { scoreSpam } from './spam'
 
 const CRM_API_BASE = 'https://services.leadconnectorhq.com'
 const CRM_API_VERSION = '2021-07-28'
@@ -62,6 +63,9 @@ export interface FormSubmission {
   customFields?: Record<string, string | number | boolean>
   // Free-form extras rendered into the notification email body
   extras?: Record<string, string | number | boolean | null | undefined>
+  // Hidden honeypot field — real users never fill it; bots do. Forms may pass
+  // it straight through; a non-empty value is treated as spam.
+  honeypot?: string
 }
 
 export interface NotifyResult {
@@ -71,6 +75,8 @@ export interface NotifyResult {
   mikeEmailed: boolean
   leadThanked: boolean
   error?: string
+  /** Set when the submission was blocked as spam before any CRM write. */
+  spam?: boolean
 }
 
 function crmHeaders() {
@@ -459,6 +465,22 @@ export async function sendPasswordResetEmail(
  * parallel. Partial failures are reported but never throw.
  */
 export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyResult> {
+  // Spam gate — one guard for every form on the site. A blocked submission
+  // never reaches the CRM, the webhook, or Mike's inbox. Logged (not shown to
+  // the user) so a false positive is visible and the thresholds can be tuned.
+  const verdict = scoreSpam({
+    email: sub.email,
+    firstName: sub.firstName,
+    lastName: sub.lastName,
+    fullName: sub.fullName,
+    message: sub.message,
+    honeypot: sub.honeypot,
+  })
+  if (verdict.spam) {
+    console.warn(`[CRM Notify] blocked spam (score ${verdict.score}): ${verdict.reasons.join(', ')} — ${sub.email}`)
+    return { success: false, contactId: null, webhookFired: false, mikeEmailed: false, leadThanked: false, spam: true }
+  }
+
   const contactId = await upsertLeadContact(sub)
   const [webhookFired, mikeEmailed, leadThanked] = await Promise.all([
     fireLegacyWebhook(sub),
