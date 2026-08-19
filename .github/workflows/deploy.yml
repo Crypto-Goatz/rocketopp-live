@@ -37,14 +37,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Enable corepack (pnpm support)
         # Repo has pnpm-lock.yaml so Vercel CLI invokes pnpm during build.
-        # corepack ships with Node 20+ and provisions pnpm on demand.
+        #
+        # pnpm is PINNED deliberately. This step used to say `pnpm@latest` on
+        # node-version 20; pnpm 11 dropped Node 20, so the day it shipped every
+        # deploy died with ERR_UNKNOWN_BUILTIN_MODULE. The workflow had not been
+        # touched - `latest` moved underneath it, and the repo silently stopped
+        # deploying for 17 days (2026-08-02 -> 2026-08-19). Do not un-pin.
         run: |
           corepack enable
-          corepack prepare pnpm@latest --activate
+          corepack prepare pnpm@10.15.0 --activate
           pnpm --version
 
       - name: Install Vercel CLI
