@@ -25,7 +25,7 @@ import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } fro
 import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
 import LiveActivityTicker from "@/components/live-activity-ticker"
 import TrustStrip from "@/components/trust-strip"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 import { SectionBg } from "@/components/section-bg"
 import { StatBig, StatCard, StatInline } from "@/components/home/stat"
 import RocketShieldVideo from "@/components/home/rocket-shield-video"
@@ -346,7 +346,7 @@ export default function HomePage() {
         </section>
 
         {/* Live ecosystem heartbeat — sourced from 0nCore UCP dispatch feed */}
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         {/* Curated activity — narrative complement to the live ecosystem strip */}
         <LiveActivityTicker />

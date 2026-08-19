@@ -29,7 +29,7 @@ import BlufBlock from "@/components/sxo/bluf-block"
 import IndustryVsUsTable from "@/components/sxo/industry-vs-us-table"
 import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 
 export const metadata: Metadata = {
   title: "AI Business Automation — Workflows, Agents & Ops Automation",
@@ -136,7 +136,7 @@ export default function AiAutomationPage() {
           secondaryCta={{ label: "See pricing", href: "#pricing" }}
         />
 
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         <section className="border-b border-border py-16 md:py-24">
           <div className="container px-4 md:px-6">

@@ -9,6 +9,14 @@ import { withBotId } from 'botid/next/config'
  */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  /**
+   * Stamped at build so the ecosystem strip can state an ABSOLUTE deploy date.
+   * Never render this as a relative time: these pages are statically generated,
+   * so "x ago" computed at build would freeze and lie for the life of the cache.
+   */
+  env: {
+    BUILD_TIME: new Date().toISOString(),
+  },
   turbopack: {
     // Enable for development
   },

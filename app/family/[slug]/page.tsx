@@ -34,7 +34,7 @@ import {
 import { OrganizationSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import Footer from "@/components/footer"
 import LeadCaptureForm from "@/components/family/lead-capture-form"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Activity,
@@ -213,7 +213,7 @@ export default async function FamilyDeepDivePage({ params }: PageProps) {
           </div>
         </section>
 
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         {/* ━━━ Build story ━━━ */}
         <section className="border-b border-border py-16 md:py-24">

@@ -24,7 +24,7 @@ import BlufBlock from "@/components/sxo/bluf-block"
 import IndustryVsUsTable from "@/components/sxo/industry-vs-us-table"
 import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -382,7 +382,7 @@ export default function AgenticAiAppsPage() {
         />
 
         {/* ━━━ Live ecosystem heartbeat ━━━ */}
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         {/* ━━━ The problem ━━━ */}
         <section className="border-b border-border py-16 md:py-24">

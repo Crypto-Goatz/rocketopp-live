@@ -18,7 +18,7 @@ import {
 import Footer from "@/components/footer"
 import BlufBlock from "@/components/sxo/bluf-block"
 import RelatedServices from "@/components/sxo/related-services"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 import { FAMILY_MEMBERS } from "@/lib/rocketopp-family"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -154,7 +154,7 @@ export default function ZeroNNetworkPage() {
         />
 
         {/* ━━━ Live heartbeat ━━━ */}
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         {/* ━━━ The six ━━━ */}
         <section className="border-b border-border py-16 md:py-24">

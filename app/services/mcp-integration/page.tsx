@@ -8,7 +8,7 @@ import BlufBlock from "@/components/sxo/bluf-block"
 import IndustryVsUsTable from "@/components/sxo/industry-vs-us-table"
 import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
-import UcpLiveStrip from "@/components/ucp-live-strip"
+import EcosystemStrip from "@/components/ecosystem-strip"
 
 export const metadata: Metadata = {
   title: "MCP Server Integration — Connect Your Business to 1,600+ Tools",
@@ -113,7 +113,7 @@ export default function McpIntegrationPage() {
           secondaryCta={{ label: "See 0nMCP first", href: "https://0nmcp.com" }}
         />
 
-        <UcpLiveStrip />
+        <EcosystemStrip />
 
         <section className="border-b border-border py-16 md:py-24">
           <div className="container px-4 md:px-6">
