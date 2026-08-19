@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
+import { ClickCollapseGraphic } from "@/components/click-collapse-graphic"
 import { OrganizationSchema, WebsiteSchema, FAQSchema, LocalBusinessSchema } from "@/components/seo/json-ld"
 import { VideoBackground, ROCKETOPP_HERO_VIDEO } from "@/components/video-background"
 import LiveActivityTicker from "@/components/live-activity-ticker"
@@ -355,27 +356,34 @@ export default function HomePage() {
         <section className="relative overflow-hidden border-y border-border py-20 md:py-28">
           <SectionBg variant="solid-deep" />
           <div className="container relative z-10 px-4 md:px-6">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
-                <BarChart3 className="h-4 w-4" />
-                The data
+            {/* The claim on the left, the same claim drawn on the right. */}
+            <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+              <div className="max-w-3xl">
+                <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+                  <BarChart3 className="h-4 w-4" />
+                  The data
+                </div>
+                <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
+                  Search didn&rsquo;t shrink. The click did.
+                </h2>
+                <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                  You&rsquo;ve been told Google is dying. It isn&rsquo;t —{' '}
+                  <span className="font-semibold text-foreground">
+                    16.4 billion searches a day, up from 13.7 billion
+                  </span>
+                  , and organic traffic to sites is down only 2.5% year over year. What collapsed is
+                  the click: Google now answers the question on its own page instead of sending
+                  anyone to yours.
+                </p>
+                <p className="mt-4 text-sm text-muted-foreground/70">
+                  Every figure below names its publisher and date. Verified {STATS_VERIFIED} ·{' '}
+                  {MYTH_VS_REALITY.sources}
+                </p>
               </div>
-              <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
-                Search didn&rsquo;t shrink. The click did.
-              </h2>
-              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-                You&rsquo;ve been told Google is dying. It isn&rsquo;t —{' '}
-                <span className="font-semibold text-foreground">
-                  16.4 billion searches a day, up from 13.7 billion
-                </span>
-                , and organic traffic to sites is down only 2.5% year over year. What collapsed is
-                the click: Google now answers the question on its own page instead of sending
-                anyone to yours.
-              </p>
-              <p className="mt-4 text-sm text-muted-foreground/70">
-                Every figure below names its publisher and date. Verified {STATS_VERIFIED} ·{' '}
-                {MYTH_VS_REALITY.sources}
-              </p>
+
+              <div className="mx-auto w-full max-w-[340px] lg:max-w-none">
+                <ClickCollapseGraphic />
+              </div>
             </div>
 
             <div className="reveal mt-12 grid gap-5 md:grid-cols-2">

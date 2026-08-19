@@ -53,7 +53,13 @@ jobs:
           pnpm --version
 
       - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        # PINNED EXACTLY, not to a major. 59.1.4 is what `latest` resolved to on
+        # the run that made this repo green again today, so this changes nothing
+        # now and cannot change anything later. 0nmcp.com proved the cost of the
+        # alternative twice over: `@latest` moved and killed 21 days of deploys,
+        # and pinning to `@59` afterwards did NOT help, because the regression
+        # lived inside that major.
+        run: npm install --global vercel@59.1.4
 
       - name: Pull Vercel project config + env
         run: |

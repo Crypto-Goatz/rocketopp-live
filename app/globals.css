@@ -675,3 +675,58 @@ html.js-reveal .reveal { opacity: 0; transform: translateY(18px); }
 .reading-progress-fill {
   width: var(--progress, 0%);
 }
+
+/* ── "Search didn't shrink. The click did." — app/page.tsx THE GAP section ──
+   The graphic argues the headline visually: a dense, unbroken rain of queries
+   into Google (volume is UP), an AI Overview slab that absorbs about two thirds
+   of them, and a thin trickle that still reaches your site. The demand never
+   thins; only what gets through does. Every number in it is a real figure from
+   lib/stats.ts rather than a shape chosen because it looked good.
+
+   Motion is CSS rather than SMIL so the reduced-motion gate at the bottom of
+   this file covers it like every other effect on the site. */
+@keyframes query-fall {
+  0%   { transform: translateY(0); opacity: 0; }
+  12%  { opacity: 1; }
+  100% { transform: translateY(96px); opacity: 1; }
+}
+
+/* Absorbed at the slab — the ~68% that never leave Google. */
+@keyframes query-absorb {
+  0%   { transform: translateY(0); opacity: 0; }
+  15%  { opacity: 1; }
+  78%  { opacity: 1; }
+  100% { transform: translateY(104px); opacity: 0; }
+}
+
+/* The few that make it through to your site. */
+@keyframes query-escape {
+  0%   { transform: translateY(0); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(84px); opacity: 1; }
+}
+
+@keyframes slab-pulse {
+  0%, 100% { opacity: 0.30; }
+  50%      { opacity: 0.55; }
+}
+
+.q-fall   { animation: query-fall 2.6s linear infinite; }
+.q-absorb { animation: query-absorb 2.8s ease-in infinite; }
+.q-escape { animation: query-escape 3.2s ease-out infinite; }
+.slab-pulse { animation: slab-pulse 3.4s ease-in-out infinite; }
+
+/* Per-particle stagger. Class-based because inline styles are banned in this
+   repo, and a fixed ladder of delays is all a loop of this size needs. */
+.q-d1 { animation-delay: 0.00s; }
+.q-d2 { animation-delay: 0.32s; }
+.q-d3 { animation-delay: 0.64s; }
+.q-d4 { animation-delay: 0.96s; }
+.q-d5 { animation-delay: 1.28s; }
+.q-d6 { animation-delay: 1.60s; }
+.q-d7 { animation-delay: 1.92s; }
+.q-d8 { animation-delay: 2.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .q-fall, .q-absorb, .q-escape, .slab-pulse { animation: none; }
+}
