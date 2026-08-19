@@ -62,8 +62,12 @@ jobs:
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install dependencies
-        # Use pnpm to honor the lockfile (matches what Vercel CLI expects).
-        run: pnpm install --no-frozen-lockfile
+        # Frozen: the lockfile is the truth, and drift must fail LOUD (law #5).
+        # vercel.json#installCommand pins the SAME command for the `vercel build`
+        # step - the Vercel PROJECT setting used to say `npm install
+        # --legacy-peer-deps`, an invisible third source of truth that ran npm
+        # inside a pnpm build. Do not remove it from vercel.json.
+        run: pnpm install --frozen-lockfile
 
       - name: Build with Vercel CLI
         run: |
