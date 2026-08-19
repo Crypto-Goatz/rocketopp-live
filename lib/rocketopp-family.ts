@@ -248,7 +248,7 @@ const SXOWEBSITE: FamilyMember = {
   ],
   mcpStory: [
     'The scanner is a thin web layer over a chain of 0nMCP tool calls — fetch, parse, score, store, sync to CRM, fan out to email.',
-    'The Living DOM rewrite uses 0nMCP\'s content engine + Groq llama-3.3-70b for synthesis. Same model behind every RocketOpp content workflow.',
+    'The Living DOM rewrite uses 0nMCP\'s content engine + Groq gpt-oss-120b for synthesis. Same model behind every RocketOpp content workflow.',
     'When a paid customer\'s report generates, 0nMCP coordinates: scan engine → AI prompt → content rewrite → schema injection → email delivery via CRM Conversations → contact tagging.',
   ],
   capabilities: [
@@ -308,7 +308,7 @@ const VERIFIEDSXO: FamilyMember = {
   ],
   buildStory: [
     'We built VerifiedSXO because every sales conversation now starts with a healthy skepticism of agency claims. "We grew their revenue 300%" used to be an interesting hook; in 2026 it\'s an immediate trust-killer.',
-    'The Verify Engine runs entity extraction (Groq), query planning (Groq), web search (Brave + DuckDuckGo fallback), source enrichment, and synthesis (Groq llama-3.3-70b) to produce one of five verdicts: likely_true, likely_false, unsupported, mixed, inconclusive.',
+    'The Verify Engine runs entity extraction (Groq), query planning (Groq), web search (Brave + DuckDuckGo fallback), source enrichment, and synthesis (Groq gpt-oss-120b) to produce one of five verdicts: likely_true, likely_false, unsupported, mixed, inconclusive.',
     'Every claim verified gets a public proof page at /v/[id] with full citation trail. Buyers can audit the work. Agencies can ship the badge. Same architecture as a peer-reviewed paper — but in 30 seconds.',
   ],
   mcpStory: [

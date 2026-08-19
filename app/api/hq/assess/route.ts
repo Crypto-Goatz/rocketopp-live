@@ -4,7 +4,7 @@ import { TEMPLATES, templateById, DEFAULT_THEME, FONTS, type HqTheme, type FontK
 
 export const runtime = "nodejs";
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
 function signals(html: string) {
   const pick = (re: RegExp) => (html.match(re)?.[1] || "").trim();

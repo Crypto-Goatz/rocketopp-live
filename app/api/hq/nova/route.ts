@@ -5,7 +5,7 @@ import { BLOCK_SCHEMA, type Block } from "@/lib/hq/blocks";
 
 export const runtime = "nodejs";
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
 // Nova — describe a change, the page's block model updates. Groq only.
 export async function POST(req: NextRequest) {

@@ -39,7 +39,7 @@ const ROCKETAPPOINTMENTS_URL =
 const MIKE_EMAIL = process.env.MIKE_FROM_EMAIL || 'mike@rocketopp.com'
 const MIKE_NAME = process.env.MIKE_FROM_NAME || 'Mike Mento'
 
-const GROQ_MODEL = 'llama-3.3-70b-versatile'
+const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
 
 function admin() {
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return null

@@ -16,7 +16,7 @@ import type { SelectedService, OrderContact } from '@/lib/order/order-store'
 
 export const runtime = 'nodejs'
 
-const GROQ_MODEL = 'llama-3.3-70b-versatile'
+const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
 
 interface Body {
   selected: SelectedService[]

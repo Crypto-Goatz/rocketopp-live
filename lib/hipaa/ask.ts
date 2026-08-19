@@ -2,7 +2,7 @@
  * askHipaa — single synthesis call powering /api/k/hipaa + /api/hipaa/chat.
  *
  * Migrated 2026-05-07 from direct Groq → canonical 3-stage SOP. Free CRM Agent
- * tier first (zero marginal cost), Groq llama-3.3-70b-versatile fallback,
+ * tier first (zero marginal cost), Groq openai/gpt-oss-120b fallback,
  * heuristic last. The full HIPAA knowledge base is inlined as the system
  * prompt so every answer cites 45 CFR §164 + flags 2026 NPRM deltas.
  */
@@ -132,7 +132,7 @@ function extractCitations(text: string): Array<{ rule: string; title: string }> 
 
 export async function askHipaa(input: AskHipaaInput): Promise<AskHipaaResult> {
   const start = Date.now()
-  const model = "llama-3.3-70b-versatile"
+  const model = process.env.GROQ_MODEL || "openai/gpt-oss-120b"
 
   const history = (input.history || []).slice(-8) // last 4 turns
   const userPrompt = input.context

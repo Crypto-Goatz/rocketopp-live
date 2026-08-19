@@ -20,7 +20,7 @@
  *     answer: "...",
  *     citations: [{ rule, title }],
  *     duration_ms: 1234,
- *     model: "llama-3.3-70b-versatile"
+ *     model: "openai/gpt-oss-120b"
  *   }
  *
  * Rate limit: per-key in-memory token bucket. Upgrade to Redis when we scale.

@@ -64,7 +64,7 @@ Respond in this exact JSON format (no markdown, just pure JSON):
 
   try {
     const { text } = await generateText({
-      model: groq("llama-3.3-70b-versatile"),
+      model: groq(process.env.GROQ_MODEL || "openai/gpt-oss-120b"),
       prompt,
       temperature: 0.7,
       maxTokens: 1000,

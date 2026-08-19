@@ -1,6 +1,6 @@
 /**
  * APEX system prompt — ported verbatim from the original Cloud-Run app
- * with one adjustment: Groq llama-3.3-70b outputs cleaner JSON when we're
+ * with one adjustment: Groq openai/gpt-oss-120b outputs cleaner JSON when we're
  * explicit that every response must be a single JSON object with no
  * surrounding prose. Kept the asterisk-highlight convention so the UI
  * can render accent text the same way.

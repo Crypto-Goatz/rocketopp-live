@@ -32,7 +32,7 @@ export class AIProvider {
   private model: string
 
   constructor(_config: AIConfig = {}) {
-    this.model = 'llama-3.3-70b-versatile'
+    this.model = process.env.GROQ_MODEL || 'openai/gpt-oss-120b'
   }
 
   async generate(options: GenerateOptions): Promise<GenerateResult> {

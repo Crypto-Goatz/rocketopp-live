@@ -26,7 +26,7 @@ const STEPS: Step[] = [
   { label: 'Reading schema + structured data',  detail: 'JSON-LD · llms.txt · OpenGraph · Twitter card',    Icon: Code2,       doneAt: 4000 },
   { label: 'Measuring conversion signals',      detail: 'BLUF · CTAs · forms · social proof',               Icon: BarChart3,   doneAt: 5200 },
   { label: 'Verifying trust + security',        detail: 'TLS · CSP · privacy · contact info',               Icon: ShieldCheck, doneAt: 6400 },
-  { label: 'Scoring + writing your report',     detail: 'Groq llama-3.3-70b · 0-100 score · 4 priorities', Icon: Sparkles,    doneAt: 7800 },
+  { label: 'Scoring + writing your report',     detail: 'Groq gpt-oss-120b · 0-100 score · 4 priorities', Icon: Sparkles,    doneAt: 7800 },
 ]
 
 const TOTAL_MS = STEPS[STEPS.length - 1].doneAt
