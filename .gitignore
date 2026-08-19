@@ -53,3 +53,5 @@ supabase/.temp/
 .dispatch-cache/
 
 # (auto-deploy verification 2026-08-02)
+
+package-lock.json
