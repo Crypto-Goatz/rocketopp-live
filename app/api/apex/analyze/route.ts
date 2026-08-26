@@ -7,7 +7,7 @@
  * deliberately small so downstream UI rendering stays predictable.
  *
  * Replaces the old Gemini vision call — same information shape, cheaper
- * model (Groq llama-3.2-90b-vision-preview), and runs server-side so the
+ * model (Groq qwen/qwen3.6-27b), and runs server-side so the
  * API key never leaves the server.
  */
 
@@ -17,7 +17,9 @@ export const runtime = 'nodejs'
 export const maxDuration = 60
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const GROQ_VISION_MODEL = 'llama-3.2-90b-vision-preview'
+// Groq decommissioned every Llama vision model; qwen3.6-27b is the only
+// image-capable model left on Groq (verified 2026-08-19 with a real image).
+const GROQ_VISION_MODEL = 'qwen/qwen3.6-27b'
 
 const PROMPT = `Analyze this website screenshot for a small-business website assessment.
 
