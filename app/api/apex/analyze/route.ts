@@ -18,8 +18,15 @@ export const maxDuration = 60
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
 // Groq decommissioned every Llama vision model; qwen3.6-27b is the only
-// image-capable model left on Groq (verified 2026-08-19 with a real image).
+// image-capable model left on Groq (re-verified 2026-08-26 with a real image).
 const GROQ_VISION_MODEL = 'qwen/qwen3.6-27b'
+
+// qwen3.6-27b is a THINKING model. Left to itself it emits a <think> block that
+// eats the whole max_tokens budget (measured: 600/600, finish_reason 'length',
+// no JSON at all), and the carve-out below then returns 200 with seo/mobile null
+// — a silent failure that reads as success. 'none' suppresses it: same probe
+// returned parseable JSON in 146 tokens, finish_reason 'stop'.
+const GROQ_REASONING_EFFORT = 'none'
 
 const PROMPT = `Analyze this website screenshot for a small-business website assessment.
 
@@ -56,6 +63,7 @@ export async function POST(req: NextRequest) {
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: GROQ_VISION_MODEL,
+        reasoning_effort: GROQ_REASONING_EFFORT,
         temperature: 0.3,
         max_tokens: 600,
         messages: [{
