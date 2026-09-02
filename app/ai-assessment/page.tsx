@@ -23,14 +23,36 @@ export default function AiAssessmentPage() {
             Free AI Business Assessment
           </h1>
 
-          <div className="inline-block px-6 py-3 bg-primary/10 border border-primary/30 rounded-full mb-8">
-            <p className="text-xl md:text-2xl font-semibold text-primary">Coming Soon...</p>
-          </div>
-
-          <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed">
-            We're building something amazing. Our AI-powered business assessment will analyze your industry,
-            competition, and growth opportunities to create a personalized roadmap for success.
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
+            Tell us about your business and we'll analyse your industry, your competition and where the
+            growth actually is — then send you a personalised roadmap.
           </p>
+
+          {/*
+            THE REAL FORM, replacing "Coming Soon...".
+
+            The AI Assessment form has existed in CRO9 for this site the whole
+            time this page was telling visitors to come back later, so every
+            visitor it earned was turned away at the point of highest intent.
+
+            cro9-form.js renders into this slot and owns only what is inside
+            it — inline styles, no global CSS, no document handlers — so it
+            cannot fight this page's theme. If CRO9 is unreachable the slot is
+            left exactly as it is here, which is why the fallback below is real
+            copy and not a spinner.
+
+            It is under a live A/B test on the submit wording, split by a hash
+            of the visitor id so a returning visitor always sees the same one.
+          */}
+          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-6 md:p-8 mb-8 text-left">
+            <div data-cro9-form="b6642a71-648f-4d4d-824c-b04d6bbcb19c">
+              <p className="text-muted-foreground">
+                Loading the assessment form… if it does not appear,{" "}
+                <Link href="/contact" className="text-primary underline">contact us</Link> and we will
+                run it for you.
+              </p>
+            </div>
+          </div>
 
           <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-8 mb-8">
             <h2 className="text-2xl font-semibold mb-4">What to Expect:</h2>

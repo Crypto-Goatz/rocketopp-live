@@ -161,6 +161,13 @@ export default function RootLayout({
           data-consent-mode="gdpr"
           async
         />
+        {/*
+          CRO9 embeddable forms. Renders into any <div data-cro9-form="...">
+          and does nothing at all on a page without one, which is why it can
+          load site-wide rather than per page. Kept separate from the tracker
+          on purpose: the tracker is on every page view and must stay small.
+        */}
+        <script src="https://www.cro9.com/cro9-form.js" async />
         {/* AI HQ — applies the saved global theme site-wide (no-op if unset) */}
         <HqThemeStyle />
         {/*
