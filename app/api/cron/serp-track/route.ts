@@ -28,10 +28,24 @@ export async function GET(req: NextRequest) {
     body: JSON.stringify({}),
   })
 
-  const data = await res.json().catch(() => ({}))
+  const data = (await res.json().catch(() => ({}))) as Record<string, unknown>
+
+  /*
+    `ok` IS WHETHER A RANKING WAS WRITTEN, not whether the inner call answered.
+
+    This returned `ok: res.ok` — the HTTP status of its own fetch — so it stayed
+    green for months while SerpAPI refused every keyword for quota and nothing
+    was stored. A check that can pass for a reason other than the thing it is
+    checking is not a check.
+  */
+  const written = typeof data.written === 'number' ? data.written : 0
+  if (!res.ok || written === 0) {
+    console.error(`[serp-track] wrote ${written} ranking(s); upstream ${res.status} ${JSON.stringify(data).slice(0, 300)}`)
+  }
+
   return NextResponse.json({
-    ok: res.ok,
+    ok: res.ok && written > 0,
     upstream_status: res.status,
-    ...(data as Record<string, unknown>),
+    ...data,
   })
 }

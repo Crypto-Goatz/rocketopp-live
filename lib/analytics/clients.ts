@@ -1,6 +1,5 @@
 // Analytics API Clients for GA4, Search Console, and SERP API
 
-const SERP_API_KEY = process.env.SERP_API_KEY
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
@@ -29,85 +28,65 @@ export function getDateRange(range: string = '7d') {
 }
 
 // ===========================================
-// SERP API Client (SerpApi)
+// Ranking client — Search Console, not SerpAPI
 // ===========================================
+//
+// This was a SECOND, independent SerpAPI client. lib/serp.ts wrapped the same
+// vendor for the tracker, and this one wrapped it again for the analytics
+// report — two implementations of one question, which is how they came to
+// disagree about what "position" meant (this one looked at the top 100 and
+// returned null below that; the tracker recorded whatever SerpAPI gave it).
+//
+// Both are gone. One source now: Search Console, which reports the position
+// Google actually served rather than one scrape from one location, and costs
+// nothing.
+//
+// The method names are unchanged so both callers keep working without edits.
+import { ranksForDomain } from '@/lib/gsc-rank'
+
 export const serpApi = {
   async checkRanking(keyword: string, domain: string = 'rocketopp.com') {
-    if (!SERP_API_KEY) {
-      console.warn('SERP_API_KEY not configured')
+    const { byQuery, error } = await ranksForDomain(domain)
+    if (error) {
+      // The platform's own words. A swallowed error here is how the old client
+      // returned null for "no credentials" and "you rank nowhere" alike.
+      console.error(`[ranking] search console read failed for ${domain}: ${error}`)
       return null
     }
-
-    try {
-      const params = new URLSearchParams({
-        api_key: SERP_API_KEY,
-        q: keyword,
-        location: 'United States',
-        google_domain: 'google.com',
-        gl: 'us',
-        hl: 'en',
-        num: '100', // Check top 100 results
-      })
-
-      const response = await fetch(`https://serpapi.com/search.json?${params}`)
-
-      if (!response.ok) {
-        throw new Error(`SERP API error: ${response.statusText}`)
-      }
-
-      const data = await response.json()
-
-      // Find domain in organic results
-      const organicResults = data.organic_results || []
-      let position = null
-      let url = null
-
-      for (let i = 0; i < organicResults.length; i++) {
-        const result = organicResults[i]
-        if (result.link && result.link.includes(domain)) {
-          position = i + 1
-          url = result.link
-          break
-        }
-      }
-
-      return {
-        keyword,
-        position,
-        url,
-        totalResults: data.search_information?.total_results || 0,
-        featuredSnippet: data.answer_box ? {
-          type: data.answer_box.type,
-          title: data.answer_box.title,
-          link: data.answer_box.link,
-        } : null,
-        relatedQuestions: data.related_questions?.slice(0, 5) || [],
-        topCompetitors: organicResults.slice(0, 5).map((r: any) => ({
-          position: r.position,
-          title: r.title,
-          link: r.link,
-          domain: new URL(r.link).hostname,
-        })),
-      }
-    } catch (error: any) {
-      console.error('SERP API error:', error.message)
-      return null
+    const snap = byQuery.get(keyword.toLowerCase().trim())
+    if (!snap) return null      // absent from GSC — NOT "position 101"
+    return {
+      keyword,
+      domain,
+      position: snap.position,
+      url: snap.url,
+      impressions: snap.impressions,
+      clicks: snap.clicks,
+      source: 'search-console' as const,
     }
   },
 
+  /*
+    One call for the whole set, where the old one slept a full second between
+    every keyword. Twenty keywords cost twenty seconds and twenty paid requests;
+    now they cost one request and no delay, because GSC returns every query for
+    a property at once.
+  */
   async checkMultipleKeywords(keywords: string[], domain: string = 'rocketopp.com') {
-    const results = []
-
-    for (const keyword of keywords) {
-      // Rate limit: 1 request per second
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      const result = await this.checkRanking(keyword, domain)
-      if (result) {
-        results.push(result)
-      }
+    const { byQuery, error } = await ranksForDomain(domain)
+    if (error) {
+      console.error(`[ranking] search console read failed for ${domain}: ${error}`)
+      return []
     }
-
-    return results
+    return keywords
+      .map((k) => {
+        const snap = byQuery.get(k.toLowerCase().trim())
+        return snap
+          ? { keyword: k, domain, position: snap.position, url: snap.url,
+              impressions: snap.impressions, clicks: snap.clicks, source: 'search-console' as const }
+          : null
+      })
+      .filter((r): r is NonNullable<typeof r> => r !== null)
   },
 }
 
