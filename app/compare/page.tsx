@@ -13,7 +13,8 @@ const TITLE = 'DIY Website Builders & AI Site Builders vs Hiring an Agency'
 const DESCRIPTION =
   'Honest comparisons of Wix, Squarespace, GoDaddy, WordPress, Shopify, ChatGPT, Claude, Lovable, v0 and Bolt.new against hiring a web design agency — including when you should not hire one.'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/compare` },
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
     url: `${SITE}/compare`,
     type: 'website',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/compare', metadataBase)
 }
 
 const FAQS = [

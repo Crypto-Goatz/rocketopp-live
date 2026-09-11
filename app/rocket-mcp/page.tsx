@@ -3,7 +3,8 @@ import { Rocket, Zap, Terminal, MessageSquare, Workflow, Database, CreditCard, S
 import type { Metadata } from "next"
 import Link from "next/link"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Rocket MCP - AI-Powered CRM Automation Server | Model Context Protocol",
   description: "Rocket MCP (Rocket+ MCP) is the AI-powered workflow orchestration hub. Connect Claude to your CRM with 56+ tools for contacts, courses, content, and marketing automation. Natural language control over Stripe, Shopify, GHL, and more.",
   keywords: [
@@ -44,6 +45,10 @@ export const metadata: Metadata = {
     title: "Rocket MCP - AI-Powered CRM Automation",
     description: "Connect Claude to your CRM with 56+ tools. Natural language workflow automation."
   }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/rocket-mcp', metadataBase)
 }
 
 const jsonLd = {

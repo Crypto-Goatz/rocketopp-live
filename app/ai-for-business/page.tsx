@@ -17,10 +17,15 @@ import {
   MessageSquare,
 } from "lucide-react"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "AI for Business - Transform Operations & Save Time",
   description:
     "Discover how AI can revolutionize your business beyond content generation. Learn about intelligent automation, data analysis, workflow optimization, and more.",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ai-for-business', metadataBase)
 }
 
 export default function AIForBusinessPage() {

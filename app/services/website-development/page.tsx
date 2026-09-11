@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { ServiceOfferSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Website Development — What's Included & How We Build",
   description:
     "Professional website development from $2,497. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See pricing and what's included.",
@@ -28,6 +29,10 @@ export const metadata: Metadata = {
     url: "https://rocketopp.com/services/website-development",
   },
   alternates: { canonical: "https://rocketopp.com/services/website-development" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/website-development', metadataBase)
 }
 
 const tiers = [

@@ -13,7 +13,8 @@ const TITLE = 'Can You Build a Business Website With AI? An Honest Answer'
 const DESCRIPTION =
   'A web design agency that builds its own AI tools answers the question straight: what AI genuinely does when building a website, exactly where it stops, and how to tell which side of the line you are on.'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/build-a-website-with-ai` },
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
     url: `${SITE}/build-a-website-with-ai`,
     type: 'article',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/build-a-website-with-ai', metadataBase)
 }
 
 /** What AI genuinely handles well today. */

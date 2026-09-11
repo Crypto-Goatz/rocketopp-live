@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "SEO Services | Search Engine Optimization | Get Found First",
   description: "Dominate search results with expert SEO services. Technical optimization, local SEO, content strategy, and analytics that drive organic traffic and conversions.",
   keywords: "SEO services, search engine optimization, technical SEO, local SEO, SEO audit, keyword research, link building, organic traffic, Google ranking, RocketOpp",
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/services/search-optimization",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/search-optimization', metadataBase)
 }
 
 const services = [

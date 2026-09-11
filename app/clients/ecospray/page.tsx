@@ -1,3 +1,5 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 import EcosprayHero from "./components/hero"
 import EcosprayServices from "./components/services"
 import EcosprayBenefits from "./components/benefits"
@@ -18,4 +20,8 @@ export default function EcosprayPage() {
       <EcosprayFooter />
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/clients/ecospray', {})
 }

@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Terms of Service",
   description:
     "The terms and conditions governing your use of RocketOpp's website, products, and services.",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/terms', metadataBase)
 }
 
 export default function TermsOfService() {

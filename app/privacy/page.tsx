@@ -5,9 +5,14 @@ import { ArrowLeft } from "lucide-react"
 import PrivacyPolicyTemplate from "@/components/privacy-policy-template"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Privacy Policy",
   description: "Our commitment to protecting your privacy and securing your data at RocketOpp.",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/privacy', metadataBase)
 }
 
 export default function PrivacyPolicy() {

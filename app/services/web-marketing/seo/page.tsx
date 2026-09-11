@@ -2,11 +2,16 @@ import type { Metadata } from "next"
 import { Search } from "lucide-react"
 import { ServicePageTemplate } from "@/components/order/service-page-template"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "SEO Optimization Services",
   description:
     "Traditional SEO that still moves the needle: keyword research, on-page, technical, local. Monthly retainer starting at $797/mo. Audits, content, and link building included.",
   alternates: { canonical: "https://rocketopp.com/services/web-marketing/seo" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/web-marketing/seo', metadataBase)
 }
 
 export default function SeoPage() {

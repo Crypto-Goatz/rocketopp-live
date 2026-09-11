@@ -2,11 +2,16 @@ import type { Metadata } from "next"
 import { BarChart3 } from "lucide-react"
 import { ServicePageTemplate } from "@/components/order/service-page-template"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "PPC Management — Google, Meta, LinkedIn Ads",
   description:
     "AI-managed paid ads on Google, Meta, and LinkedIn. CRO9-optimized landing pages. Real ROI tracking, weekly reports. Starting at $797/mo management fee.",
   alternates: { canonical: "https://rocketopp.com/services/web-marketing/ppc" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/web-marketing/ppc', metadataBase)
 }
 
 export default function PpcPage() {

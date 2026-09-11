@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Users, ThumbsUp, MessageSquare, TrendingUp, Target, BarChart3, Sparkles, Globe, Shield } from "lucide-react"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Social Media Marketing Services | 23 Years Experience",
   description:
     "Expert social media marketing services from RocketOpp. Drive engagement, build brand loyalty, and convert followers into customers across Facebook, Instagram, LinkedIn, TikTok, and more. Proven strategies since 2000.",
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
       "Transform your social presence with data-driven strategies. Expert social media marketing with 23 years of proven results.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/web-marketing/social-media', metadataBase)
 }
 
 const socialStrategies = [

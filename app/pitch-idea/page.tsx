@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import PitchIdeaClient from "./PitchIdeaClient"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Submit Your App Idea | Pitch Software Ideas to Developers",
   description: "Have an app idea? Submit your software concept to RocketOpp's development team. We review every submission, sign NDAs before discussions, and actively seek partnership opportunities. Specializing in AI applications.",
   keywords: [
@@ -68,6 +69,10 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/pitch-idea', metadataBase)
 }
 
 // Organization Schema

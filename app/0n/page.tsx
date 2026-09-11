@@ -23,7 +23,8 @@ import { FAMILY_MEMBERS } from "@/lib/rocketopp-family"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "The 0n Network — Every Product, One Orchestration Layer",
   description:
     "0nMCP, 0nCore, SXO Website, VerifiedSXO, Rocket+ and CRO9 — six live products sharing one orchestration layer of 1,640 tools across 111 services. All visitable, all running in production.",
@@ -48,6 +49,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/0n" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/0n', metadataBase)
 }
 
 // ━━━ Icon resolution (matches app/family/[slug]/page.tsx) ━━━━━━━━━━━━━━━━━━

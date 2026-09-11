@@ -27,7 +27,8 @@ import EcosystemStrip from "@/components/ecosystem-strip"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "SaaS Platform Development — Multi-Tenant, Billed, and Yours",
   description:
     "We build the SaaS platform you sell: multi-tenant auth, subscription billing, admin dashboards, and tenant isolation that holds. From $12,500, live in 6 weeks, you own the repo.",
@@ -54,6 +55,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/saas-platforms" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/saas-platforms', metadataBase)
 }
 
 // ━━━ Page data — content lives at the top, layout below ━━━━━━━━━━━━━━━━━━━━

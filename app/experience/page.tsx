@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import ExperiencePageClient from "./ExperiencePageClient"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "23 Years of Digital Excellence",
   description:
     "RocketOpp has been building for the web since 2003. See our portfolio, the work we've shipped, and how we approach web design, development and AI systems.",
@@ -14,6 +15,10 @@ export const metadata: Metadata = {
       "Building for the web since 2003. See our portfolio and how we work.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/experience', metadataBase)
 }
 
 export default function ExperiencePage() {

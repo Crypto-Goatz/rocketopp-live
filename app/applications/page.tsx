@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import ApplicationsPageClient from "./ApplicationsPageClient"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Applications Portfolio",
   description:
     "Explore our portfolio of custom-built AI-powered applications. From enterprise CRMs to automation solutions, see what we've built for businesses like yours.",
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
     description: "Explore our portfolio of custom-built AI-powered applications",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/applications', metadataBase)
 }
 
 export default function ApplicationsPage() {

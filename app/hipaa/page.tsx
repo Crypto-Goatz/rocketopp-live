@@ -3,7 +3,8 @@ import { HIPAALanding } from './hipaa-landing'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'HIPAA Compliance Scanner + AI Report | 15-min Delivery | From $149',
   description:
     'Free 51-point HIPAA Security Rule scan for any healthcare website. Paid AI-written report with rule-cited findings, pasteable developer fixes, and a 2026 NPRM overlay — delivered in 15 minutes. $149 to $899. No discovery calls.',
@@ -57,6 +58,10 @@ export const metadata: Metadata = {
     title: 'HIPAA Compliance Scanner + AI Report · From $149',
     description: 'Free 51-point HIPAA scan. AI-written report in 15 minutes. Rule-cited. Dev fixes. 2026 NPRM overlay.',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/hipaa', metadataBase)
 }
 
 // ---------------------------------------------------------------------------

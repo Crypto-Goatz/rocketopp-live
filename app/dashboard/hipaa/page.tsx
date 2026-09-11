@@ -4,9 +4,14 @@ import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'My HIPAA Reports',
   description: 'Open, download, or book your 0nCore-generated HIPAA readiness reports.',
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/dashboard/hipaa', metadataBase)
 }
 
 export default function Page() {

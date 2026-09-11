@@ -5,9 +5,14 @@ import { getSession } from "@/lib/auth/session"
 
 export const dynamic = "force-dynamic"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Dashboard",
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/dashboard', metadataBase)
 }
 
 // The two surfaces that actually exist. The rest of the dashboard was removed

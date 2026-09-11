@@ -24,7 +24,8 @@ import {
 import type { Metadata } from 'next'
 import Footer from '@/components/footer'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Lease-to-Own AI Software',
   description: 'Own powerful AI software through affordable monthly payments. No credit checks, no long-term contracts. Make payments and earn ownership - industry first!',
   keywords: 'lease to own software, AI software financing, affordable AI tools, software ownership, AI app payments',
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://rocketopp.com/marketplace/lease-to-own',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/marketplace/lease-to-own', metadataBase)
 }
 
 const benefits = [

@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "AI Application Development | Custom AI Solutions & Automation",
   description: "Build intelligent AI applications that transform your business. Custom chatbots, process automation, and AI tools built by experts. From concept to deployment in weeks.",
   keywords: "AI applications, artificial intelligence, AI chatbots, process automation, machine learning, AI integration, custom AI solutions, business automation, AI development, RocketOpp",
@@ -36,6 +37,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/services/ai-applications",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/ai-applications', metadataBase)
 }
 
 const services = [

@@ -28,7 +28,8 @@ import EcosystemStrip from "@/components/ecosystem-strip"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title:
     "Agentic AI Apps — AI That Does the Work, Not Just the Talking",
   description:
@@ -58,6 +59,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/agentic-ai-apps" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/agentic-ai-apps', metadataBase)
 }
 
 // ━━━ Page data — content lives at the top, layout below ━━━━━━━━━━━━━━━━━━━━

@@ -1,10 +1,16 @@
+import type { Metadata } from 'next'
 import { redirect } from "next/navigation";
 import { getHqUser } from "@/lib/hq/gate";
 import { getHqTheme } from "@/lib/hq/store";
 import RocketHQ from "@/components/hq/RocketHQ";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "AI HQ", robots: { index: false } };
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase = { title: "AI HQ", robots: { index: false } }
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/hq', metadataBase)
+};
 
 export default async function HQPage() {
   const user = await getHqUser();

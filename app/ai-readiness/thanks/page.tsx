@@ -4,9 +4,14 @@ import { CheckCircle2, Mail, Sparkles, ArrowRight, Clock } from "lucide-react"
 import Footer from "@/components/footer"
 import { SectionBg } from "@/components/section-bg"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Your AI Readiness scan is in motion",
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ai-readiness/thanks', metadataBase)
 }
 
 interface PageProps {

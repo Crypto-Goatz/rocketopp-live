@@ -6,9 +6,14 @@ import { SectionBg } from "@/components/section-bg"
 import { stripe } from "@/lib/stripe"
 import { ClearCart } from "./clear-cart"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Thanks — Your order is in",
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/checkout/success', metadataBase)
 }
 
 interface PageProps {

@@ -2,10 +2,15 @@ import { Suspense } from "react"
 import type { Metadata } from "next"
 import PersonalizedPageClient from "./PersonalizedPageClient"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Your Personalized Experience",
   description: "A custom page generated just for you based on your industry and business needs.",
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/personalized', metadataBase)
 }
 
 export default function PersonalizedPage() {

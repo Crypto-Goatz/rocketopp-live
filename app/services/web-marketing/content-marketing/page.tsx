@@ -2,11 +2,16 @@ import type { Metadata } from "next"
 import { PenTool } from "lucide-react"
 import { ServicePageTemplate } from "@/components/order/service-page-template"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Content Marketing — AI-Citation Ready",
   description:
     "Blog posts written for humans AND AI engines. SXO + schema baked in. Distributed automatically. Starting at $1,497/mo for 4 posts. Scale to 8 or 12.",
   alternates: { canonical: "https://rocketopp.com/services/web-marketing/content-marketing" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/web-marketing/content-marketing', metadataBase)
 }
 
 export default function ContentMarketingPage() {

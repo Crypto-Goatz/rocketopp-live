@@ -18,9 +18,14 @@ import { GtmBookingClient } from './booking-client'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Book Your GTM Reality Check',
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/gtm/book', metadataBase)
 }
 
 interface Props {

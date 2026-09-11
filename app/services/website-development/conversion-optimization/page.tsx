@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import ConversionOptimizationClientPage from "./ConversionOptimizationClientPage"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Conversion Rate Optimization (CRO) | AI-Powered Self-Optimizing Websites",
   description:
     "Transform visitors into customers with our AI-powered conversion optimization. Self-optimizing websites that track visitor behavior, automatically adjust content, colors, and layouts for maximum conversions.",
@@ -14,6 +15,10 @@ export const metadata: Metadata = {
       "Self-optimizing websites that automatically improve conversion rates using advanced AI and behavioral tracking.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/website-development/conversion-optimization', metadataBase)
 }
 
 export default function ConversionOptimizationPage() {

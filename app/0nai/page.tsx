@@ -4,9 +4,14 @@ import { HipaaAnimatedBackground } from '@/components/hipaa-animated-background'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: '0nAI Analytics',
   description: 'Live traffic, campaign attribution, and funnel analytics powered by the CRO9 / 0nAI engine.',
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/0nai', metadataBase)
 }
 
 export default function Page() {

@@ -7,12 +7,17 @@ import { OrderWizard } from "@/components/order/wizard-steps"
 import { QuotePanel } from "@/components/order/quote-panel"
 import { OrderSeed } from "./seed"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Get a custom quote",
   description:
     "Build your project quote in 60 seconds. Pick what you need, scope each one, get an AI-generated brief, and lock it in with a $50 refundable deposit.",
   alternates: { canonical: "https://rocketopp.com/order" },
   robots: { index: true, follow: true },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/order', metadataBase)
 }
 
 interface PageProps {

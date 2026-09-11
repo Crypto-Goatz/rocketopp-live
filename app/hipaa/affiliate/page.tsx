@@ -3,7 +3,8 @@ import { AffiliateLanding } from './affiliate-landing'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'HIPAA Partner Program — Earn 30% on Every Report',
   description:
     'Refer healthcare clients and earn 30% on every HIPAA report tier ($149 to $4,800+). Auto-signup, instant dashboard, referral link + downloads. Payouts via ACH or PayPal through RocketOpp.',
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
     images: [{ url: 'https://rocketopp.com/images/rocketopp-og.png', width: 1200, height: 630, alt: 'RocketOpp HIPAA Affiliate Program' }],
   },
   twitter: { card: 'summary_large_image', title: 'HIPAA Partner Program · 30% per report', description: 'Refer once. Get paid every time.' },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/hipaa/affiliate', metadataBase)
 }
 
 export default function Page() {

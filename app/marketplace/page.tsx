@@ -5,7 +5,8 @@ import { ArrowRight, Rocket, Bot, Zap, Sparkles, BarChart, Search, Filter } from
 import type { Metadata } from "next"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Marketplace - AI Apps & Automation Tools",
   description: "Browse and purchase AI-powered applications, automation tools, and business solutions. Buy, subscribe, or lease-to-own complete AI apps.",
   keywords: "AI marketplace, automation tools, AI apps, business software, lease to own software, AI agents",
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://rocketopp.com/marketplace",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/marketplace', metadataBase)
 }
 
 const categoryIcons: Record<string, React.ElementType> = {

@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import SeoServicesClientPage from "./SeoServicesClientPage"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Professional SEO Services | Search Engine Optimization",
   description:
     "Expert SEO services that drive organic traffic, improve search rankings, and grow your business. Technical SEO, content optimization, and proven strategies for sustainable growth.",
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
     description: "Drive organic traffic and improve search rankings with expert SEO strategies.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/website-development/seo-services', metadataBase)
 }
 
 export default function SeoServicesPage() {

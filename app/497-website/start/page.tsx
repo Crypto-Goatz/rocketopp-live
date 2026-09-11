@@ -24,12 +24,17 @@ const TITLE = 'Lock Your $497 Build Slot — Deposit & Kickoff'
 const DESCRIPTION =
   'Pay the $250 signup to reserve your $497 website build slot and book your 15-minute kickoff call. The remaining $247 is due when your site goes live.'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/497-website/start` },
   // Transactional page reached from email — no reason for search engines to index it.
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/497-website/start', metadataBase)
 }
 
 export default function StartPage() {

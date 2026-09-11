@@ -5,11 +5,16 @@ import Footer from "@/components/footer"
 import { SectionBg } from "@/components/section-bg"
 import { PRODUCTS } from "@/lib/store/products"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Store",
   description:
     "Shop RocketOpp's full catalog of AI-powered business systems. Websites, AI automation, CRM, SXO, PPC, MCP integration. Transparent prices. Add to cart and check out in under a minute.",
   alternates: { canonical: "https://rocketopp.com/store" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/store', metadataBase)
 }
 
 const ACCENT_RING: Record<string, string> = {

@@ -54,7 +54,8 @@ const ARTICLE = findFeatured('ai-search-vs-google')!
 const URL = 'https://rocketopp.com/blog/ai-search-vs-google'
 const PUBLISHED = 'July 29, 2026'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: ARTICLE.title,
   description: ARTICLE.excerpt,
   keywords: [
@@ -76,6 +77,10 @@ export const metadata: Metadata = {
     publishedTime: ARTICLE.publishedAt,
   },
   twitter: { card: 'summary_large_image', title: ARTICLE.title, description: ARTICLE.excerpt },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/blog/ai-search-vs-google', metadataBase)
 }
 
 /**

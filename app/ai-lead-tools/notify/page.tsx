@@ -7,10 +7,15 @@ import { NotifyForm } from './NotifyForm'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Notify me — AI Lead Tools',
   description: 'Get notified when this AI lead tool launches. Email-only signup; you also get a 25% launch coupon.',
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ai-lead-tools/notify', metadataBase)
 }
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ tool?: string }> }) {

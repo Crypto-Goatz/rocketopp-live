@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { redirect } from "next/navigation";
 import { getHqUser } from "@/lib/hq/gate";
 import { supabaseAdmin } from "@/lib/db/supabase";
@@ -5,7 +6,12 @@ import NovaBuilder from "@/components/hq/NovaBuilder";
 import type { HqPage } from "@/lib/hq/blocks";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "AI HQ · Nova", robots: { index: false } };
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase = { title: "AI HQ · Nova", robots: { index: false } }
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/hq/pages', metadataBase)
+};
 
 export default async function HQPagesPage() {
   const user = await getHqUser();

@@ -23,7 +23,8 @@ import Footer from '@/components/footer'
 import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 import { FAQSchema, ProductSchema } from '@/components/seo/json-ld'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Our Apps — AI-Powered Business Software',
   description: 'Explore RocketOpp\'s suite of AI-powered applications: Rocket+ for CRM automation, MCPFED for AI agent management, and BotCoaches for personalized AI coaching. Built to work while you sleep.',
   keywords: [
@@ -46,6 +47,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://rocketopp.com/apps'
   }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/apps', metadataBase)
 }
 
 // App data with external links

@@ -1,9 +1,14 @@
 import type { Metadata } from 'next'
 import { OrderForm } from './order-form'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Order your HIPAA readiness report',
   description: 'Get the full 51-point HIPAA readiness report with prioritised remediation plan — delivered to your inbox within 60 minutes.',
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/hipaa/order', metadataBase)
 }
 
 interface Props { searchParams: Promise<{ aid?: string; email?: string; company?: string }> }

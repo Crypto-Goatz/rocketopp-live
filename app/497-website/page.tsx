@@ -12,7 +12,8 @@ const SITE = 'https://rocketopp.com'
 const TITLE = `${OFFER_PRICE_DISPLAY} Website Offer — Built For You, Yours To Edit`
 const DESCRIPTION = `A complete website designed and built for your business for ${OFFER_PRICE_DISPLAY}, then handed over so you can edit and revise it yourself. Serving Greensburg, Murrysville, Monroeville and the surrounding Western PA area. New offer opens every Monday.`
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/497-website` },
@@ -22,6 +23,10 @@ export const metadata: Metadata = {
     url: `${SITE}/497-website`,
     type: 'website',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/497-website', metadataBase)
 }
 
 const FAQS = [

@@ -6,7 +6,8 @@ import Footer from "@/components/footer"
 import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import ServicesConversion from "./ServicesConversion"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Services — Web Design, AI Automation, CRM & SEO",
   description:
     "All RocketOpp services: web design and development, CRM automation, AI automation, SXO, PPC and MCP integration. Fixed quotes, no discovery calls.",
@@ -28,6 +29,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services', metadataBase)
 }
 
 const faqs = [

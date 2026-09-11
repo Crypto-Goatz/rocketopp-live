@@ -1,10 +1,16 @@
+import type { Metadata } from 'next'
 import { Sparkles, Rocket } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export const metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase = {
   title: "Free AI Business Assessment",
   description: "Get a comprehensive AI-powered assessment of your business growth opportunities.",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ai-assessment', metadataBase)
 }
 
 export default function AiAssessmentPage() {

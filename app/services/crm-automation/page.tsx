@@ -10,7 +10,8 @@ import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
 import EcosystemStrip from "@/components/ecosystem-strip"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "CRM Setup & Automation — Pipelines, Lead Scoring & Sequences",
   description:
     "Full CRM setup with automated pipelines, AI lead scoring, email + SMS sequences, appointment booking, and revenue reporting. Ships in 1 week.",
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/crm-automation" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/crm-automation', metadataBase)
 }
 
 const tiers = [

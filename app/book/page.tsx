@@ -10,11 +10,16 @@ const TITLE = 'Book a 15-Minute Call'
 const DESCRIPTION =
   'Book a free 15-minute call with RocketOpp — website design, AI search visibility and automation for Greensburg and Westmoreland County businesses. No pitch deck.'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/book` },
   openGraph: { title: TITLE, description: DESCRIPTION, url: `${SITE}/book` },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/book', metadataBase)
 }
 
 /**

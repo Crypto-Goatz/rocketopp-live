@@ -33,7 +33,8 @@ import RocketShieldVideo from "@/components/home/rocket-shield-video"
 import OfferVideoCta from "@/components/home/offer-video-cta"
 import { SEARCH_SHIFT, LOCAL_INTENT, OUR_NUMBERS, SELF_PROOF, MYTH_VS_REALITY, STATS_VERIFIED } from "@/lib/stats"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "AI Can Build a Website. It Can't Make Anyone Find It.",
   description:
     "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. Fixed quotes, no discovery-call gate.",
@@ -98,6 +99,10 @@ export const metadata: Metadata = {
   },
   category: "Technology",
   classification: "Business Software",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/', metadataBase)
 }
 
 const differentiators = [

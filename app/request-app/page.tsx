@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import RequestAppClient from "./RequestAppClient"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Request a Custom App | Pittsburgh App Development",
   description: "Request a custom mobile or web application from Pittsburgh's leading AI-powered app development agency. Get a free consultation for your iOS, Android, or web app project. Serving Pittsburgh, PA and beyond.",
   keywords: [
@@ -58,6 +59,10 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/request-app', metadataBase)
 }
 
 const jsonLd = {

@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import AiCrmClientPage from "./AiCrmClientPage"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "AI-Powered CRM | Enterprise Technology for Small Business",
   description:
     "Custom AI-powered CRM solutions starting at $5,000. Enterprise-level technology at 90% less than industry standard. Fully customized applications with built-in AI for businesses of all sizes.",
@@ -14,6 +15,10 @@ export const metadata: Metadata = {
       "Custom AI-powered CRM starting at $5,000. We're bringing enterprise technology to small businesses at 90% less than industry standard pricing.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/ai-crm', metadataBase)
 }
 
 export default function AiCrmPage() {

@@ -34,7 +34,8 @@ import EcosystemStrip from "@/components/ecosystem-strip"
 
 // ━━━ SEO Metadata ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title:
     "SXO (Search Experience Optimization) — Process, Results & AI Search Visibility",
   description:
@@ -66,6 +67,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/sxo" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/sxo', metadataBase)
 }
 
 // ━━━ Page data — content lives at the top, layout below ━━━━━━━━━━━━━━━━━━━━

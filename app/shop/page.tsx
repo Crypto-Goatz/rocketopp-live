@@ -6,7 +6,8 @@ import { PRODUCTS, CATEGORY_LABELS, productsByCategory, type ShopProduct, type P
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Shop — AI builds, HIPAA, web, marketing',
   description: 'The full RocketOpp catalog. Free Apex Assessment, HIPAA compliance scans, custom AI builds, SaaS platforms, and recurring marketing. Lock in advertised prices through guided AI onboarding.',
   alternates: { canonical: 'https://rocketopp.com/shop' },
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: 'https://rocketopp.com/images/rocketopp-og.png', width: 1200, height: 630, alt: 'RocketOpp Shop' }],
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/shop', metadataBase)
 }
 
 const CATEGORY_ORDER: ProductCategory[] = ['assessment', 'compliance', 'ai', 'saas', 'web', 'marketing']

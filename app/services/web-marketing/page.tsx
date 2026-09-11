@@ -8,7 +8,8 @@ import { LineChart, Search, BarChart2, Users, Edit3, ArrowRight, Play } from "lu
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
 import { VideoSchema, FAQSchema } from "@/components/seo/json-ld"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Strategic Web Marketing — SEO, PPC & Social Media",
   description:
     "Drive growth with RocketOpp's data-driven web marketing: SEO, PPC, Social Media, and Content Marketing strategies tailored for your success. 23 years of marketing expertise.",
@@ -31,6 +32,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/services/web-marketing"
   }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/web-marketing', metadataBase)
 }
 
 const marketingFAQs = [

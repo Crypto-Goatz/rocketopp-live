@@ -2,10 +2,15 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { Video, CheckCircle2, Clock, Zap, ArrowRight, Calendar, MessageSquare } from "lucide-react"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Book a Consultation - Free Discovery Call",
   description:
     "Schedule a free 30-minute discovery call with the RocketOpp team. Discuss your AI and automation needs and get expert guidance.",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/consultation', metadataBase)
 }
 
 export default function ConsultationPage() {

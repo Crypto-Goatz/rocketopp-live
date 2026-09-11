@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "App Development Services | Mobile & Web Applications",
   description: "Transform your ideas into powerful applications. Custom mobile apps, web applications, and SaaS products built with modern technology. From MVP to enterprise scale.",
   keywords: "app development, mobile apps, web applications, SaaS development, iOS development, Android development, React Native, cross-platform apps, custom software, RocketOpp",
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/services/app-development",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/app-development', metadataBase)
 }
 
 const services = [

@@ -3,7 +3,8 @@ import { Rocket, Zap, Clock, Brain } from "lucide-react"
 import type { Metadata } from "next"
 import { Breadcrumbs, breadcrumbPaths } from "@/components/seo/breadcrumbs"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "About Us — AI-Powered Business Automation Company",
   description: "RocketOpp builds AI-powered tools that work while you sleep. We're a team of automation experts who ship fast and eliminate busywork. Learn about our mission to transform how businesses operate.",
   keywords: [
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/about"
   }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/about', metadataBase)
 }
 
 // LocalBusiness Schema for About page

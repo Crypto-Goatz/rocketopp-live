@@ -6,7 +6,8 @@ import { LEAD_TOOLS, type LeadTool } from '@/lib/lead-tools/catalog'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'AI Lead Tools — Free Scans, Audits & Assessments',
   description: 'A library of AI-powered lead-gen tools — HIPAA scans, AI readiness audits, SXO scans, lead magnet builders, and white-label assessments. Run them in minutes. Free + paid tiers. Powered by 0nMCP.',
   alternates: { canonical: 'https://rocketopp.com/ai-lead-tools' },
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
     images: [{ url: 'https://rocketopp.com/images/rocketopp-og.png', width: 1200, height: 630, alt: 'RocketOpp AI Lead Tools' }],
   },
   twitter: { card: 'summary_large_image', title: 'AI Lead Tools — RocketOpp', description: 'Free + paid AI scans, audits & assessments. Powered by 0nMCP.' },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ai-lead-tools', metadataBase)
 }
 
 const STATUS_ORDER: Record<LeadTool['status'], number> = { live: 0, beta: 1, soon: 2 }

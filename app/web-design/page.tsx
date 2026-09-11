@@ -14,7 +14,8 @@ const TITLE = 'Web Design & Development Near Greensburg, Murrysville & Monroevil
 const DESCRIPTION =
   'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Fixed quotes, no discovery calls.'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: `${SITE}/web-design` },
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
     url: `${SITE}/web-design`,
     type: 'website',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/web-design', metadataBase)
 }
 
 const FAQS = [

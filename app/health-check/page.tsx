@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { HealthCheckWizard } from './wizard'
 import Footer from '@/components/footer'
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: 'Free Stack Health Audit',
   description:
     'Run the CRO9 Stack Health Audit on your live website. Deep infrastructure, TLS, headers, framework, and security-path checks. Letter grade + remediation roadmap emailed in minutes.',
@@ -12,6 +13,10 @@ export const metadata: Metadata = {
     description: 'Deep website audit. Infrastructure, TLS, headers, frameworks, exposed paths. Letter grade in minutes.',
     url: 'https://rocketopp.com/health-check',
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/health-check', metadataBase)
 }
 
 export default function HealthCheckPage() {

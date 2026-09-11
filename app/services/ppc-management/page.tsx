@@ -10,7 +10,8 @@ import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
 import EcosystemStrip from "@/components/ecosystem-strip"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "PPC Management — AI-Optimized Google, Meta & LinkedIn Ads",
   description:
     "Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, X, TikTok — one team, real ROI, no long-term contracts.",
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/ppc-management" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/ppc-management', metadataBase)
 }
 
 const tiers = [

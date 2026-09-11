@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Footer from "@/components/footer"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "SOP Automation | Standard Operating Procedures | Systems That Scale",
   description: "Transform chaotic processes into streamlined systems. We document, automate, and train your team on SOPs that actually work. AI-powered workflow automation that scales your business.",
   keywords: "SOP automation, standard operating procedures, business process automation, workflow automation, process documentation, team training, AI automation, business systems, operational efficiency, RocketOpp",
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://rocketopp.com/services/sop-automation",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/sop-automation', metadataBase)
 }
 
 const services = [

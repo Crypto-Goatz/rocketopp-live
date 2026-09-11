@@ -22,7 +22,8 @@ import {
   Workflow,
 } from "lucide-react"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Rocket Clients | All-In-One Marketing & Sales Automation Platform",
   description:
     "Rocket Clients is a complete CRM, email marketing, funnel building, AI chatbot, and automation platform. Replace 10+ tools with one powerful solution. Built for agencies and growing businesses.",
@@ -33,6 +34,10 @@ export const metadata: Metadata = {
     description: "Replace 10+ tools with one powerful platform. CRM, email, funnels, chatbots, and more.",
     type: "website",
   },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/rocket-clients', metadataBase)
 }
 
 const features = [

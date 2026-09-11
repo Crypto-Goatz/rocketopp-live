@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 // ============================================================
 // RocketOpp Blog - Premium Design with Luna Crush Aesthetic
 // ============================================================
@@ -24,9 +25,14 @@ import {
   ArrowUpRight
 } from 'lucide-react'
 
-export const metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase = {
   title: 'Insights & Intelligence — Blog',
   description: 'Deep dives into AI, automation, and digital transformation. Expert analysis and actionable strategies to accelerate your business growth.',
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/blog', metadataBase)
 }
 
 export const revalidate = 60 // Revalidate every minute for fresh content

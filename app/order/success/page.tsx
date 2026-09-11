@@ -13,9 +13,14 @@ import { SectionBg } from "@/components/section-bg"
 import { stripe } from "@/lib/stripe"
 import { ResetOrder } from "./reset-order"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "Deposit confirmed — book your kickoff",
   robots: { index: false, follow: false },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/order/success', metadataBase)
 }
 
 interface PageProps {

@@ -10,7 +10,8 @@ import ProcessTimeline from "@/components/sxo/process-timeline"
 import RelatedServices from "@/components/sxo/related-services"
 import EcosystemStrip from "@/components/ecosystem-strip"
 
-export const metadata: Metadata = {
+import { withCro9Meta } from '@/lib/cro9-meta'
+const metadataBase: Metadata = {
   title: "MCP Server Integration — Connect Your Business to 1,600+ Tools",
   description:
     "Plug your business into 0nMCP — the largest interconnected MCP server. 1,640+ tools across 111 services accessible to any AI agent in your stack. From $1,997. Ships in 1 week.",
@@ -38,6 +39,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: { canonical: "https://rocketopp.com/services/mcp-integration" },
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services/mcp-integration', metadataBase)
 }
 
 const tiers = [
