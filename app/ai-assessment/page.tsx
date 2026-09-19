@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 import { withCro9Meta } from '@/lib/cro9-meta'
+import { Cro9Block } from '@/lib/cro9-blocks'
+
+/*
+  CRO9 writes this page's metadata and its FAQ region. Both are PULLED at
+  render, so without a revalidate window this statically-generated page would
+  bake whatever was true at deploy and never pick either up again — which is
+  exactly what happened on 2026-09-19: CRO9 stored a new title, reported
+  verified:false, and the live page kept the old one because it had not been
+  rebuilt. The inner fetch's own revalidate cannot help; the PAGE has to
+  re-render for generateMetadata to run at all.
+*/
+export const revalidate = 3600
 const metadataBase = {
   title: "Free AI Business Assessment",
   description: "Get a comprehensive AI-powered assessment of your business growth opportunities.",
@@ -13,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return withCro9Meta('/ai-assessment', metadataBase)
 }
 
-export default function AiAssessmentPage() {
+export default async function AiAssessmentPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-primary/5">
       <div className="container mx-auto px-4 py-24 md:py-32">
@@ -94,6 +106,15 @@ export default function AiAssessmentPage() {
               <Link href="/services">Explore Our Services</Link>
             </Button>
           </div>
+
+          {/* CRO9-managed regions. Each renders nothing until CRO9 has approved
+              copy for this path and slot, so they are safe to place ahead of
+              the content existing. */}
+          <Cro9Block
+            path="/ai-assessment"
+            slot="faq"
+            className="mt-20 text-left prose prose-invert max-w-none prose-headings:font-semibold prose-h2:text-2xl prose-h3:text-lg prose-p:text-muted-foreground"
+          />
         </div>
       </div>
     </div>
