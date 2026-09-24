@@ -153,12 +153,28 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        {/* CRO9 conversion tracking (agency: mike@rocketopp.com) */}
+        {/*
+          CRO9 conversion tracking (agency: mike@rocketopp.com)
+
+          consent-mode was "gdpr" from 2026-06-26 until 2026-09-24, and in that
+          mode the tracker sets status='pending', shows a banner and sends
+          NOTHING until someone clicks accept. Measured: this site's CRO9 row
+          held 1,504 events and ZERO of them came from rocketopp.com — three
+          months of a tag that was present in the markup, loaded fine, and
+          never delivered a single page view. Nothing reported it, because
+          "installed" was defined as "any event row exists" and this row was
+          full of somebody else's traffic.
+
+          RocketOpp LLC is a Western PA business, so "ccpa" is the correct
+          mode: track by default, and honour a Global Privacy Control signal
+          from the browser. NOT "disabled" — that tracks regardless of GPC, and
+          the tracker's own header reserves it for "use only where legal".
+        */}
         <script
           src="https://www.cro9.com/cro9-tracker.js"
           data-api-key="cro9_6b7b63c6bf189906887805bd64c4330ad76dc10dc2db229b"
           data-endpoint="https://www.cro9.com/api/track/collect"
-          data-consent-mode="gdpr"
+          data-consent-mode="ccpa"
           async
         />
         {/*
