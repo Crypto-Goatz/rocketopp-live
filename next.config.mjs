@@ -38,13 +38,37 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
+            /*
+              THIS CSP SILENTLY BLOCKED EVERY ANALYTICS SCRIPT ON THE SITE.
+
+              Measured 2026-09-24 in a real browser: the CRO9 tracker tag was
+              present in the DOM with the correct key, and `window.CRO9` was
+              undefined — the script never executed, because `script-src` did not
+              list www.cro9.com. The CRO9 row for rocketopp.com held 1,504 events
+              and ZERO from rocketopp.com since 2026-06-26.
+
+              It was never only CRO9. `script-src 'self'` also blocked
+              googletagmanager.com (GA4 + GTM) and clarity.ms, all three of which
+              this layout loads via AnalyticsProvider. The site has been measuring
+              NOTHING, by any tool, for three months.
+
+              A CSP failure is visible only as a console message, and console
+              errors are not a surface anyone checks — so a tag that is present,
+              correct, and completely inert looks exactly like a working install.
+              If an analytics host is ever added to the app, it MUST be added here
+              in the same commit or it is dead on arrival.
+
+              Kept deliberately narrow: named hosts only, no wildcards beyond the
+              vercel/clarity subdomains that genuinely need them.
+            */
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel.app",
+              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel.app https://www.cro9.com https://www.googletagmanager.com https://www.clarity.ms",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https: http:",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://*.vercel.app https://api.groq.com https://*.blob.vercel-storage.com wss://*.vercel.app",
+              "connect-src 'self' https://*.vercel.app https://api.groq.com https://*.blob.vercel-storage.com wss://*.vercel.app https://www.cro9.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms",
+              "frame-src 'self' https://www.googletagmanager.com",
               "frame-ancestors 'self'",
               "form-action 'self'",
               "base-uri 'self'",
