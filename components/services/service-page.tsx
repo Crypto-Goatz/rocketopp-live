@@ -15,7 +15,7 @@ import "./service.css"
  * and the small pointer-tilt island on the example sites. No infinite animations, no backdrop-filter, no blend modes —
  * Mike's 2018 MacBook Pro froze on the old pages, so nothing here may cost the main thread or GPU at rest.
  */
-const display = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["500", "600", "700", "800"], variable: "--sv-display", display: "swap" })
+const display = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--sv-display", display: "swap" })
 const SITE = "https://rocketopp.com"
 
 function StatCard({ value, label, source, url }: MainService["stats"][number]) {
