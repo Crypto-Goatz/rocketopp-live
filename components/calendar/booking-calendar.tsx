@@ -243,6 +243,8 @@ export default function BookingCalendar({
       const res = await fetch('/api/calendar/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        // Never leave someone on a spinner: the catch below shows the phone number.
+        signal: AbortSignal.timeout(25_000),
         body: JSON.stringify({
           calendar,
           purpose,
@@ -254,7 +256,7 @@ export default function BookingCalendar({
           notes,
         }),
       })
-      const json = await res.json()
+      const json = await res.json().catch(() => ({}))
 
       if (res.status === 409) {
         // Slot went while the form was open. Drop it, refresh, and send them back
@@ -277,7 +279,7 @@ export default function BookingCalendar({
       setConfirmed(json.display || timeLabel(selectedSlot, tz))
       goto('done')
     } catch {
-      setFormError('Could not reach us. Please call (878) 888-1230.')
+      setFormError('Could not reach us. Please call (878) 888-1230 or email mike@rocketopp.com.')
     } finally {
       setSubmitting(false)
     }

@@ -79,6 +79,12 @@ export async function POST(request: NextRequest) {
 
     console.log('[Assessment Submit] notify result:', result)
 
+    // Nothing stored, nothing in the CRM, nothing in Mike's inbox: say so, so the
+    // form shows the phone/email fallback instead of a false "thank you".
+    if (!result.received && !result.spam) {
+      return NextResponse.json({ success: false, error: "We couldn't save your submission" }, { status: 502 })
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Assessment submitted successfully',

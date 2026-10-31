@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 export function NotifyForm({ toolSlug, toolName }: { toolSlug: string; toolName: string }) {
   const [email,    setEmail]    = useState('')
@@ -14,18 +15,10 @@ export function NotifyForm({ toolSlug, toolName }: { toolSlug: string; toolName:
     e.preventDefault()
     setBusy(true); setErr(null)
     try {
-      const r = await fetch('/api/ai-lead-tools/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, toolSlug, toolName }),
-      })
-      if (!r.ok) {
-        const d = await r.json().catch(() => ({}))
-        throw new Error(d?.error || 'submit_failed')
-      }
+      await postForm('/api/ai-lead-tools/notify', { email, name, toolSlug, toolName })
       setDone(true)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'submit_failed')
+      setErr(formErrorMessage(e))
     } finally {
       setBusy(false)
     }

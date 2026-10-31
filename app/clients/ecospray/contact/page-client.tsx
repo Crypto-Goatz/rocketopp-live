@@ -7,9 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import EcosprayFooter from "../components/footer"
+import { postForm } from '@/lib/forms/post-form'
 
 export default function EcosprayContactPage() {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>('idle')
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,13 +24,11 @@ export default function EcosprayContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormState('loading')
+    setSubmitError(null)
 
     try {
       const nameParts = formData.name.trim().split(' ')
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      await postForm('/api/leads', {
           firstName: nameParts[0] || '',
           lastName: nameParts.slice(1).join(' ') || '',
           email: formData.email,
@@ -42,13 +42,13 @@ export default function EcosprayContactPage() {
             square_footage: formData.squareFootage,
             project_description: formData.message,
           },
-        }),
       })
+      setFormState('success')
     } catch (error) {
       console.error('Ecospray form submission failed:', error)
+      setSubmitError(`${error instanceof Error ? error.message : 'Something went wrong'} — please call or email us and we'll get you a quote.`)
+      setFormState('idle')
     }
-
-    setFormState('success')
   }
 
   return (
@@ -270,6 +270,9 @@ export default function EcosprayContactPage() {
                     />
                   </div>
 
+                  {submitError && (
+                    <p role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">{submitError}</p>
+                  )}
                   <Button
                     type="submit"
                     disabled={formState === 'loading'}

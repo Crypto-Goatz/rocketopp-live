@@ -83,18 +83,22 @@ export async function POST(request: NextRequest) {
       phone: data.phone,
       company: data.company,
       message: data.message,
-      honeypot: data.company_website,
+      // rk_hp is the renamed trap field (company_website was autofilled by browsers); accept both while old tabs exist.
+      honeypot: data.rk_hp ?? data.company_website,
+      submissionId: lead?.id,
+      userAgent: request.headers.get("user-agent"),
       source: form.source === "free_website" ? "rocketopp-free-website" : FormSources.CONTACT_FORM,
       formName: form.formName,
       pageUrl: request.headers.get("referer") || "https://rocketopp.com/contact",
       tags: form.tags,
     })
 
-    if (lead?.id && result.contactId) {
-      await supabase
-        .from("contact_submissions")
-        .update({ ghl_contact_id: result.contactId })
-        .eq("id", lead.id)
+    // notifyFormSubmission writes the CRM id / failure reason back onto this row.
+    if (!lead?.id && !result.received) {
+      return NextResponse.json(
+        { success: false, error: "We couldn't save your message" },
+        { status: 502 }
+      )
     }
 
     return NextResponse.json({

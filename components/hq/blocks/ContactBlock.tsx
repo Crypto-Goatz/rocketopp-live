@@ -4,19 +4,24 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { postForm, formErrorMessage } from "@/lib/forms/post-form";
 
 export default function ContactBlock({ p, pageId }: { p: Record<string, unknown>; pageId?: string }) {
   const s = (k: string) => (p[k] as string) || "";
   const [f, setF] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    setErr(null);
     try {
-      await fetch("/api/hq/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...f, pageId }) }).catch(() => {});
+      await postForm("/api/hq/lead", { ...f, pageId });
       setSent(true);
+    } catch (e) {
+      setErr(formErrorMessage(e));
     } finally { setBusy(false); }
   }
 
@@ -31,6 +36,7 @@ export default function ContactBlock({ p, pageId }: { p: Record<string, unknown>
           <Input required placeholder="Your name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
           <Input required type="email" placeholder="Email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
           <Textarea rows={4} placeholder="How can we help?" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} />
+          {err ? <p role="alert" className="text-sm text-destructive">{err}</p> : null}
           <Button type="submit" disabled={busy} className="w-full">{busy ? "Sending…" : (s("buttonLabel") || "Send message")}</Button>
         </form>
       )}

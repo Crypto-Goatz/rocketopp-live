@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { postForm, formErrorMessage } from "@/lib/forms/post-form"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -53,10 +54,7 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
   const handleSendDetails = async () => {
     // Send to leads API
     try {
-      await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await postForm("/api/leads", {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -64,15 +62,18 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
           service: formData.service,
           project: formData.project,
           source: "inquiry-modal",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
           formName: "Inquiry Modal",
           tags: ["Website Lead", "Inquiry", formData.service].filter(Boolean),
           customFields: {
             selected_app: selectedApp || "",
           },
-        }),
       })
     } catch (error) {
+      // Do not send them to a thank-you page for a message that never arrived.
       console.error("[InquiryModal] Failed to send lead:", error)
+      window.alert(formErrorMessage(error))
+      return
     }
 
     const params = new URLSearchParams({
@@ -92,10 +93,7 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
   const handleStartAssessment = async () => {
     // Send to leads API
     try {
-      await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await postForm("/api/leads", {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -108,10 +106,12 @@ export function InquiryModal({ isOpen, onClose, selectedApp }: InquiryModalProps
           customFields: {
             selected_app: selectedApp || "",
           },
-        }),
       })
     } catch (error) {
+      // Do not send them to a thank-you page for a message that never arrived.
       console.error("[InquiryModal] Failed to send lead:", error)
+      window.alert(formErrorMessage(error))
+      return
     }
 
     const params = new URLSearchParams({

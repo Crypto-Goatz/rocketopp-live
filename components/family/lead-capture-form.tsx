@@ -9,6 +9,7 @@
  */
 
 import { useState } from "react"
+import { postForm, formErrorMessage } from "@/lib/forms/post-form"
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react"
 
 interface LeadCaptureFormProps {
@@ -44,10 +45,7 @@ export default function LeadCaptureForm({
     setSubmitting(true)
     setError(null)
     try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await postForm("/api/leads", {
           firstName,
           email,
           phone: phone || undefined,
@@ -55,15 +53,10 @@ export default function LeadCaptureForm({
           formName: `${familyName} Deep-Dive`,
           pageUrl: typeof window !== "undefined" ? window.location.href : `https://rocketopp.com/family/${familySlug}`,
           tags: ["RocketOpp Family", `family-${familySlug}`, ...tags],
-        }),
       })
-      if (!res.ok) {
-        const j = await res.json().catch(() => ({}))
-        throw new Error(j.error || `Server returned ${res.status}`)
-      }
       setDone(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong — try again or email mike@rocketopp.com")
+      setError(formErrorMessage(err))
     } finally {
       setSubmitting(false)
     }

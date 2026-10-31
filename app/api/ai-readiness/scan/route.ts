@@ -17,6 +17,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { notifyFormSubmission } from '@/lib/crm/notify'
 import { waitUntil } from '@vercel/functions'
 import { createClient } from '@supabase/supabase-js'
 import { buildReportPdf, uploadPdfToCrm } from '@/lib/ai-readiness/pdf'
@@ -438,12 +439,26 @@ export async function POST(req: NextRequest) {
     // report/CRM/email step silently never ran for some share of submissions —
     // and because failures only hit console.error, it failed invisibly.
     // waitUntil keeps the invocation alive until the work settles.
-    const fulfillment = backgroundFulfill(
-      row.id as string,
-      email,
-      domain,
-      supabase,
-    ).catch((e) => console.error('[ai-readiness] background fulfill error', e))
+    const fulfillment = Promise.all([
+      backgroundFulfill(
+        row.id as string,
+        email,
+        domain,
+        supabase,
+      ).catch((e) => console.error('[ai-readiness] background fulfill error', e)),
+      // Tell Mike (and store in contact_submissions). The visitor gets the report
+      // email from backgroundFulfill, so no generic thank-you here.
+      notifyFormSubmission({
+        email,
+        source: 'rocketopp-ai-readiness-scan',
+        formName: `AI Readiness Scan (${body.source || 'exit-intent'})`,
+        pageUrl: req.headers.get('referer') || 'https://rocketopp.com',
+        tags: ['Website Lead', 'AI Readiness Scan'],
+        extras: { domain, scan_id: row.id as string, report: `https://rocketopp.com/ai-readiness/${row.id}` },
+        thankLead: false,
+        userAgent: req.headers.get('user-agent'),
+      }).catch((e) => console.error('[FORM NOTIFY FAILED] ai-readiness notify threw', e)),
+    ])
 
     try {
       waitUntil(fulfillment)

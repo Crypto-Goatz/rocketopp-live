@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, ArrowLeft, CheckCircle2, Globe, Shield, Code, Search, Clock, Network, Mail, Loader2 } from 'lucide-react'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 type Step = 1 | 2 | 3 | 4
 
@@ -61,24 +62,16 @@ export function HealthCheckWizard() {
     if (!emailOk) { setError('Enter a valid email'); return }
     setSubmitting(true)
     try {
-      const r = await fetch('/api/health-audit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      await postForm('/api/health-audit', {
           url: cleanedUrl,
           categories: Array.from(selected),
           firstName,
           email,
           company,
-        }),
-      })
-      if (!r.ok) {
-        const j = await r.json().catch(() => ({}))
-        throw new Error(j.error || 'Submission failed')
-      }
+      }, { timeoutMs: 45_000 })
       setStep(4)
-    } catch (e: any) {
-      setError(e.message || 'Something went wrong')
+    } catch (e) {
+      setError(formErrorMessage(e))
     } finally {
       setSubmitting(false)
     }

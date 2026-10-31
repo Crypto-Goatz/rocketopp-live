@@ -48,9 +48,13 @@ export function scoreSpam(input: SpamCheckInput): SpamVerdict {
   const reasons: string[] = []
   let score = 0
 
-  // Honeypot is decisive on its own.
+  // Honeypot: +2, NOT decisive. Measured 2026-10-31: Mike's own real contact
+  // form submission was dropped as "honeypot filled" because browser autofill
+  // filled the hidden field — the lead was stored but never reached the CRM or
+  // his inbox. A bot that fills the trap almost always trips a second signal too.
   if (input.honeypot && input.honeypot.trim() !== '') {
-    return { spam: true, score: 100, reasons: ['honeypot filled'] }
+    score += 2
+    reasons.push('honeypot filled')
   }
 
   const email = (input.email || '').trim().toLowerCase()

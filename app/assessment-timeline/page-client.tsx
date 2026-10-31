@@ -7,6 +7,7 @@ import { Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Footer from "@/components/footer"
+import { postForm } from "@/lib/forms/post-form"
 
 const timelineOptions = [
   {
@@ -40,10 +41,7 @@ export default function AssessmentTimelinePage() {
     if (!selectedTimeline) return
 
     try {
-      await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await postForm("/api/leads", {
           firstName: searchParams.get("firstName") || "",
           email: searchParams.get("email") || "",
           source: "rocketopp-ai-assessment",
@@ -53,8 +51,7 @@ export default function AssessmentTimelinePage() {
           customFields: {
             project_timeline: selectedTimeline,
           },
-        }),
-      })
+      }, { timeoutMs: 15_000 })
     } catch (error) {
       console.error("Failed to send assessment timeline:", error)
     }

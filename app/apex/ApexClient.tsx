@@ -22,6 +22,7 @@ import type {
   AppState, Assessment, ChatMsg, Collected, Competitor, InfoStep,
   Insight, Personalization, Turn,
 } from '@/components/apex/types'
+import { postForm } from '@/lib/forms/post-form'
 
 const TOTAL_STEPS = 7
 const INDUSTRY_OPTIONS = ['Home Services', 'Restaurant', 'Retail', 'Automotive', 'Professional Services']
@@ -327,17 +328,14 @@ export function ApexClient() {
       const blobUrl = URL.createObjectURL(doc.output('blob'))
       setBlueprintUrl(blobUrl)
 
-      await fetch('/api/apex/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      // Never hang the outro on the network; the route stores + notifies server-side.
+      await postForm('/api/apex/lead', {
           name: info.name, email: info.email, phone: info.phone,
           company: personalization.company, website: personalization.website,
           zipCode: personalization.zipCode, industry: personalization.industry,
           blueprintUrl: null,
           assessment, conversation: collected,
-        }),
-      }).catch(() => {})
+      }, { timeoutMs: 20_000 }).catch((err) => console.error('[Apex] lead not sent:', err))
 
       setTimeout(() => setAppState('outro'), 1200)
     } catch {

@@ -8,6 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { notifyFormSubmission } from '@/lib/crm/notify'
 
 export const runtime = 'nodejs'
 
@@ -51,15 +52,29 @@ export async function POST(req: NextRequest) {
     intent:        'price_lock',
   }
 
-  try {
-    const r = await fetch(WEBHOOK, {
+  const [hook, result] = await Promise.all([
+    fetch(WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15_000),
-    })
-    return NextResponse.json({ ok: r.ok, status: r.status })
-  } catch (err) {
-    return NextResponse.json({ ok: false, error: err instanceof Error ? err.message : 'unknown' }, { status: 502 })
+    }).then((r) => r.ok).catch((err) => { console.error('[onboarding/lock-in] webhook failed:', err); return false }),
+    notifyFormSubmission({
+      email: body.email,
+      fullName: body.name,
+      phone: body.phone || undefined,
+      message: body.notes || undefined,
+      service: body.productName || body.productSlug,
+      source: 'rocketopp-onboarding-lock-in',
+      formName: `Onboarding Lock-In — ${body.productName || body.productSlug}`,
+      pageUrl: req.headers.get('referer') || `https://rocketopp.com/onboarding/${body.productSlug}`,
+      tags: ['Website Lead', 'Onboarding Lock-In', `product:${body.productSlug}`],
+      extras: { product: body.productName || body.productSlug, price: body.priceLabel || '', recurring: body.recurring || '' },
+      userAgent: req.headers.get('user-agent'),
+    }),
+  ])
+  if (!hook && !result.received) {
+    return NextResponse.json({ ok: false, error: "We couldn't save your request" }, { status: 502 })
   }
+  return NextResponse.json({ ok: true })
 }

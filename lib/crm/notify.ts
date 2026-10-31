@@ -11,6 +11,7 @@
 
 import { renderTemplate, formKindFromSource, type TemplateContext } from './email-templates'
 import { scoreSpam } from './spam'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 const CRM_API_BASE = 'https://services.leadconnectorhq.com'
 const CRM_API_VERSION = '2021-07-28'
@@ -64,8 +65,14 @@ export interface FormSubmission {
   // Free-form extras rendered into the notification email body
   extras?: Record<string, string | number | boolean | null | undefined>
   // Hidden honeypot field — real users never fill it; bots do. Forms may pass
-  // it straight through; a non-empty value is treated as spam.
+  // it straight through; a non-empty value counts toward the spam score (it is
+  // no longer decisive alone: browser autofill fills it for real people).
   honeypot?: string
+  /** Row already written to contact_submissions by the route — update it instead of inserting a second one. */
+  submissionId?: string
+  /** Set false when the route sends the visitor its own email (a report, a booking confirmation). Default true. */
+  thankLead?: boolean
+  userAgent?: string | null
 }
 
 export interface NotifyResult {
@@ -77,6 +84,19 @@ export interface NotifyResult {
   error?: string
   /** Set when the submission was blocked as spam before any CRM write. */
   spam?: boolean
+  /** contact_submissions row id, when the submission was stored. */
+  submissionId?: string | null
+  /** True when the submission is safely somewhere: stored, in the CRM, or in Mike's inbox. */
+  received: boolean
+}
+
+/**
+ * Every outbound call in this file gets a hard 10 s ceiling. Without it a slow
+ * CRM answer held the route open until the visitor's browser gave up, and the
+ * submission looked lost even when it was not.
+ */
+function crmFetch(input: string, init: RequestInit = {}): Promise<Response> {
+  return fetch(input, { ...init, signal: init.signal ?? AbortSignal.timeout(10_000) })
 }
 
 function crmHeaders() {
@@ -102,7 +122,7 @@ async function resolveCustomFieldId(name: string): Promise<string | null> {
   if (!LOCATION_PIT) return null
 
   try {
-    const listRes = await fetch(
+    const listRes = await crmFetch(
       `${CRM_API_BASE}/locations/${LOCATION_ID}/customFields`,
       { headers: crmHeaders() },
     )
@@ -118,7 +138,7 @@ async function resolveCustomFieldId(name: string): Promise<string | null> {
     }
 
     // Not found — create it as a TEXT field on the contact model.
-    const createRes = await fetch(
+    const createRes = await crmFetch(
       `${CRM_API_BASE}/locations/${LOCATION_ID}/customFields`,
       {
         method: 'POST',
@@ -170,7 +190,7 @@ async function upsertLeadContact(sub: FormSubmission): Promise<string | null> {
   // submission, so the field always reflects the most recent interest.
   const customFields = await buildContactCustomFields(sub.customFields)
   try {
-    const res = await fetch(`${CRM_API_BASE}/contacts/upsert`, {
+    const res = await crmFetch(`${CRM_API_BASE}/contacts/upsert`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -200,7 +220,7 @@ async function upsertLeadContact(sub: FormSubmission): Promise<string | null> {
 async function findContactByEmail(email: string): Promise<string | null> {
   if (!LOCATION_PIT) return null
   try {
-    const res = await fetch(
+    const res = await crmFetch(
       `${CRM_API_BASE}/contacts/search/duplicate?locationId=${LOCATION_ID}&email=${encodeURIComponent(email)}`,
       { headers: crmHeaders() }
     )
@@ -216,7 +236,7 @@ async function ensureMikeContact(): Promise<string | null> {
   const existing = await findContactByEmail(MIKE_EMAIL)
   if (existing) return existing
   try {
-    const res = await fetch(`${CRM_API_BASE}/contacts/upsert`, {
+    const res = await crmFetch(`${CRM_API_BASE}/contacts/upsert`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -277,7 +297,7 @@ async function emailMike(sub: FormSubmission): Promise<boolean> {
   if (!mikeId) return false
   const { subject, html } = buildEmailBody(sub)
   try {
-    const res = await fetch(`${CRM_API_BASE}/conversations/messages`, {
+    const res = await crmFetch(`${CRM_API_BASE}/conversations/messages`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -326,7 +346,7 @@ async function fireLegacyWebhook(sub: FormSubmission): Promise<boolean> {
       notification_email: MIKE_EMAIL,
       site_name: 'RocketOpp',
     }
-    const res = await fetch(LEGACY_WEBHOOK_URL, {
+    const res = await crmFetch(LEGACY_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -347,7 +367,7 @@ async function sendThankYou(sub: FormSubmission, leadContactId: string | null): 
   }
   const { subject, html, text } = renderTemplate(kind, ctx)
   try {
-    const res = await fetch(`${CRM_API_BASE}/conversations/messages`, {
+    const res = await crmFetch(`${CRM_API_BASE}/conversations/messages`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -390,7 +410,7 @@ export async function sendPasswordResetEmail(
   const lastName = name?.split(' ').slice(1).join(' ') || ''
   let contactId: string | null = null
   try {
-    const res = await fetch(`${CRM_API_BASE}/contacts/upsert`, {
+    const res = await crmFetch(`${CRM_API_BASE}/contacts/upsert`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -435,7 +455,7 @@ export async function sendPasswordResetEmail(
   const text = `Reset your RocketOpp password\n\nWe received a request to reset your password. Open this link to choose a new password (expires in 1 hour):\n\n${resetUrl}\n\nIf you didn't request this, ignore this email.`
 
   try {
-    const res = await fetch(`${CRM_API_BASE}/conversations/messages`, {
+    const res = await crmFetch(`${CRM_API_BASE}/conversations/messages`, {
       method: 'POST',
       headers: crmHeaders(),
       body: JSON.stringify({
@@ -459,15 +479,90 @@ export async function sendPasswordResetEmail(
   }
 }
 
+// ── Storage ─────────────────────────────────────────────────────────────────
+// Every submission from every form lands in contact_submissions (Rocket+ master
+// DB), whatever happens in the CRM afterwards. One table, so "did anyone submit
+// anything" is one query, not a tour of five systems.
+
+let adminClient: SupabaseClient | null | undefined
+function admin(): SupabaseClient | null {
+  if (adminClient !== undefined) return adminClient
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  adminClient = url && key ? createClient(url, key, { auth: { persistSession: false } }) : null
+  if (!adminClient) console.error('[FORM STORE FAILED] Supabase env missing — submissions are not being stored')
+  return adminClient
+}
+
+async function storeSubmission(sub: FormSubmission, spam: { is: boolean; reason?: string }): Promise<string | null> {
+  const db = admin()
+  if (!db) return null
+  const fullName = sub.fullName || `${sub.firstName || ''} ${sub.lastName || ''}`.trim()
+  const row = {
+    form_name: sub.formName || sub.source,
+    name: fullName || null,
+    first_name: sub.firstName || fullName.split(' ')[0] || null,
+    last_name: sub.lastName || fullName.split(' ').slice(1).join(' ') || null,
+    email: sub.email,
+    phone: sub.phone || null,
+    company: sub.company || null,
+    message: sub.message || null,
+    page_url: sub.pageUrl || null,
+    source: sub.source,
+    user_agent: sub.userAgent || null,
+    is_spam: spam.is,
+    spam_reason: spam.reason || null,
+    raw: {
+      service: sub.service, project: sub.project, tags: sub.tags,
+      customFields: sub.customFields, extras: sub.extras,
+    },
+  }
+  try {
+    if (sub.submissionId) {
+      if (spam.is) {
+        const { error } = await db.from('contact_submissions')
+          .update({ is_spam: true, spam_reason: spam.reason || null }).eq('id', sub.submissionId)
+        if (error) console.error('[FORM STORE FAILED] spam flag update:', error.message)
+      }
+      return sub.submissionId
+    }
+    const { data, error } = await db.from('contact_submissions').insert(row).select('id').single()
+    if (error) {
+      console.error(`[FORM STORE FAILED] ${row.form_name} from ${sub.email}:`, error.message)
+      return null
+    }
+    return (data as { id: string } | null)?.id ?? null
+  } catch (err) {
+    console.error(`[FORM STORE FAILED] ${row.form_name} from ${sub.email}:`, err)
+    return null
+  }
+}
+
+async function recordOutcome(id: string | null, contactId: string | null, problems: string[]) {
+  const db = admin()
+  if (!db || !id) return
+  const { error } = await db.from('contact_submissions').update({
+    ghl_contact_id: contactId,
+    ghl_synced_at: contactId ? new Date().toISOString() : null,
+    ghl_error: problems.length ? problems.join('; ') : null,
+  }).eq('id', id)
+  if (error) console.error('[FORM STORE FAILED] outcome update:', error.message)
+}
+
 /**
- * One-call: upsert lead, fire webhook, email Mike, and thank the lead.
- * Upsert runs first to get the contact ID, then the remaining three run in
- * parallel. Partial failures are reported but never throw.
+ * One-call for every form: store, upsert the lead, fire the webhook, email
+ * Mike, and (unless thankLead is false) thank the lead.
+ *
+ * Never throws and never blocks the visitor on a notification problem — but
+ * every failure is logged with a "[FORM NOTIFY FAILED]" prefix (searchable in
+ * the Vercel runtime logs) and written to contact_submissions.ghl_error, so a
+ * silent outage cannot hide.
  */
 export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyResult> {
-  // Spam gate — one guard for every form on the site. A blocked submission
-  // never reaches the CRM, the webhook, or Mike's inbox. Logged (not shown to
-  // the user) so a false positive is visible and the thresholds can be tuned.
+  sub = { ...sub, email: (sub.email || '').trim().toLowerCase() }
+  // Spam gate — one guard for every form on the site. A blocked submission is
+  // stored (is_spam = true) but never reaches the CRM, the webhook, or Mike's
+  // inbox. Logged so a false positive is visible and the thresholds can be tuned.
   const verdict = scoreSpam({
     email: sub.email,
     firstName: sub.firstName,
@@ -477,21 +572,37 @@ export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyR
     honeypot: sub.honeypot,
   })
   if (verdict.spam) {
-    console.warn(`[CRM Notify] blocked spam (score ${verdict.score}): ${verdict.reasons.join(', ')} — ${sub.email}`)
-    return { success: false, contactId: null, webhookFired: false, mikeEmailed: false, leadThanked: false, spam: true }
+    console.warn(`[CRM Notify] blocked spam (score ${verdict.score}): ${verdict.reasons.join(', ')} — ${sub.email} (${sub.formName || sub.source})`)
+    const id = await storeSubmission(sub, { is: true, reason: verdict.reasons.join(', ') })
+    return { success: false, contactId: null, webhookFired: false, mikeEmailed: false, leadThanked: false, spam: true, submissionId: id, received: Boolean(id) }
   }
 
+  const submissionId = await storeSubmission(sub, { is: false })
   const contactId = await upsertLeadContact(sub)
   const [webhookFired, mikeEmailed, leadThanked] = await Promise.all([
     fireLegacyWebhook(sub),
     emailMike(sub),
-    sendThankYou(sub, contactId),
+    sub.thankLead === false ? Promise.resolve(false) : sendThankYou(sub, contactId),
   ])
+
+  const problems: string[] = []
+  if (!LOCATION_PIT) problems.push('no CRM PIT configured')
+  if (!contactId) problems.push('CRM contact upsert failed')
+  if (!mikeEmailed) problems.push('owner email failed')
+  if (problems.length) {
+    console.error(
+      `[FORM NOTIFY FAILED] ${sub.formName || sub.source} from ${sub.email}: ${problems.join('; ')} — submission ${submissionId ?? 'NOT STORED'}`,
+    )
+  }
+  await recordOutcome(submissionId, contactId, problems)
+
   return {
     success: Boolean(contactId || webhookFired || mikeEmailed),
     contactId,
     webhookFired,
     mikeEmailed,
     leadThanked,
+    submissionId,
+    received: Boolean(submissionId || contactId || webhookFired || mikeEmailed),
   }
 }

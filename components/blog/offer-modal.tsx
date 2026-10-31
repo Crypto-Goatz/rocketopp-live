@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Check, Loader2, X } from 'lucide-react'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 /**
  * Free-website offer capture, opened from the blog sidebar.
@@ -56,10 +57,7 @@ export default function OfferModal({
       const [firstName, ...rest] = name.split(/\s+/)
 
       try {
-        const res = await fetch('/api/leads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        await postForm('/api/leads', {
             firstName: firstName || name,
             lastName: rest.join(' ') || undefined,
             email: String(fd.get('email') || '').trim(),
@@ -74,13 +72,11 @@ export default function OfferModal({
               has_website: hasSite ?? 'unanswered',
               current_website: String(fd.get('website') || '').trim(),
             },
-          }),
         })
-        if (!res.ok) throw new Error(`Request failed (${res.status})`)
         setStatus('done')
       } catch (err) {
         setStatus('error')
-        setError(err instanceof Error ? err.message : 'Something went wrong')
+        setError(formErrorMessage(err))
       }
     },
     [hasSite],

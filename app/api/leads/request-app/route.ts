@@ -80,6 +80,12 @@ export async function POST(request: NextRequest) {
       mikeEmailed: result.mikeEmailed,
     })
 
+    // Nothing stored, nothing in the CRM, nothing in Mike's inbox: say so, so the
+    // form shows the phone/email fallback instead of a false "thank you".
+    if (!result.received && !result.spam) {
+      return NextResponse.json({ success: false, error: "We couldn't save your submission" }, { status: 502 })
+    }
+
     return NextResponse.json({
       success: true,
       message: "Your app request has been submitted successfully!",

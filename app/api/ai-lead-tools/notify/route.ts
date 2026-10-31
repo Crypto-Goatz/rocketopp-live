@@ -7,6 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { notifyFormSubmission } from '@/lib/crm/notify'
 
 export const runtime = 'nodejs'
 
@@ -37,15 +38,27 @@ export async function POST(req: NextRequest) {
     submitted_at:   new Date().toISOString(),
   }
 
-  try {
-    const r = await fetch(WEBHOOK, {
+  // Legacy workflow webhook (best effort) + the shared path: store, CRM contact, email Mike.
+  const [hook, result] = await Promise.all([
+    fetch(WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15_000),
-    })
-    return NextResponse.json({ ok: r.ok, status: r.status })
-  } catch (err) {
-    return NextResponse.json({ ok: false, error: err instanceof Error ? err.message : 'unknown' }, { status: 502 })
+    }).then((r) => r.ok).catch((err) => { console.error('[ai-lead-tools/notify] webhook failed:', err); return false }),
+    notifyFormSubmission({
+      email,
+      fullName: body.name || undefined,
+      source: 'rocketopp-ai-lead-tools-waitlist',
+      formName: `AI Lead Tools Waitlist — ${payload.tool_name}`,
+      pageUrl: req.headers.get('referer') || 'https://rocketopp.com/ai-lead-tools/notify',
+      tags: payload.tags,
+      extras: { tool: payload.tool_name, tool_slug: payload.tool_slug },
+      userAgent: req.headers.get('user-agent'),
+    }),
+  ])
+  if (!hook && !result.received) {
+    return NextResponse.json({ ok: false, error: "We couldn't save your request" }, { status: 502 })
   }
+  return NextResponse.json({ ok: true })
 }

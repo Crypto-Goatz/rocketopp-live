@@ -32,6 +32,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Footer from "@/components/footer"
 import Link from "next/link"
 import Image from "next/image"
+import { postForm, formErrorMessage } from "@/lib/forms/post-form"
 
 const appTypes = [
   { value: "mobile-ios", label: "iOS Mobile App" },
@@ -97,6 +98,7 @@ export default function RequestAppClient() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -105,19 +107,14 @@ export default function RequestAppClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(null)
 
     try {
-      const response = await fetch("/api/leads/request-app", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setIsSubmitted(true)
-      }
+      await postForm("/api/leads/request-app", formData)
+      setIsSubmitted(true)
     } catch (error) {
       console.error("Form submission error:", error)
+      setSubmitError(formErrorMessage(error))
     } finally {
       setIsSubmitting(false)
     }
@@ -355,6 +352,9 @@ export default function RequestAppClient() {
                       />
                     </div>
 
+                    {submitError && (
+                      <p role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">{submitError}</p>
+                    )}
                     <Button
                       type="submit"
                       size="lg"

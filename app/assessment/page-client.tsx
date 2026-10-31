@@ -16,6 +16,7 @@ import { INDUSTRY_INSIGHTS, TOTAL_ASSESSMENT_STEPS, HIGHLIGHT_ANIMATION } from '
 import SparkLogo from './components/SparkLogo'
 import TypingIndicator from './components/TypingIndicator'
 import ProgressBar from './components/ProgressBar'
+import { postForm } from '@/lib/forms/post-form'
 
 // Helper function to parse text and wrap highlighted parts
 const parseAndHighlight = (text: string) => {
@@ -634,10 +635,7 @@ export default function AssessmentPage() {
 
     try {
       // Submit lead to GHL for email automation + follow-up
-      await fetch('/api/assessment/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      await postForm('/api/assessment/submit', {
           ...info,
           companyName: personalization.company,
           website: personalization.website,
@@ -646,8 +644,7 @@ export default function AssessmentPage() {
           assessmentSummary: assessmentData,
           insights: insights,
           conversationHistory: collectedData.map((d) => `Q: ${d.question}\nA: ${d.answer}`).join('\n\n'),
-        }),
-      })
+      }, { timeoutMs: 25_000 })
 
       // Now the email exists, stamp it onto the partial row too and mark it done —
       // so an abandoned assessment and a finished one are distinguishable.

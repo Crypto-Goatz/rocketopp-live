@@ -11,6 +11,7 @@
 
 import { useState } from 'react'
 import { ArrowUpRight, Loader2, CheckCircle2 } from 'lucide-react'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 interface ProductSlim {
   slug: string
@@ -33,25 +34,17 @@ export function OnboardingLockIn({ product }: { product: ProductSlim }) {
     e.preventDefault()
     setSubmitting(true); setErr(null)
     try {
-      const r = await fetch('/api/onboarding/lock-in', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      await postForm('/api/onboarding/lock-in', {
           productSlug: product.slug,
           productName: product.name,
           priceCents:  product.priceCents,
           priceLabel:  product.priceLabel,
           recurring:   product.recurring || null,
           email, name, phone, notes,
-        }),
-      })
-      if (!r.ok) {
-        const d = await r.json().catch(() => ({}))
-        throw new Error(d?.error || 'submit_failed')
-      }
+        })
       setDone(true)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'submit_failed')
+      setErr(formErrorMessage(e))
     } finally {
       setSubmitting(false)
     }

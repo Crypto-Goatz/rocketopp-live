@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { X, Sparkles, Mail, Globe } from 'lucide-react'
 import { AiScanSequence, SCAN_TOTAL_MS } from './ai-scan-sequence'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 const SHOW_KEY = 'rocketopp-aireadiness-shown-at'
 const COOLDOWN_MS = 24 * 60 * 60 * 1000 // 24h
@@ -136,22 +137,15 @@ export function ExitIntentAiReadiness() {
     setAnimationDone(false)
 
     try {
-      const res = await fetch('/api/ai-readiness/scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim(),
-          domain: cleanedDomain,
-          source: 'exit-intent',
-        }),
+      const data = await postForm<{ scan_id?: string }>('/api/ai-readiness/scan', {
+        email: email.trim(),
+        domain: cleanedDomain,
+        source: 'exit-intent',
       })
-      const data = await res.json()
-      if (!res.ok || !data.scan_id) {
-        throw new Error(data.error || 'Could not start the scan.')
-      }
-      setScanId(data.scan_id as string)
+      if (!data.scan_id) throw new Error('Could not start the scan.')
+      setScanId(data.scan_id)
     } catch (err) {
-      setScanError(err instanceof Error ? err.message : 'Something went wrong.')
+      setScanError(formErrorMessage(err))
     }
   }
 

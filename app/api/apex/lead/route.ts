@@ -8,6 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { notifyFormSubmission } from '@/lib/crm/notify'
 
 export const runtime = 'nodejs'
 export const maxDuration = 20
@@ -53,15 +54,34 @@ export async function POST(req: NextRequest) {
     submitted_at:         new Date().toISOString(),
   }
 
-  try {
-    const res = await fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(15_000),
-    })
-    return NextResponse.json({ ok: res.ok, status: res.status })
-  } catch (err) {
-    return NextResponse.json({ ok: false, error: err instanceof Error ? err.message : 'unknown' }, { status: 502 })
+  const hookP = fetch(WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(15_000),
+  }).then((r) => r.ok).catch((err) => { console.error('[apex/lead] webhook failed:', err); return false })
+
+  // The shared path needs an email to key the CRM contact (estate rule: email is the identity).
+  const result = body.email
+    ? await notifyFormSubmission({
+        email: body.email,
+        fullName: body.name || undefined,
+        phone: body.phone || undefined,
+        company: body.company || undefined,
+        source: 'rocketopp-apex-assessment',
+        formName: 'Apex AI Assessment',
+        pageUrl: req.headers.get('referer') || 'https://rocketopp.com/apex',
+        tags: ['Website Lead', 'Apex Assessment'],
+        extras: {
+          website: payload.website, zip_code: payload.zip_code, industry: payload.industry,
+          conversation: payload.conversation_history.slice(0, 4000),
+        },
+        userAgent: req.headers.get('user-agent'),
+      })
+    : null
+  const hook = await hookP
+  if (!hook && !result?.received) {
+    return NextResponse.json({ ok: false, error: "We couldn't save your details" }, { status: 502 })
   }
+  return NextResponse.json({ ok: true })
 }

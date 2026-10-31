@@ -18,7 +18,9 @@ export function ContactForm({ form = "contact" }: { form?: keyof typeof COPY } =
     company: "",
     message: "",
     // Honeypot — hidden from humans, bots fill it. Never shown, never required.
-    company_website: "",
+    // Named rk_hp (not company_website): browser autofill recognised "company_website"
+    // and filled it for real people, which got Mike's own submission dropped as spam.
+    rk_hp: "",
   })
   const [focused, setFocused] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -54,7 +56,7 @@ export function ContactForm({ form = "contact" }: { form?: keyof typeof COPY } =
       setIsSuccess(true)
     } catch (err) {
       const msg = err instanceof Error && err.name !== "AbortError" ? err.message : "That took too long to send"
-      setError(`${msg} — please call +1 (878) 888-1230 or email mike@rocketopp.com and we'll take it from there.`)
+      setError(`${msg} — please call (878) 888-1230 or email mike@rocketopp.com and we'll take it from there.`)
     } finally {
       setIsSubmitting(false)
     }
@@ -86,11 +88,13 @@ export function ContactForm({ form = "contact" }: { form?: keyof typeof COPY } =
           from tab order and a11y tree, autofill disabled. A filled value = bot. */}
       <input
         type="text"
-        name="company_website"
-        value={formData.company_website}
+        name="rk_hp"
+        value={formData.rk_hp}
         onChange={handleChange}
         tabIndex={-1}
-        autoComplete="off"
+        autoComplete="new-password"
+        data-lpignore="true"
+        data-1p-ignore="true"
         aria-hidden="true"
         className="absolute -left-[9999px] h-px w-px overflow-hidden opacity-0"
       />

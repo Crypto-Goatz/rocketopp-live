@@ -13,6 +13,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { crmPost } from '@/lib/crm/client'
 import { sendAffiliateWelcomeEmail } from '@/lib/affiliate-kit/welcome-email'
+import { notifyFormSubmission } from '@/lib/crm/notify'
 
 export const runtime = 'nodejs'
 
@@ -139,6 +140,22 @@ export async function POST(req: NextRequest) {
     contactId:   crmContactId,
     locationId:  ROCKETOPP_LOCATION,
   }).catch(err => ({ ok: false, error: err instanceof Error ? err.message : 'unknown' }))
+
+  // Tell Mike a new affiliate signed up (and store it with every other form).
+  // The affiliate already got the welcome email above, so no generic thank-you.
+  await notifyFormSubmission({
+    email,
+    firstName,
+    lastName,
+    company: body.company || undefined,
+    source: 'rocketopp-hipaa-affiliate-signup',
+    formName: 'HIPAA Affiliate Signup',
+    pageUrl: req.headers.get('referer') || 'https://rocketopp.com/hipaa/affiliate',
+    tags: ['HIPAA Affiliate'],
+    extras: { slug: insert.data.slug, referral_url: referralUrl, linkedin: body.linkedinUrl || '', referral_source: body.referralSource || '' },
+    thankLead: false,
+    userAgent: req.headers.get('user-agent'),
+  }).catch((e) => console.error('[FORM NOTIFY FAILED] hipaa affiliate notify threw', e))
 
   await supabaseAdmin
     .from('hipaa_affiliates')

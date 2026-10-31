@@ -34,6 +34,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import Link from 'next/link'
+import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 interface Service {
   slug: string
@@ -147,9 +148,10 @@ export default function ServicesConversion() {
         customFields: { [SERVICE_FIELD]: 'Undecided (requested recommendation)' },
       })
       setHeroState('done')
-    } catch {
-      // Non-blocking: still guide them forward.
-      setHeroState('done')
+    } catch (err) {
+      // Say so: a "done" here used to hide a lead that never arrived.
+      setHeroError(formErrorMessage(err))
+      setHeroState('idle')
     }
   }
 
@@ -368,10 +370,12 @@ function CaptureModal({
         tags: ['services-page-lead', service.crmTag, `interest-${service.slug}`],
         customFields: { [SERVICE_FIELD]: service.name },
       })
-    } catch {
-      // Non-blocking — we still send them to the service page.
-    } finally {
       onCaptured()
+    } catch (err) {
+      // Show the failure (with phone/email) instead of moving on as if it arrived.
+      setError(formErrorMessage(err))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -479,14 +483,8 @@ async function postLead(payload: {
   tags: string[]
   customFields: Record<string, string>
 }) {
-  const res = await fetch('/api/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      ...payload,
-      pageUrl: typeof window !== 'undefined' ? window.location.href : 'https://rocketopp.com/services',
-    }),
+  return postForm('/api/leads', {
+    ...payload,
+    pageUrl: typeof window !== 'undefined' ? window.location.href : 'https://rocketopp.com/services',
   })
-  if (!res.ok) throw new Error('lead post failed')
-  return res.json()
 }

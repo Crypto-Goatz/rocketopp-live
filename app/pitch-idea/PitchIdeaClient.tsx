@@ -37,6 +37,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Footer from "@/components/footer"
 import Link from "next/link"
+import { postForm, formErrorMessage } from "@/lib/forms/post-form"
 
 const ideaStages = [
   { value: "concept", label: "Just an idea / Concept" },
@@ -191,6 +192,7 @@ export default function PitchIdeaClient() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -199,19 +201,14 @@ export default function PitchIdeaClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(null)
 
     try {
-      const response = await fetch("/api/leads/pitch-idea", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setIsSubmitted(true)
-      }
+      await postForm("/api/leads/pitch-idea", formData)
+      setIsSubmitted(true)
     } catch (error) {
       console.error("Form submission error:", error)
+      setSubmitError(formErrorMessage(error))
     } finally {
       setIsSubmitting(false)
     }
@@ -528,6 +525,9 @@ export default function PitchIdeaClient() {
                         />
                       </div>
 
+                      {submitError && (
+                        <p role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">{submitError}</p>
+                      )}
                       <Button
                         type="submit"
                         size="lg"
