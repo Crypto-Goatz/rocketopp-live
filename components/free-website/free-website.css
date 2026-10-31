@@ -96,7 +96,7 @@
 .fw-row .fw-tile { flex: none; width: clamp(230px, 25vw, 380px); margin-right: 22px; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
 .fw-row .fw-tile:hover { transform: translateZ(40px) translateY(-8px); }
 @keyframes fw-scroll { to { transform: translateX(-50%); } }
-.fw-wall-cap { text-align: center; margin-top: -8px; position: relative; z-index: 1; font-size: 14px; color: var(--fw-muted); }
+.fw-wall-cap { text-align: center; margin-top: 56px; position: relative; z-index: 1; font-size: 14px; color: var(--fw-muted); }
 
 /* ── paper sheets: the calm, readable middle of the page ── */
 .fw-paper { background: var(--fw-paper); color: var(--fw-paper-ink); border-radius: 36px; margin: 0 10px; padding: 84px 0; }
