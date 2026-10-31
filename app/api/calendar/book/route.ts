@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { waitUntil } from '@vercel/functions'
 import { checkBotId } from 'botid/server'
+import { timingSafeEqual } from 'node:crypto'
 
 import { bookAppointment, DEFAULT_TZ, resolveCalendarId } from '@/lib/crm/calendar'
 import { notifyFormSubmission } from '@/lib/crm/notify'
@@ -21,13 +22,22 @@ import { notifyFormSubmission } from '@/lib/crm/notify'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
+function isPartner(key: string | null): boolean {
+  const want = process.env.PARTNER_BOOKING_KEY || ''
+  if (!want || !key || key.length !== want.length) return false
+  return timingSafeEqual(Buffer.from(key), Buffer.from(want))
+}
+
 function isEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const bot = await checkBotId()
+    // rocketappointments.com books through this route server-to-server (its own scheduler, 2026-10-31). It runs its own
+    // honeypot + timing checks and proves itself with a shared key; BotID can't see a browser on that hop.
+    const partner = isPartner(request.headers.get('x-partner-key'))
+    const bot = partner ? { isBot: false } : await checkBotId()
     if (bot.isBot) {
       return NextResponse.json({ error: 'Access denied.' }, { status: 403 })
     }
@@ -106,7 +116,7 @@ export async function POST(request: NextRequest) {
         message: notes || undefined,
         source: 'rocketopp-calendar-booking',
         formName: `Booking — ${source}`,
-        pageUrl: request.headers.get('referer') || 'https://rocketopp.com/book',
+        pageUrl: request.headers.get('x-partner-page') || request.headers.get('referer') || 'https://rocketopp.com/book',
         tags: ['booked-call', calendarKey === 'website' ? '497-kickoff' : 'discovery'],
         extras: {
           'Booked for': pretty,
