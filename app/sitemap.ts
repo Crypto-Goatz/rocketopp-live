@@ -4,6 +4,7 @@
  * from Supabase. Thank-you / auth-gated / utility routes are excluded.
  */
 
+import { TRADES } from '@/lib/free-website/trades'
 import type { MetadataRoute } from 'next'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { FEATURED_ARTICLES } from '@/lib/blog-featured'
@@ -175,6 +176,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.90,
   }))
 
+  // Free website by trade — one per entry in lib/free-website/trades.ts
+  const tradeRoutes: MetadataRoute.Sitemap = TRADES.map((t) => ({
+    url: `${BASE}/free-website/${t.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as Freq,
+    priority: 0.92,
+  }))
+
   // AEO comparison pages — one per builder in lib/aeo/builders.ts
   const compareRoutes: MetadataRoute.Sitemap = BUILDERS.map((b) => ({
     url: `${BASE}/compare/${b.slug}`,
@@ -189,5 +198,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     dynamicBlog(),
   ])
 
-  return [...staticRoutes, ...localRoutes, ...compareRoutes, ...products, ...categories, ...blog]
+  return [...staticRoutes, ...tradeRoutes, ...localRoutes, ...compareRoutes, ...products, ...categories, ...blog]
 }

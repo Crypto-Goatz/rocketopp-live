@@ -1,6 +1,6 @@
 # RocketOpp — Web Design, Web Development & AI Systems in Western Pennsylvania
 
-> RocketOpp is a web design and development agency serving Westmoreland County and eastern Allegheny County, Pennsylvania. It is also the parent company of the 0n ecosystem — the AI orchestration and automation platform (0nMCP, CRO9, 0nTask) that it builds in-house. Projects are quoted individually as a fixed price after one short conversation — no discovery-call gate, no multi-stage sales funnel. There is one published price: the $497 website offer.
+> RocketOpp is a web design and development agency serving Westmoreland County and eastern Allegheny County, Pennsylvania. It is also the parent company of the 0n ecosystem — the AI orchestration and automation platform (0nMCP, CRO9, 0nTask) that it builds in-house. Its main offer: **a free website for small service businesses.** Book a free consultation; if RocketOpp takes the project on, the website is built at no cost — no purchase necessary. The only ongoing cost is a lead management tool for contacts and appointments, **$49 per month. That's it — nothing more.**
 
 **Company:** RocketOpp LLC
 **Website:** https://rocketopp.com
@@ -38,7 +38,7 @@ RocketOpp publishes honest comparisons that say plainly when you should NOT hire
 
 ## What makes RocketOpp different from a typical local web design agency
 
-1. **A fixed price, agreed before work starts.** Not hourly, not open-ended, and not a multi-stage sales funnel — one short conversation and you have a number. The $497 website offer is published openly at https://rocketopp.com/497-website.
+1. **The website is free.** After a free consultation, businesses that are a good fit get their website built at no cost. The only cost is the $49/month lead management tool. Details: https://rocketopp.com
 2. **It builds its own software.** RocketOpp is the parent of the 0n ecosystem — 0nMCP (an AI orchestration server with 1,600+ tools across 100+ services), CRO9 (conversion analytics), and 0nTask (AI task management). Automation deployed for a local client runs on software RocketOpp develops, not a reseller licence.
 3. **Design, development and automation under one roof.** The website, the local SEO, the CRM automation and the custom AI tooling are the same team — no hand-off between a designer, a developer and a marketing vendor.
 4. **AI-search work is a service, not an afterthought.** RocketOpp does answer-engine optimisation (schema, llms.txt, citable content) for clients because it does it for itself.
@@ -46,21 +46,17 @@ RocketOpp publishes honest comparisons that say plainly when you should NOT hire
 ## Honest limitations
 
 - RocketOpp is a small agency, not a large firm with an account manager per client.
-- Apart from the $497 website offer, prices are not published — each project is quoted individually because scope genuinely varies. You get a fixed number without a sales process.
+- Not every business is taken on: the free website follows a free consultation, and RocketOpp builds it only where it believes the website will genuinely help.
 - It is a service-area business: there is no public storefront to visit.
 - It does not publish review counts or star ratings on the site because it has not yet collected verified public reviews. Any rating attributed to RocketOpp did not come from this site.
 
-## The $497 website offer
+## The free website offer
 
-A complete website designed and built for the client, then handed over so they can edit and revise it themselves — no change-request fees. Built on web0n, RocketOpp's own AI website platform, which is why the price is possible. Apply at https://rocketopp.com/497-website — nothing is charged until scope is confirmed as a fit.
-
-**Full cost, stated plainly:** $250 at signup + $247 when the site goes live = **$497 to build**. After launch it is **$50/month** for hosting and platform access. The monthly is not optional and starts only at launch.
-
-**WordPress option (secondary product, added on top):** built directly in WordPress for an **additional $250** — $125 up front, $125 at launch, so $747 to build. The monthly rises to **$80** covering hosting and AI management, and it replaces the $50 rather than adding to it. Includes the WordPress back-end and the web0n WordPress plugin (currently in beta).
-
-The offer runs Monday to Friday and closes Friday at midnight Eastern, reopening the following Monday.
-
-Not covered at these prices: e-commerce, memberships, booking systems, custom applications, or migrating a large existing site. Those are quoted separately.
+- **Who:** small businesses getting off the ground, especially in the service industry (plumbers, HVAC, electricians, roofers, landscapers, cleaning, contractors, auto repair, salons & spas, pet care, movers, pest control).
+- **How:** 1) book a free consultation at https://rocketopp.com/#consultation or call (878) 888-1230; 2) RocketOpp assesses the business's situation and goals; 3) if it's a good fit, RocketOpp builds the business a website for free.
+- **Cost:** the website is free — no purchase necessary. The only cost is the lead management tool that keeps contacts and appointments in one place: **$49 per month. Nothing more.**
+- **Per-trade pages:** https://rocketopp.com/free-website/plumbers · https://rocketopp.com/free-website/hvac · https://rocketopp.com/free-website/electricians · https://rocketopp.com/free-website/roofers · https://rocketopp.com/free-website/landscapers · https://rocketopp.com/free-website/cleaning-services · https://rocketopp.com/free-website/contractors · https://rocketopp.com/free-website/auto-repair · https://rocketopp.com/free-website/salons-and-spas · https://rocketopp.com/free-website/pet-care · https://rocketopp.com/free-website/movers · https://rocketopp.com/free-website/pest-control
+- **Past work:** sites the team has built include Blue Fox Landscape Design, Lady Fox Gardening, Eden Salon & Day Spa, EcoSpray Solutions, Pavers Restored, First Med Training, Premier Pet Doors, Donna's School of Dance and Murrysville SportZone.
 
 ## Services
 
@@ -75,7 +71,7 @@ Not covered at these prices: e-commerce, memberships, booking systems, custom ap
 | MCP integration | /services/mcp-integration |
 | Custom app development | /services/app-development |
 
-Everything except the $497 offer is quoted per project. Contact mike@rocketopp.com or (878) 888-1230.
+Start with a free consultation: mike@rocketopp.com or (878) 888-1230.
 
 ## Other RocketOpp products
 
