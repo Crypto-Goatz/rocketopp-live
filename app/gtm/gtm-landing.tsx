@@ -654,38 +654,36 @@ export function GtmLanding() {
         </div>
       </section>
 
-      {/* ── UPSELL: 48-hr Website ── */}
+      {/* ── Free website ── */}
       <section className="py-20 px-6 bg-white/[0.02] border-y border-white/8">
         <div className="max-w-2xl mx-auto">
           <div className="bg-gradient-to-br from-orange-500/10 to-orange-500/5
                           border border-orange-500/25 rounded-2xl p-8 md:p-10 text-center">
             <span className="inline-block bg-orange-500 text-white text-xs font-bold
                              tracking-wider uppercase px-3 py-1 rounded-full mb-5">
-              Add-On Service
+              Free for Service Businesses
             </span>
             <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-3">
               Need a Website That Converts?
             </h2>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed max-w-lg mx-auto">
-              After your GTM call, we can build your 3-page site in 48 hours —
-              all copy written, 5 images, contact form with lead email notifications.
+              Small service businesses that are a good fit get the website free —
+              all copy written, images, contact form with lead email notifications.
+              It starts with a free consultation.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm font-medium mb-8">
-              {['3 Pages', 'All Copy Written', '5 Images', 'Lead Notifications', 'Mobile Responsive', '48-Hr Delivery'].map(f => (
+              {['Custom Design', 'All Copy Written', 'Lead Notifications', 'Mobile Responsive'].map(f => (
                 <span key={f} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-green-400" />{f}
                 </span>
               ))}
             </div>
-            <div className="text-4xl font-black tracking-tight mb-6">
-              $500 <span className="text-base font-normal text-gray-400">flat · 48-hr delivery</span>
-            </div>
             <a
-              href="mailto:mike@rocketopp.com?subject=48-Hour Website Inquiry"
+              href="/free-website"
               className="inline-block bg-orange-500 hover:bg-orange-400 text-white font-bold
                          px-8 py-3.5 rounded-xl transition-colors text-sm"
             >
-              Get My 48-Hr Website →
+              Book a free consultation →
             </a>
           </div>
         </div>

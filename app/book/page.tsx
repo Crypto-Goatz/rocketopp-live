@@ -128,15 +128,16 @@ export default function BookPage() {
             </div>
 
             <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6">
-              <h2 className="font-bold tracking-tight">Already decided?</h2>
+              <h2 className="font-bold tracking-tight">Need a website?</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                The $497 website offer runs weekly. You can start it without a call.
+                Small service businesses that are a good fit get the website free. It starts with
+                this same free consultation.
               </p>
               <Link
-                href="/497-website"
+                href="/free-website"
                 className="mt-4 inline-flex items-center gap-2 font-semibold text-primary hover:underline"
               >
-                See the offer
+                See the free website
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

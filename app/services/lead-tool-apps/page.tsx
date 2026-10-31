@@ -50,25 +50,25 @@ const APPS: LeadToolApp[] = [
     Icon: Search,
     tagline: "Free SXO scan + AI-citation audit · then turn it into a Living DOM rewrite",
     pitch:
-      "Drops a free 60-second site scanner on the visitor's screen. Returns a personalized SXO score, top fixes, and a $4.88 step-by-step plan. Optional $8 upsell rewrites the entire site as a Living DOM with mutation engine + 147 behavioral metrics.",
+      "Drops a free 60-second site scanner on the visitor's screen. Returns a personalized SXO score, top fixes, and a step-by-step plan. An optional upgrade rewrites the entire site as a Living DOM with mutation engine + 147 behavioral metrics.",
     features: [
       "Free instant SXO score (0–100)",
       "AI-citation visibility check (GPTBot, Claude, Perplexity)",
-      "$4.88 step-by-step fix plan upsell",
-      "$8 Living DOM site rewrite upsell",
+      "Step-by-step fix plan upgrade",
+      "Living DOM site rewrite upgrade",
       "Email + CRM lead capture on every scan",
       "CRO9 mutation engine + 147 behavioral metrics",
       "BLUF, table-trap, and schema scoring",
     ],
     outcomes: [
       "20–60% visitor → email conversion on the scan widget",
-      "Average $4.88 + $8 follow-on revenue per qualified lead",
+      "Follow-on revenue per qualified lead from the fix plan + rewrite",
       "Real-time pipeline of buyers self-identified by score",
     ],
     accent: "violet",
     href: "/family/sxowebsite",
     liveUrl: "https://sxowebsite.com",
-    pricing: "Free scan · $4.88 fix plan · $8 Living DOM rewrite",
+    pricing: "Free scan · fix plan · Living DOM rewrite",
   },
   {
     slug: "verifiedsxo",
@@ -76,7 +76,7 @@ const APPS: LeadToolApp[] = [
     Icon: ShieldCheck,
     tagline: "Verify every marketing claim — agency proof layer",
     pitch:
-      "Public proof layer for marketers. Submit a claim, the K-layer verify engine fact-checks against Brave + DuckDuckGo + your knowledge base, and stamps a Seal of Truth. Agencies and creators get a $/mo public profile that turns trust into pipeline.",
+      "Public proof layer for marketers. Submit a claim, the K-layer verify engine fact-checks against Brave + DuckDuckGo + your knowledge base, and stamps a Seal of Truth. Agencies and creators get a public profile that turns trust into pipeline.",
     features: [
       "Free single-claim verification (3 sources)",
       "Pro: unlimited claims, AI elevation to 100%, priority support",
@@ -88,13 +88,13 @@ const APPS: LeadToolApp[] = [
     ],
     outcomes: [
       "Verified-before-they-buy lift on agency pages (signal of trust)",
-      "Public-profile membership upsell ($mo) once they've verified 3+ claims",
+      "Public-profile membership upgrade once they've verified 3+ claims",
       "Compounding inbound link equity to /v/[id] verification pages",
     ],
     accent: "green",
     href: "/family/verifiedsxo",
     liveUrl: "https://verifiedsxo.com",
-    pricing: "Free · $/mo Pro · $/mo public profile",
+    pricing: "Free · Pro · public profile",
   },
   {
     slug: "apex-assessment",
@@ -120,7 +120,7 @@ const APPS: LeadToolApp[] = [
     accent: "amber",
     href: "/apex",
     liveUrl: "https://rocketopp.com/apex",
-    pricing: "Free assessment · routes to paid services from $797/mo",
+    pricing: "Free assessment · routes to the right service",
   },
 ]
 
@@ -229,7 +229,7 @@ export default function LeadToolAppsPage() {
                     <div className="p-6 md:p-8 border-t md:border-t-0 md:border-l border-border bg-card/40 flex flex-col gap-4">
                       <div>
                         <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                          Pricing
+                          Tiers
                         </p>
                         <p className="text-base font-semibold leading-snug">
                           {app.pricing}
@@ -323,7 +323,7 @@ export default function LeadToolAppsPage() {
         </div>
       </section>
 
-      {/* Pricing-style summary */}
+      {/* Ways to use them */}
       <section className="relative overflow-hidden py-16 md:py-20">
         <SectionBg variant="solid-deep" />
         <div className="container relative z-10 px-4 md:px-6">
@@ -334,7 +334,7 @@ export default function LeadToolAppsPage() {
             <div className="grid md:grid-cols-3 gap-4">
               <div className="card-lifted-xl p-6 text-center">
                 <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Embed only</p>
-                <p className="text-3xl font-bold mb-1">$0</p>
+                <p className="text-3xl font-bold mb-1">Free</p>
                 <p className="text-sm text-muted-foreground mb-5">
                   Use the live tool with our branding. Free, forever.
                 </p>
@@ -349,28 +349,26 @@ export default function LeadToolAppsPage() {
               </div>
               <div className="card-lifted-xl p-6 text-center border-2 border-primary/40">
                 <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">White-label</p>
-                <p className="text-3xl font-bold mb-1">$497<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
                 <p className="text-sm text-muted-foreground mb-5">
                   Your branding, your domain. Leads land in your CRM.
                 </p>
                 <Link
-                  href="/order?seed=mcp-integration"
+                  href="/contact"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
-                  Build my quote <ArrowRight className="w-3.5 h-3.5" />
+                  Book a free consultation <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
               <div className="card-lifted-xl p-6 text-center">
                 <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Custom build</p>
-                <p className="text-3xl font-bold mb-1">$4,997+</p>
                 <p className="text-sm text-muted-foreground mb-5">
                   Your own AI lead-tool app. We build it on the same engine.
                 </p>
                 <Link
-                  href="/order?seed=ai-applications"
+                  href="/contact"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
-                  Build my quote <ArrowRight className="w-3.5 h-3.5" />
+                  Book a free consultation <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
@@ -393,22 +391,22 @@ export default function LeadToolAppsPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Link
-                href="/order"
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-[0_0_32px_rgba(255,107,53,0.35)] hover:scale-[1.02] transition-transform"
               >
-                Build my custom quote
+                Book a free consultation
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/contact"
+                href="/apex"
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/50 px-7 py-3 text-base font-semibold hover:border-primary/40 transition-colors"
               >
-                Talk to Mike directly
+                Try the free assessment
               </Link>
             </div>
             <p className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
               <Clock className="w-3 h-3" />
-              30 minutes from quote to kickoff
+              30 minutes from consultation to kickoff
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "Content Marketing — AI-Citation Ready",
   description:
-    "Blog posts written for humans AND AI engines. SXO + schema baked in. Distributed automatically. Starting at $1,497/mo for 4 posts. Scale to 8 or 12.",
+    "Blog posts written for humans AND AI engines. SXO + schema baked in. Distributed automatically. Start at 4 posts a month and scale to 8 or 12.",
   alternates: { canonical: "https://rocketopp.com/services/web-marketing/content-marketing" },
 }
 
@@ -57,7 +57,7 @@ export default function ContentMarketingPage() {
         },
         {
           q: "Can I get more than 12 posts a month?",
-          a: "Yes — at higher volumes we use a hybrid AI-assisted human workflow. Custom quote required; talk to us in the order wizard.",
+          a: "Yes — at higher volumes we use a hybrid AI-assisted human workflow. Book a free consultation and we will scope it with you.",
         },
       ]}
     />

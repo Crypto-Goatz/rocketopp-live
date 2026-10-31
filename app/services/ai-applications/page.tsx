@@ -106,7 +106,7 @@ const faqs = [
   },
   {
     question: "What's the pricing model for AI applications?",
-    answer: "AI applications start at $10,000 for basic chatbots and scale based on complexity, integration requirements, and usage volume. We offer both project-based pricing and ongoing subscription models. ROI is typically achieved within 3-6 months."
+    answer: "AI applications are scoped in a free consultation and scale based on complexity, integration requirements, and usage volume. We offer both project-based pricing and ongoing subscription models. ROI is typically achieved within 3-6 months."
   },
 ]
 
@@ -121,18 +121,7 @@ const jsonLd = {
   },
   "description": "Custom AI application development including chatbots, process automation, and intelligent business tools.",
   "areaServed": "Worldwide",
-  "serviceType": "AI Development",
-  "offers": {
-    "@type": "Offer",
-    "price": "10000",
-    "priceCurrency": "USD",
-    "priceSpecification": {
-      "@type": "PriceSpecification",
-      "price": "10000",
-      "priceCurrency": "USD",
-      "minPrice": "10000"
-    }
-  }
+  "serviceType": "AI Development"
 }
 
 export default function AIApplicationsPage() {

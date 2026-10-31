@@ -47,16 +47,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const tiers = [
-  { name: "PPC Starter", price: "$797/mo", headline: "One channel. AI-optimized. Real reporting.", bestFor: "Local businesses + service providers running 1 channel.",
+  { name: "PPC Starter", headline: "One channel. AI-optimized. Real reporting.", bestFor: "Local businesses + service providers running 1 channel.",
     features: ["1 channel managed (Google OR Meta OR LinkedIn)", "Up to $5k/mo ad spend", "AI-optimized bidding + creative rotation", "Conversion tracking setup", "Weekly performance email", "Monthly strategy call", "Live ROI dashboard", "Cancel anytime"] },
-  { name: "PPC Growth", price: "$1,997/mo", popular: true, headline: "Multi-channel media buying with AI in the loop.", bestFor: "Growing brands ($1M-$10M ARR) on 2-3 channels.",
+  { name: "PPC Growth", popular: true, headline: "Multi-channel media buying with AI in the loop.", bestFor: "Growing brands ($1M-$10M ARR) on 2-3 channels.",
     features: ["Everything in Starter, plus —", "3 channels managed (Google + Meta + 1 of: LinkedIn / TikTok / X)", "Up to $25k/mo ad spend", "Cross-channel attribution + budget reallocation", "Creative + copy production (4 variants/wk)", "CRO9 landing-page mutation engine", "Bi-weekly strategy calls", "Monthly executive deep-dive"] },
-  { name: "PPC Enterprise", price: "$3,997/mo", headline: "Full-stack performance media + experimentation.", bestFor: "Enterprise + multi-location ($10M+ ARR) running everywhere.",
+  { name: "PPC Enterprise", headline: "Full-stack performance media + experimentation.", bestFor: "Enterprise + multi-location ($10M+ ARR) running everywhere.",
     features: ["Everything in Growth, plus —", "Unlimited channels (Google + Meta + LinkedIn + TikTok + X + Pinterest + Reddit)", "Unlimited ad spend (no fee scaling)", "Dedicated media buyer + AI strategist", "Multi-location campaign architecture", "Custom dashboards (looker / GA4 / your data warehouse)", "Quarterly creative refresh sprint", "Weekly strategy calls"] },
 ]
 
 const comparisonRows = [
-  { dimension: "Monthly fee", industry: "$1,500-$5,000/mo", rocketopp: "$797-$3,997/mo flat" },
   { dimension: "Pricing model", industry: "% of ad spend (incentive misaligned)", rocketopp: "Flat fee — we win when you do" },
   { dimension: "Time to first optimized campaigns", industry: "30-60 days", rocketopp: "7-14 days" },
   { dimension: "Channels managed", industry: "1-2 (extra fee per channel)", rocketopp: "1-7 included by tier" },
@@ -77,21 +76,21 @@ const processSteps = [
 
 const faqs = [
   { question: "What is PPC and is it still worth it in 2026?", answer: "PPC (pay-per-click) advertising means buying targeted clicks on Google, Meta (Facebook/Instagram), LinkedIn, TikTok, X, Pinterest, or Reddit. It's still worth it in 2026 — but the bar is higher because AI-driven platforms reward operators who feed them clean targeting + creative. Done right, PPC is the most predictable channel a business can run because you can scale spend the moment it's profitable. Done wrong (no AI in the loop, no clean tracking, mediocre creative), it's where marketing budgets die." },
-  { question: "How much does PPC management cost in 2026?", answer: "Industry average is $1,500-$5,000/mo on a percentage-of-spend model — which means as you scale, the fee scales with you (incentive misaligned). RocketOpp charges flat fees: Starter $797 (1 channel, up to $5k/mo spend), Growth $1,997 (3 channels, up to $25k/mo spend), Enterprise $3,997 (unlimited channels, unlimited spend). The savings compound the bigger your spend gets." },
+  { question: "How much does PPC management cost in 2026?", answer: "Industry average is $1,500-$5,000/mo on a percentage-of-spend model — which means as you scale, the fee scales with you (incentive misaligned). RocketOpp charges a flat fee instead, scoped in a free consultation: Starter covers 1 channel (up to $5k/mo spend), Growth covers 3 channels (up to $25k/mo spend), Enterprise covers unlimited channels and unlimited spend. The savings compound the bigger your spend gets." },
   { question: "Which platform should I be running?", answer: "It depends on your ICP. Local services + e-commerce: usually Google + Meta. B2B / SaaS: LinkedIn primary, Google supporting, X for thought leadership. DTC + Gen Z: TikTok + Meta. Enterprise + niche: Reddit + LinkedIn. We start with the channel that matches your customer + scale into others as data proves the unit economics." },
   { question: "What's CRO9 and why is it on the ads page?", answer: "CRO9 is our self-learning conversion-rate optimization engine. Once your ads start sending traffic, CRO9 mutates the landing page in real time based on visitor behavior — different headline for different audiences, different CTA placement, different social proof. The result: every visitor sees the version of your page most likely to convert them. It's why our PPC ROI numbers beat the agency-average even when we're spending less." },
   { question: "How fast will I see results?", answer: "Tracking + first campaigns live: 7-14 days. First optimized performance signal: 21-30 days (the AI needs ~2 weeks of conversion data to start tuning bids effectively). First clear ROI win: month 2. Scaling decision: month 3. We don't sugarcoat the timeline — anyone promising profitable Day-1 ROAS is selling you something else." },
   { question: "Do you guarantee results?", answer: "We guarantee execution: tracking will be clean, ads will be in market by Day 14, weekly digest will land every Monday, monthly call will happen. We don't guarantee CPA / ROAS targets because they depend on your offer + market — but we do agree to a target with you at kickoff and we keep optimizing until we hit it. If we miss it after 60 days of clean data, we don't bill the next month." },
   { question: "Will you use my existing accounts or build new ones?", answer: "We always work in your accounts (Google Ads MCC link, Meta Business Manager partner access, LinkedIn Ad account share). You own the data, the campaign history, and the audiences. If you ever leave us, everything stays in your accounts — no held-hostage scenarios." },
-  { question: "What about creative production?", answer: "Growth + Enterprise include 4+ ad variants per week, written and designed by our team using AI-assisted production (Groq-driven copy + Midjourney/Flux for visuals + your brand library). Starter clients can add creative as a $300/mo add-on or supply their own. Either way, we run weekly creative-fatigue analysis and refresh before performance dips." },
+  { question: "What about creative production?", answer: "Growth + Enterprise include 4+ ad variants per week, written and designed by our team using AI-assisted production (Groq-driven copy + Midjourney/Flux for visuals + your brand library). Starter clients can add creative production or supply their own. Either way, we run weekly creative-fatigue analysis and refresh before performance dips." },
   { question: "Can I cancel anytime?", answer: "Yes — every PPC plan is month-to-month. No ramp-up fees, no minimum-term contracts, no exit fees. We make it stupidly easy to leave because we want you to stay because the numbers are good, not because the paperwork is hostile." },
 ]
 
 const relatedLinks = [
-  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — feed organic alongside the paid" },
-  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "$1,497 — capture + nurture every lead the ads send" },
-  { label: "AI Business Automation", href: "/services/ai-automation", hint: "$2,997 — auto-qualify ad leads with AI agents" },
-  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect ads, CRM, and AI in one stack" },
+  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "Feed organic alongside the paid" },
+  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "Capture + nurture every lead the ads send" },
+  { label: "AI Business Automation", href: "/services/ai-automation", hint: "Auto-qualify ad leads with AI agents" },
+  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "Connect ads, CRM, and AI in one stack" },
   { label: "CRO9 — the optimization engine", href: "https://cro9.com", hint: "Living DOM that mutates landing pages in real time", external: true },
   { label: "Read the PPC playbook", href: "/blog", hint: "Real campaigns, real numbers, real failures" },
 ]
@@ -99,7 +98,7 @@ const relatedLinks = [
 export default function PpcManagementPage() {
   return (
     <>
-      <ServiceOfferSchema name="PPC Management" description="AI-optimized paid advertising management across Google, Meta, LinkedIn, TikTok, X — flat-fee pricing, real ROI." serviceType="PPC / Paid Media Management" url="https://rocketopp.com/services/ppc-management" price={797} priceUnit="MONTH" />
+      <ServiceOfferSchema name="PPC Management" description="AI-optimized paid advertising management across Google, Meta, LinkedIn, TikTok, X — flat-fee pricing, real ROI." serviceType="PPC / Paid Media Management" url="https://rocketopp.com/services/ppc-management" />
       <FAQSchema items={faqs} />
       <HowToSchema name="How RocketOpp ships a PPC engagement" description="Six steps from audit to compounding paid performance." totalTime="P14D" steps={processSteps.map((s) => ({ name: s.title, text: s.body }))} />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://rocketopp.com" }, { name: "Services", url: "https://rocketopp.com/services" }, { name: "PPC Management", url: "https://rocketopp.com/services/ppc-management" }]} />
@@ -107,16 +106,16 @@ export default function PpcManagementPage() {
       <main className="min-h-screen">
         <BlufBlock
           badge="Flat-fee pricing — we win when you do"
-          bottomLine="Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, TikTok, X — one team, transparent flat-fee pricing, real ROI on a live dashboard. From $797/mo."
+          bottomLine="Paid ads managed by AI, optimized by CRO9. Google, Meta, LinkedIn, TikTok, X — one team, transparent flat-fee pricing, real ROI on a live dashboard. Starts with a free consultation."
           context="The industry runs on percentage-of-spend, which means agencies make more when YOU spend more — even on bad campaigns. We charge flat fees because incentives should match. Plus the CRO9 mutation engine is included on Growth+ — your landing pages self-optimize as the ads send traffic."
           stats={[
             { label: "Channels covered", value: "Up to 7" },
             { label: "Time to first optimized campaign", value: "14 days" },
             { label: "Pricing model", value: "Flat fee" },
-            { label: "Starting price", value: "$797/mo" },
+            { label: "First step", value: "Free consult" },
           ]}
           primaryCta={{ label: "Book a PPC call", href: "/contact" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          secondaryCta={{ label: "See packages", href: "#pricing" }}
         />
 
         <EcosystemStrip />
@@ -174,9 +173,9 @@ export default function PpcManagementPage() {
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
-                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">PPC pricing</span>
+                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">PPC packages</span>
               </h2>
-              <p className="mt-3 text-base text-muted-foreground md:text-lg">Flat monthly fees. No long-term contracts. Cancel anytime.</p>
+              <p className="mt-3 text-base text-muted-foreground md:text-lg">Flat monthly fee, scoped in a free consultation. No long-term contracts. Cancel anytime.</p>
             </div>
             <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
               {tiers.map((tier) => (
@@ -188,7 +187,6 @@ export default function PpcManagementPage() {
                   )}
                   <h3 className="text-xl font-bold text-foreground">{tier.name}</h3>
                   <div className="mt-1 text-sm text-muted-foreground">{tier.headline}</div>
-                  <div className="mt-5"><span className="text-4xl font-black text-primary">{tier.price}</span></div>
                   <p className="mt-3 text-xs italic text-muted-foreground">{tier.bestFor}</p>
                   <ul className="mt-5 flex-1 space-y-2.5">
                     {tier.features.map((f) => (

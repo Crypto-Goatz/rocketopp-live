@@ -538,14 +538,15 @@ export default function ArticlePage() {
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Schema, an llms.txt written for AI crawlers, a robots.txt that actually allowlists
               them, and content that leads with the answer. It is not an upsell — it is the reason
-              the site is worth building. Right now that is $497.
+              the site is worth building. For small service businesses that are a good fit, the
+              website is free — it starts with a free consultation.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
-                href="/497-website"
+                href="/free-website"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
               >
-                See the $497 website offer
+                Book a free consultation
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link

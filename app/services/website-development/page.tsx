@@ -9,7 +9,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "Website Development — What's Included & How We Build",
   description:
-    "Professional website development from $2,497. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See pricing and what's included.",
+    "Free websites for small service businesses, after a free consultation. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See what's included.",
   keywords: [
     "cost for website design",
     "website development pricing",
@@ -25,7 +25,7 @@ const metadataBase: Metadata = {
   openGraph: {
       images: [{ url: 'https://rocketopp.com/api/og?title=Website%20Development%20%E2%80%94%20What%27s%20Included&eyebrow=Services', width: 1200, height: 630, alt: "Website Development — What's Included" }],
     title: "Website Development — What's Included | RocketOpp",
-    description: "Professional websites from $2,497. Launched in 2 weeks. See exactly what's included.",
+    description: "Free websites for small service businesses. Launched in 2 weeks. See exactly what's included.",
     url: "https://rocketopp.com/services/website-development",
   },
   alternates: { canonical: "https://rocketopp.com/services/website-development" },
@@ -38,7 +38,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const tiers = [
   {
     name: "Professional Website",
-    price: "$2,497",
     timeline: "2 weeks",
     features: [
       "Custom design (up to 8 pages)",
@@ -53,7 +52,6 @@ const tiers = [
   },
   {
     name: "E-Commerce Store",
-    price: "$4,997",
     timeline: "3 weeks",
     popular: true,
     features: [
@@ -69,7 +67,6 @@ const tiers = [
   },
   {
     name: "Full Digital Presence",
-    price: "$7,997",
     timeline: "4 weeks",
     features: [
       "Everything in E-Commerce",
@@ -88,7 +85,7 @@ const faqs = [
   {
     question: "How much does a professional website cost in 2026?",
     answer:
-      "Industry average for a professional website is $5,000 - $15,000. At RocketOpp, professional websites start at $2,497 because our AI-powered workflow (0nMCP) reduces development time by 60-70%. You get enterprise quality at a fraction of the cost.",
+      "Industry average for a professional website is $5,000 - $15,000. At RocketOpp, the website is free for small service businesses that are a good fit, because our AI-powered workflow (0nMCP) reduces development time by 60-70%. It starts with a free consultation where we assess your situation and goals. No purchase is needed for the website — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month.",
   },
   {
     question: "How long does it take to build a website?",
@@ -103,7 +100,7 @@ const faqs = [
   {
     question: "Do you offer ongoing maintenance?",
     answer:
-      "Yes. All packages include initial support (1-6 months depending on tier). After that, we offer monthly maintenance plans starting at $197/month that include updates, security patches, performance monitoring, and content changes.",
+      "Yes. All packages include initial support (1-6 months depending on tier). After that, ongoing updates, security patches, performance monitoring, and content changes are available — we walk through what fits your business in the free consultation.",
   },
   {
     question: "Can I update the website content myself?",
@@ -120,7 +117,6 @@ export default function WebsiteDevelopmentPage() {
         description="Custom website development with AI-powered workflow. Mobile-first, SEO-optimized, conversion-focused websites delivered in 2 weeks."
         serviceType="Website Development"
         url="https://rocketopp.com/services/website-development"
-        price={2497}
       />
       <FAQSchema items={faqs} />
       <BreadcrumbSchema
@@ -143,19 +139,19 @@ export default function WebsiteDevelopmentPage() {
                 Ships in 2 weeks
               </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Website Development — Pricing & What&apos;s Included
+                Website Development — What&apos;s Included
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Custom websites built with AI. Mobile-first, SEO-optimized, conversion-focused. Launches in 2 weeks, not 2 months. Starting at <span className="text-primary font-bold">$2,497</span>.
+                Custom websites built with AI. Mobile-first, SEO-optimized, conversion-focused. Launches in 2 weeks, not 2 months. <span className="text-primary font-bold">Free for small service businesses</span> that are a good fit.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="text-lg px-8 py-6" asChild>
-                  <Link href="/contact">
-                    Get Started <ArrowRight className="ml-2 w-5 h-5" />
+                  <Link href="/free-website">
+                    Book a free consultation <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
-                  <a href="#pricing">See Pricing</a>
+                  <a href="#pricing">See Packages</a>
                 </Button>
               </div>
             </div>
@@ -190,12 +186,12 @@ export default function WebsiteDevelopmentPage() {
           </div>
         </section>
 
-        {/* Pricing Tiers */}
+        {/* Packages */}
         <section id="pricing" className="py-16 md:py-24">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Pricing</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Packages</h2>
             <p className="text-center text-muted-foreground mb-12 max-w-xl mx-auto">
-              Pick the package that fits. No hidden fees. No surprises.
+              We recommend the package that fits after a free consultation. No hidden fees. No surprises.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {tiers.map((tier) => (
@@ -210,9 +206,6 @@ export default function WebsiteDevelopmentPage() {
                   )}
                   <div>
                     <h3 className="text-xl font-bold">{tier.name}</h3>
-                    <div className="mt-2">
-                      <span className="text-4xl font-bold text-primary">{tier.price}</span>
-                    </div>
                     <div className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Clock className="w-3.5 h-3.5" />
                       Ships in {tier.timeline}
@@ -227,8 +220,8 @@ export default function WebsiteDevelopmentPage() {
                     ))}
                   </ul>
                   <Button className="w-full" variant={tier.popular ? "default" : "outline"} asChild>
-                    <Link href="/contact">
-                      Get Started <ArrowRight className="ml-1.5 w-4 h-4" />
+                    <Link href="/free-website">
+                      Book a free consultation <ArrowRight className="ml-1.5 w-4 h-4" />
                     </Link>
                   </Button>
                 </div>
@@ -257,11 +250,11 @@ export default function WebsiteDevelopmentPage() {
           <div className="container px-4 md:px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Launch Your Website?</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-              Stop paying agency markups. Get a professional website in 2 weeks for $2,497.
+              Stop paying agency markups. Book a free consultation — if you are a good fit, the website is free.
             </p>
             <Button size="lg" className="text-lg px-8 py-6" asChild>
-              <Link href="/contact">
-                Get Started Today <ArrowRight className="ml-2 w-5 h-5" />
+              <Link href="/free-website">
+                Book a free consultation <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
           </div>

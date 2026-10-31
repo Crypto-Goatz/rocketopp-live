@@ -47,16 +47,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const tiers = [
-  { name: "CRM Starter", price: "$1,497", headline: "Get a working CRM in 7 days.", bestFor: "Solo founders + small teams just leaving spreadsheets.",
+  { name: "CRM Starter", headline: "Get a working CRM in 7 days.", bestFor: "Solo founders + small teams just leaving spreadsheets.",
     features: ["Full CRM setup (pipelines, custom fields, tags)", "Lead capture forms (3) wired to CRM", "Basic email + SMS sequences (5 flows)", "Calendar / appointment booking", "Lead scoring (rule-based)", "Reporting dashboard", "1 hour of training", "30 days of refinement"] },
-  { name: "CRM Growth", price: "$4,497", popular: true, headline: "Automate the entire revenue motion.", bestFor: "Scaling teams with 100+ leads/mo and active sales reps.",
+  { name: "CRM Growth", popular: true, headline: "Automate the entire revenue motion.", bestFor: "Scaling teams with 100+ leads/mo and active sales reps.",
     features: ["Everything in Starter, plus —", "AI lead scoring (real-time, not rule-based)", "12 automated email + SMS sequences", "Multi-step appointment booking + reminders", "Auto-enrichment + CRM data hygiene agent", "Sales call summary → CRM agent", "Live revenue dashboard", "60 days of refinement + 2 strategy calls"] },
-  { name: "CRM Enterprise", price: "From $9,997", headline: "Multi-team, multi-location revenue infrastructure.", bestFor: "Multi-location service businesses + scaling sales orgs.",
+  { name: "CRM Enterprise", headline: "Multi-team, multi-location revenue infrastructure.", bestFor: "Multi-location service businesses + scaling sales orgs.",
     features: ["Everything in Growth, plus —", "Multi-location pipeline architecture", "Custom integrations (3+ business systems)", "Role-based access + audit trail", "Advanced reporting + cohort analytics", "Quarterly playbook reviews", "Dedicated CRM strategist", "Unlimited refinement"] },
 ]
 
 const comparisonRows = [
-  { dimension: "Setup cost", industry: "$3,000-$10,000", rocketopp: "$1,497-$9,997" },
   { dimension: "Time to first working pipeline", industry: "4-8 weeks", rocketopp: "1 week" },
   { dimension: "Sequences included on day 1", industry: "0-2", rocketopp: "5-12 fully written + tested" },
   { dimension: "Lead scoring model", industry: "Manual rules or extra add-on", rocketopp: "AI-based, included in Growth+" },
@@ -77,7 +76,7 @@ const processSteps = [
 
 const faqs = [
   { question: "What is CRM automation?", answer: "CRM automation is the practice of removing manual sales-ops work — lead routing, follow-up sequences, appointment confirmation, data enrichment, call summaries, deal-stage updates — by letting your CRM do them in the background. Done well, your reps spend their time on calls and closing, not on typing names into a database." },
-  { question: "How much does professional CRM setup cost in 2026?", answer: "Industry average for a real CRM implementation is $3,000-$10,000 with a 4-8 week timeline. RocketOpp ships Starter in 7 days for $1,497 because we use proven pipeline templates customized to your sales motion + the same 0nMCP automation layer that powers all our other services. Growth ($4,497) adds AI scoring + agent layer; Enterprise (from $9,997) adds multi-location + custom integrations." },
+  { question: "How much does professional CRM setup cost in 2026?", answer: "Industry average for a real CRM implementation is $3,000-$10,000 with a 4-8 week timeline. RocketOpp scopes every CRM engagement in a free consultation: we look at your sales motion and goals first, then recommend the package that fits. Starter ships in 7 days because we use proven pipeline templates customized to your sales motion + the same 0nMCP automation layer that powers all our other services. Growth adds AI scoring + the agent layer; Enterprise adds multi-location + custom integrations." },
   { question: "What CRM platforms do you work with?", answer: "We are platform-agnostic. We've built engagements on HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap, and our own CRM stack. Tell us what you're on or want to be on; we have the integration layer ready. The 0nMCP foundation means migrating between platforms later is way less painful than it would be otherwise." },
   { question: "Will my data import cleanly from spreadsheets / old CRM?", answer: "Yes. Data import + cleanup is built into every engagement. We dedupe contacts, normalize phone + email formats, map old fields to new ones, and run a hygiene pass before go-live. You can ship from day one with clean data, not the mess you've been carrying for years." },
   { question: "Do you set up email deliverability and SMS compliance?", answer: "Yes. Email sequences are useless if they hit spam. We configure SPF, DKIM, DMARC, warm-up cadence, and segmentation to keep deliverability above 95%. SMS includes opt-in flow + TCPA-compliant footer. Both are part of every plan." },
@@ -88,10 +87,10 @@ const faqs = [
 ]
 
 const relatedLinks = [
-  { label: "AI Business Automation", href: "/services/ai-automation", hint: "$2,997 — replace 5-10 workflows with AI agents" },
-  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,640+ tools" },
-  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "$797/mo — feed the CRM with qualified leads" },
-  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — drive organic leads to the CRM" },
+  { label: "AI Business Automation", href: "/services/ai-automation", hint: "Replace 5-10 workflows with AI agents" },
+  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "Connect any business to 1,640+ tools" },
+  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "Feed the CRM with qualified leads" },
+  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "Drive organic leads to the CRM" },
   { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,640+ tools, 111 services", external: true },
   { label: "Read the CRM playbook", href: "/blog", hint: "How we ship CRMs that actually get used" },
 ]
@@ -99,7 +98,7 @@ const relatedLinks = [
 export default function CrmAutomationPage() {
   return (
     <>
-      <ServiceOfferSchema name="CRM Setup & Automation" description="Full CRM setup with automated pipelines, AI lead scoring, email + SMS sequences, and appointment booking." serviceType="CRM Implementation + Automation" url="https://rocketopp.com/services/crm-automation" price={1497} priceUnit="ONE_TIME" />
+      <ServiceOfferSchema name="CRM Setup & Automation" description="Full CRM setup with automated pipelines, AI lead scoring, email + SMS sequences, and appointment booking." serviceType="CRM Implementation + Automation" url="https://rocketopp.com/services/crm-automation" />
       <FAQSchema items={faqs} />
       <HowToSchema name="How RocketOpp ships a CRM automation engagement" description="From revenue audit to fully-automated pipeline in seven days." totalTime="P7D" steps={processSteps.map((s) => ({ name: s.title, text: s.body }))} />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://rocketopp.com" }, { name: "Services", url: "https://rocketopp.com/services" }, { name: "CRM Automation", url: "https://rocketopp.com/services/crm-automation" }]} />
@@ -108,15 +107,15 @@ export default function CrmAutomationPage() {
         <BlufBlock
           badge="Pipelines + AI scoring + sequences in 7 days"
           bottomLine="Get a fully-automated CRM in 7 days. Pipelines, AI lead scoring, email + SMS sequences, calendar booking, data hygiene agent, and live revenue reporting — all running by next Friday."
-          context="Built on 0nMCP so your CRM connects to 1,640+ tools day one. Platform-agnostic — we work with HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap, or our own stack. From $1,497 (Starter) to $9,997+ (Enterprise multi-location)."
+          context="Built on 0nMCP so your CRM connects to 1,640+ tools day one. Platform-agnostic — we work with HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap, or our own stack. Every engagement starts with a free consultation."
           stats={[
             { label: "Time to working pipeline", value: "7 days" },
             { label: "Sequences shipped day 1", value: "5-12" },
-            { label: "Starting price", value: "$1,497" },
+            { label: "First step", value: "Free consult" },
             { label: "Adoption rate (last 5 engagements)", value: "90%+" },
           ]}
           primaryCta={{ label: "Book a CRM call", href: "/contact" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          secondaryCta={{ label: "See packages", href: "#pricing" }}
         />
 
         <EcosystemStrip />
@@ -131,7 +130,7 @@ export default function CrmAutomationPage() {
               <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
                 <p>The average sales rep spends <strong className="text-foreground">~21% of their week on CRM data entry</strong>. That&apos;s one full day per week your highest-paid people spend not selling.</p>
                 <p>Then there are the leads that never get followed up because the rep was on a call, the appointments missed because nobody confirmed, the warm leads that go cold because no sequence ever ran. Most teams lose <strong className="text-foreground">20-40% of pipeline value</strong> to invisible CRM debt.</p>
-                <p>A CRM that automates the boring 80% turns reps back into closers. The math on a 7-day, $1,497 setup is rounding error compared to the lost-pipeline cost of doing nothing.</p>
+                <p>A CRM that automates the boring 80% turns reps back into closers. A 7-day setup is rounding error compared to the lost-pipeline cost of doing nothing.</p>
               </div>
             </div>
           </div>
@@ -167,16 +166,16 @@ export default function CrmAutomationPage() {
           </div>
         </section>
 
-        <IndustryVsUsTable heading="CRM Setup: Industry vs RocketOpp" caption="The same scope of work. We're cheaper because the AI does the work the agency charges you for manually." rows={comparisonRows} footnote="* Industry baselines: Clutch.co + Capterra implementation pricing data 2026." />
+        <IndustryVsUsTable heading="CRM Setup: Industry vs RocketOpp" caption="The same scope of work, shipped faster because the AI does the work an agency charges you for manually." rows={comparisonRows} footnote="* Industry baselines: Clutch.co + Capterra implementation pricing data 2026." />
         <ProcessTimeline heading="How we ship a CRM engagement" caption="Seven days from kickoff to working pipeline." steps={processSteps} />
 
         <section id="pricing" className="border-y border-border py-16 md:py-24 bg-card/20">
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
-                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">CRM pricing</span>
+                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">CRM packages</span>
               </h2>
-              <p className="mt-3 text-base text-muted-foreground md:text-lg">One-time setup fees. You own the CRM. 30-day results guarantee.</p>
+              <p className="mt-3 text-base text-muted-foreground md:text-lg">Every package is scoped in a free consultation. You own the CRM. 30-day results guarantee.</p>
             </div>
             <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
               {tiers.map((tier) => (
@@ -188,7 +187,6 @@ export default function CrmAutomationPage() {
                   )}
                   <h3 className="text-xl font-bold text-foreground">{tier.name}</h3>
                   <div className="mt-1 text-sm text-muted-foreground">{tier.headline}</div>
-                  <div className="mt-5"><span className="text-4xl font-black text-primary">{tier.price}</span></div>
                   <p className="mt-3 text-xs italic text-muted-foreground">{tier.bestFor}</p>
                   <ul className="mt-5 flex-1 space-y-2.5">
                     {tier.features.map((f) => (
@@ -247,7 +245,7 @@ export default function CrmAutomationPage() {
                 <Activity className="h-3 w-3" /> 30-min call · Free · No commitment
               </div>
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">Show us your sales motion. We&apos;ll show you the CRM.</h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">30 minutes. We map your pipeline, identify the 3 biggest automation wins, and tell you what it costs to ship in 7 days.</p>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">30 minutes. We map your pipeline, identify the 3 biggest automation wins, and tell you what it takes to ship in 7 days.</p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="lg" className="text-base"><Link href="/contact">Book the call <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
                 <Button asChild variant="outline" size="lg" className="text-base"><Link href="/services/ai-automation">See AI Automation</Link></Button>

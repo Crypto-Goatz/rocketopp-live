@@ -25,7 +25,7 @@ export default function AiCrmClientPage() {
       icon: <TrendingDown className="h-8 w-8 text-primary" />,
       title: "90% Cost Reduction",
       description:
-        "Starting at just $5,000, our AI-powered development process delivers enterprise-level CRM solutions at a fraction of traditional costs.",
+        "Our AI-powered development process delivers enterprise-level CRM solutions at a fraction of traditional costs.",
     },
     {
       icon: <Building2 className="h-8 w-8 text-primary" />,
@@ -51,7 +51,7 @@ export default function AiCrmClientPage() {
   ]
 
   const stats = [
-    { value: "$5,000", label: "Starting Price", subtext: "vs. $50,000+ industry average" },
+    { value: "Free", label: "Consultation", subtext: "We assess your goals first" },
     { value: "90%", label: "Cost Savings", subtext: "Compared to traditional development" },
     { value: "100%", label: "Customization", subtext: "Built for your specific needs" },
     { value: "Enterprise", label: "Technology Level", subtext: "Fortune 500 capabilities" },
@@ -81,7 +81,7 @@ export default function AiCrmClientPage() {
                 <span className="block text-primary mt-2">Disrupting Industries</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Enterprise-level CRM technology starting at just $5,000. We've revolutionized the development process
+                Enterprise-level CRM technology, scoped in a free consultation. We've revolutionized the development process
                 and passed the savings directly to small businesses competing with corporate giants.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -198,10 +198,10 @@ export default function AiCrmClientPage() {
                   </div>
                 </div>
                 <div className="text-center p-6 bg-card rounded-lg shadow-lg border-2 border-primary">
-                  <div className="text-5xl font-bold text-primary mb-4">$5k</div>
+                  <div className="text-5xl font-bold text-primary mb-4">90%</div>
                   <div className="font-semibold mb-2">Our AI-Powered Process</div>
                   <div className="text-sm text-muted-foreground">
-                    Same enterprise technology, 90% less cost through automation
+                    Less cost than traditional development — same enterprise technology, through automation
                   </div>
                 </div>
                 <div className="text-center p-6">
@@ -231,11 +231,11 @@ export default function AiCrmClientPage() {
                   <Link href="/ai-assessment-start">Start Your Custom CRM Project</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="text-lg bg-transparent">
-                  <Link href="/#contact">Schedule a Consultation</Link>
+                  <Link href="/contact">Book a free consultation</Link>
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground mt-6">
-                Starting at $5,000 • Enterprise Technology • Fully Customized • Built-in AI
+                Free Consultation • Enterprise Technology • Fully Customized • Built-in AI
               </p>
             </div>
           </div>

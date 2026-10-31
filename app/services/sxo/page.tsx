@@ -62,7 +62,7 @@ const metadataBase: Metadata = {
       images: [{ url: 'https://rocketopp.com/api/og?title=SXO%20%E2%80%94%20The%20SEO%20Replacement%20for%20the%20AI%20Era&eyebrow=Services', width: 1200, height: 630, alt: "SXO — The SEO Replacement for the AI Era" }],
     title: "SXO — The SEO Replacement for the AI Era | RocketOpp",
     description:
-      "SXO from $997/mo. Search + UX + Conversion + AI engine readiness in one protocol. Powered by CRO9.",
+      "SXO: Search + UX + Conversion + AI engine readiness in one protocol. Powered by CRO9.",
     url: "https://rocketopp.com/services/sxo",
     type: "website",
   },
@@ -78,7 +78,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const tiers = [
   {
     name: "SXO Starter",
-    price: "$997/mo",
     headline: "Get on the AI map in 30 days.",
     bestFor: "Local businesses + service providers under $1M ARR.",
     features: [
@@ -94,7 +93,6 @@ const tiers = [
   },
   {
     name: "SXO Growth",
-    price: "$1,997/mo",
     popular: true,
     headline: "Compound growth across content + conversion.",
     bestFor: "Funded startups + growing service businesses ($1M-$10M ARR).",
@@ -111,7 +109,6 @@ const tiers = [
   },
   {
     name: "SXO Enterprise",
-    price: "$3,997/mo",
     headline: "Authority across an entire vertical.",
     bestFor: "Multi-location and enterprise (10+ ARR).",
     features: [
@@ -128,12 +125,6 @@ const tiers = [
 ]
 
 const comparisonRows = [
-  {
-    dimension: "Monthly investment",
-    industry: "$2,000–$5,000/mo",
-    rocketopp: "$997–$3,997/mo",
-    win: true,
-  },
   {
     dimension: "Time to first measurable lift",
     industry: "3–6 months",
@@ -232,7 +223,7 @@ const faqs = [
   {
     question: "How much does professional SXO cost in 2026?",
     answer:
-      "Industry average for professional SEO is $2,000–$5,000/month. RocketOpp's SXO starts at $997/month because our CRO9 engine automates the analysis and content optimization work that takes traditional agencies 10x longer. The Growth plan ($1,997/mo) is what most operators land on; Enterprise ($3,997/mo) is for multi-location and 10M+ ARR companies. Every plan is month-to-month with a 30-day results guarantee.",
+      "Industry average for professional SEO is $2,000–$5,000/month. RocketOpp's SXO costs less because our CRO9 engine automates the analysis and content optimization work that takes traditional agencies 10x longer. Every plan is scoped in a free consultation: Growth is what most operators land on; Enterprise is for multi-location and 10M+ ARR companies. Every plan is month-to-month with a 30-day results guarantee.",
   },
   {
     question: "Will my site actually get cited by ChatGPT and Perplexity?",
@@ -275,22 +266,22 @@ const relatedLinks = [
   {
     label: "AI Business Automation",
     href: "/services/ai-automation",
-    hint: "$2,997 — custom AI systems that run your operations",
+    hint: "Custom AI systems that run your operations",
   },
   {
     label: "CRM Setup & Automation",
     href: "/services/crm-automation",
-    hint: "$1,497 — full CRM with pipelines + lead scoring",
+    hint: "Full CRM with pipelines + lead scoring",
   },
   {
     label: "MCP Server Integration",
     href: "/services/mcp-integration",
-    hint: "$1,997 — one integration, 1,640+ tools",
+    hint: "One integration, 1,640+ tools",
   },
   {
     label: "PPC & Paid Ads",
     href: "/services/ppc-management",
-    hint: "$797/mo — Google + Meta + LinkedIn, AI-optimized",
+    hint: "Google + Meta + LinkedIn, AI-optimized",
   },
   {
     label: "Run a free SXO scan",
@@ -315,8 +306,6 @@ export default function SXOPage() {
         description="SXO replaces SEO for the AI era. Combines search optimization, user experience, conversion, and AI engine readiness in one protocol."
         serviceType="Search Experience Optimization"
         url="https://rocketopp.com/services/sxo"
-        price={997}
-        priceUnit="MONTH"
       />
       <FAQSchema items={faqs} />
       <HowToSchema
@@ -345,11 +334,11 @@ export default function SXOPage() {
           stats={[
             { label: "Score lift example", value: "82 → 92" },
             { label: "First citations within", value: "14 days" },
-            { label: "Starts at", value: "$997/mo" },
+            { label: "First step", value: "Free consult" },
             { label: "Month-to-month", value: "0 contracts" },
           ]}
           primaryCta={{ label: "Run a free SXO scan", href: "https://sxowebsite.com/scan" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          secondaryCta={{ label: "See plans", href: "#pricing" }}
         />
 
         {/* ━━━ Live ecosystem heartbeat ━━━ */}
@@ -473,7 +462,7 @@ export default function SXOPage() {
                 </span>
               </h2>
               <p className="mt-3 text-base text-muted-foreground md:text-lg">
-                Month-to-month. Cancel anytime. 30-day results guarantee on every plan.
+                Scoped in a free consultation. Month-to-month. 30-day results guarantee on every plan.
               </p>
             </div>
 
@@ -495,9 +484,6 @@ export default function SXOPage() {
                   )}
                   <h3 className="text-xl font-bold text-foreground">{tier.name}</h3>
                   <div className="mt-1 text-sm text-muted-foreground">{tier.headline}</div>
-                  <div className="mt-5">
-                    <span className="text-4xl font-black text-primary">{tier.price}</span>
-                  </div>
                   <p className="mt-3 text-xs italic text-muted-foreground">{tier.bestFor}</p>
                   <ul className="mt-5 flex-1 space-y-2.5">
                     {tier.features.map((f) => (

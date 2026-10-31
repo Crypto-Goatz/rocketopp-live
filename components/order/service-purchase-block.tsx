@@ -1,22 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Sparkles, ShoppingBag, Clock } from 'lucide-react'
-import { AddToCartButton } from '@/components/cart/add-to-cart-button'
+import { ArrowRight, Sparkles, CalendarCheck, Clock } from 'lucide-react'
 import { getService } from '@/lib/order/services-catalog'
 
 /**
- * Prominent purchase block for service pages — uses the per-service accent
- * (already scoped via ServiceAccentScope, so text-primary / bg-primary
+ * Prominent call-to-action block for service pages — uses the per-service
+ * accent (already scoped via ServiceAccentScope, so text-primary / bg-primary
  * automatically retint to the right color).
  *
- * Renders one of three flavors:
- *   - Direct buy (if `inStore`):   `Add to cart` button → cart drawer → checkout
- *   - Custom quote (everything else):  `Build my quote` → /order?seed=<slug>
- *   - Both side-by-side (in-store products always show both because some
- *     customers want a custom blended quote anyway).
- *
- * Pulls all copy + price from the catalog, so a single source of truth.
+ * Marketing pages no longer show prices: every engagement starts with a free
+ * consultation, so this block routes to /contact instead of the priced order
+ * wizard or the cart. Copy (name, pitch, timeline) still comes from the
+ * catalog; the catalog's price fields are left alone for checkout to use.
  */
 export function ServicePurchaseBlock({
   slug,
@@ -43,7 +39,7 @@ export function ServicePurchaseBlock({
         <div className="min-w-0">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-3">
             <Sparkles className="w-3 h-3" />
-            {product.inStore ? 'Buy now or build a custom quote' : 'Get this service'}
+            Get this service
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-2 tracking-tight">
             Ready to ship {product.name}?
@@ -56,41 +52,22 @@ export function ServicePurchaseBlock({
               <Clock className="w-3.5 h-3.5 text-primary" />
               {product.shipsIn}
             </span>
-            <span className="inline-flex items-baseline gap-1">
-              <span className="text-primary font-bold tabular-nums">
-                {product.basePriceLabel}
-              </span>
-              <span className="text-xs">{product.basePriceSuffix}</span>
-            </span>
           </div>
         </div>
 
-        {/* CTA stack */}
+        {/* CTA */}
         <div className="space-y-3">
-          {product.inStore ? (
-            <>
-              <AddToCartButton slug={product.slug} fullWidth size="lg" />
-              <Link
-                href={`/order?seed=${product.slug}`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-primary/40 bg-card/50 px-5 py-3 text-sm font-bold text-primary hover:bg-primary/10 transition-colors"
-              >
-                Or build a custom quote
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </>
-          ) : (
-            <Link
-              href={`/order?seed=${product.slug}`}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground shadow-[0_0_24px_-8px_rgba(var(--service-accent-rgb,255_107_53)/0.6)] hover:scale-[1.02] transition-transform"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              Build my quote
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
+          <Link
+            href="/contact"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground shadow-[0_0_24px_-8px_rgba(var(--service-accent-rgb,255_107_53)/0.6)] hover:scale-[1.02] transition-transform"
+          >
+            <CalendarCheck className="w-4 h-4" />
+            Book a free consultation
+            <ArrowRight className="w-4 h-4" />
+          </Link>
           <p className="text-xs text-muted-foreground text-center px-2">
-            $50 refundable deposit locks the quote and books your kickoff at{' '}
-            <span className="text-primary">rocketappointments.com</span>
+            We look at your situation and goals first, then tell you honestly
+            whether we are a good fit.
           </p>
         </div>
       </div>

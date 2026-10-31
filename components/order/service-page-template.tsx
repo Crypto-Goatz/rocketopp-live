@@ -184,7 +184,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
                   {related.map((r) => (
                     <Link
                       key={r.slug}
-                      href={r.servicePagePath || `/order?seed=${r.slug}`}
+                      href={r.servicePagePath || '/contact'}
                       className="group card-lifted p-5 hover:border-primary/40 transition-all"
                     >
                       <h4 className="font-bold group-hover:text-primary transition-colors">
@@ -195,10 +195,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
                       </p>
                       <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
                         <span className="text-sm font-bold text-primary">
-                          {r.basePriceLabel}
-                          <span className="text-xs font-normal text-muted-foreground">
-                            {r.basePriceSuffix}
-                          </span>
+                          Learn more
                         </span>
                         <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </div>

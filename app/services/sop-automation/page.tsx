@@ -129,18 +129,7 @@ const jsonLd = {
   },
   "description": "Professional SOP automation services including process documentation, workflow automation, team training, and AI optimization.",
   "areaServed": "Worldwide",
-  "serviceType": "Business Process Automation",
-  "offers": {
-    "@type": "Offer",
-    "price": "3000",
-    "priceCurrency": "USD",
-    "priceSpecification": {
-      "@type": "PriceSpecification",
-      "price": "3000",
-      "priceCurrency": "USD",
-      "minPrice": "3000"
-    }
-  }
+  "serviceType": "Business Process Automation"
 }
 
 export default function SOPAutomationPage() {

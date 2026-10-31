@@ -33,7 +33,7 @@ const metadataBase: Metadata = {
   title:
     "Agentic AI Apps — AI That Does the Work, Not Just the Talking",
   description:
-    "Custom agentic AI applications built on 0nMCP: 1,640 tools across 111 services. Agents that read your systems, decide, act, and report back — from $4,997, live in 3 weeks. You own the code.",
+    "Custom agentic AI applications built on 0nMCP: 1,640 tools across 111 services. Agents that read your systems, decide, act, and report back — live in 3 weeks. You own the code.",
   keywords: [
     "agentic AI",
     "agentic AI apps",
@@ -54,7 +54,7 @@ const metadataBase: Metadata = {
       images: [{ url: 'https://rocketopp.com/api/og?title=Agentic%20AI%20Apps%20%E2%80%94%20AI%20That%20Actually%20Does%20the%20Work&eyebrow=Services', width: 1200, height: 630, alt: "Agentic AI Apps — AI That Actually Does the Work" }],
     title: "Agentic AI Apps — AI That Actually Does the Work | RocketOpp",
     description:
-      "Agents that act across 111 services and 1,640 tools. From $4,997, live in 3 weeks, and you own the code.",
+      "Agents that act across 111 services and 1,640 tools. Live in 3 weeks, and you own the code.",
     url: "https://rocketopp.com/services/agentic-ai-apps",
     type: "website",
   },
@@ -214,7 +214,6 @@ const processSteps = [
 const tiers = [
   {
     name: "Agent Pilot",
-    price: "$4,997",
     meta: "one-time · 3 weeks",
     headline: "One agent, one outcome, running in production.",
     bestFor:
@@ -228,11 +227,10 @@ const tiers = [
       "Repo handoff — you own it",
       "30 days post-launch tuning",
     ],
-    cta: { label: "Start a pilot", href: "/order?seed=agentic-ai-apps" },
+    cta: { label: "Start a pilot", href: "/contact" },
   },
   {
     name: "Agent Suite",
-    price: "$9,997",
     meta: "one-time · 5 weeks",
     popular: true,
     headline: "Several agents that hand work to each other.",
@@ -247,11 +245,10 @@ const tiers = [
       "Admin dashboard for the run log",
       "Custom tools for anything not already covered",
     ],
-    cta: { label: "Scope a suite", href: "/order?seed=agentic-ai-apps" },
+    cta: { label: "Scope a suite", href: "/contact" },
   },
   {
     name: "Embedded",
-    price: "Custom",
     meta: "retainer",
     headline: "Agents as an ongoing capability, not a project.",
     bestFor:
@@ -277,7 +274,7 @@ const faqs = [
   {
     question: "How much does a custom agentic AI application cost?",
     answer:
-      "A single-outcome agent starts at $4,997 as a one-time build, live in about 3 weeks. A multi-agent suite that covers an entire process — intake through fulfilment, with agents handing work between them — is $9,997 over roughly 5 weeks. Ongoing agent development runs as a custom retainer. The reason these numbers are lower than a typical ground-up build is that the integration layer already exists: 0nMCP ships 1,640 tools across 111 services, so we are configuring and orchestrating proven integrations rather than writing connectors from scratch.",
+      "Every build is scoped in a free consultation, where we look at your situation and goals before recommending anything. A single-outcome agent is a one-time build, live in about 3 weeks. A multi-agent suite that covers an entire process — intake through fulfilment, with agents handing work between them — takes roughly 5 weeks. Ongoing agent development runs as a retainer. The reason builds cost less than a typical ground-up build is that the integration layer already exists: 0nMCP ships 1,640 tools across 111 services, so we are configuring and orchestrating proven integrations rather than writing connectors from scratch.",
   },
   {
     question: "Which systems can the agent actually connect to?",
@@ -310,12 +307,12 @@ const relatedLinks = [
   {
     label: "MCP Server Integration",
     href: "/services/mcp-integration",
-    hint: `$1,997 — the integration layer these agents run on, ${MCP_TOOLS} tools`,
+    hint: `The integration layer these agents run on, ${MCP_TOOLS} tools`,
   },
   {
     label: "AI Business Automation",
     href: "/services/ai-automation",
-    hint: "$2,997 — rules-based automation when you do not need an agent",
+    hint: "Rules-based automation when you do not need an agent",
   },
   {
     label: "AI Applications",
@@ -325,7 +322,7 @@ const relatedLinks = [
   {
     label: "CRM Setup & Automation",
     href: "/services/crm-automation",
-    hint: "$1,497 — the system most agents end up acting on",
+    hint: "The system most agents end up acting on",
   },
   {
     label: "AI Lead-Tool Apps",
@@ -347,10 +344,9 @@ export default function AgenticAiAppsPage() {
     <>
       <ServiceOfferSchema
         name="Agentic AI App Development"
-        description={`Custom agentic AI applications built on 0nMCP. Agents with real tool access across ${MCP_SERVICES} services and ${MCP_TOOLS} tools that read your systems, decide, act, and report back in plain English. From $4,997, live in 3 weeks, client owns the code.`}
+        description={`Custom agentic AI applications built on 0nMCP. Agents with real tool access across ${MCP_SERVICES} services and ${MCP_TOOLS} tools that read your systems, decide, act, and report back in plain English. Live in 3 weeks, client owns the code.`}
         serviceType="Agentic AI Application Development"
         url="https://rocketopp.com/services/agentic-ai-apps"
-        price={4997}
       />
       <FAQSchema items={faqs} />
       <HowToSchema
@@ -374,16 +370,16 @@ export default function AgenticAiAppsPage() {
         {/* ━━━ BLUF ━━━ */}
         <BlufBlock
           badge="Powered by 0nMCP"
-          bottomLine="Most 'AI' a business buys can only talk. An agentic AI app can act — it reads your systems, decides what to do, uses real tools to do it, and writes back a plain-English record of what changed. From $4,997, running in three weeks, and the code is yours."
+          bottomLine="Most 'AI' a business buys can only talk. An agentic AI app can act — it reads your systems, decides what to do, uses real tools to do it, and writes back a plain-English record of what changed. Running in three weeks, and the code is yours."
           context={`Your agent inherits ${MCP_TOOLS} tools across ${MCP_SERVICES} services on day one, because we are not writing integrations from scratch — we are pointing an agent at ones already running in production. Approval gates stay on anything irreversible until you take them off.`}
           stats={[
             { label: "Services wired", value: `${MCP_SERVICES}` },
             { label: "Tools available", value: MCP_TOOLS },
             { label: "Live in", value: "3 weeks" },
-            { label: "Starts at", value: "$4,997" },
+            { label: "First step", value: "Free consult" },
           ]}
-          primaryCta={{ label: "Scope my agent", href: "/order?seed=agentic-ai-apps" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          primaryCta={{ label: "Book a free consultation", href: "/contact" }}
+          secondaryCta={{ label: "See packages", href: "#pricing" }}
         />
 
         {/* ━━━ Live ecosystem heartbeat ━━━ */}
@@ -473,10 +469,10 @@ export default function AgenticAiAppsPage() {
                   without calling us.
                 </p>
                 <Link
-                  href="/order?seed=agentic-ai-apps"
+                  href="/contact"
                   className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-[0_0_32px_rgba(255,107,53,0.3)] transition-transform hover:scale-[1.02]"
                 >
-                  Build my quote
+                  Book a free consultation
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -509,7 +505,7 @@ export default function AgenticAiAppsPage() {
           steps={processSteps}
         />
 
-        {/* ━━━ Pricing ━━━ */}
+        {/* ━━━ Packages ━━━ */}
         <section
           id="pricing"
           className="relative overflow-hidden border-y border-border bg-card/20 py-16 md:py-24"
@@ -518,11 +514,11 @@ export default function AgenticAiAppsPage() {
             <div className="mx-auto mb-12 max-w-3xl text-center">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
                 <span className="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-                  Agentic AI Pricing
+                  Agentic AI Packages
                 </span>
               </h2>
               <p className="mt-3 text-base text-muted-foreground md:text-lg">
-                One-time builds, not seats. You own what we hand over.
+                One-time builds, not seats, scoped in a free consultation. You own what we hand over.
               </p>
             </div>
 
@@ -542,11 +538,6 @@ export default function AgenticAiAppsPage() {
                   <p className="text-xs font-bold uppercase tracking-widest text-fuchsia-400">
                     {tier.name}
                   </p>
-                  <div className="mt-3 flex items-baseline gap-2">
-                    <span className="text-4xl font-bold tracking-tight">
-                      {tier.price}
-                    </span>
-                  </div>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {tier.meta}
                   </p>
@@ -631,10 +622,10 @@ export default function AgenticAiAppsPage() {
               </p>
               <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
                 <Link
-                  href="/order?seed=agentic-ai-apps"
+                  href="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-[0_0_32px_rgba(255,107,53,0.35)] transition-transform hover:scale-[1.02]"
                 >
-                  Build my custom quote
+                  Book a free consultation
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
@@ -646,7 +637,7 @@ export default function AgenticAiAppsPage() {
               </div>
               <p className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
-                30 minutes from quote to kickoff
+                30 minutes from consultation to kickoff
               </p>
             </div>
           </div>

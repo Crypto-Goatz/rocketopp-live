@@ -31,7 +31,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "SaaS Platform Development — Multi-Tenant, Billed, and Yours",
   description:
-    "We build the SaaS platform you sell: multi-tenant auth, subscription billing, admin dashboards, and tenant isolation that holds. From $12,500, live in 6 weeks, you own the repo.",
+    "We build the SaaS platform you sell: multi-tenant auth, subscription billing, admin dashboards, and tenant isolation that holds. Live in 6 weeks, you own the repo.",
   keywords: [
     "SaaS platform development",
     "build a SaaS platform",
@@ -50,7 +50,7 @@ const metadataBase: Metadata = {
       images: [{ url: 'https://rocketopp.com/api/og?title=SaaS%20Platform%20Development%20%E2%80%94%20Multi-Tenant%2C%20Billed%2C%20Yours&eyebrow=Services', width: 1200, height: 630, alt: "SaaS Platform Development — Multi-Tenant, Billed, Yours" }],
     title: "SaaS Platform Development — Multi-Tenant, Billed, Yours | RocketOpp",
     description:
-      "Multi-tenant auth, subscription billing, and admin dashboards. From $12,500, live in 6 weeks, and you own the code.",
+      "Multi-tenant auth, subscription billing, and admin dashboards. Live in 6 weeks, and you own the code.",
     url: "https://rocketopp.com/services/saas-platforms",
     type: "website",
   },
@@ -201,7 +201,6 @@ const processSteps = [
 const tiers = [
   {
     name: "SaaS Launch",
-    price: "$12,500",
     meta: "one-time · 6 weeks",
     headline: "A real platform taking real money.",
     bestFor:
@@ -216,11 +215,10 @@ const tiers = [
       "Repo handoff — you own it",
       "30 days post-launch tuning",
     ],
-    cta: { label: "Scope my platform", href: "/order?seed=saas-platforms" },
+    cta: { label: "Scope my platform", href: "/contact" },
   },
   {
     name: "SaaS Scale",
-    price: "$24,500",
     meta: "one-time · 10 weeks",
     popular: true,
     headline: "Usage-based billing and agency-grade tenancy.",
@@ -236,11 +234,10 @@ const tiers = [
       "0nMCP integration — 1,640 tools available to your product",
       "Public API with keys, scopes, and rate limits",
     ],
-    cta: { label: "Scope a scale build", href: "/order?seed=saas-platforms" },
+    cta: { label: "Scope a scale build", href: "/contact" },
   },
   {
     name: "Embedded",
-    price: "Custom",
     meta: "retainer",
     headline: "Your product team, on retainer.",
     bestFor:
@@ -261,7 +258,7 @@ const faqs = [
   {
     question: "How much does it cost to build a SaaS platform?",
     answer:
-      "A launch-ready multi-tenant platform with authentication, subscription billing, a customer dashboard, and an admin back office starts at $12,500 and takes about six weeks. Adding usage-based metering, nested tenancy for agencies or resellers, white-label theming, and a public API is $24,500 over roughly ten weeks. Ongoing product development runs as a retainer. The variable that moves the number is not the plumbing — auth, tenancy, and billing are broadly the same shape every time — it is the product surface your customers actually log in to use.",
+      "A launch-ready multi-tenant platform with authentication, subscription billing, a customer dashboard, and an admin back office takes about six weeks. Adding usage-based metering, nested tenancy for agencies or resellers, white-label theming, and a public API takes roughly ten weeks. Ongoing product development runs as a retainer. Every build is scoped in a free consultation. The variable that moves the scope is not the plumbing — auth, tenancy, and billing are broadly the same shape every time — it is the product surface your customers actually log in to use.",
   },
   {
     question: "What does multi-tenant actually mean, and why does it matter so much?",
@@ -299,12 +296,12 @@ const relatedLinks = [
   {
     label: "Agentic AI Apps",
     href: "/services/agentic-ai-apps",
-    hint: "$4,997 — agents with real tool access, often built into these platforms",
+    hint: "Agents with real tool access, often built into these platforms",
   },
   {
     label: "MCP Server Integration",
     href: "/services/mcp-integration",
-    hint: "$1,997 — give your platform 1,640 tools across 111 services",
+    hint: "Give your platform 1,640 tools across 111 services",
   },
   {
     label: "App Development",
@@ -337,10 +334,9 @@ export default function SaasPlatformsPage() {
     <>
       <ServiceOfferSchema
         name="SaaS Platform Development"
-        description="Custom multi-tenant SaaS platform development: tenant isolation with row-level security, full authentication, subscription billing wired to entitlement, customer dashboards, and an admin back office. From $12,500, live in 6 weeks, client owns the repository."
+        description="Custom multi-tenant SaaS platform development: tenant isolation with row-level security, full authentication, subscription billing wired to entitlement, customer dashboards, and an admin back office. Live in 6 weeks, client owns the repository."
         serviceType="SaaS Platform Development"
         url="https://rocketopp.com/services/saas-platforms"
-        price={12500}
       />
       <FAQSchema items={faqs} />
       <HowToSchema
@@ -364,16 +360,16 @@ export default function SaasPlatformsPage() {
         {/* ━━━ BLUF ━━━ */}
         <BlufBlock
           badge="Multi-tenant from day one"
-          bottomLine="We build the SaaS platform you sell — multi-tenant auth, subscription billing, and an admin back office — and you own the repository. From $12,500, taking real payments in six weeks."
+          bottomLine="We build the SaaS platform you sell — multi-tenant auth, subscription billing, and an admin back office — and you own the repository. Taking real payments in six weeks."
           context="The definition of done is not a demo. It is a stranger creating an account, entering a card, being charged, and getting exactly what their plan entitles them to. Tenant isolation is enforced by the database, not by remembering to write the right WHERE clause."
           stats={[
             { label: "Live in", value: "6 weeks" },
-            { label: "Starts at", value: "$12,500" },
+            { label: "First step", value: "Free consult" },
             { label: "Billing lands", value: "Week 3" },
             { label: "You own", value: "The repo" },
           ]}
-          primaryCta={{ label: "Scope my platform", href: "/order?seed=saas-platforms" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          primaryCta={{ label: "Book a free consultation", href: "/contact" }}
+          secondaryCta={{ label: "See packages", href: "#pricing" }}
         />
 
         {/* ━━━ Live ecosystem heartbeat ━━━ */}
@@ -465,10 +461,10 @@ export default function SaasPlatformsPage() {
                   everything needed to keep building without us.
                 </p>
                 <Link
-                  href="/order?seed=saas-platforms"
+                  href="/contact"
                   className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-[0_0_32px_rgba(255,107,53,0.3)] transition-transform hover:scale-[1.02]"
                 >
-                  Build my quote
+                  Book a free consultation
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -501,7 +497,7 @@ export default function SaasPlatformsPage() {
           steps={processSteps}
         />
 
-        {/* ━━━ Pricing ━━━ */}
+        {/* ━━━ Packages ━━━ */}
         <section
           id="pricing"
           className="relative overflow-hidden border-y border-border bg-card/20 py-16 md:py-24"
@@ -510,12 +506,12 @@ export default function SaasPlatformsPage() {
             <div className="mx-auto mb-12 max-w-3xl text-center">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
                 <span className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
-                  SaaS Platform Pricing
+                  SaaS Platform Packages
                 </span>
               </h2>
               <p className="mt-3 text-base text-muted-foreground md:text-lg">
-                One-time builds, not seats. Deployed to your accounts, owned by
-                you.
+                One-time builds, not seats, scoped in a free consultation.
+                Deployed to your accounts, owned by you.
               </p>
             </div>
 
@@ -535,11 +531,6 @@ export default function SaasPlatformsPage() {
                   <p className="text-xs font-bold uppercase tracking-widest text-rose-400">
                     {tier.name}
                   </p>
-                  <div className="mt-3 flex items-baseline gap-2">
-                    <span className="text-4xl font-bold tracking-tight">
-                      {tier.price}
-                    </span>
-                  </div>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {tier.meta}
                   </p>
@@ -623,10 +614,10 @@ export default function SaasPlatformsPage() {
               </p>
               <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
                 <Link
-                  href="/order?seed=saas-platforms"
+                  href="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-[0_0_32px_rgba(255,107,53,0.35)] transition-transform hover:scale-[1.02]"
                 >
-                  Build my custom quote
+                  Book a free consultation
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
@@ -638,7 +629,7 @@ export default function SaasPlatformsPage() {
               </div>
               <p className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
-                30 minutes from quote to kickoff
+                30 minutes from consultation to kickoff
               </p>
             </div>
           </div>

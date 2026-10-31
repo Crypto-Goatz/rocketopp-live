@@ -130,7 +130,7 @@ const deeperDiveData = {
         id: "ai-crm",
         title: "AI-Powered CRM Systems",
         details:
-          "Our flagship product: fully customized CRM with built-in AI starting at just $5,000. Includes intelligent lead scoring, automated follow-ups, predictive analytics, customer sentiment analysis, and seamless integrations with your existing tools.",
+          "Our flagship product: fully customized CRM with built-in AI, scoped in a free consultation. Includes intelligent lead scoring, automated follow-ups, predictive analytics, customer sentiment analysis, and seamless integrations with your existing tools.",
         icon: <Users className="h-5 w-5 text-primary mr-2" />,
         link: "/services/ai-crm",
       },

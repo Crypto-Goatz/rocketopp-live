@@ -52,7 +52,7 @@ const SERVICES: Service[] = [
     slug: 'website-development',
     name: 'Website Development',
     description: 'Custom AI-powered websites. Mobile-first, SEO-baked, conversion-focused. Live in 2 weeks.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: '2 weeks',
     href: '/services/website-development',
     icon: Globe,
@@ -63,7 +63,7 @@ const SERVICES: Service[] = [
     slug: 'ai-automation',
     name: 'AI Business Automation',
     description: 'Custom AI systems for customer service, lead qualification, content, and ops — built on 0nMCP.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: '2 weeks',
     href: '/services/ai-automation',
     icon: Cpu,
@@ -74,7 +74,7 @@ const SERVICES: Service[] = [
     slug: 'sxo',
     name: 'Search Experience Optimization',
     description: 'SEO + UX + conversion in one engine. Get cited by ChatGPT, Claude & Perplexity — not just ranked.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: 'Ongoing',
     href: '/services/sxo',
     icon: Search,
@@ -85,7 +85,7 @@ const SERVICES: Service[] = [
     slug: 'crm-automation',
     name: 'CRM Automation',
     description: 'Full CRM build — pipelines, email/SMS sequences, booking, lead scoring, and tag-based routing.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: '1 week',
     href: '/services/crm-automation',
     icon: Target,
@@ -96,7 +96,7 @@ const SERVICES: Service[] = [
     slug: 'ppc-management',
     name: 'PPC & Paid Ads',
     description: 'Google, Meta & LinkedIn ads — AI-managed, CRO9-optimized, with real revenue attribution.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: 'Ongoing',
     href: '/services/ppc-management',
     icon: BarChart3,
@@ -107,7 +107,7 @@ const SERVICES: Service[] = [
     slug: 'mcp-integration',
     name: 'MCP Server Integration',
     description: 'Connect your business to 1,640+ tools across 111 services. One integration, unlimited automation.',
-    price: 'Get a quote',
+    price: 'Free consultation',
     shipsIn: '1 week',
     href: '/services/mcp-integration',
     icon: Terminal,
@@ -167,7 +167,7 @@ export default function ServicesConversion() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-sm font-medium text-primary mb-6"
             >
               <Sparkles className="w-4 h-4" />
-              Transparent pricing · No discovery calls
+              Free consultation · No pressure
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}

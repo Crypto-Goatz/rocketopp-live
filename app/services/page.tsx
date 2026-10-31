@@ -10,7 +10,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "Services — Web Design, AI Automation, CRM & SEO",
   description:
-    "All RocketOpp services: web design and development, CRM automation, AI automation, SXO, PPC and MCP integration. Fixed quotes, no discovery calls.",
+    "All RocketOpp services: web design and development, CRM automation, AI automation, SXO, PPC and MCP integration. Every engagement starts with a free consultation.",
   keywords: [
     "digital agency pricing",
     "website development cost",
@@ -22,9 +22,9 @@ const metadataBase: Metadata = {
     "affordable digital services",
   ],
   openGraph: {
-      images: [{ url: 'https://rocketopp.com/api/og?title=Services%20%26%20Pricing&eyebrow=Services', width: 1200, height: 630, alt: "Services & Pricing" }],
-    title: "Services & Pricing | RocketOpp",
-    description: "Transparent pricing for all services. No hidden fees. No discovery calls.",
+      images: [{ url: 'https://rocketopp.com/api/og?title=Services&eyebrow=RocketOpp', width: 1200, height: 630, alt: "Services" }],
+    title: "Services | RocketOpp",
+    description: "Web design, AI automation, CRM, SXO, PPC and MCP integration. Every engagement starts with a free consultation.",
     url: "https://rocketopp.com/services",
     type: "website",
   },
@@ -39,7 +39,7 @@ const faqs = [
   {
     question: "What services does RocketOpp offer?",
     answer:
-      "We offer six core services: Website Development, AI Business Automation, SXO/Search Experience Optimization, CRM Automation, PPC & Paid Ads Management, and MCP Server Integration. All powered by 0nMCP and CRO9. Each project is quoted individually — tell us what you need and you get a fixed price.",
+      "We offer six core services: Website Development, AI Business Automation, SXO/Search Experience Optimization, CRM Automation, PPC & Paid Ads Management, and MCP Server Integration. All powered by 0nMCP and CRO9. Every engagement starts with a free consultation, where we assess your situation and goals and decide together whether we are a good fit.",
   },
   {
     question: "Why is RocketOpp cheaper than other agencies?",
@@ -49,7 +49,7 @@ const faqs = [
   {
     question: "Are there any hidden fees?",
     answer:
-      "No. The price on the website is the price you pay. For monthly services (SXO and PPC), ad spend and CRM subscriptions are separate and paid directly to those platforms. We never mark up third-party costs.",
+      "No. Everything is agreed with you before any work starts. For monthly services (SXO and PPC), ad spend and CRM subscriptions are separate and paid directly to those platforms. We never mark up third-party costs.",
   },
   {
     question: "How fast do you deliver?",
@@ -57,9 +57,9 @@ const faqs = [
       "CRM automation and MCP integration ship in 1 week. Websites and AI automation in 2 weeks. E-commerce in 3 weeks. Full digital presence packages in 4 weeks. SXO and PPC are ongoing with results starting immediately.",
   },
   {
-    question: "Do I need a discovery call?",
+    question: "How do I get started?",
     answer:
-      "No. Our pricing is transparent. Pick a service, see the price, and contact us to get started. If you have questions, we are happy to chat — but we will never require a call before telling you what things cost.",
+      "Book a free consultation. We look at where your business is today and what you want to achieve, then recommend the service that fits — or tell you honestly if we are not the right fit. There is no obligation.",
   },
 ]
 
@@ -98,11 +98,11 @@ export default function ServicesPage() {
           <div className="container px-4 md:px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-              No proposals. No discovery calls. Pick a service and let&apos;s ship.
+              Book a free consultation. We assess your situation and goals, then recommend what fits.
             </p>
             <Button size="lg" className="text-lg px-8 py-6" asChild>
               <Link href="/contact">
-                Contact Us <ArrowRight className="ml-2 w-5 h-5" />
+                Book a free consultation <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
           </div>

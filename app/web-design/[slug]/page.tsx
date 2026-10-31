@@ -31,7 +31,7 @@ function bluf(a: Area) {
     a.population === null
       ? `the ${a.name} area of ${a.county} County, Pennsylvania`
       : `${a.name}, ${a.county} County, Pennsylvania`
-  return `RocketOpp designs and builds websites for businesses in ${where}. We are a service-area agency working across Westmoreland and eastern Allegheny County, covering web design and development, local SEO, CRM automation and custom AI systems. Every project gets a fixed quote up front, with no discovery-call gate.`
+  return `RocketOpp designs and builds websites for businesses in ${where}. We are a service-area agency working across Westmoreland and eastern Allegheny County, covering web design and development, local SEO, CRM automation and custom AI systems. For small service businesses that are a good fit, the website is free — it starts with a free consultation.`
 }
 
 function faqsFor(a: Area) {
@@ -43,7 +43,7 @@ function faqsFor(a: Area) {
     },
     {
       q: `How much does a website cost in ${a.name}, PA?`,
-      a: `It depends on page count, whether you need e-commerce or booking, and how much of your operation you want automated — so RocketOpp quotes each project individually rather than pretending one number fits everyone. You get a fixed price before any work begins, from one short conversation. If you just need a straightforward business website, there is a published $497 offer.`,
+      a: `For small service businesses in ${place} that are a good fit, the website is free. It starts with a free consultation: we look at your situation and your goals and decide together whether it is a fit. No purchase is needed for the website itself — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month.`,
     },
     {
       q: `What is the difference between a web designer and a web developer?`,
@@ -72,7 +72,7 @@ export async function generateMetadata({
   // NOTE: the root layout applies the template "%s | RocketOpp" — do not
   // append the brand here or it will be duplicated.
   const title = `Web Design & Development in ${a.name}, PA`
-  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Web design, local SEO, CRM automation and AI systems. Fixed quotes, no discovery calls.`
+  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Web design, local SEO, CRM automation and AI systems. Free websites for small service businesses, after a free consultation.`
 
   return {
     title,
@@ -249,14 +249,15 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
             Start a project in {a.name}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Tell us what you need and you get a fixed quote — no discovery call required.
+            Book a free consultation. We look at your business and your goals, and tell you honestly
+            whether a free website is a good fit.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/contact"
+              href="/free-website"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Get a quote <ArrowRight className="h-4 w-4" />
+              Book a free consultation <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href={`tel:${PHONE}`}

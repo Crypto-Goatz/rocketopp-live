@@ -57,7 +57,6 @@ export function localBusinessSchema(area?: Area) {
     image: LOGO,
     telephone: PHONE,
     email: EMAIL,
-    priceRange: '$$',
     description: area
       ? `Web design, web development and AI systems for businesses in ${area.name}, Pennsylvania and the surrounding ${area.county} County area.`
       : 'Web design, web development, automation and AI systems for small and mid-sized businesses across Westmoreland and eastern Allegheny County, Pennsylvania.',

@@ -90,7 +90,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
     },
     {
       q: `What does ${b.name} cost?`,
-      a: `${b.pricing} RocketOpp quotes each project as a one-time fixed price rather than a subscription, agreed before work starts, and publishes a $497 website offer for businesses that just need a site. The honest comparison is not the monthly number — it is whether you want to rent a platform and do the work yourself, or pay once for something you own and have someone accountable for it.`,
+      a: `${b.pricing} RocketOpp builds the website free for small service businesses that are a good fit, after a free consultation. The honest comparison is not the monthly number — it is whether you want to rent a platform and do the work yourself, or have a site built for you and someone accountable for it.`,
     },
     {
       q: `What can't ${b.name} do?`,
@@ -165,7 +165,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
               </tr>
             </thead>
             <tbody>
-              <Row label="Cost model" ours="One-time fixed quote" theirs={b.pricing.split('.')[0]} />
+              <Row label="Cost model" ours="Free website, after a free consultation" theirs={b.pricing.split('.')[0]} />
               <Row
                 label="Technical skill required"
                 ours="None"

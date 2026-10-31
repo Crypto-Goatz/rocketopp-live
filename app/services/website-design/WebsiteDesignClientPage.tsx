@@ -141,9 +141,9 @@ const faqs = [
       "Absolutely. We use strategic 301 redirects, preserve SEO equity, maintain URL structure where beneficial, and implement comprehensive migration plans to ensure you maintain or improve your rankings.",
   },
   {
-    question: "What is your pricing structure for website design?",
+    question: "How much does website design cost?",
     answer:
-      "Our custom websites start at $5,000 for small business sites and scale based on features, integrations, and complexity. We provide transparent quotes with no hidden fees after our initial consultation.",
+      "For small service businesses that are a good fit, the website is free. It starts with a free consultation where we assess your situation and goals. No purchase is needed for the website itself. Larger builds with e-commerce or custom integrations are scoped in the same free consultation.",
   },
 ]
 

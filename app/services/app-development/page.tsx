@@ -106,11 +106,11 @@ const faqs = [
   },
   {
     question: "Can you build an MVP to test my idea?",
-    answer: "Absolutely. We specialize in rapid MVP development to help validate ideas quickly. Our MVP packages start at $15,000 and typically deliver in 6-8 weeks—enough to test market fit without major investment."
+    answer: "Absolutely. We specialize in rapid MVP development to help validate ideas quickly. We scope every MVP in a free consultation, and most deliver in 6-8 weeks—enough to test market fit without major investment."
   },
   {
     question: "What about ongoing maintenance and updates?",
-    answer: "All apps require ongoing maintenance for OS updates, security patches, and feature enhancements. We offer maintenance packages starting at $2,000/month that include bug fixes, minor updates, and technical support."
+    answer: "All apps require ongoing maintenance for OS updates, security patches, and feature enhancements. We offer maintenance packages that include bug fixes, minor updates, and technical support, scoped to your app in a free consultation."
   },
 ]
 
@@ -125,18 +125,7 @@ const jsonLd = {
   },
   "description": "Custom app development services including mobile apps, web applications, and SaaS products.",
   "areaServed": "Worldwide",
-  "serviceType": "Software Development",
-  "offers": {
-    "@type": "Offer",
-    "price": "15000",
-    "priceCurrency": "USD",
-    "priceSpecification": {
-      "@type": "PriceSpecification",
-      "price": "15000",
-      "priceCurrency": "USD",
-      "minPrice": "15000"
-    }
-  }
+  "serviceType": "Software Development"
 }
 
 export default function AppDevelopmentPage() {

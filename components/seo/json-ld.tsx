@@ -197,7 +197,8 @@ interface ProductSchemaProps {
   name: string
   description: string
   image?: string
-  price: number
+  /** Omit to publish the Product without an Offer (no price stated). */
+  price?: number
   priceCurrency?: string
   availability?: "InStock" | "PreOrder" | "OutOfStock"
   brand?: string
@@ -229,7 +230,10 @@ export function ProductSchema({
       "@type": "Brand",
       name: brand
     },
-    offers: {
+  }
+
+  if (price !== undefined) {
+    schema.offers = {
       "@type": "Offer",
       price,
       priceCurrency,
@@ -311,7 +315,9 @@ interface ServiceOfferSchemaProps {
   serviceType?: string
   areaServed?: string
   url?: string
-  price: number
+  /** Omit to publish the Service without an Offer — the marketing pages no
+   *  longer state a price (every engagement starts with a free consultation). */
+  price?: number
   priceCurrency?: string
   priceUnit?: string // e.g., "MONTH" for monthly pricing
   eligibleRegion?: string
@@ -329,7 +335,7 @@ export function ServiceOfferSchema({
   priceUnit,
   eligibleRegion = "US"
 }: ServiceOfferSchemaProps) {
-  const offer: Record<string, unknown> = {
+  const offer: Record<string, unknown> | undefined = price === undefined ? undefined : {
     "@type": "Offer",
     price,
     priceCurrency,
@@ -345,7 +351,7 @@ export function ServiceOfferSchema({
     }
   }
 
-  if (priceUnit) {
+  if (offer && priceUnit) {
     offer.priceSpecification = {
       "@type": "UnitPriceSpecification",
       price,
@@ -373,7 +379,7 @@ export function ServiceOfferSchema({
     serviceType: serviceType || name,
     areaServed,
     url: url || "https://rocketopp.com/services",
-    offers: offer
+    ...(offer ? { offers: offer } : {}),
   }
 
   return (

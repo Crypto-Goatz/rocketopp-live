@@ -31,7 +31,7 @@ const services = [
       {
         name: "AI-Powered CRM",
         href: "/services/ai-crm",
-        description: "⭐ Custom enterprise CRM from $5k",
+        description: "⭐ Custom enterprise CRM with built-in AI",
         featured: true,
       },
       { name: "AI Integration", href: "/services/ai-integration", description: "Intelligent automation solutions" },

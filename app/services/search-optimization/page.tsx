@@ -120,18 +120,7 @@ const jsonLd = {
   },
   "description": "Professional SEO services including technical optimization, local SEO, content strategy, and analytics.",
   "areaServed": "Worldwide",
-  "serviceType": "Search Engine Optimization",
-  "offers": {
-    "@type": "Offer",
-    "price": "2500",
-    "priceCurrency": "USD",
-    "priceSpecification": {
-      "@type": "PriceSpecification",
-      "price": "2500",
-      "priceCurrency": "USD",
-      "minPrice": "2500"
-    }
-  }
+  "serviceType": "Search Engine Optimization"
 }
 
 export default function SearchOptimizationPage() {

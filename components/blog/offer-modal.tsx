@@ -4,7 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Check, Loader2, X } from 'lucide-react'
 
 /**
- * $497 offer capture, opened from the blog sidebar.
+ * Free-website offer capture, opened from the blog sidebar.
+ *
+ * NOTE: the `service`, `formName`, `source` and `tags` values below still say
+ * "$497" on purpose — they are CRM routing keys, never shown to the visitor,
+ * and CRM workflows may match on them. Rename them in the CRM first.
  *
  * The branching question is the point of the form: someone who already has a
  * site is a rebuild/SXO conversation and we want the URL so the first reply can
@@ -89,7 +93,7 @@ export default function OfferModal({
       className="fixed inset-0 z-[100] flex items-end justify-center p-0 sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
-      aria-label="Get the $497 website offer"
+      aria-label="Get a free website"
     >
       <div
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
@@ -131,14 +135,14 @@ export default function OfferModal({
         ) : (
           <>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-              The $497 Website
+              Free Website
             </p>
             <h2 className="mt-2 text-2xl font-bold leading-tight text-white">
               Built for you. Yours to edit.
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-              Tell us where you are now and we&rsquo;ll come back with what it
-              would actually take — not a brochure.
+              Tell us where you are now and we&rsquo;ll set up a free
+              consultation to see whether a free website is a good fit.
             </p>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
@@ -244,10 +248,10 @@ export default function OfferModal({
                 {/* No -> asking for a URL is noise. Straight to the offer. */}
                 {hasSite === 'no' && (
                   <a
-                    href="/497-website"
+                    href="/free-website"
                     className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-primary/50 hover:text-primary"
                   >
-                    Learn more about the $497 build
+                    Learn more about the free website
                     <ArrowRight className="h-3.5 w-3.5" />
                   </a>
                 )}

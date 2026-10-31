@@ -14,7 +14,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "MCP Server Integration — Connect Your Business to 1,600+ Tools",
   description:
-    "Plug your business into 0nMCP — the largest interconnected MCP server. 1,640+ tools across 111 services accessible to any AI agent in your stack. From $1,997. Ships in 1 week.",
+    "Plug your business into 0nMCP — the largest interconnected MCP server. 1,640+ tools across 111 services accessible to any AI agent in your stack. Ships in 1 week.",
   keywords: [
     "MCP server integration",
     "Model Context Protocol",
@@ -34,7 +34,7 @@ const metadataBase: Metadata = {
   openGraph: {
       images: [{ url: 'https://rocketopp.com/api/og?title=MCP%20Server%20Integration&eyebrow=Services', width: 1200, height: 630, alt: "MCP Server Integration" }],
     title: "MCP Server Integration | RocketOpp",
-    description: "Plug your business into 1,640+ tools across 111 services. Ships in 1 week. From $1,997.",
+    description: "Plug your business into 1,640+ tools across 111 services. Ships in 1 week.",
     url: "https://rocketopp.com/services/mcp-integration",
     type: "website",
   },
@@ -46,18 +46,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const tiers = [
-  { name: "MCP Connect", price: "$1,997", headline: "Plug in. Get the keys.", bestFor: "Founders + ops leads who want the foundation in place.",
+  { name: "MCP Connect", headline: "Plug in. Get the keys.", bestFor: "Founders + ops leads who want the foundation in place.",
     features: ["0nMCP server provisioned + secured", "All 111 services authenticated to your accounts", "Vault container for credentials (Argon2id, audit log)", "1 AI agent built on your stack", "Claude Desktop / Cursor / Windsurf MCP configs", "Documentation + handoff", "Ships in 1 week", "30 days of refinement"] },
-  { name: "MCP Crew", price: "$5,997", popular: true, headline: "Build the agent crew on top.", bestFor: "Teams ready to put AI agents into actual production workflows.",
+  { name: "MCP Crew", popular: true, headline: "Build the agent crew on top.", bestFor: "Teams ready to put AI agents into actual production workflows.",
     features: ["Everything in Connect, plus —", "5 AI agents built on top of MCP", "CrewAI orchestration (multi-agent flows)", "Custom tool development (3 tools)", "Webhook + cron infrastructure", "Live observability dashboard", "60 days of refinement + 2 calls", "Optional managed monthly add-on"] },
-  { name: "MCP Federation", price: "From $14,997", headline: "Run your own private MCP federation.", bestFor: "Multi-business operators + agencies running for clients.",
+  { name: "MCP Federation", headline: "Run your own private MCP federation.", bestFor: "Multi-business operators + agencies running for clients.",
     features: ["Everything in Crew, plus —", "Private MCP federation (multi-tenant)", "Custom MCP server build for proprietary tools", "On-prem / VPC deployment", "Multi-team access controls + audit", "Direct line into the 0nMCP roadmap", "Quarterly architecture reviews", "Unlimited refinement"] },
 ]
 
 const comparisonRows = [
   { dimension: "Tools accessible day 1", industry: "5-15 (per integration build)", rocketopp: "1,640+ across 111 services" },
   { dimension: "Time to first connected agent", industry: "8-12 weeks", rocketopp: "1 week" },
-  { dimension: "Project cost", industry: "$3,000-$10,000 (single integration)", rocketopp: "$1,997 for the entire foundation" },
   { dimension: "Auth + credential vault", industry: "Build it (or hand-roll, hope nothing leaks)", rocketopp: "Patent-pending Vault Container, AES-256 + Argon2id" },
   { dimension: "Multi-agent orchestration", industry: "Sequential, brittle", rocketopp: "CrewAI built in" },
   { dimension: "MCP host compatibility", industry: "Single client (whichever you build for)", rocketopp: "Claude Desktop, Cursor, Windsurf, Cline, Continue, Gemini, custom" },
@@ -76,21 +75,21 @@ const processSteps = [
 
 const faqs = [
   { question: "What is MCP and why does it matter?", answer: "MCP (Model Context Protocol) is the open standard Anthropic published in 2024 that lets AI models talk to external tools — CRMs, databases, APIs, business systems. Before MCP, every AI app had its own custom tool integration. With MCP, any compliant AI host (Claude Desktop, Cursor, Windsurf, ChatGPT custom GPTs, etc.) can use any compliant MCP server. It's HTTP for AI tooling — the standard nobody has to negotiate." },
-  { question: "What is 0nMCP?", answer: "0nMCP is our open-source MCP server (npm: 0nmcp) — currently the largest interconnected MCP server publicly available with 1,640+ tools across 111 services. It's the foundation that makes our pricing one-tenth of the industry: every agent we build starts with the entire ecosystem already integrated. Open source under BSL 1.1, so you can audit, fork, or self-host." },
-  { question: "What does an MCP integration cost in 2026?", answer: "Industry baseline for a single custom integration is $3,000-$10,000 (one tool, one direction, one workflow). RocketOpp's MCP Connect at $1,997 gets you all 1,640+ tools authenticated and ready, plus one production agent — because the integration work is already done in 0nMCP. Crew ($5,997) adds 5 production agents + custom tooling. Federation (from $14,997) adds private MCP for multi-business operators." },
+  { question: "What is 0nMCP?", answer: "0nMCP is our open-source MCP server (npm: 0nmcp) — currently the largest interconnected MCP server publicly available with 1,640+ tools across 111 services. It's the foundation that makes our builds so much faster than the industry: every agent we build starts with the entire ecosystem already integrated. Open source under BSL 1.1, so you can audit, fork, or self-host." },
+  { question: "What does an MCP integration cost in 2026?", answer: "Industry baseline for a single custom integration is $3,000-$10,000 (one tool, one direction, one workflow). RocketOpp's MCP Connect gets you all 1,640+ tools authenticated and ready, plus one production agent — because the integration work is already done in 0nMCP. Crew adds 5 production agents + custom tooling. Federation adds private MCP for multi-business operators. Every engagement is scoped in a free consultation." },
   { question: "What kind of tools does 0nMCP cover?", answer: "Everything you'd reasonably touch in a small/medium business: CRM (HubSpot, Salesforce, Pipedrive, our own), email (Gmail, Outlook, SendGrid, Resend, Mailchimp), payments (Stripe, Square, PayPal), Slack, GitHub, Google Workspace, Microsoft 365, Shopify, Stripe, Calendly, Cal.com, Twilio, Plaid, AWS, Vercel, Supabase, MongoDB — 111 services total. Full catalog: 0nmcp.com." },
   { question: "Can I use this with Claude Desktop / Cursor / Windsurf?", answer: "Yes — that's the whole point. We ship configs for every major MCP host: Claude Desktop, Cursor, Windsurf, Cline, Continue, Gemini, and Claude Code. Your team uses the AI tooling they already prefer; they just gain access to your real business via MCP." },
   { question: "How are credentials secured?", answer: "Every credential lives in a 0nVault container — our patent-pending (US #63/990,046) AES-256-GCM + Argon2id encrypted, audit-logged credential vault. The vault is the only place agents read auth from. Per-tool revocation is one click. Vault can run on-prem on Federation tier for regulated environments." },
   { question: "Do I need an in-house developer?", answer: "No. The MCP Connect engagement is designed for non-developer teams. We provision, configure, and deliver everything plus a non-technical operator playbook. For teams that DO have developers, the same MCP foundation works as the integration layer they'd otherwise build themselves — saving months." },
   { question: "What if I want a tool that isn't in the 0nMCP catalog?", answer: "Two paths: (1) we add it to 0nMCP itself if it's commonly useful — your contribution becomes part of the open-source catalog and you get the credit. (2) we build it as a custom tool inside your engagement and keep it proprietary to you. Crew tier includes 3 custom tools; Federation includes unlimited." },
-  { question: "How does 0nMCP compose with the rest of RocketOpp?", answer: "0nMCP is the foundation. Every other RocketOpp service (CRM Automation, AI Business Automation, SXO, PPC) ships on top of it. That's why our pricing makes sense: the integration tax has been paid once, ecosystem-wide. When we add a tool to 0nMCP, every service we offer can use it. The leverage compounds." },
+  { question: "How does 0nMCP compose with the rest of RocketOpp?", answer: "0nMCP is the foundation. Every other RocketOpp service (CRM Automation, AI Business Automation, SXO, PPC) ships on top of it. That's why our timelines make sense: the integration tax has been paid once, ecosystem-wide. When we add a tool to 0nMCP, every service we offer can use it. The leverage compounds." },
 ]
 
 const relatedLinks = [
-  { label: "AI Business Automation", href: "/services/ai-automation", hint: "$2,997 — agents built on the MCP foundation" },
-  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "$1,497 — pipelines + AI scoring" },
-  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — get cited by AI engines" },
-  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "$797/mo — AI-optimized campaigns" },
+  { label: "AI Business Automation", href: "/services/ai-automation", hint: "Agents built on the MCP foundation" },
+  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "Pipelines + AI scoring" },
+  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "Get cited by AI engines" },
+  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "AI-optimized campaigns" },
   { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,640+ tools, 111 services, open source", external: true },
   { label: "0nCore command center", href: "https://0ncore.com", hint: "Customer portal for the entire 0n stack", external: true },
 ]
@@ -98,7 +97,7 @@ const relatedLinks = [
 export default function McpIntegrationPage() {
   return (
     <>
-      <ServiceOfferSchema name="MCP Server Integration" description="Plug your business into 0nMCP — 1,640+ tools across 111 services accessible to any AI agent in your stack." serviceType="MCP Integration" url="https://rocketopp.com/services/mcp-integration" price={1997} priceUnit="ONE_TIME" />
+      <ServiceOfferSchema name="MCP Server Integration" description="Plug your business into 0nMCP — 1,640+ tools across 111 services accessible to any AI agent in your stack." serviceType="MCP Integration" url="https://rocketopp.com/services/mcp-integration" />
       <FAQSchema items={faqs} />
       <HowToSchema name="How RocketOpp ships an MCP integration" description="From tool inventory to a working AI agent on top in seven days." totalTime="P7D" steps={processSteps.map((s) => ({ name: s.title, text: s.body }))} />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://rocketopp.com" }, { name: "Services", url: "https://rocketopp.com/services" }, { name: "MCP Integration", url: "https://rocketopp.com/services/mcp-integration" }]} />
@@ -107,12 +106,12 @@ export default function McpIntegrationPage() {
         <BlufBlock
           badge="Powered by 0nMCP — the largest open-source MCP server"
           bottomLine="Plug your business into 1,640+ tools across 111 services in one week. The same infrastructure foundation behind every RocketOpp service — now available for your stack, your agents, your team."
-          context="MCP (Model Context Protocol) is the standard that lets any AI host (Claude Desktop, Cursor, Windsurf, ChatGPT) talk to any business system. 0nMCP is the largest one publicly available. We ship the integration, the credential vault, and a working AI agent on top in 1 week from $1,997."
+          context="MCP (Model Context Protocol) is the standard that lets any AI host (Claude Desktop, Cursor, Windsurf, ChatGPT) talk to any business system. 0nMCP is the largest one publicly available. We ship the integration, the credential vault, and a working AI agent on top in 1 week."
           stats={[
             { label: "Tools accessible day 1", value: "1,640+" },
             { label: "Services covered", value: "96" },
             { label: "Time to ship", value: "7 days" },
-            { label: "Starting price", value: "$1,997" },
+            { label: "First step", value: "Free consult" },
           ]}
           primaryCta={{ label: "Book an MCP call", href: "/contact" }}
           secondaryCta={{ label: "See 0nMCP first", href: "https://0nmcp.com" }}
@@ -166,16 +165,16 @@ export default function McpIntegrationPage() {
           </div>
         </section>
 
-        <IndustryVsUsTable heading="MCP Integration: Industry vs RocketOpp" caption="Single-tool integration project vs the entire 0n ecosystem. Same week. One-tenth the cost." rows={comparisonRows} footnote="* Industry baselines: 2026 AI consultancy + custom-integration RFP averages." />
+        <IndustryVsUsTable heading="MCP Integration: Industry vs RocketOpp" caption="Single-tool integration project vs the entire 0n ecosystem. Same week." rows={comparisonRows} footnote="* Industry baselines: 2026 AI consultancy + custom-integration RFP averages." />
         <ProcessTimeline heading="How we ship an MCP engagement" caption="Seven days. Tool inventory to working agent." steps={processSteps} />
 
         <section id="pricing" className="border-y border-border py-16 md:py-24 bg-card/20">
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
-                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">MCP pricing</span>
+                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">MCP packages</span>
               </h2>
-              <p className="mt-3 text-base text-muted-foreground md:text-lg">One-time fees. You own the MCP foundation forever. 30-day refinement on every plan.</p>
+              <p className="mt-3 text-base text-muted-foreground md:text-lg">Every engagement is scoped in a free consultation. You own the MCP foundation forever. 30-day refinement on every plan.</p>
             </div>
             <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
               {tiers.map((tier) => (
@@ -187,7 +186,6 @@ export default function McpIntegrationPage() {
                   )}
                   <h3 className="text-xl font-bold text-foreground">{tier.name}</h3>
                   <div className="mt-1 text-sm text-muted-foreground">{tier.headline}</div>
-                  <div className="mt-5"><span className="text-4xl font-black text-primary">{tier.price}</span></div>
                   <p className="mt-3 text-xs italic text-muted-foreground">{tier.bestFor}</p>
                   <ul className="mt-5 flex-1 space-y-2.5">
                     {tier.features.map((f) => (

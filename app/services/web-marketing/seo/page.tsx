@@ -6,7 +6,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "SEO Optimization Services",
   description:
-    "Traditional SEO that still moves the needle: keyword research, on-page, technical, local. Monthly retainer starting at $797/mo. Audits, content, and link building included.",
+    "Traditional SEO that still moves the needle: keyword research, on-page, technical, local. Monthly retainer, scoped in a free consultation. Audits, content, and link building included.",
   alternates: { canonical: "https://rocketopp.com/services/web-marketing/seo" },
 }
 
@@ -57,7 +57,7 @@ export default function SeoPage() {
         },
         {
           q: "Can I just buy a one-time audit?",
-          a: "Yes — that's our $1,997 SEO Audit + Roadmap. You get the full technical + content audit, a 90-day prioritized roadmap, and a 30-min call to walk through it. Many clients use this to validate they want a retainer first. Add it through the order wizard.",
+          a: "Yes — that's our SEO Audit + Roadmap. You get the full technical + content audit, a 90-day prioritized roadmap, and a 30-min call to walk through it. Many clients use this to validate they want a retainer first. Ask about it in a free consultation.",
         },
       ]}
     />

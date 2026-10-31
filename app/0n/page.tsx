@@ -109,17 +109,17 @@ const relatedLinks = [
   {
     label: "Agentic AI Apps",
     href: "/services/agentic-ai-apps",
-    hint: `$4,997 — agents with access to all ${MCP_TOOLS} tools`,
+    hint: `Agents with access to all ${MCP_TOOLS} tools`,
   },
   {
     label: "SaaS Platforms",
     href: "/services/saas-platforms",
-    hint: "$12,500 — multi-tenant platforms on this same layer",
+    hint: "Multi-tenant platforms on this same layer",
   },
   {
     label: "MCP Server Integration",
     href: "/services/mcp-integration",
-    hint: "$1,997 — connect your stack to the orchestration layer",
+    hint: "Connect your stack to the orchestration layer",
   },
   {
     label: "0nMCP on npm",

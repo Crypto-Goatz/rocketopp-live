@@ -105,7 +105,6 @@ const jsonLd = {
       name: "United States",
     },
   ],
-  priceRange: "$$$",
   openingHours: "Mo-Fr 09:00-18:00",
   sameAs: [
     "https://www.linkedin.com/company/rocketopp",
@@ -152,7 +151,7 @@ const faqJsonLd = {
       name: "How much does custom app development cost in Pittsburgh?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Custom app development in Pittsburgh typically ranges from $15,000 for an MVP to $150,000+ for enterprise applications. RocketOpp offers competitive pricing starting at $15,000 for MVP development, with most projects completing in 8-16 weeks.",
+        text: "Cost depends on scope: platforms, integrations, AI features and how much needs to be built from scratch. RocketOpp scopes every app in a free consultation, where we assess your situation and goals before recommending anything. Most projects complete in 8-16 weeks.",
       },
     },
     {

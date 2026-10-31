@@ -498,7 +498,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </article>
 
-          {/* Coloured category rail + the $497 offer. */}
+          {/* Coloured category rail + the free-website offer. */}
           <div className="mt-12 lg:mt-0">
             <BlogSidebar
               categories={SIDEBAR_CATEGORIES}

@@ -59,7 +59,7 @@ const apps = [
     id: 'rocket-plus',
     name: 'Rocket+',
     tagline: '50+ AI Automation Tools for Your CRM',
-    description: 'Supercharge your GoHighLevel CRM with AI-powered course generation, workflow automation, and modular enhancements. The ultimate toolkit for agencies and businesses who want to do more with less.',
+    description: 'Supercharge your CRM with AI-powered course generation, workflow automation, and modular enhancements. The ultimate toolkit for agencies and businesses who want to do more with less.',
     url: 'https://rocketadd.com',
     icon: Rocket,
     color: 'from-orange-500 to-red-500',
@@ -78,7 +78,7 @@ const apps = [
       { icon: Shield, text: 'Enterprise Security' },
       { icon: Clock, text: '24/7 Automation' }
     ],
-    price: 'Starting at $49/mo'
+    price: 'Free consultation available'
   },
   {
     id: 'mcpfed',
@@ -135,7 +135,7 @@ const apps = [
 const appFAQs = [
   {
     question: 'What is Rocket+ and who is it for?',
-    answer: 'Rocket+ is a suite of 50+ AI automation tools designed for GoHighLevel CRM users. It\'s perfect for marketing agencies, SaaS businesses, and entrepreneurs who want to automate repetitive tasks, generate courses with AI, and supercharge their CRM capabilities.'
+    answer: 'Rocket+ is a suite of 50+ AI automation tools designed for CRM users. It\'s perfect for marketing agencies, SaaS businesses, and entrepreneurs who want to automate repetitive tasks, generate courses with AI, and supercharge their CRM capabilities.'
   },
   {
     question: 'What is MCPFED?',
@@ -170,7 +170,6 @@ export default function AppsPage() {
           key={app.id}
           name={app.name}
           description={app.description}
-          price={0}
           brand="RocketOpp"
           url={app.url}
         />

@@ -364,7 +364,7 @@ export default function RocketMcpPage() {
             </div>
           </section>
 
-          {/* Pricing Teaser */}
+          {/* Free to start */}
           <section className="py-16 md:py-24 bg-muted/30">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
@@ -372,22 +372,16 @@ export default function RocketMcpPage() {
                   Free to Start. Scale When Ready.
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Get 100 free API calls per month. Upgrade when you need more.
+                  Get 100 free API calls per month. Need more? Book a free consultation and we will
+                  look at what your business actually needs.
                 </p>
-
-                <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-                  {[
-                    { plan: "Free", calls: "100/mo", price: "$0" },
-                    { plan: "Starter", calls: "1,000/mo", price: "$29" },
-                    { plan: "Growth", calls: "10,000/mo", price: "$79" },
-                  ].map((tier, i) => (
-                    <div key={i} className="p-6 bg-card border border-border rounded-xl">
-                      <h3 className="font-bold mb-1">{tier.plan}</h3>
-                      <p className="text-2xl font-bold text-primary">{tier.price}</p>
-                      <p className="text-sm text-muted-foreground">{tier.calls}</p>
-                    </div>
-                  ))}
-                </div>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                >
+                  Book a free consultation
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
               </div>
             </div>
           </section>

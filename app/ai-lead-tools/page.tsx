@@ -61,7 +61,7 @@ export default function Page() {
               href="/hipaa"
               className="inline-flex items-center gap-2 h-11 px-5 rounded-lg border border-white/15 bg-white/[0.03] text-sm font-semibold hover:bg-white/[0.06] transition"
             >
-              HIPAA Scan ($149)
+              HIPAA Scan
             </Link>
           </div>
           <p className="text-xs text-muted-foreground mt-5 font-mono">
@@ -73,7 +73,7 @@ export default function Page() {
         <section className="container mx-auto px-4 max-w-5xl mt-16">
           <div className="grid sm:grid-cols-3 gap-3">
             <Trust icon={<Zap className="w-4 h-4" />}      label="Real reports"    body="Every tool ships a real artifact — PDF, dashboard, or actionable plan. Not just a promise." />
-            <Trust icon={<Lock className="w-4 h-4" />}     label="Locked-in pricing" body="The price you see is the price you pay. Onboarding only adjusts it downward." />
+            <Trust icon={<Lock className="w-4 h-4" />}     label="Free to start"     body="Start with the free assessment. Not sure what fits? Book a free consultation." />
             <Trust icon={<Sparkles className="w-4 h-4" />} label="Affiliate-ready"   body="White-label any tool to your audience. 30% recurring on every paid tier." />
           </div>
         </section>

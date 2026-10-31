@@ -12,7 +12,7 @@ const SITE = 'https://rocketopp.com'
 
 const TITLE = 'Web Design & Development Near Greensburg, Murrysville & Monroeville PA'
 const DESCRIPTION =
-  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Fixed quotes, no discovery calls.'
+  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Free websites for small service businesses — start with a free consultation.'
 
 import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: 'How much does a website cost in the Greensburg / Pittsburgh east suburbs?',
-    a: 'Every project is quoted individually, because page count, e-commerce, booking and how much you want automated all change the number. You get a fixed price before any work starts, from one short conversation rather than a sales funnel. For a straightforward business website there is a published $497 offer.',
+    a: 'For small service businesses that are a good fit, the website is free. It starts with a free consultation: we look at where your business is today and what you want the site to do, and decide together whether it is a fit. No purchase is needed for the website itself — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month.',
   },
   {
     q: 'Is RocketOpp a web design agency or an AI company?',
@@ -90,14 +90,14 @@ export default function WebDesignHub() {
           Westmoreland and eastern Allegheny County, Pennsylvania — a combined{' '}
           {TOTAL_POPULATION.toLocaleString()} residents at the 2020 Census. We design and build the
           website, then wire up the systems behind it: local SEO, AI search visibility, CRM
-          automation and custom AI tools. Every project gets a fixed quote before any work begins,
-          and no discovery call is required to get one.
+          automation and custom AI tools. For small service businesses, the website itself is free —
+          it starts with a free consultation to see whether we are a good fit.
         </p>
 
         <section className="mt-12">
           <h2 className="text-2xl font-bold tracking-tight">Service areas</h2>
           <p className="mt-3 text-muted-foreground">
-            Each area page covers what we build there, local pricing and the questions businesses in
+            Each area page covers what we build there and the questions businesses in
             that community actually ask.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -133,16 +133,17 @@ export default function WebDesignHub() {
         </section>
 
         <section className="mt-12 rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center">
-          <h2 className="text-2xl font-bold tracking-tight">Get a fixed quote</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Get a free website</h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Tell us what you need. You get a price up front — not after a sales call.
+            Book a free consultation. We look at your business and your goals, and tell you honestly
+            whether a free website is a good fit.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/contact"
+              href="/free-website"
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Get a quote <ArrowRight className="h-4 w-4" />
+              Book a free consultation <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href={`tel:${PHONE}`}

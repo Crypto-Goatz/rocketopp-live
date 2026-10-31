@@ -122,18 +122,7 @@ const jsonLd = {
   },
   "description": "Comprehensive online marketing services including social media, content marketing, PPC advertising, and email marketing.",
   "areaServed": "Worldwide",
-  "serviceType": "Digital Marketing",
-  "offers": {
-    "@type": "Offer",
-    "price": "3000",
-    "priceCurrency": "USD",
-    "priceSpecification": {
-      "@type": "PriceSpecification",
-      "price": "3000",
-      "priceCurrency": "USD",
-      "minPrice": "3000"
-    }
-  }
+  "serviceType": "Digital Marketing"
 }
 
 export default function OnlineMarketingPage() {

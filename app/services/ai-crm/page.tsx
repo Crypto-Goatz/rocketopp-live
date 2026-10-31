@@ -5,14 +5,14 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "AI-Powered CRM | Enterprise Technology for Small Business",
   description:
-    "Custom AI-powered CRM solutions starting at $5,000. Enterprise-level technology at 90% less than industry standard. Fully customized applications with built-in AI for businesses of all sizes.",
+    "Custom AI-powered CRM solutions, scoped in a free consultation. Enterprise-level technology at a fraction of the industry standard cost. Fully customized applications with built-in AI for businesses of all sizes.",
   keywords:
     "AI CRM, custom CRM, enterprise CRM, small business CRM, affordable CRM, AI-powered customer relationship management, custom business applications",
   openGraph: {
       images: [{ url: 'https://rocketopp.com/api/og?title=AI-Powered%20CRM%20-%20Enterprise%20Technology%20Made%20Affordable&eyebrow=Services', width: 1200, height: 630, alt: "AI-Powered CRM - Enterprise Technology Made Affordable" }],
     title: "AI-Powered CRM - Enterprise Technology Made Affordable",
     description:
-      "Custom AI-powered CRM starting at $5,000. We're bringing enterprise technology to small businesses at 90% less than industry standard pricing.",
+      "Custom AI-powered CRM, scoped in a free consultation. We're bringing enterprise technology to small businesses at a fraction of the industry standard cost.",
     type: "website",
   },
 }

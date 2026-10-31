@@ -3,34 +3,19 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight, Sparkles } from 'lucide-react'
-import { SERVICES } from '@/lib/order/services-catalog'
 
 /**
- * Floating CTA bar at the bottom of every /services/* page that funnels
- * to the /order wizard with the right service pre-seeded.
+ * Floating CTA bar at the bottom of every /services/* page.
  *
- * Uses usePathname to detect which service the user is reading and
- * map it to a catalog slug. Skips itself on /services index because
- * that page already has its own grid CTA.
+ * Marketing pages no longer show prices or deposits — every engagement starts
+ * with a free consultation — so this routes to /contact rather than the priced
+ * /order wizard. Skips itself on the /services index, which already has its
+ * own grid CTA.
  */
 export function ServicePageCta() {
   const pathname = usePathname() || ''
   // Don't show on /services index (which already has its own CTAs).
   if (pathname === '/services' || pathname === '/services/') return null
-
-  // Find the catalog service whose servicePagePath matches the current URL,
-  // OR the deepest match by path.
-  const slug = (() => {
-    const direct = SERVICES.find(
-      (s) => s.servicePagePath && pathname.startsWith(s.servicePagePath),
-    )
-    if (direct) return direct.slug
-    // Fallback — extract last path segment.
-    const parts = pathname.split('/').filter(Boolean)
-    return parts[parts.length - 1] || ''
-  })()
-
-  const orderUrl = slug ? `/order?seed=${encodeURIComponent(slug)}` : '/order'
 
   return (
     <div className="sticky bottom-4 z-40 mx-auto px-4 max-w-3xl">
@@ -41,18 +26,18 @@ export function ServicePageCta() {
           </div>
           <div className="min-w-0">
             <p className="font-semibold text-sm leading-tight">
-              Want a custom quote across multiple services?
+              Not sure which services you need?
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              60-second wizard. AI-built brief. $50 refundable to lock it in.
+              Free consultation. We assess your situation and goals first.
             </p>
           </div>
         </div>
         <Link
-          href={orderUrl}
+          href="/contact"
           className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground hover:scale-[1.02] transition-transform whitespace-nowrap"
         >
-          Build my quote
+          Book a free consultation
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

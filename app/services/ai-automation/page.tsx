@@ -35,7 +35,7 @@ import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
   title: "AI Business Automation — Workflows, Agents & Ops Automation",
   description:
-    "Custom AI automation systems built on 0nMCP. Replace 5-10 manual workflows with AI agents that run 24/7 — from lead qualification to customer support to content production. From $2,997. Ships in 2 weeks.",
+    "Custom AI automation systems built on 0nMCP. Replace 5-10 manual workflows with AI agents that run 24/7 — from lead qualification to customer support to content production. Ships in 2 weeks.",
   keywords: [
     "AI business automation",
     "workflow automation services",
@@ -69,16 +69,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const tiers = [
-  { name: "Automation Starter", price: "$2,997", headline: "Replace one workflow that's eating your day.", bestFor: "Solo founders + small teams (1-5 people).",
+  { name: "Automation Starter", headline: "Replace one workflow that's eating your day.", bestFor: "Solo founders + small teams (1-5 people).",
     features: ["1-2 high-impact workflows automated", "AI agent built on 0nMCP (1,500+ tool access)", "CRM + email integration", "Slack + dashboard notifications", "Documentation + handoff guide", "30 days of refinement included", "1 strategy + design call", "Ships in 2 weeks"] },
-  { name: "Automation Growth", price: "$7,997", popular: true, headline: "Run your entire operations on AI.", bestFor: "Growing teams ($1M-$10M ARR) with real ops debt.",
+  { name: "Automation Growth", popular: true, headline: "Run your entire operations on AI.", bestFor: "Growing teams ($1M-$10M ARR) with real ops debt.",
     features: ["Everything in Starter, plus —", "5-7 workflows automated end-to-end", "AI agent crew (CrewAI orchestration)", "Lead scoring + qualification flows", "Customer support + ticket routing AI", "Content production agent (4+ pieces/wk)", "Live observability dashboard", "60 days of refinement + 2 strategy calls"] },
-  { name: "Automation Enterprise", price: "From $24,997", headline: "Custom AI infrastructure for your full org.", bestFor: "Enterprise + regulated verticals (10M+ ARR, healthcare, finance).",
+  { name: "Automation Enterprise", headline: "Custom AI infrastructure for your full org.", bestFor: "Enterprise + regulated verticals (10M+ ARR, healthcare, finance).",
     features: ["Everything in Growth, plus —", "Unlimited workflows + agents", "Custom MCP server build", "On-prem / VPC deployment options", "HIPAA / SOC 2 / GDPR compliance work", "Multi-team agent governance", "Dedicated AI strategist", "90-day continuous refinement"] },
 ]
 
 const comparisonRows = [
-  { dimension: "Project cost", industry: "$15,000-$50,000", rocketopp: "$2,997-$24,997" },
   { dimension: "Time to first working agent", industry: "8-12 weeks", rocketopp: "2 weeks" },
   { dimension: "Tools your AI can use", industry: "10-30 (custom integration each)", rocketopp: "1,500+ via 0nMCP, ready day 1" },
   { dimension: "Agent orchestration", industry: "Sequential, fragile, not built in", rocketopp: "CrewAI multi-agent built in" },
@@ -93,13 +92,13 @@ const processSteps = [
   { number: "02", title: "Agent design + tool selection", when: "Day 4-7", body: "Each workflow becomes an agent with a defined goal, prompt, tool list (drawn from the 0nMCP catalog), guardrails, and a failure plan. We run trace tests against your real data.", icon: GitBranch },
   { number: "03", title: "Build + integrate", when: "Week 2", body: "Agents go live against your CRM, email, Slack, calendar, billing — whatever they need. Built on 0nMCP so the same agent works whether you're on HubSpot, Salesforce, or our own platform.", icon: Workflow },
   { number: "04", title: "Observability + handoff", when: "Week 2-3", body: "Live dashboard shows every agent run, what it did, what tools it called, what it cost in tokens. Your team gets a 30-min training so they can read the dashboard without us.", icon: TrendingUp },
-  { number: "05", title: "Refine in production", when: "Day 30-60", body: "Real users surface edge cases week 1-3. We tune prompts, add tool calls, expand capabilities, fix anything brittle. All included in the engagement price.", icon: Zap },
+  { number: "05", title: "Refine in production", when: "Day 30-60", body: "Real users surface edge cases week 1-3. We tune prompts, add tool calls, expand capabilities, fix anything brittle. All included in the engagement.", icon: Zap },
   { number: "06", title: "Compound: add agents", when: "Month 2+", body: "Once one agent is paying back, we layer the next. Every new agent has access to the same tool catalog, so the marginal build time drops fast. Most clients hit 7+ agents inside a year.", icon: Rocket },
 ]
 
 const faqs = [
   { question: "What is AI business automation, exactly?", answer: "It's the practice of replacing repetitive manual workflows — lead qualification, customer support replies, invoice reconciliation, content production, social posting — with AI agents that have access to your real business tools (CRM, email, calendar, billing). Unlike RPA or Zapier, AI agents reason about each task instead of following a fixed script. They can handle ambiguity, escalate when unsure, and improve as they learn your patterns." },
-  { question: "How much does an AI automation project cost in 2026?", answer: "Industry average for a custom AI automation project ranges $15,000-$50,000 because most firms charge for custom integration work on every tool the agent needs to use. RocketOpp builds on 0nMCP, which gives every agent access to 1,640+ tools across 111 services on day one — so we skip the integration tax. Our Starter is $2,997 (1-2 workflows), Growth is $7,997 (5-7 workflows), Enterprise starts at $24,997 (unlimited, with compliance + custom MCP)." },
+  { question: "How much does an AI automation project cost in 2026?", answer: "Industry average for a custom AI automation project ranges $15,000-$50,000 because most firms charge for custom integration work on every tool the agent needs to use. RocketOpp builds on 0nMCP, which gives every agent access to 1,640+ tools across 111 services on day one — so we skip the integration tax. Every project is scoped in a free consultation: Starter covers 1-2 workflows, Growth covers 5-7 workflows, Enterprise is unlimited, with compliance + custom MCP." },
   { question: "What can an AI agent actually do for my business?", answer: "Common starting points: qualify inbound leads (read the form, enrich the contact, score it, route to the right rep), reply to common customer support tickets, produce drafts for blog posts and social content, reconcile invoices against contracts, schedule meetings end-to-end, run weekly reports and post the summary to Slack, follow up on cold email no-replies, summarize sales calls and update the CRM. Anything that's: (a) repetitive, (b) judgment-light, (c) involves 2+ tools." },
   { question: "How is this different from Zapier, Make, or RPA tools?", answer: "Zapier and Make are if-this-then-that. They break the moment data doesn't fit the schema. RPA (UiPath etc.) is brittle screen automation. AI agents reason about each task — they read the inputs, decide what to do, call the right tools, and escalate if confused. They're orders of magnitude more flexible, recover from edge cases automatically, and learn from your corrections. The trade-off used to be cost; with 0nMCP that gap is closed." },
   { question: "What's 0nMCP and why does it matter for my project?", answer: "0nMCP is our orchestrator (Model Context Protocol server) that gives any AI agent immediate access to 1,640+ tools across 111 services — CRM, email, Slack, Stripe, GitHub, Google Workspace, Shopify, you name it. Without it, every new agent capability is a custom integration build. With it, agents start with the keys to the entire ecosystem and you only pay for the orchestration on top. It's the entire reason our pricing is one-tenth of the industry." },
@@ -110,10 +109,10 @@ const faqs = [
 ]
 
 const relatedLinks = [
-  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "$1,997 — connect any business to 1,640+ tools" },
-  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "$1,497 — pipelines, lead scoring, sequences" },
-  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "From $997/mo — get cited by AI engines" },
-  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "$797/mo — AI-optimized Google + Meta + LinkedIn" },
+  { label: "MCP Server Integration", href: "/services/mcp-integration", hint: "Connect any business to 1,640+ tools" },
+  { label: "CRM Setup & Automation", href: "/services/crm-automation", hint: "Pipelines, lead scoring, sequences" },
+  { label: "SXO (Search Experience Optimization)", href: "/services/sxo", hint: "Get cited by AI engines" },
+  { label: "PPC & Paid Ads", href: "/services/ppc-management", hint: "AI-optimized Google + Meta + LinkedIn" },
   { label: "0nMCP — the orchestrator", href: "https://0nmcp.com", hint: "1,640+ tools, 111 services, one protocol", external: true },
   { label: "Read the AI automation playbook", href: "/blog", hint: "Real builds, real numbers, real failures" },
 ]
@@ -121,7 +120,7 @@ const relatedLinks = [
 export default function AiAutomationPage() {
   return (
     <>
-      <ServiceOfferSchema name="AI Business Automation" description="Custom AI automation systems built on 0nMCP — replace 5-10 manual workflows with AI agents that run 24/7." serviceType="AI Business Automation" url="https://rocketopp.com/services/ai-automation" price={2997} priceUnit="ONE_TIME" />
+      <ServiceOfferSchema name="AI Business Automation" description="Custom AI automation systems built on 0nMCP — replace 5-10 manual workflows with AI agents that run 24/7." serviceType="AI Business Automation" url="https://rocketopp.com/services/ai-automation" />
       <FAQSchema items={faqs} />
       <HowToSchema name="How RocketOpp ships an AI automation engagement" description="From operations audit to compounding agent crew in six steps." totalTime="P14D" steps={processSteps.map((s) => ({ name: s.title, text: s.body }))} />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://rocketopp.com" }, { name: "Services", url: "https://rocketopp.com/services" }, { name: "AI Business Automation", url: "https://rocketopp.com/services/ai-automation" }]} />
@@ -130,15 +129,15 @@ export default function AiAutomationPage() {
         <BlufBlock
           badge="Powered by 0nMCP — 1,640+ tools, day 1"
           bottomLine="Replace 5-10 manual workflows with AI agents that run 24/7. From lead qualification to customer support to content production — your operation, automated, observable, and improving every week."
-          context="We build on 0nMCP so every agent we ship has immediate access to 1,640+ tools across 111 services. No integration tax. No 8-week procurement cycle. From Starter at $2,997 (1-2 workflows in 2 weeks) to Enterprise (unlimited workflows, custom MCP, compliance work)."
+          context="We build on 0nMCP so every agent we ship has immediate access to 1,640+ tools across 111 services. No integration tax. No 8-week procurement cycle. From Starter (1-2 workflows in 2 weeks) to Enterprise (unlimited workflows, custom MCP, compliance work), scoped in a free consultation."
           stats={[
             { label: "Tools your AI can use", value: "1,500+" },
             { label: "Time to first agent", value: "2 weeks" },
-            { label: "Starting price", value: "$2,997" },
+            { label: "First step", value: "Free consult" },
             { label: "Days of refinement included", value: "30-90" },
           ]}
           primaryCta={{ label: "Book an automation call", href: "/contact" }}
-          secondaryCta={{ label: "See pricing", href: "#pricing" }}
+          secondaryCta={{ label: "See packages", href: "#pricing" }}
         />
 
         <EcosystemStrip />
@@ -153,7 +152,7 @@ export default function AiAutomationPage() {
               <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
                 <p>A typical SMB has <strong className="text-foreground">15-25 repetitive workflows</strong> chewing up team hours every week. Lead replies, ticket triage, social posting, invoice matching, calendar wrangling, CRM data entry — none of them are revenue work, all of them have to happen.</p>
                 <p>At <strong className="text-foreground">$25-50/hour fully-loaded labor cost</strong>, even five workflows at one hour/day each is $25k-$50k a year. Doing nothing is not free.</p>
-                <p>AI agents fix this with a one-time build. The same workflow that costs you $30k/year manually costs $3k once with us, runs 24/7, and never asks for PTO. It&apos;s the highest-ROI infrastructure decision a small business can make in 2026.</p>
+                <p>AI agents fix this with a one-time build. The same workflow that costs you $30k/year manually is built once, runs 24/7, and never asks for PTO. It&apos;s the highest-ROI infrastructure decision a small business can make in 2026.</p>
               </div>
             </div>
           </div>
@@ -196,9 +195,9 @@ export default function AiAutomationPage() {
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center mb-12">
               <h2 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
-                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">Project pricing</span>
+                <span className="bg-gradient-to-r from-primary via-orange-400 to-primary bg-clip-text text-transparent">Project packages</span>
               </h2>
-              <p className="mt-3 text-base text-muted-foreground md:text-lg">One-time engagement fees. You own the agents at the end. 30-day results guarantee.</p>
+              <p className="mt-3 text-base text-muted-foreground md:text-lg">Every project is scoped in a free consultation. You own the agents at the end. 30-day results guarantee.</p>
             </div>
             <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
               {tiers.map((tier) => (
@@ -210,7 +209,6 @@ export default function AiAutomationPage() {
                   )}
                   <h3 className="text-xl font-bold text-foreground">{tier.name}</h3>
                   <div className="mt-1 text-sm text-muted-foreground">{tier.headline}</div>
-                  <div className="mt-5"><span className="text-4xl font-black text-primary">{tier.price}</span></div>
                   <p className="mt-3 text-xs italic text-muted-foreground">{tier.bestFor}</p>
                   <ul className="mt-5 flex-1 space-y-2.5">
                     {tier.features.map((f) => (

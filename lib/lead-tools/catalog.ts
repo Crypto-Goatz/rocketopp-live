@@ -25,7 +25,7 @@ export interface LeadTool {
   blurb:       string                  // 2-sentence description for richer surfaces
   href:        string                  // where the CTA goes (live tool OR notify form)
   ctaLabel:    string                  // "Run free scan" / "Notify me" / "Start"
-  priceLabel:  string                  // "Free" / "From $149" / etc.
+  priceLabel:  string                  // "Free" / "Paid report" / etc. — display only, never a dollar figure
   delivery:    string                  // "5-minute report" / "15 min" / "instant"
   icon:        LucideIcon
   gradient:    string                  // tailwind gradient classes
@@ -55,10 +55,10 @@ export const LEAD_TOOLS: LeadTool[] = [
     slug:       'hipaa-compliance-scanner',
     name:       'HIPAA Compliance Scanner',
     tagline:    '51-point AI-written HIPAA audit, 15-min delivery.',
-    blurb:      'Every finding cited to 45 CFR §164. Optional dev fix kit, NPRM overlay, and a 30-min compliance engineer call. From $149.',
+    blurb:      'Every finding cited to 45 CFR §164. Optional dev fix kit, NPRM overlay, and a 30-min compliance engineer call.',
     href:       '/hipaa',
     ctaLabel:   'Run HIPAA scan',
-    priceLabel: 'From $149',
+    priceLabel: 'Paid report',
     delivery:   '15-minute report',
     icon:       ShieldCheck,
     gradient:   'from-emerald-500 to-cyan-500',
@@ -75,7 +75,7 @@ export const LEAD_TOOLS: LeadTool[] = [
     blurb:      'Audit how your site performs in ChatGPT, Perplexity, Claude. Schema, llms.txt, AEO formatting. Site-wide rewrite recommendations.',
     href:       '/ai-lead-tools/notify?tool=sxo-scan',
     ctaLabel:   'Notify me when live',
-    priceLabel: 'From $97',
+    priceLabel: 'Coming soon',
     delivery:   '10-minute scan',
     icon:       Search,
     gradient:   'from-orange-500 to-amber-500',
@@ -90,7 +90,7 @@ export const LEAD_TOOLS: LeadTool[] = [
     blurb:      'Goes beyond the free assessment — analyzes your CRM, content, ad accounts, and tech stack to score your AI-readiness across 8 dimensions.',
     href:       '/ai-lead-tools/notify?tool=ai-readiness-audit',
     ctaLabel:   'Notify me when live',
-    priceLabel: '$199',
+    priceLabel: 'Coming soon',
     delivery:   'Same-day report',
     icon:       Bot,
     gradient:   'from-fuchsia-500 to-purple-600',
@@ -105,7 +105,7 @@ export const LEAD_TOOLS: LeadTool[] = [
     blurb:      'Pick a topic, your industry, and tone. The AI ships a 6-10 page lead magnet PDF you can swap straight into your funnel.',
     href:       '/ai-lead-tools/notify?tool=lead-magnet-builder',
     ctaLabel:   'Notify me when live',
-    priceLabel: 'From $39',
+    priceLabel: 'Coming soon',
     delivery:   '60-second build',
     icon:       FilePlus2,
     gradient:   'from-violet-500 to-purple-600',
@@ -135,7 +135,7 @@ export const LEAD_TOOLS: LeadTool[] = [
     blurb:      'AI reads your top 50 pages, scores them on engagement + intent + AI discoverability, hands you a 30-day rewrite plan.',
     href:       '/ai-lead-tools/notify?tool=content-audit',
     ctaLabel:   'Notify me when live',
-    priceLabel: '$129',
+    priceLabel: 'Coming soon',
     delivery:   '15-minute scan',
     icon:       FileText,
     gradient:   'from-pink-500 to-purple-500',
@@ -150,7 +150,7 @@ export const LEAD_TOOLS: LeadTool[] = [
     blurb:      'Drop your offer + audience + tone. The AI ships 50 ad variants across Google, Meta, LinkedIn — ready to launch as JSON or directly into your CRM.',
     href:       '/ai-lead-tools/notify?tool=ad-copy-engine',
     ctaLabel:   'Notify me when live',
-    priceLabel: 'From $49',
+    priceLabel: 'Coming soon',
     delivery:   '60-second build',
     icon:       Megaphone,
     gradient:   'from-green-500 to-emerald-500',
