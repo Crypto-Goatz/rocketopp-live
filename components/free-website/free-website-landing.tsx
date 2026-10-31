@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Fraunces } from "next/font/google"
+import { Plus_Jakarta_Sans } from "next/font/google"
 import { ArrowRight, ArrowUpRight, Check, Phone, CalendarCheck, UserPlus } from "lucide-react"
 import Footer from "@/components/footer"
 import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
@@ -21,7 +21,7 @@ import "./free-website.css"
  * Warm ink + paper sheets, Fraunces for display, every effect a CSS transform; one tiny client island (Tilt) besides the form.
  * Served at "/" and "/free-website"; with `trade` it is /free-website/<trade>.
  */
-const display = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], variable: "--fw-display", display: "swap" })
+const display = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--fw-display", display: "swap" })
 
 const SITE = "https://rocketopp.com"
 

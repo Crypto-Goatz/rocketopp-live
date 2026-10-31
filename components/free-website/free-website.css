@@ -4,7 +4,7 @@
 .fw {
   --fw-ink: #13110f; --fw-ink-2: #1a1714; --fw-ink-3: #23201b;
   --fw-cream: #f4ede3; --fw-cream-2: #d9cfc1; --fw-muted: #a2978a; --fw-line: rgba(244, 237, 227, .10);
-  --fw-paper: #f6f0e7; --fw-paper-2: #ede5d8; --fw-paper-ink: #1d1a16; --fw-paper-muted: #6a6157; --fw-paper-line: rgba(29, 26, 22, .10);
+  --fw-paper: #ffffff; --fw-paper-2: #fafaf9; --fw-paper-ink: #1d1a16; --fw-paper-muted: #6a6157; --fw-paper-line: rgba(29, 26, 22, .10);
   --fw-accent: #ff6b2c; --fw-accent-2: #ffae6b; --fw-sage: #9db497; --fw-sage-deep: #4f6b4a;
   background: var(--fw-ink); color: var(--fw-cream); overflow-x: clip;
 }
@@ -109,7 +109,7 @@
 
 .fw-steps { margin-top: 64px; display: grid; gap: 22px; counter-reset: fw; }
 @media (min-width: 900px) { .fw-steps { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
-.fw-step { position: relative; padding: 34px 30px 32px; border-radius: 26px; background: #fffaf3; border: 1px solid var(--fw-paper-line); box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 24px 50px -36px rgba(60, 40, 20, .35); transition: transform .35s ease, box-shadow .35s ease; }
+.fw-step { position: relative; padding: 34px 30px 32px; border-radius: 26px; background: #ffffff; border: 1px solid var(--fw-paper-line); box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 24px 50px -36px rgba(60, 40, 20, .35); transition: transform .35s ease, box-shadow .35s ease; }
 .fw-step:hover { transform: translateY(-4px); box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 34px 60px -34px rgba(60, 40, 20, .45); }
 .fw-step-n { font-size: 3.6rem; line-height: 1; font-weight: 300; font-style: italic; color: transparent; -webkit-text-stroke: 1.2px #d06a35; }
 .fw-step h3 { margin-top: 22px; font-size: 1.45rem; font-weight: 500; letter-spacing: -.01em; }
@@ -133,7 +133,7 @@
 
 .fw-needs { margin-top: 90px; display: grid; gap: 32px; align-items: start; }
 @media (min-width: 900px) { .fw-needs { grid-template-columns: .9fr 1.1fr; gap: 56px; } }
-.fw-needs .fw-list li { padding: 16px 18px; border-radius: 16px; background: #fffaf3; border: 1px solid var(--fw-paper-line); }
+.fw-needs .fw-list li { padding: 16px 18px; border-radius: 16px; background: #ffffff; border: 1px solid var(--fw-paper-line); }
 
 /* ── ink sections ── */
 .fw-ink-sec { padding: 110px 0; }
@@ -182,3 +182,16 @@
   .fw-float, .fw-row, .fw-rise { animation: none !important; }
   .fw-stage-inner, .fw-tilt-in, .fw-step, .fw-row .fw-tile { transition: none !important; }
 }
+
+/* ── 2026-10-31 restyle to match rocketappointments.com + the service pages: Plus Jakarta Sans headings, white sheets ── */
+.fw .fw-serif { font-family: var(--fw-display), system-ui, sans-serif; }
+.fw .fw-h1 { font-weight: 800; letter-spacing: -.035em; line-height: 1.03; }
+.fw .fw-h2 { font-weight: 750; letter-spacing: -.03em; line-height: 1.1; }
+.fw .fw-h1 em, .fw .fw-h2 em { font-style: normal; font-weight: inherit; }
+.fw .fw-step-n { font-style: normal; font-weight: 800; -webkit-text-stroke: 0; color: #e2581f; font-size: 2.6rem; }
+.fw .fw-step h3, .fw .fw-card-paper h3, .fw .fw-card-ink h3 { font-weight: 750; letter-spacing: -.02em; }
+.fw .fw-price b { font-weight: 800; letter-spacing: -.04em; }
+.fw .fw-card-ink .fw-fine { font-style: normal; font-weight: 600; }
+.fw .fw-faq summary { font-weight: 650; font-size: 1.15rem; }
+.fw .fw-paper { border-radius: 0; margin: 0; }
+.fw .fw-step, .fw .fw-card-paper, .fw .fw-needs .fw-list li { border: 1px solid #ececec; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -30px rgba(0,0,0,.25); }
