@@ -42,7 +42,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Enterprise AI systems at startup speed. Transparent pricing, no discovery calls.
+              A free website for small service businesses. Start with a free consultation.
             </p>
             <p className="text-xs text-primary font-medium">
               RocketOpp -- an 0n Company

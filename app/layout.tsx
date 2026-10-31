@@ -21,13 +21,13 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 export const metadata: Metadata = {
   title: {
-    default: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    default: "RocketOpp — A Free Website for Your Service Business",
     template: "%s | RocketOpp"
   },
   description:
-    "We build personalized business systems for entrepreneurs — powered by 0nMCP and CRO9. Websites, automation and AI systems for Western PA businesses. No fluff. No discovery calls. Just results.",
+    "A free website for small service businesses — book a free consultation, and if we're a good fit we build it at no cost. The only cost is our lead management tool for contacts and appointments.",
   keywords:
-    "RocketOpp, website development pricing, AI automation, CRM setup cost, SXO services, PPC management, MCP server integration, transparent pricing, 0nMCP, CRO9, business automation, digital agency",
+    "free website for small business, free website for service business, website for contractors, website for plumbers, website for HVAC, lead management, appointment booking, RocketOpp",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],
   creator: "RocketOpp",
   publisher: "RocketOpp",
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://rocketopp.com",
-    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    title: "RocketOpp — A Free Website for Your Service Business",
     description:
-      "Transparent pricing for websites, AI automation, CRM, SXO, PPC, and MCP integration. Powered by 0nMCP and CRO9.",
+      "Book a free consultation. If we're a good fit, we build your service business a website for free.",
     siteName: "RocketOpp",
     images: [
       {
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RocketOpp - Enterprise AI Systems. Startup Speed. Real Pricing.",
+    title: "RocketOpp — A Free Website for Your Service Business",
     description: "Fixed quotes. No discovery calls. Websites, automation and AI systems.",
     site: "@rocketopp",
     creator: "@rocketopp",

@@ -63,11 +63,11 @@ const nextConfig = {
             */
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel.app https://www.cro9.com https://www.googletagmanager.com https://www.clarity.ms",
+              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel.app https://www.cro9.com https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https: http:",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://*.vercel.app https://api.groq.com https://*.blob.vercel-storage.com wss://*.vercel.app https://www.cro9.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms",
+              "connect-src 'self' https://*.vercel.app https://api.groq.com https://*.blob.vercel-storage.com wss://*.vercel.app https://www.cro9.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://analytics.google.com https://www.google.com https://stats.g.doubleclick.net",
               "frame-src 'self' https://www.googletagmanager.com",
               "frame-ancestors 'self'",
               "form-action 'self'",
@@ -101,6 +101,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // The paid website offer and the quote wizard are retired (Mike, 2026-10-31): the site leads with ONE offer, a free
+      // website after a free consultation. Old links and ads land on that consultation instead of a price.
+      { source: '/497-website', destination: '/free-website', permanent: false },
+      { source: '/497-website/start', destination: '/free-website', permanent: false },
+      { source: '/order', destination: '/free-website', permanent: false },
+      // NOT /order/success or /497-website/launch: those are where someone who already paid lands.
       { source: '/hippa', destination: '/hipaa', permanent: true },
       { source: '/hippa/:path*', destination: '/hipaa/:path*', permanent: true },
     ]

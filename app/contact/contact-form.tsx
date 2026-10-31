@@ -3,7 +3,14 @@
 import { useState } from "react"
 import { Send, CheckCircle2, Loader2, User, Mail, Phone, MessageSquare, Building } from "lucide-react"
 
-export function ContactForm() {
+/** The two forms this component draws: the general contact form, and the free-website consultation request. */
+const COPY = {
+  contact: { title: "Get in Touch", intro: "Fill out the form and we'll be in touch soon.", company: "Company", companyPh: "Acme Inc", ask: "How can we help?", askPh: "Tell us about your project, goals, or challenges you're facing...", button: "Send Message", done: "We've received your message and will get back to you within 24 hours." },
+  free_website: { title: "Request your free consultation", intro: "Tell us about your business. We'll look at where you are and where you want to go, and get back to you within one business day.", company: "Business name", companyPh: "Smith Plumbing & Heating", ask: "What does your business do, and what are your goals?", askPh: "e.g. We're a 3-truck HVAC company in Greensburg. We have no website yet and want more service calls from Google...", button: "Request my free consultation", done: "We've got your request. We'll review your business and reach out within one business day to set up your free consultation." },
+} as const
+
+export function ContactForm({ form = "contact" }: { form?: keyof typeof COPY } = {}) {
+  const copy = COPY[form]
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,13 +35,17 @@ export function ContactForm() {
     setIsSubmitting(true)
 
     try {
+      // Never leave someone staring at a spinner: after 25 s, say so and give them the phone and email.
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), 25_000)
       const res = await fetch("/api/contact/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
+        body: JSON.stringify({ ...formData, form }),
+        signal: ctrl.signal,
+      }).finally(() => clearTimeout(timer))
 
-      const data = await res.json()
+      const data = await res.json().catch(() => ({ error: `The server answered ${res.status}.` }))
 
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong")
@@ -42,7 +53,8 @@ export function ContactForm() {
 
       setIsSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to submit form")
+      const msg = err instanceof Error && err.name !== "AbortError" ? err.message : "That took too long to send"
+      setError(`${msg} — please call +1 (878) 888-1230 or email mike@rocketopp.com and we'll take it from there.`)
     } finally {
       setIsSubmitting(false)
     }
@@ -56,7 +68,7 @@ export function ContactForm() {
         </div>
         <h2 className="text-2xl font-bold mb-2">Thank you, {formData.name}!</h2>
         <p className="text-zinc-400 mb-6">
-          We've received your message and will get back to you within 24 hours.
+          {copy.done}
         </p>
         <div className="p-4 rounded-xl bg-zinc-800/50 inline-block">
           <p className="text-sm text-zinc-500">In the meantime, feel free to call</p>
@@ -82,8 +94,8 @@ export function ContactForm() {
         aria-hidden="true"
         className="absolute -left-[9999px] h-px w-px overflow-hidden opacity-0"
       />
-      <h2 className="text-2xl font-bold mb-2">Get in Touch</h2>
-      <p className="text-zinc-500 mb-8">Fill out the form and we'll be in touch soon.</p>
+      <h2 className="text-2xl font-bold mb-2">{copy.title}</h2>
+      <p className="text-zinc-500 mb-8">{copy.intro}</p>
 
       {error && (
         <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-6">
@@ -159,7 +171,7 @@ export function ContactForm() {
           <div className="space-y-2">
             <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
               <Building className="h-4 w-4" />
-              Company
+              {copy.company}
             </label>
             <div className={`relative rounded-xl transition-all duration-300 ${focused === "company" ? "ring-2 ring-primary/50" : ""}`}>
               <input
@@ -169,7 +181,7 @@ export function ContactForm() {
                 onChange={handleChange}
                 onFocus={() => setFocused("company")}
                 onBlur={() => setFocused(null)}
-                placeholder="Acme Inc"
+                placeholder={copy.companyPh}
                 className="w-full px-4 py-4 rounded-xl bg-zinc-800/50 border border-zinc-700 focus:border-primary outline-none transition-colors text-white placeholder:text-zinc-600"
               />
             </div>
@@ -180,7 +192,7 @@ export function ContactForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-zinc-400 flex items-center gap-2">
             <MessageSquare className="h-4 w-4" />
-            How can we help? <span className="text-red-500">*</span>
+            {copy.ask} <span className="text-red-500">*</span>
           </label>
           <div className={`relative rounded-xl transition-all duration-300 ${focused === "message" ? "ring-2 ring-primary/50" : ""}`}>
             <textarea
@@ -189,7 +201,7 @@ export function ContactForm() {
               onChange={handleChange}
               onFocus={() => setFocused("message")}
               onBlur={() => setFocused(null)}
-              placeholder="Tell us about your project, goals, or challenges you're facing..."
+              placeholder={copy.askPh}
               required
               rows={5}
               className="w-full px-4 py-4 rounded-xl bg-zinc-800/50 border border-zinc-700 focus:border-primary outline-none transition-colors text-white placeholder:text-zinc-600 resize-none"
@@ -204,7 +216,7 @@ export function ContactForm() {
           className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-red-500 text-white font-semibold text-lg hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
         >
           <span className={`flex items-center justify-center gap-2 transition-all duration-300 ${isSubmitting ? "opacity-0" : "opacity-100"}`}>
-            Send Message
+            {copy.button}
             <Send className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </span>
           {isSubmitting && (

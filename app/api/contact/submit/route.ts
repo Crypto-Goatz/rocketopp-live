@@ -8,21 +8,41 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+/**
+ * The forms that post here. "free_website" is the free-website consultation (Mike, 2026-10-31: the site now leads with one
+ * offer — a free website for service businesses after a free consultation; the only ongoing cost is the $49/mo lead tool).
+ */
+const FORMS: Record<string, { formName: string; source: string; tags: string[] }> = {
+  contact: { formName: "Contact Form", source: "contact_form", tags: ["Website Lead", "Contact Form"] },
+  free_website: { formName: "Free Website Consultation", source: "free_website", tags: ["Website Lead", "Free Website Consultation"] },
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // BotID: block automated submissions before touching the CRM or sending mail.
-    const bot = await checkBotId()
-    if (bot.isBot) {
-      return NextResponse.json({ success: false, error: "Access denied." }, { status: 403 })
-    }
-
     const data = await request.json()
+    const form = FORMS[String(data.form ?? "contact")] ?? FORMS.contact
 
     if (!data.name || !data.email) {
       return NextResponse.json(
         { success: false, error: "Name and email are required" },
         { status: 400 }
       )
+    }
+
+    /*
+      BotID: an automated submission never reaches the CRM or Mike's inbox. But it is KEPT, flagged, not thrown away: this
+      form is the business's one door, and a person BotID misjudges (a privacy browser, a corporate proxy) would otherwise be
+      told "Access denied." and vanish without a trace. Flagged rows sit in contact_submissions with is_spam = true.
+    */
+    const bot = await checkBotId()
+    if (bot.isBot) {
+      const { error } = await supabase.from("contact_submissions").insert({
+        form_name: form.formName, name: data.name, email: data.email, phone: data.phone || null, company: data.company || null,
+        message: data.message || null, page_url: request.headers.get("referer") || null, source: form.source,
+        user_agent: request.headers.get("user-agent"), is_spam: true,
+      })
+      if (error) console.error("Flagged submission not stored:", error)
+      return NextResponse.json({ success: false, error: "We couldn't verify this submission. Please call or email us instead." }, { status: 403 })
     }
 
     const nameParts = data.name.trim().split(" ")
@@ -36,7 +56,7 @@ export async function POST(request: NextRequest) {
       // fail silently (the error is only console.logged), so contact-form
       // submissions were reaching the CRM but never being recorded locally.
       .insert({
-        form_name: "Contact Form",
+        form_name: form.formName,
         name: data.name,
         first_name: firstName,
         last_name: lastName,
@@ -45,7 +65,7 @@ export async function POST(request: NextRequest) {
         company: data.company || null,
         message: data.message || null,
         page_url: request.headers.get("referer") || "https://rocketopp.com/contact",
-        source: "contact_form",
+        source: form.source,
         user_agent: request.headers.get("user-agent"),
       })
       .select()
@@ -64,10 +84,10 @@ export async function POST(request: NextRequest) {
       company: data.company,
       message: data.message,
       honeypot: data.company_website,
-      source: FormSources.CONTACT_FORM,
-      formName: "Contact Form",
+      source: form.source === "free_website" ? "rocketopp-free-website" : FormSources.CONTACT_FORM,
+      formName: form.formName,
       pageUrl: request.headers.get("referer") || "https://rocketopp.com/contact",
-      tags: ["Website Lead", "Contact Form"],
+      tags: form.tags,
     })
 
     if (lead?.id && result.contactId) {

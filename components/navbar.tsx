@@ -16,7 +16,6 @@ import {
   ShieldCheck, TrendingUp
 } from "lucide-react"
 import { useState, useEffect, useRef, useCallback } from "react"
-import { CartButton } from "@/components/cart/cart-button"
 
 interface UserData {
   id: string
@@ -27,111 +26,111 @@ interface UserData {
 const services = [
   {
     name: "Website Development",
-    tagline: "From $2,497 — 2 weeks",
+    tagline: "Ships in 2 weeks",
     href: "/services/website-development",
     icon: Globe,
     color: "from-blue-500 to-cyan-500",
     features: [
       { name: "Custom Web Design", href: "/services/website-development", icon: Palette },
-      { name: "E-Commerce Stores", href: "/services/website-development#pricing", icon: ShoppingBag },
-      { name: "Full Digital Presence", href: "/services/website-development#pricing", icon: Target },
+      { name: "E-Commerce Stores", href: "/services/website-development", icon: ShoppingBag },
+      { name: "Full Digital Presence", href: "/services/website-development", icon: Target },
     ]
   },
   {
     name: "AI Automation",
-    tagline: "From $2,997 — 2 weeks",
+    tagline: "Ships in 2 weeks",
     href: "/services/ai-automation",
     icon: Cpu,
     color: "from-orange-500 to-red-500",
     features: [
       { name: "AI Chatbots", href: "/services/ai-automation", icon: Bot },
-      { name: "Workflow Automation", href: "/services/ai-automation#pricing", icon: Zap },
+      { name: "Workflow Automation", href: "/services/ai-automation", icon: Zap },
       { name: "0nMCP Integration", href: "/services/mcp-integration", icon: Cpu },
     ]
   },
   {
     name: "SXO",
-    tagline: "From $997/mo",
+    tagline: "Ongoing, managed for you",
     href: "/services/sxo",
     icon: Search,
     color: "from-yellow-500 to-orange-500",
     features: [
       { name: "Search Optimization", href: "/services/sxo", icon: Search },
-      { name: "Conversion Optimization", href: "/services/sxo#pricing", icon: Target },
-      { name: "Content Strategy", href: "/services/sxo#pricing", icon: PenTool },
+      { name: "Conversion Optimization", href: "/services/sxo", icon: Target },
+      { name: "Content Strategy", href: "/services/sxo", icon: PenTool },
     ]
   },
   {
     name: "CRM Automation",
-    tagline: "From $1,497 — 1 week",
+    tagline: "Ships in 1 week",
     href: "/services/crm-automation",
     icon: Workflow,
     color: "from-indigo-500 to-violet-500",
     features: [
       { name: "Pipeline Setup", href: "/services/crm-automation", icon: Target },
-      { name: "Email Automation", href: "/services/crm-automation#pricing", icon: Zap },
-      { name: "Lead Scoring", href: "/services/crm-automation#pricing", icon: BarChart3 },
+      { name: "Email Automation", href: "/services/crm-automation", icon: Zap },
+      { name: "Lead Scoring", href: "/services/crm-automation", icon: BarChart3 },
     ]
   },
   {
     name: "PPC Management",
-    tagline: "From $797/mo",
+    tagline: "Ongoing, managed for you",
     href: "/services/ppc-management",
     icon: BarChart3,
     color: "from-green-500 to-emerald-500",
     features: [
       { name: "Google Ads", href: "/services/ppc-management", icon: Search },
-      { name: "Meta Ads", href: "/services/ppc-management#pricing", icon: Target },
-      { name: "LinkedIn Ads", href: "/services/ppc-management#pricing", icon: BarChart3 },
+      { name: "Meta Ads", href: "/services/ppc-management", icon: Target },
+      { name: "LinkedIn Ads", href: "/services/ppc-management", icon: BarChart3 },
     ]
   },
   {
     name: "MCP Integration",
-    tagline: "From $1,997 — 1 week",
+    tagline: "Ships in 1 week",
     href: "/services/mcp-integration",
     icon: Code2,
     color: "from-cyan-500 to-blue-500",
     features: [
       { name: "111 Services", href: "/services/mcp-integration", icon: Globe },
-      { name: "1,640+ Tools", href: "/services/mcp-integration#pricing", icon: Zap },
-      { name: "Vault Security", href: "/services/mcp-integration#pricing", icon: Sparkles },
+      { name: "1,640+ Tools", href: "/services/mcp-integration", icon: Zap },
+      { name: "Vault Security", href: "/services/mcp-integration", icon: Sparkles },
     ]
   },
   // ── Row 3 — new product-oriented service tracks (distinct color palette) ──
   {
     name: "Agentic AI Apps",
-    tagline: "From $4,997 — 3 weeks",
+    tagline: "Ships in 3 weeks",
     href: "/services/agentic-ai-apps",
     icon: Sparkles,
     color: "from-fuchsia-500 to-purple-600",
     features: [
       { name: "0nMCP Agents", href: "/services/agentic-ai-apps", icon: Bot },
-      { name: "Custom Workflows", href: "/services/agentic-ai-apps#pricing", icon: Workflow },
-      { name: "Agent Orchestration", href: "/services/agentic-ai-apps#pricing", icon: Sparkles },
+      { name: "Custom Workflows", href: "/services/agentic-ai-apps", icon: Workflow },
+      { name: "Agent Orchestration", href: "/services/agentic-ai-apps", icon: Sparkles },
     ]
   },
   {
     name: "SaaS Platforms",
-    tagline: "From $12,500 — 6 weeks",
+    tagline: "Ships in 6 weeks",
     href: "/services/saas-platforms",
     icon: Package,
     color: "from-rose-500 to-pink-600",
     features: [
       { name: "Multi-tenant Auth", href: "/services/saas-platforms", icon: Package },
-      { name: "Subscription Billing", href: "/services/saas-platforms#pricing", icon: BarChart3 },
-      { name: "Admin Dashboards", href: "/services/saas-platforms#pricing", icon: LineChart },
+      { name: "Subscription Billing", href: "/services/saas-platforms", icon: BarChart3 },
+      { name: "Admin Dashboards", href: "/services/saas-platforms", icon: LineChart },
     ]
   },
   {
     name: "Lead Tool Apps",
-    tagline: "From $3,497 — 2 weeks",
+    tagline: "Ships in 2 weeks",
     href: "/services/lead-tool-apps",
     icon: Megaphone,
     color: "from-lime-400 to-teal-500",
     features: [
       { name: "Lead Scanners", href: "/services/lead-tool-apps", icon: Search },
-      { name: "Assessment Funnels", href: "/services/lead-tool-apps#pricing", icon: Target },
-      { name: "Viral Growth Loops", href: "/services/lead-tool-apps#pricing", icon: Share2 },
+      { name: "Assessment Funnels", href: "/services/lead-tool-apps", icon: Target },
+      { name: "Viral Growth Loops", href: "/services/lead-tool-apps", icon: Share2 },
     ]
   },
 ]
@@ -383,7 +382,6 @@ export function Navbar() {
 
             {/* CTA / Auth */}
             <div className="hidden lg:flex items-center gap-3">
-              <CartButton />
               {loading ? (
                 <div className="w-20 h-9 bg-muted animate-pulse rounded-md" />
               ) : user ? (
@@ -395,8 +393,8 @@ export function Navbar() {
                     </Link>
                   </Button>
                   <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
-                    <Link href="/assessment">
-                      Free AI Assessment
+                    <Link href="/#consultation">
+                      Free Website
                     </Link>
                   </Button>
                 </>
@@ -409,17 +407,16 @@ export function Navbar() {
                     Sign In
                   </Link>
                   <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
-                    <Link href="/assessment">
-                      Free AI Assessment
+                    <Link href="/#consultation">
+                      Free Website
                     </Link>
                   </Button>
                 </>
               )}
             </div>
 
-            {/* Mobile cart + menu */}
+            {/* Mobile menu */}
             <div className="lg:hidden flex items-center gap-1">
-              <CartButton />
               <button
                 className="p-2 text-muted-foreground hover:text-foreground"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -502,7 +499,7 @@ export function Navbar() {
                         </Link>
                       </Button>
                       <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-red-500">
-                        <Link href="/assessment">Free AI Assessment</Link>
+                        <Link href="/#consultation">Free Website</Link>
                       </Button>
                     </div>
                   ) : (
@@ -511,7 +508,7 @@ export function Navbar() {
                         <Link href="/login">Sign In</Link>
                       </Button>
                       <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500">
-                        <Link href="/assessment">Free AI Assessment</Link>
+                        <Link href="/#consultation">Free Website</Link>
                       </Button>
                     </div>
                   )}
