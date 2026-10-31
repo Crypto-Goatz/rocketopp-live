@@ -102,7 +102,7 @@ export function CookieConsent() {
       {/* Backdrop for settings modal */}
       {showSettings && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99]"
+          className="fixed inset-0 bg-black/60 z-[99]"
           onClick={() => setShowSettings(false)}
         />
       )}
@@ -110,7 +110,7 @@ export function CookieConsent() {
       {/* Main Banner */}
       <div className="fixed bottom-0 left-0 right-0 z-[100] p-4 animate-slide-up">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 p-6">
+          <div className="bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl shadow-black/50 p-6">
             {!showSettings ? (
               // Simple View
               <div className="flex flex-col md:flex-row items-start md:items-center gap-4">

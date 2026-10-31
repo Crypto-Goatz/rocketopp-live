@@ -56,12 +56,12 @@
 .fw-shot-1 { left: -2%; top: 0; transform: translateZ(-170px) rotateY(6deg); }
 .fw-shot-2 { right: -6%; top: 20%; transform: translateZ(-50px); }
 .fw-shot-3 { left: 14%; bottom: 0; transform: translateZ(90px); }
-.fw-float { animation: fw-float 9s ease-in-out infinite; transform-style: preserve-3d; }
+.fw-float { transform-style: preserve-3d; }
 .fw-shot-2 .fw-float { animation-delay: -3s; animation-duration: 10s; }
 .fw-shot-3 .fw-float { animation-delay: -6s; animation-duration: 8s; }
 @keyframes fw-float { 0%, 100% { transform: translate3d(0, -9px, 0); } 50% { transform: translate3d(0, 9px, 0); } }
 
-.fw-chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 14px; background: rgba(28, 25, 22, .82); backdrop-filter: blur(10px); border: 1px solid var(--fw-line); box-shadow: 0 20px 40px -14px rgba(0, 0, 0, .6); font-size: 13px; color: var(--fw-cream); transform: translateZ(180px); white-space: nowrap; }
+.fw-chip { position: absolute; z-index: 2; display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 14px; background: #1f1c19; border: 1px solid var(--fw-line); box-shadow: 0 20px 40px -14px rgba(0, 0, 0, .6); font-size: 13px; color: var(--fw-cream); transform: translateZ(180px); white-space: nowrap; }
 .fw-chip b { font-weight: 600; display: block; }
 .fw-chip span { color: var(--fw-muted); font-size: 12px; }
 .fw-chip i { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: rgba(157, 180, 151, .16); color: var(--fw-sage); font-style: normal; }
@@ -87,7 +87,7 @@
 @media (min-width: 900px) { .fw-answer { grid-template-columns: 180px 1fr; } }
 
 /* ── the wall of work: two rows of real sites drifting on a tilted plane ── */
-.fw-wall { position: relative; padding: 36px 0 90px; overflow: hidden; perspective: 1500px;
+.fw-wall { position: relative; padding: 36px 0 90px; overflow: hidden; perspective: 1500px; content-visibility: auto; contain-intrinsic-size: auto 640px;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
 .fw-wall-plane { display: grid; gap: 22px; transform: rotateX(24deg) rotateZ(-6deg) scale(1.08); transform-style: preserve-3d; }
 .fw-row { display: flex; width: max-content; animation: fw-scroll 70s linear infinite; transform-style: preserve-3d; }

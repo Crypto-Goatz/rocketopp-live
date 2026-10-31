@@ -730,3 +730,10 @@ html.js-reveal .reveal { opacity: 0; transform: translateY(18px); }
 @media (prefers-reduced-motion: reduce) {
   .q-fall, .q-absorb, .q-escape, .slab-pulse { animation: none; }
 }
+
+/* ── PERFORMANCE (2026-10-31): Mike's 2018 MacBook Pro froze Chrome on this site. Measured with software compositing + 6x CPU
+   slowdown: the homepage ran at ~11 fps, /contact at ~10 fps scrolling, and the biggest single cost was backdrop-filter (98 uses;
+   every blurred panel is re-blurred whenever anything behind it changes). It is switched off site-wide here; panels that relied
+   on it are already near-opaque. Do not re-enable it without measuring on a weak GPU. ── */
+*, *::before, *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }

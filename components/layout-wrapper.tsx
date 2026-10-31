@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation"
 import Navbar from "./navbar"
-import { SpaceBackground } from "./space-background"
 import { CartDrawer } from "./cart/cart-drawer"
 import { ExitIntentAiReadiness } from "./exit-intent-ai-readiness"
 import Reveal from "./reveal"
@@ -43,7 +42,6 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <SpaceBackground />
       <Navbar />
       <main className="pt-16">{children}</main>
       <CartDrawer />
