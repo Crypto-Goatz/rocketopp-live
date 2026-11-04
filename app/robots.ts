@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next"
 
 const DISALLOW_ALL = [
   "/api/",
+  "/admin",
+  "/admin/",
   "/dashboard",
   "/dashboard/",
   "/_next/",
