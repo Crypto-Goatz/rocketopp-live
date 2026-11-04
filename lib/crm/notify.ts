@@ -48,6 +48,8 @@ export const FormSources = {
 export type FormSource = typeof FormSources[keyof typeof FormSources]
 
 export interface FormSubmission {
+  /** Vercel BotID verdict from the route (checkBotId().isBot); decisive in the spam gate. */
+  bot?: boolean
   email: string
   firstName?: string
   lastName?: string
@@ -570,6 +572,7 @@ export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyR
     fullName: sub.fullName,
     message: sub.message,
     honeypot: sub.honeypot,
+    bot: sub.bot,
   })
   if (verdict.spam) {
     console.warn(`[CRM Notify] blocked spam (score ${verdict.score}): ${verdict.reasons.join(', ')} — ${sub.email} (${sub.formName || sub.source})`)

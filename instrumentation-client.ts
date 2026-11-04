@@ -35,6 +35,10 @@ initBotId({
     { path: '/api/contact/submit', method: 'POST' },
     { path: '/api/leads', method: 'POST' },
     { path: '/api/leads/*', method: 'POST' },
+
+    // ── Account doors (2026-11-04: bots registered gibberish accounts, then triggered reset mails) ──
+    { path: '/api/auth/register', method: 'POST' },
+    { path: '/api/auth/forgot-password', method: 'POST' },
     { path: '/api/assessment/submit', method: 'POST' },
     { path: '/api/support', method: 'POST' },
     { path: '/api/recommend', method: 'POST' },

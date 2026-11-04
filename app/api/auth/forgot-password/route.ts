@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { supabaseAdmin } from '@/lib/db/supabase'
 import { sendPasswordResetEmail } from '@/lib/crm/notify'
+import { checkBotId } from 'botid/server'
 
 const RESET_DURATION = 60 * 60 * 1000 // 1 hour
 
@@ -19,6 +20,12 @@ export async function POST(req: NextRequest) {
 
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    }
+    // A bot must not be able to make the CRM email anyone. Same answer as success, so nothing leaks.
+    const bot = await checkBotId().catch(() => ({ isBot: false }))
+    if (bot.isBot) {
+      console.warn(`[forgot-password] BotID flagged a reset request for ${email.slice(0, 80)} — not sent`)
+      return NextResponse.json({ success: true })
     }
 
     // Always return success to avoid leaking which emails are registered.

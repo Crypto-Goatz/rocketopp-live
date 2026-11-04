@@ -21,6 +21,8 @@ export interface SpamCheckInput {
   message?: string
   /** Honeypot field — if a hidden input is ever filled, it's a bot. */
   honeypot?: string
+  /** Vercel BotID said this request is a bot (checkBotId().isBot). Decisive on its own. */
+  bot?: boolean
 }
 
 export interface SpamVerdict {
@@ -44,9 +46,23 @@ function looksRandom(token: string): boolean {
 const SPAM_KEYWORDS =
   /\b(viagra|casino|crypto\s?giveaway|seo\s?service|backlinks?|loan|bitcoin\s?doubl|porn|escort)\b/i
 
+/** A name token that no language produces: a run of 4+ consonants (y counted as a consonant) or almost no vowels.
+ *  Measured on the 2026-11-04 bot wave: Jdnsaikp, Ihbkyqkp, Xghrzac, Btxsxfgi, Zjksflxi, Bpxw, Tvzzk, Lbzvsssd, Gyjslqa all trip it. */
+function looksGibberish(token: string): boolean {
+  const t = token.replace(/[^a-z]/gi, '')
+  if (t.length < 4) return false
+  return /[^aeiou]{4,}/i.test(t) || vowelRatio(t) < 0.2 || (/[^aeiouy]{3,}/i.test(t) && vowelRatio(t) <= 0.34)
+}
+
 export function scoreSpam(input: SpamCheckInput): SpamVerdict {
   const reasons: string[] = []
   let score = 0
+
+  // BotID (Vercel) already classified the request as a bot: decisive, logged as such.
+  if (input.bot) {
+    score += 3
+    reasons.push('BotID flagged the request as a bot')
+  }
 
   // Honeypot: +2, NOT decisive. Measured 2026-10-31: Mike's own real contact
   // form submission was dropped as "honeypot filled" because browser autofill
@@ -76,6 +92,17 @@ export function scoreSpam(input: SpamCheckInput): SpamVerdict {
   if (name && !name.includes(' ') && looksRandom(name)) {
     score += 2
     reasons.push('name is a single random-looking token')
+  }
+
+  // Two-token name where BOTH tokens are gibberish: decisive (+3). One gibberish token: +1 only —
+  // real names carry 4-consonant runs (Schwartz, Krzysztof), so a single token never blocks alone.
+  // Measured 2026-11-04: the wave that got through used two random tokens each ("Jdnsaikp Yeafxg",
+  // "Pekaceb Ihbkyqkp", "Btxsxfgi Betncor") with harvested real-looking emails, so the dotted-gmail rule never fired.
+  const tokens = name.split(/\s+/).filter(Boolean)
+  if (tokens.length >= 2) {
+    const gib = tokens.filter(looksGibberish).length
+    if (gib >= 2) { score += 3; reasons.push('first and last name are both gibberish') }
+    else if (gib === 1) { score += 1; reasons.push('one name token looks like gibberish') }
   }
 
   // NOTE: we deliberately do NOT score the email local part for randomness —

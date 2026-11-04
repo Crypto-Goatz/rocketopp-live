@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { checkBotId } from 'botid/server'
 import { registerUser, createSession } from '@/lib/auth/session'
+import { scoreSpam } from '@/lib/crm/spam'
 
 export async function POST(req: NextRequest) {
   try {
     const { email, password, name } = await req.json()
+    // 2026-11-04: bots registered accounts with gibberish names and then hit forgot-password, so the CRM
+    // mailed \"RESET YOUR PASSWORD\" to harvested addresses from the RocketOpp sender. Gate both doors.
+    const bot = await checkBotId().catch(() => ({ isBot: false }))
+    const verdict = scoreSpam({ email, fullName: name, bot: bot.isBot })
+    if (verdict.spam) {
+      console.warn(`[register] blocked (score ${verdict.score}): ${verdict.reasons.join(', ')} — ${String(email).slice(0, 80)}`)
+      return NextResponse.json({ error: 'We could not verify this sign-up. Please contact support.' }, { status: 403 })
+    }
 
     if (!email || !password) {
       return NextResponse.json(

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { checkBotId } from "botid/server"
 import { notifyFormSubmission, FormSources } from "@/lib/crm/notify"
 
 interface LeadForm {
@@ -30,7 +31,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // BotID is configured for this path on the client (instrumentation-client.ts) but this route never asked
+    // the server verdict, so direct POSTs walked straight into the CRM and its auto-reply (2026-11-04: seven
+    // gibberish-name leads thanked by email before noon). The verdict is passed into the one spam gate so a
+    // flagged submission is still stored (is_spam) and logged, never silently dropped.
+    const bot = await checkBotId().catch(() => ({ isBot: false }))
     const result = await notifyFormSubmission({
+      bot: bot.isBot,
       email: body.email,
       firstName: body.firstName,
       lastName: body.lastName,
