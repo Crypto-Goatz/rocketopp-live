@@ -61,7 +61,8 @@ async function on3ApiCall(service: string, endpoint: string, params: Record<stri
 
 export async function createJob(row: RequestRow, title: string): Promise<{ taskId: string | null; error?: string }> {
   const description = `${row.message}\n\n— Request ${row.id} from ${row.source}${row.requested_by ? ` (${row.requested_by})` : ''} on ${SITE}.\nWhen done: PATCH https://${SITE}/api/admin/requests/${row.id} with {status:"done", result:"what changed + link"} (header x-cron-secret), or mark blocked with what you need. The reply is pushed back to the requester automatically.`
-  const r = await on3ApiCall('ontask', 'create_task', { title: `[${SITE}] ${title}`, description, priority: 'high', assignee: 'ai', tags: ['passthrough', SITE] })
+  // 0nTask task shape (measured 2026-11-03 via list_tasks): title, notes, priority, assignee, category, source, externalId.
+  const r = await on3ApiCall('ontask', 'create_task', { title: `[${SITE}] ${title}`, notes: description, priority: 'high', assignee: process.env.ONTASK_AI_ASSIGNEE || 'ai', category: 'passthrough', source: SITE, externalId: row.id })
   if (!r.ok) return { taskId: null, error: r.error }
   const d = r.data as { task?: { id?: string }; id?: string; data?: { id?: string } }
   const id = d?.task?.id || d?.id || d?.data?.id || null
