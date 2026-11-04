@@ -10,6 +10,7 @@ export default function AdminHome() {
       <div className="mt-8">
         <RequestsPanel />
       </div>
+      <p className="mt-6 text-xs text-white/40">Built on 0n3 · concierge passthrough · proof run 2026-11-03</p>
     </main>
   )
 }
