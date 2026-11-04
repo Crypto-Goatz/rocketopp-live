@@ -585,7 +585,9 @@ export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyR
   const [webhookFired, mikeEmailed, leadThanked] = await Promise.all([
     fireLegacyWebhook(sub),
     emailMike(sub),
-    sub.thankLead === false ? Promise.resolve(false) : sendThankYou(sub, contactId),
+    // 2026-11-04, Mike: "i dont want it emailing out right now - shut all of that down. I will recreate it as a
+    // sequence in 0n3 if I want it to respond." The lead thank-you is OFF unless LEAD_THANKYOU_ENABLED=true.
+    sub.thankLead === false || process.env.LEAD_THANKYOU_ENABLED !== 'true' ? Promise.resolve(false) : sendThankYou(sub, contactId),
   ])
 
   const problems: string[] = []
