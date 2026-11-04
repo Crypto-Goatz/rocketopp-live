@@ -33,7 +33,7 @@ export async function triage(message: string): Promise<{ kind: 'answer' | 'chang
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile', temperature: 0.2, max_tokens: 400, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: message }] }),
+      body: JSON.stringify({ model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b', temperature: 0.2, max_tokens: 400, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: message }] }),
     })
     if (!res.ok) throw new Error(`groq ${res.status}`)
     const j = await res.json(); const txt = j.choices?.[0]?.message?.content || '{}'
