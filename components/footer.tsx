@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Globe, Cpu, Search, Target, BarChart3, Terminal, ExternalLink, Rocket } from "lucide-react"
+import { Rocket3D } from "@/components/rocket-3d"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -190,10 +191,11 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground md:flex-1">
             &copy; {currentYear} RocketOpp LLC &mdash; an 0n Company. All rights reserved.
           </p>
-          <div className="flex gap-4">
+          <Rocket3D className="-my-6 shrink-0" />
+          <div className="flex gap-4 md:flex-1 md:justify-end">
             <Link
               href="https://twitter.com/rocketopp"
               className="text-muted-foreground hover:text-foreground transition-colors"

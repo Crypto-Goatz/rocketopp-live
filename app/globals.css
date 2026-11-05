@@ -737,3 +737,45 @@ html.js-reveal .reveal { opacity: 0; transform: translateY(18px); }
    on it are already near-opaque. Do not re-enable it without measuring on a weak GPU. ── */
 *, *::before, *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }
+
+/* ── 3D footer rocket (components/rocket-3d.tsx) — pure CSS preserve-3d, 2026-11-05 ── */
+.r3d-scene { position: relative; width: 96px; height: 150px; perspective: 520px; }
+.r3d-bob { position: absolute; left: 50%; top: 66px; transform-style: preserve-3d; animation: r3d-bob 3.2s ease-in-out infinite; }
+.r3d-rocket { position: absolute; left: 0; top: 0; transform-style: preserve-3d; transform: rotateX(-12deg) rotateY(-30deg); animation: r3d-spin 9s linear infinite; }
+.r3d-face { position: absolute; left: 0; backface-visibility: hidden; }
+.r3d-body {
+  top: -40px; height: 80px;
+  background: linear-gradient(to bottom,
+    hsl(0 0% var(--l)) 0 60%,
+    hsl(16 100% calc(var(--l) * 0.6)) 60% 74%,
+    hsl(0 0% var(--l)) 74% 100%);
+}
+.r3d-cone {
+  top: calc(-40px - 34px); transform-origin: 50% 100%;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: hsl(16 100% calc(var(--l) * 0.62));
+}
+.r3d-nozzle { top: 40px; height: 9px; background: hsl(220 8% var(--l)); }
+.r3d-window {
+  position: absolute; left: -7px; top: -24px; width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #bfe9ff 0 18%, #2a6f97 45%, #0b2233 100%);
+  box-shadow: 0 0 0 2.5px #9aa3ad; backface-visibility: hidden;
+}
+.r3d-fin {
+  position: absolute; left: 0; top: 14px; width: 36px; height: 38px; transform-origin: 0 50%;
+  clip-path: polygon(0 0, 48% 0, 100% 62%, 100% 100%, 0 100%);
+  background: linear-gradient(to right, hsl(16 100% 40%), hsl(16 100% 52%));
+}
+.r3d-flame {
+  position: absolute; left: -9px; top: 48px; width: 18px; height: 34px; transform-origin: 50% 0;
+  border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+  background: radial-gradient(ellipse at 50% 20%, #fff7d6 0 18%, #ffc24a 38%, #ff6b35 62%, rgba(255, 80, 30, 0) 75%);
+
+  animation: r3d-flame 0.14s ease-in-out infinite alternate;
+}
+@keyframes r3d-spin { from { transform: rotateX(-12deg) rotateY(0deg); } to { transform: rotateX(-12deg) rotateY(360deg); } }
+@keyframes r3d-bob { 0%, 100% { transform: translate3d(0, 0, 0) rotateZ(8deg); } 50% { transform: translate3d(0, -8px, 0) rotateZ(8deg); } }
+@keyframes r3d-flame { from { transform: scaleY(0.82) scaleX(0.95); opacity: 0.85; } to { transform: scaleY(1.08) scaleX(1.04); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .r3d-bob, .r3d-rocket, .r3d-flame { animation: none; }
+}
