@@ -27,8 +27,16 @@ export function Footer() {
   ]
 
   return (
-    <footer className="border-t border-border py-12 md:py-16 bg-card">
+    <footer className="relative isolate overflow-hidden bg-black py-12 md:py-16">
+      {/* Black glass: soft light sources behind a frosted panel, so the blur has something to bend. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+        <div className="absolute -top-32 left-[10%] h-80 w-80 rounded-full bg-primary/25 blur-[120px]" />
+        <div className="absolute -bottom-40 right-[5%] h-96 w-96 rounded-full bg-primary/15 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/[0.06] blur-[100px]" />
+      </div>
       <div className="container px-4 md:px-6">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 md:p-10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_20px_60px_-20px_rgba(0,0,0,0.9)] backdrop-blur-2xl backdrop-saturate-150">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="space-y-4">
@@ -190,7 +198,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground md:flex-1">
             &copy; {currentYear} RocketOpp LLC &mdash; an 0n Company. All rights reserved.
           </p>
@@ -224,6 +232,7 @@ export function Footer() {
               </svg>
             </Link>
           </div>
+        </div>
         </div>
       </div>
     </footer>
