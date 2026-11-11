@@ -68,7 +68,7 @@ const nextConfig = {
               "img-src 'self' data: blob: https: http:",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://*.vercel.app https://api.groq.com https://*.blob.vercel-storage.com wss://*.vercel.app https://www.cro9.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://analytics.google.com https://www.google.com https://stats.g.doubleclick.net",
-              "frame-src 'self' https://www.googletagmanager.com",
+              "frame-src 'self' https://www.googletagmanager.com https://www.youtube-nocookie.com https://player.vimeo.com",
               "frame-ancestors 'self'",
               "form-action 'self'",
               "base-uri 'self'",

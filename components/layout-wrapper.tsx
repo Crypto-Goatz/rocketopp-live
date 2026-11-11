@@ -29,6 +29,8 @@ const HIDDEN_ROUTES = [
   "/gtm",
   // Client micro-sites ship their own layout + navbar (app/clients/*/layout.tsx).
   "/clients",
+  // Mike's car sale owns its whole shell: a sales page for a car has no use for the agency nav, cart or exit popup.
+  "/q60-for-sale",
 ]
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {

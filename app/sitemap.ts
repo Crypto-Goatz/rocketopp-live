@@ -32,6 +32,7 @@ const PAGES: Array<{ path: string; priority: number; freq: Freq }> = [
   { path: '/ai-assessment',                                      priority: 0.90, freq: 'monthly' },
   { path: '/pitch-idea',                                         priority: 0.90, freq: 'weekly' },
   { path: '/request-app',                                        priority: 0.90, freq: 'weekly' },
+  { path: '/q60-for-sale',                                       priority: 0.70, freq: 'weekly' },
 
   // Tier 3 — service pages (deep SEO landing pages)
   { path: '/services/website-development',                       priority: 0.90, freq: 'monthly' },

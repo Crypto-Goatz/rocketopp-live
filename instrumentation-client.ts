@@ -44,6 +44,10 @@ initBotId({
     { path: '/api/recommend', method: 'POST' },
     { path: '/api/ai-readiness/scan', method: 'POST' },
 
+    // ── /q60-for-sale: offers, questions and Buy It Now (creates a Stripe session) ──
+    { path: '/api/q60/lead', method: 'POST' },
+    { path: '/api/q60/buy', method: 'POST' },
+
     // ── Paid / quoting flows ──
     { path: '/api/order/quote', method: 'POST' },
     { path: '/api/order/deposit', method: 'POST' },
