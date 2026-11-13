@@ -6,9 +6,16 @@
  * any figure from it back. Every number here must be backed by a document in RECEIPTS.
  */
 
-const STORE = 'https://txfvhoakvwndfibjvixr.supabase.co/storage/v1/object/public/q60shop'
-export const photo = (f: string) => `${STORE}/photos/${f}.jpg`
-export const receipt = (f: string) => `${STORE}/receipts/${f}.jpg`
+/*
+ * Images are served from this site (public/q60/), not from external storage: the Supabase project that first held
+ * them was paused and every image on the live page broke. Keep them here. Dimensions are the files' real pixel sizes.
+ */
+export const photo = (f: string) => `/q60/photos/${f}.jpg`
+export const receipt = (f: string) => `/q60/receipts/${f}.jpg`
+export const ebay = (f: string) => `/q60/ebay/${f}.jpg`
+export const abs = (path: string) => `https://rocketopp.com${path}`
+export const DIMS: Record<string, [number, number]> = {"photos/01-hero-front-quarter-sunset": [2000, 1500], "photos/02-side-profile-sunset": [2000, 1500], "photos/03-rear-quarter-sunset": [2000, 1500], "photos/04-side-low-dusk": [2000, 2667], "photos/05-front-quarter-sunset-portrait": [2000, 2667], "photos/06-taillight-diffuser-detail": [2000, 2667], "photos/07-front-quarter-lot": [2000, 1500], "photos/08-front-head-on": [2000, 1500], "photos/09-front-quarter-lot-2": [2000, 1500], "photos/10-side-profile-right": [2000, 1500], "photos/11-side-profile-left": [2000, 1500], "photos/12-garage-front-quarter": [2000, 1500], "photos/13-gravel-front-quarter": [2000, 1500], "photos/14-front-close-lip": [2000, 1500], "photos/15-park-front-quarter": [2000, 1500], "photos/20-side-profile-sunset-b": [1600, 1200], "photos/16-front-quarter-lot-b": [1600, 1200], "photos/18-front-quarter-lot-c": [1600, 1200], "photos/22-rear-quarter-spoiler-day": [1600, 1200], "photos/21-rear-quarter-sunset-b": [1600, 1200], "photos/17-front-head-on-b": [1600, 1200], "photos/24-front-quarter-summer": [1600, 1200], "photos/23-rear-straight-spoiler": [1600, 1200], "photos/19-front-quarter-dusk-fogs": [1600, 1200], "receipts/inv1": [1400, 1867], "receipts/inv2": [1400, 1867], "receipts/dyno-cmp": [1400, 1867], "receipts/dyno-2024": [1400, 1867], "receipts/bov": [1206, 1297], "receipts/downpipes": [1206, 1051], "receipts/catback": [1206, 1490], "receipts/oilpan": [1206, 1235], "receipts/coils": [1206, 1160], "receipts/springs": [1206, 1285], "receipts/zero60-366": [981, 1121], "receipts/bms-intake": [1206, 1388], "receipts/zero60-324": [1000, 740], "ebay/ebay-01": [1000, 2174], "ebay/ebay-02": [1000, 2174], "ebay/ebay-03": [1000, 2174], "ebay/ebay-04": [1000, 2174], "ebay/ebay-05": [1000, 2174], "ebay/ebay-06": [1000, 2174], "ebay/ebay-07": [1000, 2174], "ebay/ebay-08": [1000, 2174], "ebay/ebay-09": [1000, 2174], "ebay/ebay-10": [1000, 2174], "ebay/ebay-11": [1000, 279], "ebay/ebay-12": [1000, 313], "ebay/ebay-13": [1000, 289], "ebay/ebay-14": [1000, 313], "ebay/ebay-15": [1000, 357], "ebay/ebay-16": [1000, 1578]}
+export const dims = (path: string): [number, number] => DIMS[path.replace(/^\/q60\//, '').replace(/\.jpg$/, '')] ?? [1600, 1200]
 
 export const PATH = '/q60-for-sale'
 export const URL_ = `https://rocketopp.com${PATH}`
@@ -30,11 +37,12 @@ export const CAR = {
   zero60: 3.24,
   zero60gps: 3.66,
   quarterEst: '11.6–11.9 s @ 115–118 mph',
-  spend: { performance: 14931.7, tpgInvoice: 5000, cosmetic: 2555.79, total: 22487.49 },
+  // aftermarketParts = performance bolt-ons 3,902.71 + exterior/interior 2,592.04 (receipted, parts only)
+  spend: { performance: 14931.7, tpgInvoice: 5000, cosmetic: 2592.04, total: 22523.74, aftermarketParts: 6494.75 },
 }
 
 export type Photo = { src: string; w: number; h: number; alt: string }
-const P = (f: string, w: number, h: number, alt: string): Photo => ({ src: photo(f), w, h, alt })
+const P = (f: string, _w: number, _h: number, alt: string): Photo => { const [w, h] = dims(photo(f)); return { src: photo(f), w, h, alt } }
 
 export const HERO = P('19-front-quarter-dusk-fogs', 1600, 1200, '2018 Infiniti Q60 3.0t AWD at dusk, yellow fog lights on')
 
@@ -126,6 +134,12 @@ export const RECEIPTS = [
   { id: 'oilpan', title: 'Lower oil pan', cap: 'Order #1237825 · $241.32' },
   { id: 'springs', title: 'Swift Spec-R springs', cap: 'Order #1574086 · $389.55' },
 ]
+
+/** eBay order screenshots behind the exterior/interior total. Refunded orders are not counted. */
+export const EBAY: { id: string; alt: string }[] = Array.from({ length: 16 }, (_, i) => {
+  const id = `ebay-${String(i + 1).padStart(2, '0')}`
+  return { id, alt: `eBay order history for the Q60’s exterior and interior parts, screenshot ${i + 1}` }
+})
 
 export const FAQ: [string, string][] = [
   ['Is it paid off?', 'Yes. No lien, clean title in hand. It transfers the day you pay.'],

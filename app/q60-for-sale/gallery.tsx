@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
 import type { Photo } from '@/lib/q60/listing'
 import s from './q60.module.css'
 
@@ -39,8 +40,7 @@ export function Gallery({ exterior, interior }: { exterior: Photo[]; interior: P
         <div className={s.grid}>
           {list.map((p, i) => (
             <button key={p.src} className={`${s.tile} ${p.h > p.w ? s.tall : ''} ${i === 0 ? s.lead : ''}`} onClick={() => setOpen(i)} aria-label={`Open photo: ${p.alt}`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.src} alt={p.alt} width={p.w} height={p.h} loading={i < 4 ? 'eager' : 'lazy'} decoding="async" />
+              <Image src={p.src} alt={p.alt} width={p.w} height={p.h} priority={i < 3} sizes={i === 0 ? '(min-width: 760px) 50vw, 100vw' : '(min-width: 760px) 25vw, 50vw'} />
             </button>
           ))}
         </div>

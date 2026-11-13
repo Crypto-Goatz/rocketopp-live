@@ -60,9 +60,9 @@
 .tabOn { background: var(--ink); color: var(--obs); border-color: var(--ink); }
 .tab span, .tabOn span { margin-left: 6px; opacity: .6; }
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; grid-auto-flow: dense; }
-@media (min-width: 760px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 8px; } .lead { grid-column: span 2; grid-row: span 2; } .tall { grid-row: span 2; } }
+@media (min-width: 760px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 8px; } .lead { grid-column: span 2; grid-row: span 2; } .tall { grid-row: span 2; aspect-ratio: auto; } }
 .tile { padding: 0; border: 0; background: var(--panel); cursor: zoom-in; overflow: hidden; aspect-ratio: 4 / 3; }
-.tall { aspect-ratio: auto; }
+.tall { aspect-ratio: 4 / 3; }
 .lead { aspect-ratio: 4 / 3; }
 .tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
 @media (hover: hover) { .tile:hover img { transform: scale(1.035); } }
@@ -175,3 +175,10 @@
  * selector with !important outranks that element selector, so the listing keeps its display serif.
  */
 .root .h1, .root .h2, .root .h3, .root .stats b, .root .bar b, .root .done .doneHead, .root .intro p { font-family: var(--q-serif), Georgia, serif !important; }
+
+/* eBay order history (collapsed by default) */
+.ebay { margin-top: 18px; border: 1px solid var(--line); background: var(--panel); }
+.ebay summary { cursor: pointer; padding: 16px 18px; font-weight: 600; }
+.ebayGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 18px 18px; }
+@media (min-width: 760px) { .ebayGrid { grid-template-columns: repeat(4, 1fr); } }
+.ebayGrid img, .doc img, .docWide img, .ecutek img { width: 100%; height: auto; display: block; }

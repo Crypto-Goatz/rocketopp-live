@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { withCro9Meta } from '@/lib/cro9-meta'
-import { CAR, HERO, EXTERIOR, INTERIOR, VIDEOS, BUILD, LOOK, RECEIPTS, FAQ, URL_, PATH, PDF_PATH, receipt } from '@/lib/q60/listing'
+import { CAR, HERO, EXTERIOR, INTERIOR, VIDEOS, BUILD, LOOK, RECEIPTS, EBAY, FAQ, URL_, PATH, PDF_PATH, receipt, ebay, abs, dims } from '@/lib/q60/listing'
 import { Gallery } from './gallery'
 import { BuyPanel } from './buy-panel'
 import { StickyBar } from './sticky-bar'
@@ -18,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { absolute: TITLE },
     description: DESC,
     alternates: { canonical: URL_ },
-    openGraph: { type: 'website', url: URL_, title: TITLE, description: DESC, images: [{ url: HERO.src, width: HERO.w, height: HERO.h, alt: HERO.alt }] },
-    twitter: { card: 'summary_large_image', title: TITLE, description: DESC, images: [HERO.src] },
+    openGraph: { type: 'website', url: URL_, title: TITLE, description: DESC, images: [{ url: abs(HERO.src), width: HERO.w, height: HERO.h, alt: HERO.alt }] },
+    twitter: { card: 'summary_large_image', title: TITLE, description: DESC, images: [abs(HERO.src)] },
   })
 }
 
@@ -32,7 +33,7 @@ function jsonLd() {
       mileageFromOdometer: { '@type': 'QuantitativeValue', value: CAR.miles, unitCode: 'SMI' },
       vehicleEngine: { '@type': 'EngineSpecification', name: 'VR30DDTT 3.0L twin-turbo V6', enginePower: { '@type': 'QuantitativeValue', value: CAR.dyno.whp, unitText: 'wheel horsepower' }, torque: { '@type': 'QuantitativeValue', value: CAR.dyno.wtq, unitText: 'lb-ft at the wheels' } },
       accelerationTime: { '@type': 'QuantitativeValue', value: CAR.zero60, unitCode: 'SEC', description: '0–60 mph' },
-      image: EXTERIOR.slice(0, 8).map((p) => p.src),
+      image: EXTERIOR.slice(0, 8).map((p) => abs(p.src)),
       description: DESC,
       offers: { '@type': 'Offer', price: CAR.price, priceCurrency: 'USD', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/UsedCondition', url: URL_, areaServed: CAR.location, seller: { '@type': 'Person', name: 'Mike Mento' } },
     },
@@ -58,8 +59,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }} />
 
       <header className={s.hero} id="q60-hero">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className={s.heroImg} src={HERO.src} alt={HERO.alt} fetchPriority="high" />
+        <Image className={s.heroImg} src={HERO.src} alt={HERO.alt} width={HERO.w} height={HERO.h} priority sizes="100vw" quality={80} />
         <div className={s.heroShade} />
         <div className={s.heroCopy}>
           <p className={s.kicker}>For sale · {CAR.location}</p>
@@ -98,8 +98,7 @@ export default function Page() {
               <p className={s.fine}>TPG Tuning Mustang dynamometer, {CAR.dyno.date}, {CAR.dyno.fuel}, {CAR.dyno.map}, wheel-corrected, with a stock Q50/Q60 run on the same dyno. Average across the pull: {CAR.dyno.avgHp} hp / {CAR.dyno.avgTq} lb-ft. Estimated quarter mile {CAR.quarterEst} (calculated from the dyno and weight, not run at a strip).</p>
             </div>
             <figure className={s.ecutek}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={receipt('zero60-324')} alt="EcuTek ECU Connect performance results: 0–30 mph 1.49 s, 0–60 mph 3.24 s" loading="lazy" />
+              <Image src={receipt('zero60-324')} alt="EcuTek ECU Connect performance results: 0–30 mph 1.49 s, 0–60 mph 3.24 s" width={dims(receipt('zero60-324'))[0]} height={dims(receipt('zero60-324'))[1]} sizes="(min-width: 900px) 45vw, 100vw" />
               <figcaption>Logged by the car’s own EcuTek ECU: 0–30 in {CAR.zero30} s, 0–60 in {CAR.zero60} s.</figcaption>
             </figure>
           </div>
@@ -155,13 +154,22 @@ export default function Page() {
             {RECEIPTS.map((d) => (
               <figure key={d.id} id={`doc-${d.id}`} className={d.wide ? s.docWide : s.doc}>
                 <a href={receipt(d.id)} target="_blank" rel="noopener noreferrer">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={receipt(d.id)} alt={d.title} loading="lazy" decoding="async" />
+                  <Image src={receipt(d.id)} alt={d.title} width={dims(receipt(d.id))[0]} height={dims(receipt(d.id))[1]} sizes="(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw" />
                 </a>
                 <figcaption><b>{d.title}</b>{d.cap}</figcaption>
               </figure>
             ))}
           </div>
+          <details className={s.ebay}>
+            <summary>eBay order history for the exterior and interior parts ({EBAY.length} screenshots)</summary>
+            <div className={s.ebayGrid}>
+              {EBAY.map((e) => (
+                <a key={e.id} href={ebay(e.id)} target="_blank" rel="noopener noreferrer">
+                  <Image src={ebay(e.id)} alt={e.alt} width={dims(ebay(e.id))[0]} height={dims(ebay(e.id))[1]} sizes="(min-width: 760px) 25vw, 50vw" />
+                </a>
+              ))}
+            </div>
+          </details>
         </section>
 
         <section id="faq" className={s.section}>
