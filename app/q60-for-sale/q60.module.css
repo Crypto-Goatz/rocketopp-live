@@ -169,3 +169,9 @@
 .root .stickyOffer { background: var(--ink); color: var(--obs); }
 .root .stickyBuy:hover, .root .stickyOffer:hover { text-decoration: none; }
 @media (min-width: 900px) { .sticky { left: auto; right: 24px; bottom: 24px; width: 360px; } .footer { padding-bottom: 48px; } }
+
+/*
+ * The root layout injects <style id="ai-hq-theme"> with `h1..h6 { font-family: Inter !important }`. A class
+ * selector with !important outranks that element selector, so the listing keeps its display serif.
+ */
+.root .h1, .root .h2, .root .h3, .root .stats b, .root .bar b, .root .done .doneHead, .root .intro p { font-family: var(--q-serif), Georgia, serif !important; }
