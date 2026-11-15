@@ -14,7 +14,7 @@ export const photo = (f: string) => `/q60/photos/${f}.jpg`
 export const receipt = (f: string) => `/q60/receipts/${f}.jpg`
 export const ebay = (f: string) => `/q60/ebay/${f}.jpg`
 export const abs = (path: string) => `https://rocketopp.com${path}`
-export const DIMS: Record<string, [number, number]> = {"photos/01-hero-front-quarter-sunset": [2000, 1500], "photos/02-side-profile-sunset": [2000, 1500], "photos/03-rear-quarter-sunset": [2000, 1500], "photos/04-side-low-dusk": [2000, 2667], "photos/05-front-quarter-sunset-portrait": [2000, 2667], "photos/06-taillight-diffuser-detail": [2000, 2667], "photos/07-front-quarter-lot": [2000, 1500], "photos/08-front-head-on": [2000, 1500], "photos/09-front-quarter-lot-2": [2000, 1500], "photos/10-side-profile-right": [2000, 1500], "photos/11-side-profile-left": [2000, 1500], "photos/12-garage-front-quarter": [2000, 1500], "photos/13-gravel-front-quarter": [2000, 1500], "photos/14-front-close-lip": [2000, 1500], "photos/15-park-front-quarter": [2000, 1500], "photos/20-side-profile-sunset-b": [1600, 1200], "photos/16-front-quarter-lot-b": [1600, 1200], "photos/18-front-quarter-lot-c": [1600, 1200], "photos/22-rear-quarter-spoiler-day": [1600, 1200], "photos/21-rear-quarter-sunset-b": [1600, 1200], "photos/17-front-head-on-b": [1600, 1200], "photos/24-front-quarter-summer": [1600, 1200], "photos/23-rear-straight-spoiler": [1600, 1200], "photos/19-front-quarter-dusk-fogs": [1600, 1200], "receipts/inv1": [1400, 1867], "receipts/inv2": [1400, 1867], "receipts/dyno-cmp": [1400, 1867], "receipts/dyno-2024": [1400, 1867], "receipts/bov": [1206, 1297], "receipts/downpipes": [1206, 1051], "receipts/catback": [1206, 1490], "receipts/oilpan": [1206, 1235], "receipts/coils": [1206, 1160], "receipts/springs": [1206, 1285], "receipts/zero60-366": [981, 1121], "receipts/bms-intake": [1206, 1388], "receipts/zero60-324": [1000, 740], "ebay/ebay-01": [1000, 2174], "ebay/ebay-02": [1000, 2174], "ebay/ebay-03": [1000, 2174], "ebay/ebay-04": [1000, 2174], "ebay/ebay-05": [1000, 2174], "ebay/ebay-06": [1000, 2174], "ebay/ebay-07": [1000, 2174], "ebay/ebay-08": [1000, 2174], "ebay/ebay-09": [1000, 2174], "ebay/ebay-10": [1000, 2174], "ebay/ebay-11": [1000, 279], "ebay/ebay-12": [1000, 313], "ebay/ebay-13": [1000, 289], "ebay/ebay-14": [1000, 313], "ebay/ebay-15": [1000, 357], "ebay/ebay-16": [1000, 1578]}
+export const DIMS: Record<string, [number, number]> = {"photos/25-taillights-night": [2400, 689], "photos/01-hero-front-quarter-sunset": [2000, 1500], "photos/02-side-profile-sunset": [2000, 1500], "photos/03-rear-quarter-sunset": [2000, 1500], "photos/04-side-low-dusk": [2000, 2667], "photos/05-front-quarter-sunset-portrait": [2000, 2667], "photos/06-taillight-diffuser-detail": [2000, 2667], "photos/07-front-quarter-lot": [2000, 1500], "photos/08-front-head-on": [2000, 1500], "photos/09-front-quarter-lot-2": [2000, 1500], "photos/10-side-profile-right": [2000, 1500], "photos/11-side-profile-left": [2000, 1500], "photos/12-garage-front-quarter": [2000, 1500], "photos/13-gravel-front-quarter": [2000, 1500], "photos/14-front-close-lip": [2000, 1500], "photos/15-park-front-quarter": [2000, 1500], "photos/20-side-profile-sunset-b": [1600, 1200], "photos/16-front-quarter-lot-b": [1600, 1200], "photos/18-front-quarter-lot-c": [1600, 1200], "photos/22-rear-quarter-spoiler-day": [1600, 1200], "photos/21-rear-quarter-sunset-b": [1600, 1200], "photos/17-front-head-on-b": [1600, 1200], "photos/24-front-quarter-summer": [1600, 1200], "photos/23-rear-straight-spoiler": [1600, 1200], "photos/19-front-quarter-dusk-fogs": [1600, 1200], "receipts/inv1": [1400, 1867], "receipts/inv2": [1400, 1867], "receipts/dyno-cmp": [1400, 1867], "receipts/dyno-2024": [1400, 1867], "receipts/bov": [1206, 1297], "receipts/downpipes": [1206, 1051], "receipts/catback": [1206, 1490], "receipts/oilpan": [1206, 1235], "receipts/coils": [1206, 1160], "receipts/springs": [1206, 1285], "receipts/zero60-366": [981, 1121], "receipts/bms-intake": [1206, 1388], "receipts/zero60-324": [1000, 740], "ebay/ebay-01": [1000, 2174], "ebay/ebay-02": [1000, 2174], "ebay/ebay-03": [1000, 2174], "ebay/ebay-04": [1000, 2174], "ebay/ebay-05": [1000, 2174], "ebay/ebay-06": [1000, 2174], "ebay/ebay-07": [1000, 2174], "ebay/ebay-08": [1000, 2174], "ebay/ebay-09": [1000, 2174], "ebay/ebay-10": [1000, 2174], "ebay/ebay-11": [1000, 279], "ebay/ebay-12": [1000, 313], "ebay/ebay-13": [1000, 289], "ebay/ebay-14": [1000, 313], "ebay/ebay-15": [1000, 357], "ebay/ebay-16": [1000, 1578]}
 export const dims = (path: string): [number, number] => DIMS[path.replace(/^\/q60\//, '').replace(/\.jpg$/, '')] ?? [1600, 1200]
 
 export const PATH = '/q60-for-sale'
@@ -39,17 +39,38 @@ export const CAR = {
   quarterEst: '11.6–11.9 s @ 115–118 mph',
   // aftermarketParts = performance bolt-ons 3,902.71 + exterior/interior 2,592.04 (receipted, parts only)
   spend: { performance: 14931.7, tpgInvoice: 5000, cosmetic: 2592.04, total: 22523.74, aftermarketParts: 6494.75 },
+  // Seller's estimate of hardware, fluids, clips and small parts with no receipt. Always labeled as an estimate.
+  unlisted: 1000,
+  // total + unlisted = 23,523.74, rounded up to the next $100 for display
+  invested: 23600,
+  /** 2018 Infiniti Q60 3.0t LUXE AWD with every factory option, per INFINITI's 2018 Q60 press kit (usa.infinitinews.com). */
+  msrp: {
+    total: 58445,
+    lines: [
+      ['Q60 3.0t LUXE AWD base price', 46500],
+      ['Sensory Package', 3200],
+      ['ProACTIVE Package', 2850],
+      ['ProASSIST Package', 2250],
+      ['Semi-Aniline Leather Seating Package', 1350],
+      ['Premium Paint', 500],
+      ['Dark Maple Wood Interior Trim', 400],
+      ['Radiant Grille Emblem', 400],
+      ['Destination and handling', 995],
+    ] as [string, number][],
+  },
 }
 
 export type Photo = { src: string; w: number; h: number; alt: string }
 const P = (f: string, _w: number, _h: number, alt: string): Photo => { const [w, h] = dims(photo(f)); return { src: photo(f), w, h, alt } }
 
+export const TAILLIGHTS = P('25-taillights-night', 2400, 689, 'Tail lights glowing in the dark')
 export const HERO = P('19-front-quarter-dusk-fogs', 1600, 1200, '2018 Infiniti Q60 3.0t AWD at dusk, yellow fog lights on')
 
 export const EXTERIOR: Photo[] = [
   HERO,
   P('01-hero-front-quarter-sunset', 1800, 1350, 'Front three-quarter at sunset, fogs lighting the gravel'),
   P('21-rear-quarter-sunset-b', 1600, 1200, 'Rear quarter at sunset, spoiler and diffuser'),
+  TAILLIGHTS,
   P('20-side-profile-sunset-b', 1600, 1200, 'Side profile at golden hour, red calipers'),
   P('22-rear-quarter-spoiler-day', 1600, 1200, 'Rear three-quarter, carbon spoiler, C-blades, quad diffuser'),
   P('05-front-quarter-sunset-portrait', 1600, 2133, 'Front three-quarter, headlights on'),

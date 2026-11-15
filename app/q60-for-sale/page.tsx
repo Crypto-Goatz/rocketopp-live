@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { withCro9Meta } from '@/lib/cro9-meta'
-import { CAR, HERO, EXTERIOR, INTERIOR, VIDEOS, BUILD, LOOK, RECEIPTS, EBAY, FAQ, URL_, PATH, PDF_PATH, receipt, ebay, abs, dims } from '@/lib/q60/listing'
+import { CAR, HERO, TAILLIGHTS, EXTERIOR, INTERIOR, VIDEOS, BUILD, LOOK, RECEIPTS, EBAY, FAQ, URL_, PATH, PDF_PATH, receipt, ebay, abs, dims } from '@/lib/q60/listing'
 import { Gallery } from './gallery'
 import { BuyPanel } from './buy-panel'
 import { StickyBar } from './sticky-bar'
@@ -120,6 +120,37 @@ export default function Page() {
             </div>
           </section>
         )}
+
+        <section id="value" className={s.section}>
+          <Image className={s.banner} src={TAILLIGHTS.src} alt={TAILLIGHTS.alt} width={TAILLIGHTS.w} height={TAILLIGHTS.h} sizes="(min-width: 1120px) 1120px, 100vw" />
+          <h2 className={s.h2}>What it cost to build</h2>
+          <div className={s.value}>
+            <div><b>{usd(CAR.msrp.total)}</b><span>new, fully loaded<br />2018 sticker price</span></div>
+            <div><b>{usd(CAR.invested)}</b><span>invested in the build<br />since then</span></div>
+            <div className={s.valueAsk}><b>{usd(CAR.price)}</b><span>asking, paid off<br />everything included</span></div>
+          </div>
+          <div className={s.ledgers}>
+            <table className={s.ledger}>
+              <caption>Invested in the build</caption>
+              <tbody>
+                <tr><td>Performance parts (exhaust, downpipes, intake, blow-offs, coils, springs)</td><td>{usd(3902.71, true)}</td></tr>
+                <tr><td>Exterior and interior parts (eBay orders below)</td><td>{usd(CAR.spend.cosmetic, true)}</td></tr>
+                <tr><td>Additional parts and supplies not itemized (owner estimate)</td><td>≈ {usd(CAR.unlisted, true)}</td></tr>
+                <tr><td>TPG Tuning: EcuTek tune, QX60 axles, downpipe install</td><td>{usd(CAR.spend.tpgInvoice, true)}</td></tr>
+                <tr><td>48K-mile engine replacement and oil pan</td><td>{usd(10787.67 + 241.32, true)}</td></tr>
+                <tr className={s.ledgerTotal}><td>Total, rounded up</td><td>{usd(CAR.invested)}</td></tr>
+              </tbody>
+            </table>
+            <table className={s.ledger}>
+              <caption>Fully loaded sticker price, new</caption>
+              <tbody>
+                {CAR.msrp.lines.map(([k, v]) => <tr key={k}><td>{k}</td><td>{usd(v)}</td></tr>)}
+                <tr className={s.ledgerTotal}><td>Total MSRP</td><td>{usd(CAR.msrp.total)}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.fine}>Sticker prices from INFINITI’s 2018 Q60 press kit; dealer accessories not included. The build total is {usd(CAR.spend.total, true)} in receipted parts and labor plus the owner’s estimate for small parts that were never itemized.</p>
+        </section>
 
         <section id="build" className={s.section}>
           <h2 className={s.h2}>The build</h2>
