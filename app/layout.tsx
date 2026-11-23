@@ -21,13 +21,13 @@ const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 export const metadata: Metadata = {
   title: {
-    default: "RocketOpp — A Free Website for Your Service Business",
+    default: "RocketOpp — A Custom Website for Your Service Business",
     template: "%s | RocketOpp"
   },
   description:
-    "A free website for small service businesses — book a free consultation, and if we're a good fit we build it at no cost. The only cost is our lead management tool for contacts and appointments.",
+    "Custom websites for small service businesses — book a free consultation, and if we're a good fit we custom build your website, with a free CRM for your customers and leads.",
   keywords:
-    "free website for small business, free website for service business, website for contractors, website for plumbers, website for HVAC, lead management, appointment booking, RocketOpp",
+    "website for small business, custom website for service business, website for contractors, website for plumbers, website for HVAC, lead management, appointment booking, RocketOpp",
   authors: [{ name: "RocketOpp", url: "https://rocketopp.com" }],
   creator: "RocketOpp",
   publisher: "RocketOpp",
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://rocketopp.com",
-    title: "RocketOpp — A Free Website for Your Service Business",
+    title: "RocketOpp — A Custom Website for Your Service Business",
     description:
-      "Book a free consultation. If we're a good fit, we build your service business a website for free.",
+      "Custom-built small business websites with a free CRM. Year-end pricing through December 31.",
     siteName: "RocketOpp",
     images: [
       {
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RocketOpp — A Free Website for Your Service Business",
+    title: "RocketOpp — A Custom Website for Your Service Business",
     description: "Fixed quotes. No discovery calls. Websites, automation and AI systems.",
     site: "@rocketopp",
     creator: "@rocketopp",

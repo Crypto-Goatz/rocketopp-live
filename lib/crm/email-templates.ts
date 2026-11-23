@@ -529,7 +529,7 @@ export function renderTemplate(kind: FormKind, ctx: TemplateContext = {}): Templ
 export function formKindFromSource(source: string | undefined): FormKind {
   if (!source) return 'general'
   const s = source.toLowerCase()
-  // The $497 offer is retired (2026-10-31: one offer, a free website). Sources
+  // The $497 offer is retired (2026-10-31: one offer, a free website; changed 2026-11-23 to a custom website at a year-end price). Sources
   // that still carry "497" as a CRM routing key (the blog sidebar modal) must
   // not send the old "$250 today" confirmation, so they get the general thank-you.
   if (s.includes('497') || s.includes('website-offer') || s.includes('website_offer')) return 'general'

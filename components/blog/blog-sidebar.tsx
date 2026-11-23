@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles, Tag } from 'lucide-react'
 import OfferModal from './offer-modal'
 
 /**
- * Article sidebar: coloured category rail + the free-website offer.
+ * Article sidebar: coloured category rail + the year-end website offer.
  *
  * Categories carry the same colour here as on the index cards, so a reader
  * builds one association per topic across the whole blog rather than relearning
@@ -91,7 +91,7 @@ export default function BlogSidebar({
           </ul>
         </nav>
 
-        {/* ── Free website offer ── */}
+        {/* ── Website offer ── */}
         <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-b from-primary/[0.14] to-transparent p-5">
           <div
             aria-hidden
@@ -104,7 +104,7 @@ export default function BlogSidebar({
             </div>
 
             <p className="mt-4 flex items-baseline gap-1.5">
-              <span className="text-3xl font-bold tracking-tight text-white">Free</span>
+              <span className="text-3xl font-bold tracking-tight text-white">Custom</span>
               <span className="text-sm text-zinc-400">website</span>
             </p>
 
@@ -114,8 +114,8 @@ export default function BlogSidebar({
             <p className="mt-2 text-xs leading-relaxed text-zinc-400">
               Schema, an llms.txt written for AI crawlers, a robots.txt that
               actually allowlists them, and content that leads with the answer —
-              the structure this blog keeps arguing for. Free for small service
-              businesses that are a good fit, after a free consultation.
+              the structure this blog keeps arguing for. Custom built for small
+              service businesses that are a good fit, after a free consultation, with a free CRM.
             </p>
 
             <button

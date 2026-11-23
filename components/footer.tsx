@@ -51,7 +51,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-muted-foreground">
-              A free website for small service businesses. Start with a free consultation.
+              Custom websites for small service businesses, with a free CRM. Start with a free consultation.
             </p>
             <p className="text-xs text-primary font-medium">
               RocketOpp -- an 0n Company

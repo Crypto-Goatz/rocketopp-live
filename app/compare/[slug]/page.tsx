@@ -165,7 +165,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
               </tr>
             </thead>
             <tbody>
-              <Row label="Cost model" ours="Free website, after a free consultation" theirs={b.pricing.split('.')[0]} />
+              <Row label="Cost model" ours="Custom website at one flat price, after a free consultation" theirs={b.pricing.split('.')[0]} />
               <Row
                 label="Technical skill required"
                 ours="None"

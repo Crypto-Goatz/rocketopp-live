@@ -12,7 +12,7 @@ const SITE = 'https://rocketopp.com'
 
 const TITLE = 'Web Design & Development Near Greensburg, Murrysville & Monroeville PA'
 const DESCRIPTION =
-  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Free websites for small service businesses — start with a free consultation.'
+  'RocketOpp is a web design and development agency serving Greensburg, Murrysville, Monroeville, Delmont, Plum, Irwin, Penn Hills, Trafford, the Norwin area, North Huntingdon and Hempfield PA. Custom websites for small service businesses, with a free CRM — start with a free consultation.'
 
 import { withCro9Meta } from '@/lib/cro9-meta'
 const metadataBase: Metadata = {
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: 'How much does a website cost in the Greensburg / Pittsburgh east suburbs?',
-    a: 'For small service businesses that are a good fit, the website is free. It starts with a free consultation: we look at where your business is today and what you want the site to do, and decide together whether it is a fit. No purchase is needed for the website itself — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month.',
+    a: 'For small service businesses that are a good fit, we custom build the website — made for that one business, not a template. It starts with a free consultation: we look at where your business is today and what you want the site to do, and decide together whether it is a fit. The website comes with three of our patent-pending tools, including a free CRM for managing your customers and leads.',
   },
   {
     q: 'Is RocketOpp a web design agency or an AI company?',
@@ -133,10 +133,10 @@ export default function WebDesignHub() {
         </section>
 
         <section className="mt-12 rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center">
-          <h2 className="text-2xl font-bold tracking-tight">Get a free website</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Get a custom website</h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
             Book a free consultation. We look at your business and your goals, and tell you honestly
-            whether a free website is a good fit.
+            whether a custom website is a good fit.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link

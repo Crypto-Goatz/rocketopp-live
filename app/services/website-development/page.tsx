@@ -6,7 +6,7 @@ import { ServicePage } from "@/components/services/service-page"
 const metadataBase: Metadata = {
   title: "Website Development — What's Included & How We Build",
   description:
-    "Free websites for small service businesses, after a free consultation. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See what's included.",
+    "Custom websites for small service businesses that are a good fit, with a free CRM, after a free consultation. Custom websites built with AI, launched in 2 weeks. Mobile-first, SEO-optimized, conversion-focused. See what's included.",
   keywords: [
     "cost for website design",
     "website development pricing",
@@ -22,7 +22,7 @@ const metadataBase: Metadata = {
   openGraph: {
       images: [{ url: 'https://rocketopp.com/api/og?title=Website%20Development%20%E2%80%94%20What%27s%20Included&eyebrow=Services', width: 1200, height: 630, alt: "Website Development — What's Included" }],
     title: "Website Development — What's Included | RocketOpp",
-    description: "Free websites for small service businesses. Launched in 2 weeks. See exactly what's included.",
+    description: "Custom websites for small service businesses. Launched in 2 weeks. See exactly what's included.",
     url: "https://rocketopp.com/services/website-development",
   },
   alternates: { canonical: "https://rocketopp.com/services/website-development" },

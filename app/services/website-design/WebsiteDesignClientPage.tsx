@@ -143,7 +143,7 @@ const faqs = [
   {
     question: "How much does website design cost?",
     answer:
-      "For small service businesses that are a good fit, the website is free. It starts with a free consultation where we assess your situation and goals. No purchase is needed for the website itself. Larger builds with e-commerce or custom integrations are scoped in the same free consultation.",
+      "For small service businesses that are a good fit, we custom build the website — made for that one business, not a template — with a free CRM for your customers and leads. Through December 31 it's one flat year-end price, shown when you fill out your details on the homepage. It starts with a free consultation where we assess your situation and goals. Larger builds with e-commerce or custom integrations are scoped in the same free consultation.",
   },
 ]
 

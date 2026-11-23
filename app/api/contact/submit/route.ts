@@ -9,17 +9,100 @@ const supabase = createClient(
 )
 
 /**
- * The forms that post here. "free_website" is the free-website consultation (Mike, 2026-10-31: the site now leads with one
- * offer — a free website for service businesses after a free consultation; the only ongoing cost is the $49/mo lead tool).
+ * The forms that post here. "free_website" is the old free-website consultation (retired 2026-11-23; kept so open tabs
+ * still land). "year_end" is the year-end website offer form (Mike, 2026-11-23) — see handleYearEnd below.
  */
 const FORMS: Record<string, { formName: string; source: string; tags: string[] }> = {
   contact: { formName: "Contact Form", source: "contact_form", tags: ["Website Lead", "Contact Form"] },
   free_website: { formName: "Free Website Consultation", source: "free_website", tags: ["Website Lead", "Free Website Consultation"] },
+  year_end: { formName: "Year-End Website Offer", source: "rocketopp-year-end-form", tags: ["website-prospect", "site-form", "ye-249"] },
+}
+
+/*
+  THE YEAR-END OFFER (Mike, 2026-11-23). The price lives ONLY here, server-side, and is returned after a real submit —
+  the page HTML and JS never contain it ("Fill out your details to reveal the price"). The opportunity goes into the same
+  pipeline + stage the daily-scan website prospects sit in (Rocket Life-Cycle -> Lead, confirmed via
+  GET /opportunities/pipelines 2026-11-23). NO email is sent by the site or the CRM: Mike's Mac outreach runner picks up
+  the `site-form` tag and sends one personal email.
+*/
+const YEAR_END = {
+  price: 249,
+  reveal: { price: "$249", headline: "$249 — flat, custom website, through December 31.", next: "Check your inbox — Mike is sending you the details.", bookUrl: "https://rocketappointments.com/book" },
+  pipelineId: "k2sd9EgTSSG0PYtfMGXR",
+  pipelineStageId: "002233d5-a478-4889-8998-8dbd4d16ee75",
+  crmSource: "rocketopp.com year-end form",
+}
+
+const clean = (v: unknown, max = 200) => (typeof v === "string" ? v.trim().slice(0, max) : "")
+
+async function handleYearEnd(request: NextRequest, data: Record<string, unknown>) {
+  const form = FORMS.year_end
+  const firstName = clean(data.firstName, 80)
+  const lastName = clean(data.lastName, 80)
+  const email = clean(data.email, 200).toLowerCase()
+  const phone = clean(data.phone, 40)
+  const business = clean(data.business, 160)
+  const noWebsite = data.noWebsite === true
+  const website = noWebsite ? "" : clean(data.website, 300)
+  const city = clean(data.city, 100)
+  const state = clean(data.state, 40)
+  const trade = clean(data.trade, 120)
+  const fullName = `${firstName} ${lastName}`.trim()
+  const pageUrl = request.headers.get("referer") || "https://rocketopp.com"
+  const agent = request.headers.get("user-agent")
+
+  if (!firstName || !email || !business) {
+    return NextResponse.json({ success: false, error: "First name, email and business name are required" }, { status: 400 })
+  }
+
+  const bot = await checkBotId()
+  if (bot.isBot) {
+    const { error } = await supabase.from("contact_submissions").insert({
+      form_name: form.formName, name: fullName, email, phone: phone || null, company: business,
+      message: trade || null, page_url: pageUrl, source: form.source, user_agent: agent, is_spam: true,
+    })
+    if (error) console.error("Flagged submission not stored:", error)
+    return NextResponse.json({ success: false, error: "We couldn't verify this submission. Please call or email us instead." }, { status: 403 })
+  }
+
+  const note = [
+    "Year-end website form — rocketopp.com",
+    `Name: ${fullName}`,
+    `Business: ${business}`,
+    `Email: ${email}`,
+    `Phone: ${phone || "—"}`,
+    `Current website: ${noWebsite ? "I don't have one yet" : website || "—"}`,
+    `City: ${city || "—"}`,
+    `State: ${state || "—"}`,
+    `What the business does: ${trade || "—"}`,
+    `Page: ${pageUrl}`,
+    `Price shown: ${YEAR_END.reveal.price}`,
+    `Submitted: ${new Date().toISOString()}`,
+  ].join("\n")
+
+  const result = await notifyFormSubmission({
+    email, firstName, lastName, fullName, phone: phone || undefined, company: business,
+    message: trade || undefined,
+    website: website || undefined, city: city || undefined, state: state || undefined,
+    honeypot: typeof data.rk_hp === "string" ? data.rk_hp : undefined,
+    userAgent: agent,
+    source: form.source, formName: form.formName, crmSource: YEAR_END.crmSource, pageUrl,
+    tags: form.tags, additiveTags: true, quiet: true,
+    extras: { website: noWebsite ? "none" : website, city, state, trade },
+    opportunity: { pipelineId: YEAR_END.pipelineId, pipelineStageId: YEAR_END.pipelineStageId, monetaryValue: YEAR_END.price, name: `${business} — year-end website` },
+    note,
+  })
+
+  if (!result.received) {
+    return NextResponse.json({ success: false, error: "We couldn't save your details" }, { status: 502 })
+  }
+  return NextResponse.json({ success: true, reveal: YEAR_END.reveal, contactId: result.contactId, opportunityId: result.opportunityId ?? null })
 }
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
+    if (data?.form === "year_end") return await handleYearEnd(request, data)
     const form = FORMS[String(data.form ?? "contact")] ?? FORMS.contact
 
     if (!data.name || !data.email) {

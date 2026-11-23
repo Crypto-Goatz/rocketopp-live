@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { FreeWebsiteLanding } from "@/components/free-website/free-website-landing"
 import { TRADES, tradeBySlug } from "@/lib/free-website/trades"
 
-/** /free-website/<trade> — the offer said in one trade's words, so "free website for plumbers" lands on a page about plumbers. */
+/** /free-website/<trade> — the offer said in one trade's words, so "website for plumbers" lands on a page about plumbers. */
 export const dynamicParams = false
 export const generateStaticParams = () => TRADES.map((t) => ({ trade: t.slug }))
 
@@ -11,8 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ trade: st
   const t = tradeBySlug((await params).trade)
   if (!t) return {}
   const url = `https://rocketopp.com/free-website/${t.slug}`
-  const title = `Free Website for ${t.name === "HVAC" ? "HVAC Companies" : t.name.replace(/^(.)/, (c) => c.toUpperCase())} | RocketOpp`
-  const description = `A free website for your ${t.business}. Book a free consultation — if we're a good fit, we build it at no cost, no purchase necessary. The only cost is our $49/month lead management tool for contacts and appointments.`
+  const title = `Custom Website for ${t.name === "HVAC" ? "HVAC Companies" : t.name.replace(/^(.)/, (c) => c.toUpperCase())} | RocketOpp`
+  const description = `A custom website for your ${t.business}, not a template. Year-end pricing through December 31 — fill out your details to reveal the price. Includes a free CRM for your customers and leads.`
   return {
     title: { absolute: title },
     description,

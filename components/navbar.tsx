@@ -394,7 +394,7 @@ export function Navbar() {
                   </Button>
                   <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
                     <Link href="/#consultation">
-                      Free Website
+                      Get My Price
                     </Link>
                   </Button>
                 </>
@@ -408,7 +408,7 @@ export function Navbar() {
                   </Link>
                   <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
                     <Link href="/#consultation">
-                      Free Website
+                      Get My Price
                     </Link>
                   </Button>
                 </>
@@ -499,7 +499,7 @@ export function Navbar() {
                         </Link>
                       </Button>
                       <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-red-500">
-                        <Link href="/#consultation">Free Website</Link>
+                        <Link href="/#consultation">Get My Price</Link>
                       </Button>
                     </div>
                   ) : (
@@ -508,7 +508,7 @@ export function Navbar() {
                         <Link href="/login">Sign In</Link>
                       </Button>
                       <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500">
-                        <Link href="/#consultation">Free Website</Link>
+                        <Link href="/#consultation">Get My Price</Link>
                       </Button>
                     </div>
                   )}

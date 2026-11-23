@@ -4,18 +4,17 @@ import { Plus_Jakarta_Sans } from "next/font/google"
 import { ArrowRight, ArrowUpRight, Check, Phone, CalendarCheck, UserPlus } from "lucide-react"
 import Footer from "@/components/footer"
 import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
-import { ContactForm } from "@/app/contact/contact-form"
+import { YearEndOffer, YearEndStrip } from "@/components/year-end/year-end-offer"
 import { Tilt } from "@/components/free-website/tilt"
 import { PORTFOLIO, portfolioBySlug, portfolioSrc, type PortfolioItem } from "@/lib/free-website/portfolio"
 import { TRADES, type Trade } from "@/lib/free-website/trades"
 import "./free-website.css"
 
 /**
- * THE FREE WEBSITE OFFER (Mike, 2026-10-31) — the page rocketopp.com leads with:
- *   "For a free website, all they need to do is contact us for a free consultation. We will assess their situation and goals and
- *    make a determination if they are a good fit for us. If we take on the project they will receive a free website for their
- *    business. No purchase is necessary for the website, we will simply provide a lead management tool that allows the user to
- *    manage their contacts and appointments for $49 per month moving forward… that's it. Nothing more."
+ * THE WEBSITE OFFER — the page rocketopp.com leads with. Changed by Mike 2026-11-23 (was a no-cost site + a monthly lead tool):
+ *   custom-built websites for businesses we feel are a good fit — not cookie-cutter — with three of our patent-pending
+ *   tools, including a free CRM for customers and leads. The consultation is free. NO PRICE on this page: the year-end
+ *   price is revealed only after the form is submitted (components/year-end/year-end-offer.tsx + /api/contact/submit).
  *
  * Design (same day): "high end but approachable… a professional and relaxed feel", with real client sites in animated 3D tilt.
  * Warm ink + paper sheets, Fraunces for display, every effect a CSS transform; one tiny client island (Tilt) besides the form.
@@ -26,9 +25,9 @@ const display = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--fw-display"
 const SITE = "https://rocketopp.com"
 
 export const FREE_WEBSITE_FAQ = [
-  { question: "Is the website really free?", answer: "Yes. If we take on your project, we build your website at no cost. No purchase is necessary for the website." },
-  { question: "So what does it cost?", answer: "Only the lead management tool: $49 per month. It keeps your contacts and your appointments in one place, so every call, form and booking from your new website lands somewhere you can act on it. That's it — nothing more." },
-  { question: "Why would you build a website for free?", answer: "We want to help small businesses get off the ground, especially in the service industry. Instead of charging for the build, the only cost is the lead management tool that makes the website pay off — your contacts and appointments in one place." },
+  { question: "What does the website cost?", answer: "Through December 31 we're building websites at one flat year-end price — the lowest we've ever offered. Fill out your details on this page and the price is shown right away. The consultation is free." },
+  { question: "Is it a template?", answer: "No. Every site is custom built for that one business — not cookie-cutter, not a template." },
+  { question: "What comes with it?", answer: "Three of our patent-pending tools, including a free CRM for managing your customers and leads. Every call, form and booking from your new website lands somewhere you can act on it." },
   { question: "How do you decide who's a good fit?", answer: "We start with a free consultation. We look at where your business is today and where you want it to go. If we believe a website from us will genuinely help you grow, we take the project on." },
   { question: "Who is this for?", answer: "Small businesses getting off the ground, especially in the service industry — the trades, home services, personal services and local shops that run on calls and appointments." },
   { question: "What do I need to do to start?", answer: "Request a free consultation with the form on this page, or call (878) 888-1230. That's the whole first step." },
@@ -37,11 +36,11 @@ export const FREE_WEBSITE_FAQ = [
 const STEPS = [
   { title: "A free consultation", body: "Tell us about your business — where it is today, who your customers are, and what you want the next year to look like. No pitch, no pressure." },
   { title: "We assess the fit", body: "We look honestly at your situation and goals. If a website from us will make a real difference for you, we take the project on." },
-  { title: "Your website, free", body: "We build your business a professional website at no cost. No purchase necessary — just a site you're proud to send people to." },
+  { title: "Your custom website", body: "We build a website made for your business alone — not a template — with a free CRM for your customers and leads. A site you're proud to send people to." },
 ]
 
 const GETS = [
-  "A professional website built for your business",
+  "A website custom built for your business — not a template",
   "Fast and easy to use on a phone, where your customers are",
   "Set up so people can call you or book with you in one tap",
   "Built so customers can find you on Google",
@@ -66,24 +65,19 @@ function OfferSchema({ trade, url }: { trade?: Trade; url: string }) {
       {
         "@type": "Service",
         "@id": `${url}#service`,
-        name: trade ? `Free website for ${trade.name.toLowerCase()} businesses` : "Free website for small service businesses",
+        name: trade ? `Custom website for ${trade.name.toLowerCase()} businesses` : "Custom website for small service businesses",
         serviceType: "Website design and development",
-        description: "Book a free consultation. If we're a good fit, we build your business a website for free. No purchase is necessary for the website; the only cost is a lead management tool for contacts and appointments at $49 per month.",
+        description: "Custom-built websites for small businesses we feel are a good fit — not cookie-cutter, not a template — with three of our patent-pending tools, including a free CRM for managing customers and leads. The consultation is free.",
         provider: { "@type": "Organization", name: "RocketOpp", url: SITE, telephone: "+1-878-888-1230" },
         areaServed: { "@type": "Country", name: "United States" },
         audience: { "@type": "BusinessAudience", audienceType: trade ? `${trade.name} businesses` : "Small service businesses" },
-        offers: [
-          { "@type": "Offer", name: "Website build", price: "0", priceCurrency: "USD", description: "Free for businesses we take on after a free consultation. No purchase necessary.", url },
-          {
-            "@type": "Offer", name: "Lead management tool", price: "49", priceCurrency: "USD", description: "Manage your contacts and appointments.",
-            priceSpecification: { "@type": "UnitPriceSpecification", price: "49", priceCurrency: "USD", unitText: "MONTH", billingDuration: "P1M" },
-          },
-        ],
+        // No price in the markup: the year-end price is revealed only after the form is submitted.
+        offers: { "@type": "Offer", name: "Year-end custom website", description: "Custom built for businesses we feel are a good fit, with a free CRM. Available through December 31, 2026.", availabilityEnds: "2026-12-31T23:59:59-05:00", url: `${url}#consultation` },
       },
       {
         "@type": "HowTo",
         "@id": `${url}#how`,
-        name: "How to get a free website for your business",
+        name: "How to get a custom website for your business",
         step: STEPS.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.title, text: s.body })),
       },
       {
@@ -113,9 +107,10 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
 
   return (
     <div className={`fw ${display.variable}`}>
+      <YearEndStrip />
       <FAQSchema items={faq} />
       <OfferSchema trade={trade} url={url} />
-      {trade && <BreadcrumbSchema items={[{ name: "Home", url: SITE }, { name: "Free website", url: `${SITE}/free-website` }, { name: trade.name, url }]} />}
+      {trade && <BreadcrumbSchema items={[{ name: "Home", url: SITE }, { name: "Websites", url: `${SITE}/free-website` }, { name: trade.name, url }]} />}
 
       <main>
         {/* ── HERO ── */}
@@ -125,21 +120,21 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
               <div>
                 <p className="fw-eyebrow fw-rise">{trade ? `Websites for ${trade.name.toLowerCase()}` : "For small service businesses"}</p>
                 <h1 className="fw-h1 fw-serif fw-rise fw-rise-2">
-                  A free website<br /> for your <em>{who}</em>.
+                  A custom website<br /> for your <em>{who}</em>.
                 </h1>
                 <p className="fw-lede fw-rise fw-rise-3">
                   {trade ? `${trade.moment} ` : ""}
                   Book a free consultation. We&rsquo;ll look at where your business is and where you want it to go &mdash; and if
-                  we&rsquo;re a good fit, we build your website for free. No purchase necessary.
+                  we&rsquo;re a good fit, we build you a custom website &mdash; made for your business, not from a template.
                 </p>
                 <div className="fw-ctas fw-rise fw-rise-4">
-                  <Link href="#consultation" className="fw-btn fw-btn-primary">Book my free consultation <ArrowRight /></Link>
+                  <Link href="#consultation" className="fw-btn fw-btn-primary">Reveal my price <ArrowRight /></Link>
                   <a href="tel:+18788881230" className="fw-btn fw-btn-ghost"><Phone /> (878) 888-1230</a>
                 </div>
                 <ul className="fw-reassure fw-rise fw-rise-4">
-                  <li><Check /> No purchase necessary</li>
-                  <li><Check /> One cost: $49/mo lead tool</li>
-                  <li><Check /> Nothing more</li>
+                  <li><Check /> Custom, not a template</li>
+                  <li><Check /> Free CRM included</li>
+                  <li><Check /> Free consultation</li>
                 </ul>
               </div>
 
@@ -159,13 +154,16 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
             <div className="fw-answer">
               <p className="fw-eyebrow">In short</p>
               <p>
-                <strong>RocketOpp builds free websites for small service businesses.</strong> Start with a free consultation; if
-                we&rsquo;re a good fit, we build your {who} a professional website at no cost &mdash; no purchase necessary. The only
-                ongoing cost is our lead management tool for your contacts and appointments: <strong>$49 per month. That&rsquo;s it.</strong>
+                <strong>RocketOpp builds custom websites for small service businesses.</strong> Start with a free consultation; if
+                we&rsquo;re a good fit, we build your {who} a website made for your business alone &mdash; not a template. It comes with three of our patent-pending tools, including <strong>a free CRM</strong> for managing
+                your customers and leads.
               </p>
             </div>
           </div>
         </section>
+
+        {/* ── YEAR-END OFFER: the price-reveal form, right under the hero ── */}
+        <YearEndOffer trade={trade?.slug} />
 
         {/* ── THE WALL OF WORK ── */}
         <section className="fw-wall" aria-label="Websites our team has built">
@@ -187,7 +185,7 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
         <section id="how-it-works" className="fw-paper">
           <div className="fw-wrap">
             <p className="fw-eyebrow">How it works</p>
-            <h2 className="fw-h2 fw-serif">How to get a free website <em>for your {trade ? who : "small business"}</em></h2>
+            <h2 className="fw-h2 fw-serif">How to get a custom website <em>for your {trade ? who : "small business"}</em></h2>
             <p className="fw-sub">Three steps, and the first one is a conversation. We only take on projects where we&rsquo;re confident we can help.</p>
             <ol className="fw-steps">
               {STEPS.map((s, i) => (
@@ -214,21 +212,21 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
 
             <div className="fw-offer">
               <div className="fw-card-paper">
-                <h3 className="fw-serif">Your website &mdash; free</h3>
+                <h3 className="fw-serif">Your custom website</h3>
                 <ul className="fw-list">
                   {GETS.map((g) => <li key={g}><Check /><span>{g}</span></li>)}
                 </ul>
-                <p className="fw-fine">No purchase necessary for the website.</p>
+                <p className="fw-fine">Custom built for your business. Not cookie-cutter, not a template.</p>
               </div>
               <div className="fw-card-ink">
-                <h3 className="fw-serif" style={{ position: "relative" }}>The only cost</h3>
-                <p className="fw-price fw-serif"><b>$49</b><span>/ month</span></p>
-                <p style={{ position: "relative", marginTop: 6, fontWeight: 500 }}>Lead management tool</p>
+                <h3 className="fw-serif" style={{ position: "relative" }}>Included with it</h3>
+                <p className="fw-price fw-serif"><b>Free</b><span>CRM</span></p>
+                <p style={{ position: "relative", marginTop: 6, fontWeight: 500 }}>One of three patent-pending tools that come with your website</p>
                 <ul className="fw-list" style={{ position: "relative" }}>
-                  <li><UserPlus /><span>Manage your contacts &mdash; every call, form and customer in one place</span></li>
+                  <li><UserPlus /><span>Manage your customers and leads &mdash; every call, form and customer in one place</span></li>
                   <li><CalendarCheck /><span>Manage your appointments</span></li>
                 </ul>
-                <p className="fw-fine fw-serif" style={{ position: "relative" }}>That&rsquo;s it. Nothing more.</p>
+                <p className="fw-fine fw-serif" style={{ position: "relative" }}>Free with your website.</p>
               </div>
             </div>
           </div>
@@ -259,10 +257,10 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
             <p className="fw-eyebrow">Built for the service industry</p>
             <h2 className="fw-h2 fw-serif">For businesses that run on <em>calls and appointments</em></h2>
             <p className="fw-sub">We want to help small businesses get off the ground. Find your trade:</p>
-            <nav className="fw-trades" aria-label="Free websites by trade">
+            <nav className="fw-trades" aria-label="Websites by trade">
               {TRADES.map((t) => (
                 <Link key={t.slug} href={`/free-website/${t.slug}`} aria-current={t.slug === trade?.slug ? "page" : undefined}>
-                  Free website for {t.name.toLowerCase()} <ArrowUpRight />
+                  Websites for {t.name.toLowerCase()} <ArrowUpRight />
                 </Link>
               ))}
             </nav>
@@ -285,22 +283,16 @@ export function FreeWebsiteLanding({ trade }: { trade?: Trade } = {}) {
           </div>
         </section>
 
-        {/* ── THE CONSULTATION ── */}
-        <section id="consultation" className="fw-ink-sec scroll-mt-24">
-          <div className="fw-wrap fw-consult">
-            <div>
-              <p className="fw-eyebrow">Start here</p>
-              <h2 className="fw-h2 fw-serif">Book your <em>free consultation</em></h2>
-              <p className="fw-sub">
-                Fill this in and we&rsquo;ll be in touch to set up a time. It&rsquo;s a relaxed conversation about your business &mdash;
-                if we&rsquo;re a good fit, your website is on us.
-              </p>
-              <a href="tel:+18788881230" className="fw-phone">
-                <i><Phone /></i>
-                <div><span>Prefer to talk?</span><b>(878) 888-1230</b></div>
-              </a>
+        {/* ── CLOSING CTA → the year-end form above ── */}
+        <section className="fw-ink-sec">
+          <div className="fw-wrap" style={{ textAlign: "center" }}>
+            <p className="fw-eyebrow">Through December 31</p>
+            <h2 className="fw-h2 fw-serif">One flat year-end price, <em>the lowest we&rsquo;ve offered</em></h2>
+            <p className="fw-sub" style={{ marginLeft: "auto", marginRight: "auto" }}>Fill out your details to reveal the price. The consultation is free.</p>
+            <div className="fw-ctas" style={{ justifyContent: "center" }}>
+              <a href="#consultation" className="fw-btn fw-btn-primary">Reveal my price <ArrowRight /></a>
+              <a href="tel:+18788881230" className="fw-btn fw-btn-ghost"><Phone /> (878) 888-1230</a>
             </div>
-            <ContactForm form="free_website" />
           </div>
         </section>
       </main>

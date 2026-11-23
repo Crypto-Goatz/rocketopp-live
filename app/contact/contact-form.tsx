@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Send, CheckCircle2, Loader2, User, Mail, Phone, MessageSquare, Building } from "lucide-react"
 
-/** The two forms this component draws: the general contact form, and the free-website consultation request. */
+/** The two forms this component draws: the general contact form, and the website consultation request (form key still "free_website" for CRM routing). */
 const COPY = {
   contact: { title: "Get in Touch", intro: "Fill out the form and we'll be in touch soon.", company: "Company", companyPh: "Acme Inc", ask: "How can we help?", askPh: "Tell us about your project, goals, or challenges you're facing...", button: "Send Message", done: "We've received your message and will get back to you within 24 hours." },
   free_website: { title: "Request your free consultation", intro: "Tell us about your business. We'll look at where you are and where you want to go, and get back to you within one business day.", company: "Business name", companyPh: "Smith Plumbing & Heating", ask: "What does your business do, and what are your goals?", askPh: "e.g. We're a 3-truck HVAC company in Greensburg. We have no website yet and want more service calls from Google...", button: "Request my free consultation", done: "We've got your request. We'll review your business and reach out within one business day to set up your free consultation." },

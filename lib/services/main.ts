@@ -46,7 +46,7 @@ const STAT_NEVER: Stat = { value: "23%", label: "of companies never responded to
 const STAT_AI: Stat = { value: "66%", label: "of U.S. small businesses now use AI — nearly 3× the share in 2023", ...SOURCES.chamber }
 const STAT_CPL: Stat = { value: "$38–$101", label: "average search-ad cost per lead across home services, from landscaping to roofing", ...SOURCES.localiq }
 
-const FREE_SITE = { question: "Is the website really free?", answer: "Yes. Small service businesses that are a good fit get their website built at no cost — no purchase necessary. The only cost is our lead management tool for contacts and appointments, $49 per month. That's it." }
+const FREE_SITE = { question: "What does the website cost?", answer: "Through December 31 we're building websites at one flat year-end price — the lowest we've ever offered — for small service businesses we feel are a good fit. Fill out your details on this page to reveal it. Every site is custom built for that one business — not cookie-cutter, not a template — and comes with three of our patent-pending tools, including a free CRM for managing your customers and leads." }
 
 export const MAIN_SERVICES: MainService[] = [
   {
@@ -54,7 +54,7 @@ export const MAIN_SERVICES: MainService[] = [
     name: "Website Development",
     eyebrow: "Website development",
     h1: ["Websites that turn visitors into ", "booked jobs"],
-    lede: "Fast, mobile-first websites for service businesses — built so customers can find you, trust you and call or book in one tap. For small service businesses that are a good fit, the website is free.",
+    lede: "Fast, mobile-first websites for service businesses — built so customers can find you, trust you and call or book in one tap. For small service businesses that are a good fit, we custom build it, with a free CRM.",
     image: { src: "/images/services/website-development.jpg", alt: "A plumber beside his service van checking a new booking on his phone" },
     chips: [{ title: "New booking", sub: "From your website" }, { title: "Tap to call", sub: "On every page" }],
     stats: [STAT_SPEED, STAT_REVIEWS, STAT_LEADS],
@@ -65,7 +65,7 @@ export const MAIN_SERVICES: MainService[] = [
       { title: "Design", body: "A custom design in your brand — no templates — built mobile-first, because that's where your customers are." },
       { title: "Build & speed", body: "Built on Next.js and a global CDN, with schema, meta tags and a sitemap from day one." },
       { title: "Launch on Google", body: "Search Console, analytics and your Google Business Profile connected so customers can find you." },
-      { title: "Leads into one place", body: "Every call, form and booking lands in your lead management tool, so nothing slips through." },
+      { title: "Leads into one place", body: "Every call, form and booking lands in your free CRM, so nothing slips through." },
     ],
     includes: [
       { title: "Custom design", body: "Unique, branded design tailored to your business. No templates." },
@@ -191,7 +191,7 @@ export const MAIN_SERVICES: MainService[] = [
       { question: "What CRM platforms do you work with?", answer: "We're platform-agnostic: HubSpot, Salesforce, Pipedrive, Zoho, ActiveCampaign, Keap and our own CRM stack." },
       { question: "Will my data import cleanly?", answer: "Yes. Import and clean-up are part of every engagement: duplicates merged, phone and email formats normalised, old fields mapped to new ones." },
       { question: "Do you handle email deliverability and texting compliance?", answer: "Yes. SPF, DKIM, DMARC and warm-up for email; opt-in flows and compliant footers for text messages." },
-      { question: "What does the $49/month lead tool include?", answer: "Your contacts and appointments in one place, so every call, form and booking from your website lands somewhere you can act on it." },
+      { question: "Is a CRM included with a website?", answer: "Yes. Every website we build comes with a free CRM for managing your customers and leads, so every call, form and booking from your website lands somewhere you can act on it." },
     ],
     related: ["ai-automation", "website-development", "ppc-management"],
   },

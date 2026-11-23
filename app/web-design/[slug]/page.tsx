@@ -43,7 +43,7 @@ function faqsFor(a: Area) {
     },
     {
       q: `How much does a website cost in ${a.name}, PA?`,
-      a: `For small service businesses in ${place} that are a good fit, the website is free. It starts with a free consultation: we look at your situation and your goals and decide together whether it is a fit. No purchase is needed for the website itself — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month.`,
+      a: `For small service businesses in ${place} that are a good fit, we custom build the website — made for that one business, not a template. It starts with a free consultation: we look at your situation and your goals and decide together whether it is a fit. The website comes with three of our patent-pending tools, including a free CRM for managing your customers and leads.`,
     },
     {
       q: `What is the difference between a web designer and a web developer?`,
@@ -72,7 +72,7 @@ export async function generateMetadata({
   // NOTE: the root layout applies the template "%s | RocketOpp" — do not
   // append the brand here or it will be duplicated.
   const title = `Web Design & Development in ${a.name}, PA`
-  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Web design, local SEO, CRM automation and AI systems. Free websites for small service businesses, after a free consultation.`
+  const description = `Website design and development for businesses in ${a.name}, ${a.county} County PA. Web design, local SEO, CRM automation and AI systems. Custom websites for small service businesses, with a free CRM, after a free consultation.`
 
   return {
     title,
@@ -250,7 +250,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
             Book a free consultation. We look at your business and your goals, and tell you honestly
-            whether a free website is a good fit.
+            whether a custom website is a good fit.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link

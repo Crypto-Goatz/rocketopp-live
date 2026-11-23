@@ -5,7 +5,7 @@ import { ArrowRight, Check, Loader2, X } from 'lucide-react'
 import { postForm, formErrorMessage } from '@/lib/forms/post-form'
 
 /**
- * Free-website offer capture, opened from the blog sidebar.
+ * Website offer capture (custom website; changed from the free-website offer 2026-11-23), opened from the blog sidebar.
  *
  * NOTE: the `service`, `formName`, `source` and `tags` values below still say
  * "$497" on purpose — they are CRM routing keys, never shown to the visitor,
@@ -89,7 +89,7 @@ export default function OfferModal({
       className="fixed inset-0 z-[100] flex items-end justify-center p-0 sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
-      aria-label="Get a free website"
+      aria-label="Get a custom website"
     >
       <div
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
@@ -131,14 +131,14 @@ export default function OfferModal({
         ) : (
           <>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-              Free Website
+              Year-End Offer
             </p>
             <h2 className="mt-2 text-2xl font-bold leading-tight text-white">
               Built for you. Yours to edit.
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-400">
               Tell us where you are now and we&rsquo;ll set up a free
-              consultation to see whether a free website is a good fit.
+              consultation to see whether a custom website is a good fit.
             </p>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
@@ -247,7 +247,7 @@ export default function OfferModal({
                     href="/free-website"
                     className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-primary/50 hover:text-primary"
                   >
-                    Learn more about the free website
+                    Learn more about the website offer
                     <ArrowRight className="h-3.5 w-3.5" />
                   </a>
                 )}

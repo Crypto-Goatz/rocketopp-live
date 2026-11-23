@@ -41,7 +41,7 @@ const FAQS = [
   },
   {
     q: 'Is it cheaper to use Wix or Squarespace than to hire an agency?',
-    a: `Not necessarily. Builder plans run roughly $10–$52/mo as of ${PRICING_AS_OF}; RocketOpp builds the website free for small service businesses that are a good fit, after a free consultation — the only ongoing cost is the lead management tool (contacts and appointments) at $49/month. The comparison changes over a few years: builder fees never stop, you cannot take the site elsewhere, and the work of ranking locally and following up on leads is still yours. For a brochure site you want to edit yourself, a builder is fine. For a site meant to generate business, it is usually not the cheaper route.`,
+    a: `Not necessarily. Builder plans run roughly $10–$52/mo as of ${PRICING_AS_OF}; RocketOpp custom builds websites for small service businesses that are a good fit, after a free consultation, with a free CRM for your customers and leads. The comparison changes over a few years: builder fees never stop, you cannot take the site elsewhere, and the work of ranking locally and following up on leads is still yours. For a brochure site you want to edit yourself, a builder is fine. For a site meant to generate business, it is usually not the cheaper route.`,
   },
   {
     q: 'Why does a web design agency publish pages telling people not to hire it?',

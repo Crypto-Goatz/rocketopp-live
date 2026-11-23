@@ -75,6 +75,27 @@ export interface FormSubmission {
   /** Set false when the route sends the visitor its own email (a report, a booking confirmation). Default true. */
   thankLead?: boolean
   userAgent?: string | null
+  /**
+   * QUIET: no email of any kind (no owner notification, no lead thank-you) and no legacy webhook — that webhook's
+   * payload asks the CRM workflow to send a thank-you. Used by the year-end form (Mike, 2026-11-23): his Mac outreach
+   * runner picks up the `site-form` tag and sends the one personal email, so the site and the CRM must send nothing.
+   */
+  quiet?: boolean
+  /** Contact fields written on upsert. */
+  website?: string
+  city?: string
+  state?: string
+  /** CRM contact `source`; falls back to formName. */
+  crmSource?: string
+  /**
+   * Add `tags` with POST /contacts/:id/tags instead of passing them to the upsert, so a contact that already exists
+   * (e.g. a daily-scan prospect) keeps the tags it has.
+   */
+  additiveTags?: boolean
+  /** Create an opportunity for the contact. */
+  opportunity?: { pipelineId: string; pipelineStageId: string; monetaryValue: number; name: string }
+  /** A note written on the contact. */
+  note?: string
 }
 
 export interface NotifyResult {
@@ -90,6 +111,9 @@ export interface NotifyResult {
   submissionId?: string | null
   /** True when the submission is safely somewhere: stored, in the CRM, or in Mike's inbox. */
   received: boolean
+  opportunityId?: string | null
+  noteAdded?: boolean
+  tagsAdded?: boolean
 }
 
 /**
@@ -202,8 +226,11 @@ async function upsertLeadContact(sub: FormSubmission): Promise<string | null> {
         lastName,
         phone: sub.phone || undefined,
         companyName: sub.company || undefined,
-        source: sub.formName || 'RocketOpp Website',
-        tags: sub.tags || ['website-lead', sub.source],
+        website: sub.website || undefined,
+        city: sub.city || undefined,
+        state: sub.state || undefined,
+        source: sub.crmSource || sub.formName || 'RocketOpp Website',
+        ...(sub.additiveTags ? {} : { tags: sub.tags || ['website-lead', sub.source] }),
         ...(customFields.length ? { customFields } : {}),
       }),
     })
@@ -231,6 +258,61 @@ async function findContactByEmail(email: string): Promise<string | null> {
     return data?.contact?.id || null
   } catch {
     return null
+  }
+}
+
+async function addContactTags(contactId: string, tags: string[]): Promise<boolean> {
+  try {
+    const res = await crmFetch(`${CRM_API_BASE}/contacts/${contactId}/tags`, {
+      method: 'POST', headers: crmHeaders(), body: JSON.stringify({ tags }),
+    })
+    if (!res.ok) console.error('[CRM Notify] add tags failed:', res.status, await res.text())
+    return res.ok
+  } catch (err) {
+    console.error('[CRM Notify] add tags error:', err)
+    return false
+  }
+}
+
+/**
+ * Create the opportunity. If the contact already has one in this pipeline (a daily-scan prospect does) and the
+ * location refuses a duplicate, fall back to /opportunities/upsert, which updates that one in place.
+ */
+async function createOpportunity(contactId: string, opp: NonNullable<FormSubmission['opportunity']>, source: string): Promise<string | null> {
+  const body = {
+    locationId: LOCATION_ID, contactId, pipelineId: opp.pipelineId, pipelineStageId: opp.pipelineStageId,
+    name: opp.name, monetaryValue: opp.monetaryValue, status: 'open', source,
+  }
+  try {
+    const res = await crmFetch(`${CRM_API_BASE}/opportunities/`, { method: 'POST', headers: crmHeaders(), body: JSON.stringify(body) })
+    if (res.ok) {
+      const data = await res.json()
+      return data?.opportunity?.id || data?.id || null
+    }
+    console.error('[CRM Notify] create opportunity failed, trying upsert:', res.status, await res.text())
+    const up = await crmFetch(`${CRM_API_BASE}/opportunities/upsert`, { method: 'POST', headers: crmHeaders(), body: JSON.stringify(body) })
+    if (!up.ok) {
+      console.error('[CRM Notify] upsert opportunity failed:', up.status, await up.text())
+      return null
+    }
+    const data = await up.json()
+    return data?.opportunity?.id || data?.id || null
+  } catch (err) {
+    console.error('[CRM Notify] opportunity error:', err)
+    return null
+  }
+}
+
+async function addContactNote(contactId: string, body: string): Promise<boolean> {
+  try {
+    const res = await crmFetch(`${CRM_API_BASE}/contacts/${contactId}/notes`, {
+      method: 'POST', headers: crmHeaders(), body: JSON.stringify({ body }),
+    })
+    if (!res.ok) console.error('[CRM Notify] add note failed:', res.status, await res.text())
+    return res.ok
+  } catch (err) {
+    console.error('[CRM Notify] add note error:', err)
+    return false
   }
 }
 
@@ -582,6 +664,32 @@ export async function notifyFormSubmission(sub: FormSubmission): Promise<NotifyR
 
   const submissionId = await storeSubmission(sub, { is: false })
   const contactId = await upsertLeadContact(sub)
+
+  if (sub.quiet) {
+    const problems: string[] = []
+    if (!LOCATION_PIT) problems.push('no CRM PIT configured')
+    if (!contactId) problems.push('CRM contact upsert failed')
+    let tagsAdded = false, opportunityId: string | null = null, noteAdded = false
+    if (contactId) {
+      ;[tagsAdded, opportunityId, noteAdded] = await Promise.all([
+        sub.additiveTags && sub.tags?.length ? addContactTags(contactId, sub.tags) : Promise.resolve(true),
+        sub.opportunity ? createOpportunity(contactId, sub.opportunity, sub.crmSource || sub.formName || sub.source) : Promise.resolve(null),
+        sub.note ? addContactNote(contactId, sub.note) : Promise.resolve(true),
+      ])
+      if (!tagsAdded) problems.push('CRM tags failed')
+      if (sub.opportunity && !opportunityId) problems.push('CRM opportunity failed')
+      if (!noteAdded) problems.push('CRM note failed')
+    }
+    if (problems.length) {
+      console.error(`[FORM NOTIFY FAILED] ${sub.formName || sub.source} from ${sub.email}: ${problems.join('; ')} — submission ${submissionId ?? 'NOT STORED'}`)
+    }
+    await recordOutcome(submissionId, contactId, problems)
+    return {
+      success: Boolean(contactId), contactId, webhookFired: false, mikeEmailed: false, leadThanked: false,
+      submissionId, received: Boolean(submissionId || contactId), opportunityId, noteAdded, tagsAdded,
+    }
+  }
+
   const [webhookFired, mikeEmailed, leadThanked] = await Promise.all([
     fireLegacyWebhook(sub),
     emailMike(sub),

@@ -5,6 +5,7 @@ import { ArrowRight, Check, Phone, CalendarCheck, UserPlus, Zap, ExternalLink } 
 import Footer from "@/components/footer"
 import { FAQSchema, BreadcrumbSchema } from "@/components/seo/json-ld"
 import { ContactForm } from "@/app/contact/contact-form"
+import { YearEndOffer, YearEndStrip } from "@/components/year-end/year-end-offer"
 import { Tilt } from "@/components/free-website/tilt"
 import { PORTFOLIO, portfolioSrc } from "@/lib/free-website/portfolio"
 import { MAIN_SERVICES, mainServiceBySlug, type Chart, type Demo, type MainService } from "@/lib/services/main"
@@ -141,6 +142,7 @@ export function ServicePage({ slug }: { slug: string }) {
 
   return (
     <div className={`sv ${display.variable}`}>
+      <YearEndStrip href="#year-end" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howto) }} />
       <FAQSchema items={s.faq} />
@@ -217,12 +219,15 @@ export function ServicePage({ slug }: { slug: string }) {
               {s.includes.map((x) => <li key={x.title}><i><Check /></i><h3>{x.title}</h3><p>{x.body}</p></li>)}
             </ul>
             <div className="sv-offer">
-              <div><b>Free website</b><span>For small service businesses that are a good fit</span></div>
-              <div><b>$49/month</b><span>Lead management tool — contacts and appointments</span></div>
+              <div><b>Custom built</b><span>Websites for small service businesses that are a good fit &mdash; not cookie-cutter</span></div>
+              <div><b>Free CRM</b><span>Included with your website — customers and leads in one place</span></div>
               <div><b>Free consultation</b><span>Scope and cost set together, before anything starts</span></div>
             </div>
           </div>
         </section>
+
+        {/* YEAR-END OFFER — the price-reveal form (2026-11-23) */}
+        <YearEndOffer id="year-end" />
 
         {/* FAQ (white) */}
         <section className="sv-white sv-tight">
