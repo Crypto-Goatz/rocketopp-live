@@ -162,10 +162,10 @@ export function YearEndOffer({ id = "consultation", trade }: { id?: string; trad
               <p className="ye-card-title"><Lock /> Reveal your price</p>
               {error && <p className="ye-error" role="alert">{error}</p>}
               <div className="ye-grid">
-                <label>First name<span aria-hidden>*</span><input required autoComplete="given-name" value={f.firstName} onChange={set("firstName")} /></label>
+                <label><span className="ye-l">First name<i aria-hidden>*</i></span><input required autoComplete="given-name" value={f.firstName} onChange={set("firstName")} /></label>
                 <label>Last name<input autoComplete="family-name" value={f.lastName} onChange={set("lastName")} /></label>
-                <label className="ye-full">Business name<span aria-hidden>*</span><input required autoComplete="organization" value={f.business} onChange={set("business")} /></label>
-                <label>Email<span aria-hidden>*</span><input required type="email" autoComplete="email" value={f.email} onChange={set("email")} /></label>
+                <label className="ye-full"><span className="ye-l">Business name<i aria-hidden>*</i></span><input required autoComplete="organization" value={f.business} onChange={set("business")} /></label>
+                <label><span className="ye-l">Email<i aria-hidden>*</i></span><input required type="email" autoComplete="email" value={f.email} onChange={set("email")} /></label>
                 <label>Phone<input type="tel" autoComplete="tel" value={f.phone} onChange={set("phone")} /></label>
                 <label className="ye-full">Current website
                   <input type="text" inputMode="url" placeholder="yourbusiness.com" autoComplete="url" value={f.noWebsite ? "" : f.website}
